@@ -1,0 +1,53 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}Breeding Wing View Cage{% endblock %}
+{% block content %}
+
+<!-- Main content -->
+<!-- dropdown-content -->
+<div class="projects-container">
+  <div class="projects-header" style="justify-content: flex-start; overflow-y: auto;">
+    <h1 class="project-header-text">Help Manual</h1>
+    <h4 style="margin-left: 20px; font-weight: 400;">
+      Click each Section to Navigate to the Guide Page. 
+    </h4>
+  </div>
+  <div>
+    <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 700;">
+      Getting Started
+    </h3>
+    <menu style="margin-left: 30px; margin-top: 10px; font-weight: 400;">
+      <li><a href="{% url 'register_account' %}">How to register and manage your account</a></li>
+      <li>Different types of accounts (under development) </li>
+    </menu>
+    <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 700;">
+      General Tips
+    </h3>
+    <menu style="margin-left: 30px; margin-top: 10px; font-weight: 400;">
+      <li><a href="{% url 'history_guide' %}">How to view the edit history</a></li>
+    </menu>
+    <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 700;">
+      View by Projects
+    </h3>
+    <menu style="margin-left: 30px; margin-top: 10px; font-weight: 400;">
+      <li><a href="{% url 'project_guide' %}">Project Dashboard</a></li>
+      <li>How to add a new project (under development) </li>
+      <li>How to edit the details of an existing project (under development) </li>
+      <li><a href="{% url 'add_mouse_guide' %}">How to add a new mouse</a></li>
+      <li><a href="{% url 'edit_mouse_guide' %}">How to edit the details of an existing mouse</a></li>
+      <li><a href="{% url 'filter_guide' %}">How to use the filter to view certain data</a></li>
+      <li><a href="{% url 'request_guide' %}">How to add a new request to one (or more) mouse</a></li>
+      <li><a href="{% url 'comment_guide' %}">How to add a comment</a></li>
+      <li><a href="{% url 'family_tree_guide' %}">How to view the family tree of a mouse</a></li>
+    </menu>
+    <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 700;">
+      View by Breeding Cages
+    </h3>
+    <menu style="margin-left: 30px; margin-top: 10px; font-weight: 400;">
+      <li><a href="{% url 'bw_guide' %}">Breeding Wing Dashboard</a></li>
+      <li><a href="{% url 'add_cage_guide' %}">How to add a new breeding cage</a></li>
+      <li><a href="{% url 'edit_cage_guide' %}">How to edit the details of an existing breeding cage</a></li>
+      <li>How to add a new litter (under development)</li>
+    </menu>
+  </div>
+</div>
+{% endblock %}

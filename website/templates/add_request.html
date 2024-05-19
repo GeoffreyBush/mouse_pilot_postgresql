@@ -1,0 +1,26 @@
+{% extends 'base_template.html' %}
+{% comment %} Page needs styling {% endcomment %}
+{% block title %}Add Request{% endblock %}
+{% block content %}
+
+<div class="projects-container">
+    <form method="post">
+        {% csrf_token %}
+        <ul style="list-style-type: none; padding: 10px; margin: 4px; display: flex;">
+            <li style="margin-right: 20px;">{{ form.mice.label_tag }}</li>
+            <div style="max-height: 260px; overflow-y: auto;">
+                <ul style="list-style-type: none; display: flex; flex-wrap: wrap;">
+                    <li style="margin-top: 2px; margin-right: 20px">{{ form.mice }}</li>
+                </ul>
+            </div>
+            <li style="margin-right: 20px;">{{ form.task_type.label_tag }}</li>
+            <li style="margin-right: 20px;">{{ form.task_type }}</li>
+            <li style="margin-right: 20px;">{{ form.researcher.label_tag }}</li>
+            <li style="margin-right: 20px;">{{ form.researcher }}</li>
+            <li style="margin-right: 20px;">{{ form.new_message.label_tag }}</li> 
+            <li style="margin-right: 20px;">{{ form.new_message }}</li>
+            <li><button type="submit" class="menu-button menu-button-text">Add Task</button></li>
+        </ul>
+    </form>
+<div>
+{% endblock %}

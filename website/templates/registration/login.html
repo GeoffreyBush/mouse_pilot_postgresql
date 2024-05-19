@@ -1,0 +1,61 @@
+{% extends "base_template.html" %} {% load static %} 
+{% block title %}Login{% endblock %}
+{% block content %}
+
+{% comment %} <div class="settings-container" style="padding-left: 20px;"></div>  {% endcomment %}
+<div class="projects-container" style="padding: 30px;"> 
+    <div class="login-move-form">
+        <span class="center-login-warning">
+            {% if form.errors %}
+            <p class="settings-subtext"> Your username and password didn't match. Please try again.</p>
+            {% endif %} 
+            {% if next %}
+                {% if user.is_authenticated %}
+                    <p class="settings-subtext">Your account doesn't have access to this page. To proceed, please login with an account that has access</p>
+                {% else %}
+                    <p class="settings-subtext">Please login to see this page</p>
+                {% endif %}
+            {% endif %}
+        </span>
+    </div>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table class="form-table">
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password.label_tag }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="padding-top: 10px;">
+                        <button class="login-signup menu-button menu-button-text" type="submit">
+                            <p style="margin: auto;">Login</p>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="sign-password-link">
+                        <a href="{% url 'signup' %}" class="custom-link" style="padding-right: 108px;">Create an Account</a>    
+                        <a href="{% url 'password_reset' %}" class="custom-link" >Lost password?</a>
+                    </div>
+                </td>
+            <tr>
+        </table>
+        
+        {% comment %} what's this? {% endcomment %}
+        {% comment %} <input type="hidden" name="next" value="{{ next }}"> {% endcomment %} 
+        
+    </form>
+</div>
+
+{% endblock %}

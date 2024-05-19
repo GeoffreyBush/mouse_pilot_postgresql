@@ -1,0 +1,32 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Edit History{% endblock %}
+{% block content %}
+
+<div class="projects-container">
+    <div class="projects-header">
+        <h1 class="project-header-text">Edit History</h1>
+    </div>
+
+
+
+
+
+{% for history in histories %}
+    <div class="history-record">
+        <h3>Changed on: {{ history.history_date }}</h3>
+        <p>Action: {{ history.get_history_type_display }}</p>
+        <p>Mouse ID: {{ history.id }}</p>
+        <p>Project : {{ history.project }}</p>
+        <!-- Display fields that changed -->
+        {% for field, old_value, new_value in history.changed_fields %}
+            <p>{{ field }} changed from {{ old_value }} to {{ new_value }}</p>
+        {% endfor %}
+    </div>
+{% empty %}
+    <p>No history available.</p>
+
+</div>
+
+{% endfor %}
+{% endblock %}

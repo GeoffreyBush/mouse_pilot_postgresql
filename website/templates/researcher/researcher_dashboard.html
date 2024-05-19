@@ -1,0 +1,50 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Research Home Page{% endblock %}
+{% block content %}
+<div class="box-container">
+<!-- Potential to add container above "projects" list. Search/filter projects options? -->
+</div>
+
+<div class="projects-container">
+    <div class="projects-header">
+        <h1 class="project-header-text">Projects</h1>
+        <button class="view">New Project</button>
+    </div>
+
+    <div class="projects-body">
+
+        <div style="overflow-x: auto">
+            <table class="main-table" id="projects_table"> <!-- alternatively, use class="projects-topic-heading" -->
+                <thead>
+                    <tr style="position: sticky; top: 0">
+                        <th>Name</th>
+                        <th>Lines</th>
+                        <th>Research area</th>
+                        <th>Total cages</th>
+                        <th>Total mice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in myprojects %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'show_project' project.projectname %}">
+                                <h3 class="t-op-nextlvl">{{ project.projectname }}</h3>
+                                <h3 class="t-op-nextlvl label-tag"></h3> <!-- Fancy button class -->
+                            </a>
+                        </td>
+                        <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
+                        <td>{{ project.researcharea }}</td>
+                        <td>placeholder</td>
+                        <td>{{ project.mice_count }}</td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+            
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Breeding Wing Dashboard{% endblock %} 
+{% block content %}
+
+<style>
+    .statusEmpty {
+        background-color: #e0e0e0;
+    }
+    
+    .statusParentsInside {
+        background-color: #ebd6c0;
+    }
+    
+    .statusParentsRemoved {
+        background-color: #deebc0;
+    }
+</style>
+
+<div class="box-container">
+<!-- Potential to add container above "projects" list. Search/filter projects options? -->
+</div>
+
+<div class="projects-container">
+    <div class="projects-header">
+        <h1 class="project-header-text">Breeding Cage View</h1>
+        <button class="menu-button menu-button-text" style="margin-left: auto; margin-right: 10px;">
+            <a href="{% url 'add_cage'  %}" style="text-decoration: none; white-space: nowrap;">
+                Add Cage
+            </a>
+        </button>
+    </div>
+    {% for cage in mycages %}
+    <div class="status{{ cage.status }}" style="display: inline-flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #000; padding: 50px; margin: 14px; width: 152px; height: 152px;">
+        <div>
+            <a href="{% url 'breeding_wing_view_cage' cage.cageID %}" style="text-decoration: none; display: block;">{{ cage.box_no }}</a>
+        </div>
+        <div>
+            <a href="{% url 'edit_cage' cage.cageID %}" style="text-decoration: none; display: block;"><img src="{% static '/images/edit.svg' %}" style="height: 20px"></a>
+        </div> 
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

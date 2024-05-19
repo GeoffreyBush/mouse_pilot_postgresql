@@ -1,0 +1,34 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}Breeding Wing View Cage{% endblock %}
+{% block content %}
+
+<!-- Main content -->
+<!-- dropdown-content -->
+<div class="projects-container">
+    <div class="projects-header" style="justify-content: flex-start; overflow-y: auto;">
+        <h1 class="project-header-text">How to use the filter to view certain data</h1>
+        <button class="menu-button menu-button-text back-to-project">
+            <a href="{% url 'help' %}" style="text-decoration: none;">
+            Back to Help Manual
+            </a>
+        </button>
+    </div>
+    <div>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            At the top of every project view, there is a filter.
+            The filter consists of several text inputs and selections which correspond to the table columns: 
+        </h3>
+        <img src="{% static '/screenshots/PView.png' %}" style="display: block; margin-top: 20px; margin-left: auto; margin-right: auto; width: 70%;">
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            Insert a particular data of that column and click the <a style="font-weight: 700;">Search</a> button, 
+            the database will filter out all mouse instances that do not contain that particular data.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            You can filter the table with multiple column at once.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            To reset the filter, simply click the <a style="font-weight: 700;">Cancel</a> button.
+        </h3>
+    </div>
+</div>
+{% endblock %}

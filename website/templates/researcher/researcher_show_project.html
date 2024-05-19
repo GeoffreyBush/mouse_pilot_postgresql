@@ -1,0 +1,100 @@
+{% extends 'base_template.html' %} {% load static %}
+{% block title %}Researcher View Project{% endblock %} {% block content %}
+
+<!-- The Modal (mouse information popup) -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div id="mouse-information-pop-up">
+      <span id="modal-span" class="close">&times;</span>
+      <!-- Dynamic comments will be injected here -->
+  </div>
+</div>
+<form method="post" action="{% url 'add_request' projectname=projectname %}">
+    {% csrf_token %}
+<div class="projects-container">
+  <div class="projects-header" style="justify-content: flex-start; overflow-y: auto">
+    <h1 class="project-header-text">{{ projectname }}</h1>
+      <div class="header-button-div">
+        <button class="menu-button menu-button-text" id="add-request-button" style="margin-left: auto;"  type="submit">Add Request</button>
+        <button class="menu-button menu-button-text" style="margin-left: auto; margin-right: 10px;"> 
+            <a href="{% url 'add_mouse' projectname %}" class="menu-button-text" style="text-decoration: none; white-space: nowrap;">
+                Add Mouse
+            </a>
+        </button>
+      </div>
+    </div>
+  <div>
+  </form>
+    <form method="get">
+      <table style="width: 100%;">
+        <tr>
+          <td style="width: 80%; vertical-align: top; display: inline-block;">
+            {% for field in filter.form %}
+              <div style="display: inline-block; margin: 3px;">
+                <label for="id_{{ field.label }}">{{ field.label }}</label>
+                {{ field }}
+              </div>
+            {% endfor %}
+            </td>
+            <td style="width: 20%; text-align: center; vertical-align: top;">
+              <button type="submit" name="search" class="menu-button menu-button-text" style="display: inline;">Search</button>
+              <button type="submit" name="cancel" class="menu-button menu-button-text" style="display: inline;">Cancel</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  <div style="overflow-x: auto">
+
+    <table class="main-table" id="mice_table">
+        <thead>
+            <tr style="position: sticky; top: 0">
+                <th>Select</th>
+                <th>Mouse ID</th>
+                <th>Genotyped</th>
+                <th>Date of Birth</th>
+                <th>Sex</th>
+                <th>Cage</th>
+                <th>Earmark</th>
+                <th>Tree</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for mouse in filter.qs %}
+          <tr {% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}">
+              <td><input type="checkbox" name="mice" value='{{ mouse.id }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.id }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.genotyped }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.dob }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.sex }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.cage.box_no }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.earmark }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="fetchFamilyTree({{ mouse.id }})"><img src="{% static 'images/tree-structure-fill-svgrepo-com.svg' %}" style="height: 20px"></td>
+              
+              <td><a href="{% url 'edit_mouse' projectname=projectname mouse_id=mouse.id %}"><img src="{% static '/images/edit.svg' %}" style="height: 20px"></a></td>
+              <td>
+                  <a onclick="return confirm('Are you sure you want to delete this mouse?')" href="{% url 'delete_mouse' projectname=projectname mouse_id=mouse.id %}">
+                      <img src="{% static '/images/delete.svg' %}" style="height: 20px">
+                  </a>
+              </td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">
+                <img src="{% static '/images/comment.svg' %}" style="height: 20px">
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="family-tree-container" class="hidden" style="position: fixed; z-index: 10; bottom: 0; right: 0; background: rgba(97, 97, 97, 0.8); width: 400px; height: 400px;">
+  <svg id="family-tree" width="400" height="400"></svg>
+  <button style="position: absolute; z-index: 11; top: 0; right: 0;" onclick="closeFamilyTree()">X</button>
+</div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="{% static 'js/comment_popup.js' %}"></script>
+<script src="{% static 'js/show_project.js' %}"></script>
+<script src="{% static 'js/family_tree.js' %}"></script>
+{% endblock %}

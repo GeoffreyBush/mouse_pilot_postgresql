@@ -1,0 +1,57 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Show Requests{% endblock %}
+{% block content %}
+
+<!-- Modal for request messaging popup -->
+<div id="myModal" class="modal">
+    <div id="request-messaging-pop-up">
+        <span id="modal-span" class="close">&times;</span>
+        <!-- Dynamic comments will be injected here -->
+    </div>
+  </div>
+
+<table class="main-table">
+    <thead>
+        <tr>
+            <th>Messaging</th>
+            <!-- Export to popup <th>Request ID</th> -->
+            <th>Mice IDs</th> 
+            <th>Tasks</th>
+            <!-- Export to popup <th>Requested by</th> -->
+            <!-- Export to popup <th>Date requested</th> -->
+            <th>Confirm</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        {% for request in requests %}
+        <tr style="background-color:{% cycle 'Marian Blue' '#cad7fda4' %}" id="row{{ request.request_id }}">
+            <td class="clickable-request-td" data-request-id="{{ request.request_id }}" onclick="showMessagesForRequest(this)">
+                <img src="{% static '/images/message-square-lines-alt-svgrepo-com.svg' %}" style="height: 20px">
+            </td>
+            <!-- <td class="clickable-request-td" data-request-id="{{ request.request_id }}"> -->
+                <!-- {{ request.request_id }}</td> -->
+            <!-- Clicking on mouse id should bring up more information about that mouse -->
+            <td data-request-id="{{ request.request_id }}">{% for mouse in request.mice.all %}<span>{{ mouse.id}}, </span>{% endfor %}</td>
+            <td data-request-id="{{ request.request_id }}">{{ request.task_type }}</td>
+            <!-- <td class="clickable-request-td" data-request-id="{{ request.request_id }}"> -->
+                <!-- {{ request.researcher.username }}</td> -->
+            <!-- <td class="clickable-request-td" data-request-id="{{ request.request_id }}"> -->
+                <!-- dd/mm/yyyy</td> -->
+
+            <!-- Confirm request. Could be expanded to flag system -->
+            <td>
+                {% if not request.confirmed %}<a href="{% url 'confirm_request' request.request_id %}">Confirm Request</a>
+                {% else %}Confirmed
+                {% endif %}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+<script src="{% static 'js/request_popup.js' %}"></script>
+{% endblock %}

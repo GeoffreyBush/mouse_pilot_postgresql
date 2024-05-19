@@ -1,0 +1,30 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Edit Cage{% endblock %}
+{% block content %}
+<div class="settings-container">
+    <a class="project-header-text" style="margin-left: 10px; font-size: 20px;">
+        Edit Cage
+    </a>
+    <button class="menu-button menu-button-text back-to-project">
+        <a href="{% url 'breeding_wing_dashboard' %}" style="text-decoration: none;">
+        Back to Dashboard
+        </a>
+    </button>
+</div>
+<div class="projects-container" style="padding: 30px;">
+    <form method="post" style="font-size: 20px">
+        {% csrf_token %}
+        <table>
+            {% for field in form %}
+            <tr>
+                <td>{{ field.label_tag }}</td>
+                <td style="padding-left: 120px;">{{ field }}</td>
+            </tr>
+            {% endfor %}</table>
+        <button class="menu-button menu-button-text save-changes" type="submit">
+            Save Changes
+        </button>
+    </form>
+</div>
+{% endblock %}

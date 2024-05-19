@@ -1,0 +1,89 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}Breeding Wing View Cage{% endblock %}
+{% block content %}
+
+<!-- The Modal (mouse information popup)-->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div id="mouse-information-pop-up">
+    <span id="modal-span" class="close">&times;</span>
+  </div>
+</div>
+<!-- Main content -->
+<!-- dropdown-content -->
+<div class="projects-container">
+  <div class="projects-header" style="justify-content: flex-start; overflow-y: auto;">
+    <h1 class="project-header-text">Cage Number: {{ mycage.box_no }}</h1>
+    <button class="menu-button menu-button-text" style="margin-left: auto; margin-right: 10px;">
+      <a href="{% url 'breeding_wing_add_litter' %}" style="text-decoration: none; white-space: nowrap;">
+          Add Litter
+      </a>
+  </button>
+  </div>
+  <table class="main-table">
+    <tr>
+      <thead>
+        <tr>
+          <th style="width: 10%; background-color: white; color: black; text-align: left">Details:</th>
+          <th style="width: 10%; background-color: white"></th>
+          <th style="width: 30%; background-color: white"></th>
+          <th style="width: 10%; background-color: white; color: black; text-align: left">Current litter:</th>
+          <th style="width: 20%; background-color: white"></th>
+          <th style="width: 20%; background-color: white"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width: 10%; text-align: left">Status:</td>
+          <td style="width: 10%; text-align: left">{{ mycage.status }}</td>
+          <td style="width: 30%"></td>
+          <td style="width: 10%; text-align: left">Dborn:</td>
+          <td style="width: 20%; text-align: left">{{ mycage.date_born }}</td>
+          <td style="width: 20%"></td>
+        </tr>
+        <tr>
+          <td style="width: 10%; text-align: left">Male ID:</td>
+          <td style="width: 10%; text-align: left">{{ mycage.father }}</td>
+          <td style="width: 30%"></td>
+          <td style="width: 10%; text-align: left">Nborn:</td>
+          <td style="width: 20%; text-align: left">{{ mycage.number_born }}</td>
+          <td style="width: 20%"></td>
+        </tr>
+        <tr>
+          <td style="width: 10%; text-align: left">Female: ID</td>
+          <td style="width: 10%; text-align: left">{{ mycage.mother }}</td>
+          <td style="width: 30%"></td>
+          <td style="width: 10%; text-align: left">C/To:</td>
+          <td style="width: 20%; text-align: left">{{ mycage.cull_to }}</td>
+          <td style="width: 20%"></td>
+        </tr>
+        <tr>
+          <td style="width: 10%"></td>
+          <td style="width: 10%"></td>
+          <td style="width: 30%"></td>
+          <td style="width: 10%; text-align: left">Dwean:</td>
+          <td style="width: 20%; text-align: left">{{ mycage.date_wean }}</td>
+          <td style="width: 20%"></td>
+        </tr>
+        <tr>
+          <td style="width: 10%"></td>
+          <td style="width: 10%"></td>
+          <td style="width: 30%"></td>
+          <td style="width: 10%; text-align: left">Nwean:</td>
+          <td style="width: 20%; text-align: left">{{ mycage.number_wean }}</td>
+          <td style="width: 20%"></td>
+        </tr>
+        <tr>
+          <td style="width: 10%"></td>
+          <td style="width: 10%"></td>
+          <td style="width: 30%"></td>
+          <td style="width: 10%; text-align: left">PWL:</td>
+          <td style="width: 20%; text-align: left">{{ mycage.pwl }}</td>
+          <td style="width: 20%"></td>
+        </tr>
+      <tbody>
+    </tr>
+  </table>
+</div>
+<script src="{% static 'show_project.js' %}"></script>
+{% endblock %}
