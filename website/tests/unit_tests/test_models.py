@@ -4,7 +4,7 @@ from datetime import date
 from django.db import IntegrityError
 from django.test import TestCase
 
-from website.constants import EARMARK_CHOICES
+from website.constants import EARMARK_CHOICES_PAIRED
 from website.models import Cage, Comment, CustomUser, Mice, Project, Request, Strain
 
 
@@ -19,7 +19,7 @@ class MiceTestCase(TestCase):
         # Create foreign keys
         cage = Cage.objects.create(date_born=date.today(), date_wean=date.today())
         project = Project.objects.create(projectname="Test Project")
-        earmark = random.choice(EARMARK_CHOICES)
+        earmark = random.choice(EARMARK_CHOICES_PAIRED)
         strain = Strain.objects.create(strain_name="Strain1")
 
         # Create some Mice objects for testing

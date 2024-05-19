@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-from website.constants import EARMARK_CHOICES
+from website.constants import EARMARK_CHOICES_PAIRED
 
 from .models import Cage, Comment, CustomUser, Mice, Project, Request, Strain
 
@@ -32,7 +32,7 @@ class MiceForm(forms.ModelForm):
     father = forms.ModelChoiceField(queryset=Mice.objects.all(), required=False)
     cage = forms.ModelChoiceField(queryset=Cage.objects.all(), required=False)
     project = forms.ModelChoiceField(queryset=Project.objects.all(), required=False)
-    earmark = forms.ChoiceField(choices=EARMARK_CHOICES, widget=forms.Select())
+    earmark = forms.ChoiceField(choices=EARMARK_CHOICES_PAIRED, widget=forms.Select())
     genotyper = forms.ModelChoiceField(
         queryset=CustomUser.objects.all(), required=False
     )

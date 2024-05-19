@@ -1,8 +1,10 @@
 # MousePilot
 ## Animal Colony Management System
-This project was developed as a 3rd year undergraduate software engineering project at the University of Aberdeen in collaboration with the Institute of Medical Sciences at Foresterhill Health Campus. 
+This is a fork of a project that was initially developed as a 3rd year undergraduate software engineering project at the University of Aberdeen in collaboration with the Institute of Medical Sciences at Foresterhill Health Campus. 
 
 It is an open-source web application that provides a centralised repository for tracking mice used in experimentation, and aims to create consistent, real-time data transfer between the site where mice are bred and the site where research is planned and carried out.
+
+It was forked mainly to replace an SQLite database with MongoDB and incorporate Alpine.js and HTMX into the front-end.
 
 ---
 

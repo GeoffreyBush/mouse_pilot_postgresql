@@ -3,7 +3,7 @@ import datetime
 import django_filters
 from django import forms
 
-from website.constants import EARMARK_CHOICES
+from website.constants import EARMARK_CHOICES_PAIRED
 
 
 # filters for BW cage view
@@ -42,7 +42,7 @@ class BWFilter(django_filters.FilterSet):
         label="Sex: ",
     )
     earmark = django_filters.ChoiceFilter(
-        choices=EARMARK_CHOICES,
+        choices=EARMARK_CHOICES_PAIRED,
         empty_label="---",
         widget=forms.Select(attrs={"style": "width: 60px;"}),
         label="Earmark: ",
@@ -54,7 +54,7 @@ class ProjectFilter(django_filters.FilterSet):
         ("F", "F"),
         ("M", "M"),
     )
-    EARMARK_CHOICES = (
+    EARMARK_CHOICES_PAIRED = (
         ("TR", "TR"),
         ("TL", "TL"),
         ("BR", "BR"),
@@ -94,7 +94,7 @@ class ProjectFilter(django_filters.FilterSet):
         field_name="cage__box_no",
     )
     earmark = django_filters.ChoiceFilter(
-        choices=EARMARK_CHOICES,
+        choices=EARMARK_CHOICES_PAIRED,
         empty_label="---",
         widget=forms.Select(attrs={"style": "margin-left: 32px; width: 97px;"}),
         label="Earmark: ",

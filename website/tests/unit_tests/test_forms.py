@@ -3,7 +3,7 @@ from datetime import date
 
 from django.test import TestCase
 
-from website.constants import EARMARK_CHOICES_FOR_FAKE_DATA
+from website.constants import EARMARK_CHOICES
 from website.forms import (
     CageForm,
     CommentForm,
@@ -38,7 +38,7 @@ class MiceFormTestCase(TestCase):
                 "dob": date.today(),
                 "clippedDate": date.today(),
                 "genotyped": True,
-                "earmark": random.choice(EARMARK_CHOICES_FOR_FAKE_DATA),
+                "earmark": random.choice(EARMARK_CHOICES),
             }
         )
         self.assertTrue(form.is_valid())

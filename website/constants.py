@@ -22,7 +22,7 @@ STRAINS = [
     "GFP",
 ]
 
-EARMARK_CHOICES = [
+EARMARK_CHOICES_PAIRED = [
     ("", ""),
     ("TR", "TR"),
     ("TL", "TL"),
@@ -36,7 +36,7 @@ EARMARK_CHOICES = [
     ("BRBL", "BRBL"),
 ]
 
-EARMARK_CHOICES_FOR_FAKE_DATA = [
+EARMARK_CHOICES = [
     "",
     "TR",
     "TL",

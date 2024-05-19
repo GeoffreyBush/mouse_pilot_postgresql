@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from website.constants import (
-    EARMARK_CHOICES_FOR_FAKE_DATA,
+    EARMARK_CHOICES,
     PROJECT_NAMES,
     RESEARCH_AREAS,
     STRAINS,
@@ -156,7 +156,7 @@ class Command(BaseCommand):
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),
                 strain=random.choice(existing_strains),
-                earmark=random.choice(EARMARK_CHOICES_FOR_FAKE_DATA),
+                earmark=random.choice(EARMARK_CHOICES),
                 mother=None,
                 father=None,
             )

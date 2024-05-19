@@ -15,23 +15,6 @@ urlpatterns = [
     path("family_tree/<int:mouse_id>/", views.family_tree, name="family_tree"),
 ]
 
-# Help URLs
-urlpatterns += [
-    path("help", views.help_page, name="help"),
-    path("register_account", views.register_account, name="register_account"),
-    path("history_guide", views.history_guide, name="history_guide"),
-    path("project_guide", views.project_guide, name="project_guide"),
-    path("add_mouse_guide", views.add_mouse_guide, name="add_mouse_guide"),
-    path("edit_mouse_guide", views.edit_mouse_guide, name="edit_mouse_guide"),
-    path("filter_guide", views.filter_guide, name="filter_guide"),
-    path("request_guide", views.request_guide, name="request_guide"),
-    path("comment_guide", views.comment_guide, name="comment_guide"),
-    path("family_tree_guide", views.family_tree_guide, name="family_tree_guide"),
-    path("bw_guide", views.bw_guide, name="bw_guide"),
-    path("add_cage_guide", views.add_cage_guide, name="add_cage_guide"),
-    path("edit_cage_guide", views.edit_cage_guide, name="edit_cage_guide"),
-]
-
 # Researcher URLs
 urlpatterns += [
     path(

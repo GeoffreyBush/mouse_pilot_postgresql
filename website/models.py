@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from simple_history.models import HistoricalRecords
 
-from website.constants import EARMARK_CHOICES
+from website.constants import EARMARK_CHOICES_PAIRED
 
 """ DANGER ZONE """
 """ Editing this file affects the database """
@@ -68,7 +68,7 @@ class Mice(models.Model):
         db_column="Earmark",
         max_length=4,
         default="",
-        choices=EARMARK_CHOICES,
+        choices=EARMARK_CHOICES_PAIRED,
         null=False,
     )
     history = HistoricalRecords()
