@@ -2,8 +2,6 @@ import csv
 
 from website.models import Mice
 
-
-# File needs to be updated to reflect current Mice model
 def run():
     with open("website/static/mouse_stocks.csv") as file:
         reader = csv.reader(file)

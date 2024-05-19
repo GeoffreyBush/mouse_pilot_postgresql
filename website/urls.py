@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
-from .views import SignUpView
+from .views import *  # noqa: F403
 
 # Unsorted URLs
 urlpatterns = [
@@ -83,7 +83,7 @@ urlpatterns += [
 ]
 
 # Login URLs
-urlpatterns += [path("signup/", SignUpView.as_view(), name="signup")]
+urlpatterns += [path("signup/", SignUpView.as_view(), name="signup")] # noqa: F405
 
 # if DEBUG is true
 if settings.DEBUG:
