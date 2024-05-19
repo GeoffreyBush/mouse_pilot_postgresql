@@ -2,6 +2,7 @@ from django.http import JsonResponse
 
 from website.models import Mice
 
+
 # Can't add @login_required for family tree views: "'Mice' object has no attribute 'user"
 def create_family_tree_data(mouse, role=None):
     # Recursively build the family tree data for the given mouse

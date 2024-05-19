@@ -83,7 +83,7 @@ urlpatterns += [
 ]
 
 # Login URLs
-urlpatterns += [path("signup/", SignUpView.as_view(), name="signup")] # noqa: F405
+urlpatterns += [path("signup/", SignUpView.as_view(), name="signup")]  # noqa: F405
 
 # if DEBUG is true
 if settings.DEBUG:

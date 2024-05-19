@@ -4,10 +4,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 
 from website.filters import BWFilter
-from website.forms import (
-    CageForm,
-    MiceForm
-)
+from website.forms import CageForm, MiceForm
 from website.models import Cage, Mice, Strain
 
 

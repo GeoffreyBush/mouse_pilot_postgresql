@@ -1,9 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from website.forms import (
-    MiceForm,
-)
+from website.forms import MiceForm
 from website.models import HistoricalMice, Mice
 
 

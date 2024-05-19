@@ -2,6 +2,7 @@ import csv
 
 from website.models import Mice
 
+
 def run():
     with open("website/static/mouse_stocks.csv") as file:
         reader = csv.reader(file)

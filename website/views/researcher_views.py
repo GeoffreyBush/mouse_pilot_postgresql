@@ -6,10 +6,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 
 from website.filters import ProjectFilter
-from website.forms import (
-    CommentForm,
-    MouseSelectionForm,
-)
+from website.forms import CommentForm, MouseSelectionForm
 from website.models import Cage, Comment, Mice, Project, Request
 
 
