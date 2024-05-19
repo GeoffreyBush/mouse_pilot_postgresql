@@ -6,12 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand
 from faker import Faker
 
-from website.constants import (
-    EARMARK_CHOICES,
-    PROJECT_NAMES,
-    RESEARCH_AREAS,
-    STRAINS,
-)
+from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
 from website.models import Cage, Comment, CustomUser, Mice, Project, Strain
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo

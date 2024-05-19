@@ -47,6 +47,7 @@ def family_tree(request, mouse_id):
     data = create_family_tree_data(mouse)
     return JsonResponse(data)
 
+
 ########################
 ### Researcher views ###
 ########################
