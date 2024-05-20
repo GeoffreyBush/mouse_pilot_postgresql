@@ -80,7 +80,14 @@
                         class="nav-img" alt="edit history"class="nav-img"></a>
                     <a href="{% url 'edit_history'%}" style="text-decoration: none">
                             <h3> Edit History</h3>
-                        </a>                   
+                        </a>
+                    <div class="nav-option option4">
+                        <a href="{% url 'help' %}"> <img src="{% static '/images/help-circle.svg' %}"
+                        class="nav-img" alt="help"class="nav-img"></a>
+                    <a href="{% url 'help' %}" style="text-decoration: none">
+                            <h3>Help</h3>
+                        </a>
+                    </div>                    
                     {% if user.is_authenticated %}
                     <div class="nav-option logout">
                         <form action="{% url 'logout' %}" method="post">

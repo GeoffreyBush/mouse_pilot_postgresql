@@ -1,0 +1,35 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}Breeding Wing View Cage{% endblock %}
+{% block content %}
+
+<!-- Main content -->
+<!-- dropdown-content -->
+<div class="projects-container">
+    <div class="projects-header" style="justify-content: flex-start; overflow-y: auto;">
+        <h1 class="project-header-text">How to view the project dashboard</h1>
+        <button class="menu-button menu-button-text back-to-project">
+            <a href="{% url 'help' %}" style="text-decoration: none;">
+            Back to Help Manual
+            </a>
+        </button>
+    </div>
+    <div>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            On this page, you will be able to view every project that is linked to your account.
+            Including those you created and those are assigned to you. 
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            You can check quick details of each projects including the
+            <a style="font-weight: 700;">Project Names</a>,
+            <a style="font-weight: 700;">Lines</a>,
+            <a style="font-weight: 700;">Research Areas</a> and the total number
+            <a style="font-weight: 700;">Stock Cages</a> and
+            <a style="font-weight: 700;">Mice:</a>
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            The function to add and edit projects can also be navigated from this page (under development).
+        </h3>
+        <img src="{% static '/screenshots/Projects.png' %}" style="display: block; margin-top: 20px; margin-left: auto; margin-right: auto; width: 70%;">
+    </div>
+</div>
+{% endblock %}

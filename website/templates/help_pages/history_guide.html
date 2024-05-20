@@ -1,0 +1,32 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}Breeding Wing View Cage{% endblock %}
+{% block content %}
+
+<!-- Main content -->
+<!-- dropdown-content -->
+<div class="projects-container">
+    <div class="projects-header" style="justify-content: flex-start; overflow-y: auto;">
+        <h1 class="project-header-text">How to view the edit history</h1>
+        <button class="menu-button menu-button-text back-to-project">
+            <a href="{% url 'help' %}" style="text-decoration: none;">
+            Back to Help Manual
+            </a>
+        </button>
+    </div>
+    <div>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            All edit history can be traced back on the
+            <a style="font-weight: 700;">Edit History</a> 
+            page. This includes any modification to the central database.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            To view the page, simply click this button 
+            <img src="{% static '/screenshots/History.png' %}" style="height: 40px"> 
+            in the navigation bar to open the edit history page.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            On the page, the record at the very top will be the newest edit history.
+        </h3>
+    </div>
+</div>
+{% endblock %}

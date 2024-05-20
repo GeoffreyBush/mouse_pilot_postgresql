@@ -1,0 +1,52 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}Breeding Wing View Cage{% endblock %}
+{% block content %}
+
+<!-- Main content -->
+<!-- dropdown-content -->
+<div class="projects-container">
+    <div class="projects-header" style="justify-content: flex-start; overflow-y: auto;">
+        <h1 class="project-header-text">How to add a new request to one (or more) mouse </h1>
+        <button class="menu-button menu-button-text back-to-project">
+            <a href="{% url 'help' %}" style="text-decoration: none;">
+            Back to Help Manual
+            </a>
+        </button>
+    </div>
+    <div>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            To add a request, make sure you are on the correct Project page: 
+        </h3>
+        <img src="{% static '/screenshots/PViewChecked.png' %}" style="display: block; margin-top: 20px; margin-left: auto; margin-right: auto; width: 70%;">
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            Tick the checkbox of the mouse you want to include in the request. You can also tick multiple mice.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            Click the <a style="font-weight: 700;">Add Request</a> button to open the add request page: 
+        </h3>
+        <img src="{% static '/screenshots/AddRequest.png' %}" style="display: block; margin-top: 20px; margin-left: auto; margin-right: auto; width: 70%;">
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            The mice chosen will appear here. You can proceed to insert other details for the request.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            You can also modify which mouse to choose during this phase.
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            Click the <a style="font-weight: 700;">Add Task</a> button to confirm adding the request. 
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            To check the current requests related to your account, navigate to the <a style="font-weight: 700;">Request</a> 
+            page by clicking <img src="{% static '/screenshots/RequestB.png' %}" style="height: 40px"> in the navigation bar:
+        </h3>
+        <img src="{% static '/screenshots/RView.png' %}" style="display: block; margin-top: 20px; margin-left: auto; margin-right: auto; width: 70%;">
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            After the request is completed, you can click the <a style="font-weight: 700;">Confirm Request</a> button 
+            to finish the request. After finishing the request, the modified data will automatically be updated in the database. 
+        </h3>
+        <h3 style="margin-left: 20px; margin-top: 20px; font-weight: 400;">
+            During the request, you can also see which mouse is involved by checking the highlighted row in the project view:
+        </h3>
+        <img src="{% static '/screenshots/PViewHighlighted.png' %}" style="display: block; margin-top: 20px; margin-left: auto; margin-right: auto; width: 70%;">
+    </div>
+</div>
+{% endblock %}
