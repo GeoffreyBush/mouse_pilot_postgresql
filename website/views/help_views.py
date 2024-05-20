@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 
+
 def help_page_root(request):
     template = loader.get_template("help_page_roots/help.html")
     context = {}
