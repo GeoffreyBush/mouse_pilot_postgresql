@@ -50,7 +50,7 @@ urlpatterns += [
 
 # Add and Edit Cage URLs
 urlpatterns += [
-    path("add_cage", views.add_cage, name="add_cage"),
+    path("create_breeading_pair", views.create_breeading_pair, name="create_breeading_pair"),
     path("edit_cage<str:cageID>", views.edit_cage, name="edit_cage"),
 ]
 
@@ -102,7 +102,7 @@ urlpatterns += [
     path("comment_guide", views.comment_guide, name="comment_guide"),
     path("family_tree_guide", views.family_tree_guide, name="family_tree_guide"),
     path("bw_guide", views.bw_guide, name="bw_guide"),
-    path("add_cage_guide", views.add_cage_guide, name="add_cage_guide"),
+    path("create_breeading_pair_guide", views.create_breeading_pair_guide, name="create_breeading_pair_guide"),
     path("edit_cage_guide", views.edit_cage_guide, name="edit_cage_guide"),
 ]
 

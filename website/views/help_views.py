@@ -68,8 +68,8 @@ def bw_guide(request):
     return HttpResponse(template.render(context, request))
 
 
-def add_cage_guide(request):
-    template = loader.get_template("help_pages/add_cage_guide.html")
+def create_breeading_pair_guide(request):
+    template = loader.get_template("help_pages/create_breeading_pair_guide.html")
     context = {}
     return HttpResponse(template.render(context, request))
 

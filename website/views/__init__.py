@@ -1,5 +1,5 @@
 from .breeding_wing_views import (
-    add_cage,
+    create_breeading_pair,
     breeding_wing_add_litter,
     list_breeding_cages,
     breeding_wing_view_cage,
@@ -8,7 +8,7 @@ from .breeding_wing_views import (
 )
 from .family_tree_views import create_family_tree_data, family_tree
 from .help_views import (
-    add_cage_guide,
+    create_breeading_pair_guide,
     add_mouse_guide,
     bw_guide,
     comment_guide,
@@ -37,7 +37,7 @@ __all__ = [
     "breeding_wing_view_strain",
     "breeding_wing_add_litter",
     "breeding_wing_view_cage",
-    "add_cage",
+    "create_breeading_pair",
     "edit_cage",
     "family_tree",
     "create_family_tree_data",
@@ -65,6 +65,6 @@ __all__ = [
     "comment_guide",
     "family_tree_guide",
     "bw_guide",
-    "add_cage_guide",
+    "create_breeading_pair_guide",
     "edit_cage_guide",
 ]

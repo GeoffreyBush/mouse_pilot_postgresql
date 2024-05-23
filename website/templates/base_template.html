@@ -17,6 +17,12 @@
         <div class="nav nav-pills flex-column bg-dark p-3">
             <a class="nav-link text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</a>
             <div class="mt-2">
+                <div class="text-bg-dark fw-bold fs-5">General</div>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Dashboard</s></a>
+                <a class="nav-link text-bg-dark p-2" href="{% url 'show_requests' %}">Requests</a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Mice Catalogue</s></a>
+            </div>
+            <div class="mt-2">
                 <div class="text-bg-dark fw-bold fs-5">Users</div>
                 <a class="nav-link text-bg-dark p-2" href="{% url 'researcher_dashboard' %}">Projects</a>
                 <a class="nav-link text-bg-dark p-2" href="#"><s>Experimental Cages</s></a>
@@ -27,13 +33,8 @@
                 <a class="nav-link text-bg-dark p-2" href="#"><s>Stock Cages</s></a>
             </div>
             <div class="mt-2">
-                <div class="text-bg-dark fw-bold fs-5">General</div>
-                <a class="nav-link text-bg-dark p-2" href="#"><s>Mice Catalogue</s></a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'show_requests' %}">Requests</a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'edit_history' %}">Edit History</a>
-            </div>
-            <div class="mt-2">
                 <div class="text-bg-dark fw-bold fs-5">Utility</div>
+                <a class="nav-link text-bg-dark p-2" href="{% url 'edit_history' %}">Edit History</a>
                 <a class="nav-link text-bg-dark p-2" href="/admin/">Admin</a>
                 <a class="nav-link text-bg-dark p-2" href="{% url 'help_page_root' %}">Help</a>
             </div> 

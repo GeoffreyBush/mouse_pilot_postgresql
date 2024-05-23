@@ -1,44 +1,38 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% block title %}Breeding Wing Dashboard{% endblock %} 
+{% block title %}Breeding Cages{% endblock %} 
 {% block content %}
+<div class="container">
 
-<style>
-    .statusEmpty {
-        background-color: #e0e0e0;
-    }
-    
-    .statusParentsInside {
-        background-color: #ebd6c0;
-    }
-    
-    .statusParentsRemoved {
-        background-color: #deebc0;
-    }
-</style>
-
-<div class="box-container">
-<!-- Potential to add container above "projects" list. Search/filter projects options? -->
-</div>
-
-<div class="projects-container">
-    <div class="projects-header">
-        <h1 class="project-header-text">Breeding Cage View</h1>
-        <button class="menu-button menu-button-text" style="margin-left: auto; margin-right: 10px;">
-            <a href="{% url 'add_cage'  %}" style="text-decoration: none; white-space: nowrap;">
-                Add Cage
+    <!-- Header and buttons -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="project-header-text">Breeding Cage View</h1>
+            <a href="{% url 'create_breeading_pair' %}" class="btn btn-primary">
+                Create Breeding Pair
             </a>
-        </button>
-    </div>
-    {% for cage in mycages %}
-    <div class="status{{ cage.status }}" style="display: inline-flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #000; padding: 50px; margin: 14px; width: 152px; height: 152px;">
-        <div>
-            <a href="{% url 'breeding_wing_view_cage' cage.cageID %}" style="text-decoration: none; display: block;">{{ cage.box_no }}</a>
+            <a href="#" class="btn btn-primary">Record Birth</a>
+            <a href="#" class="btn btn-primary">Transfer to Stock</a>
         </div>
-        <div>
-            <a href="{% url 'edit_cage' cage.cageID %}" style="text-decoration: none; display: block;"><img src="{% static '/media/edit.svg' %}" style="height: 20px"></a>
-        </div> 
     </div>
-    {% endfor %}
+
+    <!-- Show breeding cages -->
+    <div class="row">
+        {% for cage in mycages %}
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'breeding_wing_view_cage' cage.cageID %}" style="text-decoration: none;">{{ cage.box_no }}</a>
+                    </h5>
+                    <a href="{% url 'edit_cage' cage.cageID %}" style="text-decoration: none;">
+                        <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 20px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock %}
