@@ -1,17 +1,17 @@
 from .breeding_wing_views import (
-    create_breeading_pair,
     breeding_wing_add_litter,
     breeding_wing_view_cage,
     breeding_wing_view_strain,
+    create_breeading_pair,
     edit_cage,
     list_breeding_cages,
 )
 from .family_tree_views import create_family_tree_data, family_tree
 from .help_views import (
-    create_breeading_pair_guide,
     add_mouse_guide,
     bw_guide,
     comment_guide,
+    create_breeading_pair_guide,
     edit_cage_guide,
     edit_mouse_guide,
     family_tree_guide,
