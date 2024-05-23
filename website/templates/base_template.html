@@ -1,112 +1,75 @@
-<!-- Adapted from https://www.geeksforgeeks.org/how-to-create-responsive-admin-dashboard-using-html-css-javascript/ -->
-
 <!DOCTYPE html>
 {% load static %}
-<script src="{% static 'js/base.js' %}"></script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="icon" href="{% static 'images/image6.png' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <style>
-        @keyframes blink {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-    </style>
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base_template.css' %}">
 </head>
 <body>
-    <header>
-    
-        <div class="logosec">
-            <div class="logo">M<img src="{% static 'images/image6.png' %}" style="height: 20px;">usePilot</div>
+    {% comment %} Site header {% endcomment %}
+    <header class="bg-white py-3 border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-auto pe-0 logo text-primary fw-bold fs-3">
+                    M<img src="{% static 'media/image6.png' %}" style="height: 1em;">usePilot
+                </div>
+                {% if user.is_authenticated %}
+                <div class="col text-end">
+                    <p class="greeting-text mb-0 text-muted">Logged in as {{ user.username }}</p>
+                </div>
+                <div class="col">
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="nav-link text-primary btn btn-link" type="submit">
+                            <img src="{% static '/media/logout-svgrepo-com.svg' %}" alt="logout" class="me-2" style="height: 2em"> Logout
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
         </div>
-            {% if user.is_authenticated %}
-            <p class="greeting-text">Hi, {{ user.username }}! Welcome to MusePilot</p>
-            {% endif %}
-        <!-- Space here in the header to add extra things -->
-        <div class="message">
-            <div class="circle" style="animation: blink 1s infinite alternate;"></div>
-            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
-        </div>
-    
     </header>
 
-    <div class="main-container">
-        <div class="navcontainer">
-            <nav class="nav">
-                <div class="nav-upper-options">
-        
-                    <div class="nav-option option2">
-                        <a href="{% url 'researcher_dashboard' %}"><img src="{% static '/images/mouse-1-svgrepo-com.svg' %}" class="nav-img"
-                                alt="projects"></a>
-                        <a href="{% url 'researcher_dashboard' %}" style="text-decoration: none">
-                            <h3> Projects</h3>
-                        </a>
-                    </div>
-
-                    <div class="nav-option option2">
-                        <a href="{% url 'show_requests' %}"><img src="{% static '/images/writing-pad-line-icon.svg' %}" class="nav-img" alt="projects"></a>
-                        <a href="{% url 'show_requests' %}" style="text-decoration: none">
-                            <h3> Requests</h3>
-                        </a>
-                    </div>
-
-                    <div class="nav-option option2">
-                        <a href="{% url 'breeding_wing_dashboard' %}"><img src="{% static '/images/mouse-1-svgrepo-com.svg' %}" class="nav-img"
-                                alt="projects"></a>
-                        <a href="{% url 'breeding_wing_dashboard' %}" style="text-decoration: none">
-                            <h3> Breeding Wing</h3>
-                        </a>
-                    </div>
-        
-                    <div class="nav-option option4">
-                        <a href="/admin/"><img src="{% static '/images/user.svg' %}"
-                                class="nav-img" alt="admin"></a>
-                        <a href="/admin/" style="text-decoration: none">
-                            <h3> Admin</h3>
-                        </a>
-                    </div>
-
-                    <div class="nav-option option4">
-                        <a href="{% url 'edit_history' %}"> <img src="{% static '/images/history.svg' %}"
-                        class="nav-img" alt="edit history"class="nav-img"></a>
-                    <a href="{% url 'edit_history'%}" style="text-decoration: none">
-                            <h3> Edit History</h3>
-                        </a>
-                    <div class="nav-option option4">
-                        <a href="{% url 'help' %}"> <img src="{% static '/images/help-circle.svg' %}"
-                        class="nav-img" alt="help"class="nav-img"></a>
-                    <a href="{% url 'help' %}" style="text-decoration: none">
-                            <h3>Help</h3>
-                        </a>
-                    </div>                    
-                    {% if user.is_authenticated %}
-                    <div class="nav-option logout">
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="logout-button" type="submit">
-                                <img src="{% static '/images/logout-svgrepo-com.svg' %}" 
-                                class="nav-img" alt="logout" style="text-decoration: none">
-                                <h3 style="margin-left: 20px;">Logout</h3>
-                            </button>
-                        </form>
-                    </div>
-                    {% endif %}
+    {% comment %} Vertical navigation bar {% endcomment %}
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-auto pe-0">
+                <nav class="nav flex-column nav-pills bg-primary-subtle   p-3 h-100 shadow-sm">
+                    <a class="nav-link text-primary" href="{% url 'researcher_dashboard' %}">
+                        <img src="{% static 'media/mouse-1-svgrepo-com.svg' %}" alt="projects" class="me-2" style="height: 2em;"> Projects
+                    </a>
+                    <a class="nav-link text -primary" href="{% url 'show_requests' %}">
+                        <img src="{% static '/media/writing-pad-line-icon.svg' %}" alt="requests" class="me-2" style="height: 2em"> Requests
+                    </a>
+                    <a class="nav-link text-primary" href="{% url 'breeding_wing_dashboard' %}">
+                        <img src="{% static '/media/mouse-1-svgrepo-com.svg' %}" alt="breeding wing dashboard" class="me-2" style="height: 2em"> Breeding Wing
+                    </a>
+                    <a class="nav-link text-primary" href="/admin/">
+                        <img src="{% static '/media/user.svg' %}" alt="admin" class="me-2" style="height: 2em"> Admin
+                    </a>
+                    <a class="nav-link text-primary" href="{% url 'edit_history' %}">
+                        <img src="{% static '/media/history.svg' %}" alt="edit history" class="me-2" style="height: 2em"> Edit History
+                    </a>
+                    <a class="nav-link text-primary" href="{% url 'help_page_root' %}">
+                        <img src="{% static '/media/help-circle.svg' %}" alt="help" class="me-2" style="height: 2em"> Help
+                    </a>
+                </nav>
+            </div>
+            {% comment %} Page content {% endcomment %}
+            <div class="col ps-0">
+                <div class="p-4">
+                    {% block content %}{% endblock %}
                 </div>
-            </nav>
+            </div>
         </div>
-    <!-- Could add conditional logic for breeding wing/researcher pages here -->
-    <div class="main">
-        {% block content %}
-        {% endblock %}      
     </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

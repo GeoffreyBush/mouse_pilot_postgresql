@@ -28,7 +28,7 @@
         {% for request in requests %}
         <tr style="background-color:{% cycle 'Marian Blue' '#cad7fda4' %}" id="row{{ request.request_id }}">
             <td class="clickable-request-td" data-request-id="{{ request.request_id }}" onclick="showMessagesForRequest(this)">
-                <img src="{% static '/images/message-square-lines-alt-svgrepo-com.svg' %}" style="height: 20px">
+                <img src="{% static '/media/message-square-lines-alt-svgrepo-com.svg' %}" style="height: 20px">
             </td>
             <!-- <td class="clickable-request-td" data-request-id="{{ request.request_id }}"> -->
                 <!-- {{ request.request_id }}</td> -->

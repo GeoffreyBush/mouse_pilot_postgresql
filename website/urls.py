@@ -87,8 +87,8 @@ urlpatterns += [path("signup/", SignUpView.as_view(), name="signup")]  # noqa: F
 
 # Help URLs
 urlpatterns += [
-    path("help", views.help_page_root, name="help"),
-    path("register_account", views.register_account_guide, name="register_account"),
+    path("help_page_root", views.help_page_root, name="help_page_root"),
+    path("register_account_guide", views.register_account_guide, name="register_account_guide"),
     path("history_guide", views.history_guide, name="history_guide"),
     path("project_guide", views.project_guide, name="project_guide"),
     path("add_mouse_guide", views.add_mouse_guide, name="add_mouse_guide"),
