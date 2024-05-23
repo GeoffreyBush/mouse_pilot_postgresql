@@ -16,6 +16,7 @@
     <div class="container-fluid px-0 min-vh-100 d-flex">
         <div class="col-auto">
             <nav class="nav flex-column nav-pills bg-dark p-3 min-vh-100 shadow-sm sticky-top ">
+
                 <div class="nav-link logo text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</div>
                 <a class="nav-link text-bg-dark" href="{% url 'researcher_dashboard' %}">Projects</a>
                 <a class="nav-link text-bg-dark" href="{% url 'show_requests' %}">Requests</a>
@@ -53,5 +54,7 @@
         </div>
     </div>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
