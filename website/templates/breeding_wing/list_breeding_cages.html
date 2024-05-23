@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Breeding Cages{% endblock %} 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
 
     <!-- Header and buttons -->
     <div class="row">
@@ -25,8 +25,10 @@
                     <h5 class="card-title">
                         <a href="{% url 'breeding_wing_view_cage' cage.cageID %}" style="text-decoration: none;">{{ cage.box_no }}</a>
                     </h5>
+                    {% comment %} If breeding pair present in cage, render large mouse image for each member {% endcomment %}
+                    {% comment %} For each mouse pup in the cage, render a small mouse image {% endcomment %}
                     <a href="{% url 'edit_cage' cage.cageID %}" style="text-decoration: none;">
-                        <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 20px;">
+                        <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
                     </a>
                 </div>
             </div>
