@@ -2,30 +2,36 @@
 {% load static %}
 {% block title %}Add Cage{% endblock %}
 {% block content %}
-<div class="settings-container">
-    <a class="project-header-text" style="margin-left: 10px; font-size: 20px;">
+<div class="d-flex align-items-center">
+    <a class="h4 m-3">
         Add a New Cage
     </a>
-    <button class="menu-button menu-button-text back-to-project">
-        <a href="{% url 'list_breeding_cages' %}" style="text-decoration: none;">
+    <button class="btn btn-primary ml-auto">
+        <a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
         Back to Dashboard
         </a>
     </button>
 </div>
-<div class="projects-container" style="padding: 30px;">
-    <form method="post" style="font-size: 20px">
+<div class="p-3">
+    <form method="post" class="h5">
         {% csrf_token %}
         <div>
-            <table>
-                {% for field in form %}
+            <table class="w-100">
                 <tr>
-                    <td>{{ field.label_tag }}</td>
-                    <td style="padding-left: 120px;">{{ field }}</td>
+                    <td>{{ form.box_no.label_tag }}</td>
+                    <td class="pl-5">{{ form.box_no }}</td>
                 </tr>
-                {% endfor %}
+                <tr>
+                    <td>{{ form.mother.label_tag }}</td>
+                    <td class="pl-5">{{ form.mother }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.father.label_tag }}</td>
+                    <td class="pl-5">{{ form.father }}</td>
+                </tr>
             </table>
         </div>
-        <button class="menu-button menu-button-text" type="submit" style="margin-top: 10px; margin-left: auto; margin-right: 20px;">
+        <button class="btn btn-primary mt-2 ml-auto mr-2" type="submit">
             Confirm Add Cage
         </button>
     </form>
