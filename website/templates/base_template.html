@@ -16,21 +16,16 @@
 
     <!-- Vertical navigation bar -->
     <div class="container-fluid px-0 min-vh-100 d-flex">
-        <div class="row g-0">
-            <div class="col-auto">
-                <nav class="nav flex-column nav-pills bg-dark p-3 min-vh-100 shadow-sm">
-                    {% comment %} MousePilot logo should navigate back to a home page {% endcomment %}
-                    <div class="nav-link logo text-bg-dark fw-bold fs-4">
-                        M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot
-                    </div>
-                    <a class="nav-link text-bg-dark" href="{% url 'researcher_dashboard' %}">Projects</a>
-                    <a class="nav-link text-bg-dark" href="{% url 'show_requests' %}">Requests</a>
-                    <a class="nav-link text-bg-dark" href="{% url 'breeding_wing_dashboard' %}">Breeding Wing</a>
-                    <a class="nav-link text-bg-dark" href="/admin/">Admin</a>
-                    <a class="nav-link text-bg-dark" href="{% url 'edit_history' %}">Edit History</a>
-                    <a class="nav-link text-bg-dark" href="{% url 'help_page_root' %}">Help</a>
-                </nav>
-            </div>
+        <div class="col-auto">
+            <nav class="nav flex-column nav-pills bg-dark p-3 min-vh-100 shadow-sm sticky-top ">
+                <div class="nav-link logo text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</div>
+                <a class="nav-link text-bg-dark" href="{% url 'researcher_dashboard' %}">Projects</a>
+                <a class="nav-link text-bg-dark" href="{% url 'show_requests' %}">Requests</a>
+                <a class="nav-link text-bg-dark" href="{% url 'breeding_wing_dashboard' %}">Breeding Wing</a>
+                <a class="nav-link text-bg-dark" href="/admin/">Admin</a>
+                <a class="nav-link text-bg-dark" href="{% url 'edit_history' %}">Edit History</a>
+                <a class="nav-link text-bg-dark" href="{% url 'help_page_root' %}">Help</a>
+            </nav>
         </div>
         <div class="flex-grow-1 ">
 
@@ -38,9 +33,6 @@
             <header class="bg-white py-3 border-bottom">
                 <div class="container-fluid d-flex justify-content-end align-items-center ">
                     {% if user.is_authenticated %}
-                        {% comment %} <span class="p-1">Add dropdown</span>
-                        Add a link to user.username to change account settings 
-                        <span class="greeting-text mb-0 text-muted p-1 ">Logged in as <strong>{{ user.username }}</strong></span>{% endcomment %}
                         <span class="p-1">
                             <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
@@ -54,11 +46,12 @@
             </header>
 
             <!-- Page content -->
-            <div class="col ps-0">
+            <div class="col">
                 <div class="p-4">
                     {% block content %}{% endblock %}
                 </div>
             </div>
+            
         </div>
     </div>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
