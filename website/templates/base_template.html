@@ -11,19 +11,22 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base_template.css' %}">
 </head>
+
 <body>
+
     {% comment %} Site header {% endcomment %}
     <header class="bg-white py-3 border-bottom">
-        <div class="container">
+        <div class="container-fluid">
+            <div class col-></div>
             <div class="row align-items-center">
-                <div class="col-auto pe-0 logo text-primary fw-bold fs-3">
-                    M<img src="{% static 'media/image6.png' %}" style="height: 1em;">usePilot
+                <div class="col-4 logo text-primary fw-bold fs-4">
+                    M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot
                 </div>
                 {% if user.is_authenticated %}
-                <div class="col text-end">
-                    <p class="greeting-text mb-0 text-muted">Logged in as {{ user.username }}</p>
+                <div class="col-7 text-end">
+                    <p class="greeting-text mb-0 text-muted">Logged in as <strong>{{ user.username }}</strong></p>
                 </div>
-                <div class="col">
+                <div class="col-1 text-end">
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
                         <button class="nav-link text-primary btn btn-link" type="submit">
@@ -37,36 +40,26 @@
     </header>
 
     {% comment %} Vertical navigation bar {% endcomment %}
-    <div class="container-fluid px-0">
+    <div class="container-fluid px-0 min-vh-100">
         <div class="row g-0">
-            <div class="col-auto pe-0">
-                <nav class="nav flex-column nav-pills bg-primary-subtle   p-3 h-100 shadow-sm">
-                    <a class="nav-link text-primary" href="{% url 'researcher_dashboard' %}">
-                        <img src="{% static 'media/mouse-1-svgrepo-com.svg' %}" alt="projects" class="me-2" style="height: 2em;"> Projects
-                    </a>
-                    <a class="nav-link text -primary" href="{% url 'show_requests' %}">
-                        <img src="{% static '/media/writing-pad-line-icon.svg' %}" alt="requests" class="me-2" style="height: 2em"> Requests
-                    </a>
-                    <a class="nav-link text-primary" href="{% url 'breeding_wing_dashboard' %}">
-                        <img src="{% static '/media/mouse-1-svgrepo-com.svg' %}" alt="breeding wing dashboard" class="me-2" style="height: 2em"> Breeding Wing
-                    </a>
-                    <a class="nav-link text-primary" href="/admin/">
-                        <img src="{% static '/media/user.svg' %}" alt="admin" class="me-2" style="height: 2em"> Admin
-                    </a>
-                    <a class="nav-link text-primary" href="{% url 'edit_history' %}">
-                        <img src="{% static '/media/history.svg' %}" alt="edit history" class="me-2" style="height: 2em"> Edit History
-                    </a>
-                    <a class="nav-link text-primary" href="{% url 'help_page_root' %}">
-                        <img src="{% static '/media/help-circle.svg' %}" alt="help" class="me-2" style="height: 2em"> Help
-                    </a>
+            <div class="col-auto">
+                <nav class="nav flex-column nav-pills bg-dark p-3 min-vh-100 shadow-sm">
+                    <a class="nav-link text-bg-dark" href="{% url 'researcher_dashboard' %}">Projects</a>
+                    <a class="nav-link text-bg-dark" href="{% url 'show_requests' %}">Requests</a>
+                    <a class="nav-link text-bg-dark" href="{% url 'breeding_wing_dashboard' %}">Breeding Wing</a>
+                    <a class="nav-link text-bg-dark" href="/admin/">Admin</a>
+                    <a class="nav-link text-bg-dark" href="{% url 'edit_history' %}">Edit History</a>
+                    <a class="nav-link text-bg-dark" href="{% url 'help_page_root' %}">Help</a>
                 </nav>
             </div>
+
             {% comment %} Page content {% endcomment %}
             <div class="col ps-0">
                 <div class="p-4">
                     {% block content %}{% endblock %}
                 </div>
             </div>
+
         </div>
     </div>
 
