@@ -9,9 +9,9 @@ from website.models import Cage, Mice, Strain
 
 
 @login_required
-def breeding_wing_dashboard(request):
+def list_breeding_cages(request):
     mycages = Cage.objects.all()
-    template = loader.get_template("breeding_wing/breeding_wing_dashboard.html")
+    template = loader.get_template("breeding_wing/list_breeding_cages.html")
     context = {"mycages": mycages}
     return HttpResponse(template.render(context, request))
 
@@ -34,7 +34,7 @@ def breeding_wing_add_litter(request):
         form = MiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("breeding_wing_dashboard")
+            return redirect("list_breeding_cages")
     else:
         form = MiceForm()
     return render(
@@ -68,7 +68,7 @@ def add_cage(request):
         form = CageForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("breeding_wing_dashboard")
+            return redirect("list_breeding_cages")
     else:
         form = CageForm()
     return render(request, "add_cage.html", {"form": form})
@@ -81,7 +81,7 @@ def edit_cage(request, cageID):
         form = CageForm(request.POST, instance=cage)
         if form.is_valid():
             form.save()
-            return redirect("breeding_wing_dashboard")
+            return redirect("list_breeding_cages")
     else:
         form = CageForm(instance=cage)
     return render(request, "edit_cage.html", {"form": form})

@@ -27,9 +27,9 @@ urlpatterns += [
 # Breeding Wing URLs
 urlpatterns += [
     path(
-        "breeding_wing_dashboard",
-        views.breeding_wing_dashboard,
-        name="breeding_wing_dashboard",
+        "list_breeding_cages",
+        views.list_breeding_cages,
+        name="list_breeding_cages",
     ),
     path(
         "breeding_wing_view_strain<str:strain_name>",

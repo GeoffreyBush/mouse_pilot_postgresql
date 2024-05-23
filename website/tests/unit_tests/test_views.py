@@ -240,18 +240,18 @@ class BreedingWingDashboardViewTest(TestCase):
         )
 
     # Access breeding wing dashboard logged in
-    def test_breeding_wing_dashboard_view_with_authenticated_user(self):
-        response = self.client.get(reverse("breeding_wing_dashboard"))
+    def test_list_breeding_cages_view_with_authenticated_user(self):
+        response = self.client.get(reverse("list_breeding_cages"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_wing/breeding_wing_dashboard.html")
+        self.assertTemplateUsed(response, "breeding_wing/list_breeding_cages.html")
         self.assertIn("mycages", response.context)
         self.assertIn(self.cage, response.context["mycages"])
 
     # Access breeding wing dashboard without logging in
-    def test_breeding_wing_dashboard_view_with_unauthenticated_user(self):
+    def test_list_breeding_cages_view_with_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(reverse("breeding_wing_dashboard"))
-        url = reverse("breeding_wing_dashboard")
+        response = self.client.get(reverse("list_breeding_cages"))
+        url = reverse("list_breeding_cages")
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
@@ -389,7 +389,7 @@ class AddCageViewTest(TestCase):
         self.assertTrue(form.is_valid())
         response = self.client.post(reverse("add_cage"), data)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("breeding_wing_dashboard"))
+        self.assertRedirects(response, reverse("list_breeding_cages"))
 
     # POST CageForm with invalid data
     def test_add_cage_post_invalid(self):
