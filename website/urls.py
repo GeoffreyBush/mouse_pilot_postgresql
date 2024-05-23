@@ -32,11 +32,6 @@ urlpatterns += [
         name="list_breeding_cages",
     ),
     path(
-        "breeding_wing_view_strain<str:strain_name>",
-        views.breeding_wing_view_strain,
-        name="breeding_wing_view_strain",
-    ),
-    path(
         "breeding_wing_add_litter",
         views.breeding_wing_add_litter,
         name="breeding_wing_add_litter",

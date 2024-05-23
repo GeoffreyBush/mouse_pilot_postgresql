@@ -5,7 +5,7 @@ from django.template import loader
 
 from website.filters import BWFilter
 from website.forms import CageForm, MiceForm
-from website.models import Cage, Mice, Strain
+from website.models import Cage, Mice
 
 
 @login_required
@@ -13,18 +13,6 @@ def list_breeding_cages(request):
     mycages = Cage.objects.all()
     template = loader.get_template("breeding_wing/list_breeding_cages.html")
     context = {"mycages": mycages}
-    return HttpResponse(template.render(context, request))
-
-
-@login_required
-def breeding_wing_view_strain(request, strain_name):
-    mystrain = Strain.objects.get(strain_name=strain_name)
-    mymice = Mice.objects.filter(strain=strain_name).values()
-    template = loader.get_template("breeding_wing/breeding_wing_view_strain.html")
-    context = {
-        "mystrain": mystrain,
-        "mymice": mymice,
-    }
     return HttpResponse(template.render(context, request))
 
 

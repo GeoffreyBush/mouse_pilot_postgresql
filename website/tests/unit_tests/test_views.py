@@ -256,38 +256,6 @@ class BreedingWingDashboardViewTest(TestCase):
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
 
-#################################
-### BREEDING WING VIEW STRAIN ###
-#################################
-class BreedingWingViewStrainTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory()
-        self.strain = Strain.objects.create(strain_name="TestStrain")
-
-    # Access breeding wing view strain logged in
-    def test_breeding_wing_view_strain_with_authenticated_user(self):
-        self.client.login(username="testuser", password="testpassword")
-        response = self.client.get(
-            reverse("breeding_wing_view_strain", args=["TestStrain"])
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(
-            response, "breeding_wing/breeding_wing_view_strain.html"
-        )
-        self.assertIn("mymice", response.context)
-        self.assertIn("mystrain", response.context)
-        self.assertEqual(response.context["mystrain"], self.strain)
-
-    # Access breeding wing view strain without logging in
-    def test_breeding_wing_view_strain_with_unauthenticated_user(self):
-        response = self.client.get(
-            reverse("breeding_wing_view_strain", args=["TestStrain"])
-        )
-        url = reverse("breeding_wing_view_strain", args=["TestStrain"])
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
-
-
 ################################
 ### BREEDING WING ADD LITTER ###
 ################################
