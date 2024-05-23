@@ -366,13 +366,13 @@ class AddCageViewTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
 
     # Access add cage while logged in
-    def test_create_breeading_pair_get_with_authenticated_user(self):
-        response = self.client.get(reverse("create_breeading_pair"))
+    def test_create_breeding_pair_get_with_authenticated_user(self):
+        response = self.client.get(reverse("create_breeding_pair"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "create_breeading_pair.html")
+        self.assertTemplateUsed(response, "breeding_wing/create_breeding_pair.html")
 
     # POST CageForm with valid data
-    def test_create_breeading_pair_post_valid(self):
+    def test_create_breeding_pair_post_valid(self):
         data = {
             "box_no": "1-1",
             "status": "Empty",
@@ -387,12 +387,12 @@ class AddCageViewTest(TestCase):
         }
         form = CageForm(data=data)
         self.assertTrue(form.is_valid())
-        response = self.client.post(reverse("create_breeading_pair"), data)
+        response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("list_breeding_cages"))
 
     # POST CageForm with invalid data
-    def test_create_breeading_pair_post_invalid(self):
+    def test_create_breeding_pair_post_invalid(self):
         data = {
             "box_no": "1-1",
             "status": "Empty",
@@ -405,17 +405,17 @@ class AddCageViewTest(TestCase):
             "number_wean": "3",
             "pwl": "2",
         }
-        response = self.client.post(reverse("create_breeading_pair"), data)
+        response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "create_breeading_pair.html")
+        self.assertTemplateUsed(response, "breeding_wing/create_breeding_pair.html")
         form = response.context["form"]
         self.assertFalse(form.is_valid())
 
     # Access add cage while not logged in
-    def test_create_breeading_pair_get_with_unauthenticated_user(self):
+    def test_create_breeding_pair_get_with_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(reverse("create_breeading_pair"))
-        url = reverse("create_breeading_pair")
+        response = self.client.get(reverse("create_breeding_pair"))
+        url = reverse("create_breeding_pair")
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 

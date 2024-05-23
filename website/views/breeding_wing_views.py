@@ -63,7 +63,7 @@ def breeding_wing_view_cage(request, cageID):
 
 
 @login_required
-def create_breeading_pair(request):
+def create_breeding_pair(request):
     if request.method == "POST":
         form = CageForm(request.POST)
         if form.is_valid():
@@ -71,7 +71,7 @@ def create_breeading_pair(request):
             return redirect("list_breeding_cages")
     else:
         form = CageForm()
-    return render(request, "create_breeading_pair.html", {"form": form})
+    return render(request, "breeding_wing/create_breeding_pair.html", {"form": form})
 
 
 @login_required
