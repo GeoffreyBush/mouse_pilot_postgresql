@@ -348,7 +348,7 @@ class AddCageViewTest(TestCase):
     def test_create_breeding_pair_post_valid(self):
         data = {
             "box_no": "1-1",
-            "status": "Empty", # Should change to occupied
+            "status": "Empty",  # Should change to occupied
             "mother": "TestMother",
             "father": "TestFather",
         }

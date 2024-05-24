@@ -4,6 +4,7 @@ from simple_history.models import HistoricalRecords
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
+
 class CustomUser(AbstractUser):
 
     def __str__(self):
@@ -183,7 +184,6 @@ class BreedingCage(models.Model):
         db_column="Status",
         max_length=20,
         default="Empty",
-
         # Need more information from breeding wing team to determine the choices
         choices=[
             ("Empty", "Empty"),
@@ -192,8 +192,12 @@ class BreedingCage(models.Model):
         ],
         null=True,
     )
-    mother = models.CharField(db_column="Mother", max_length=20, null=False, blank=False)
-    father = models.CharField(db_column="Father", max_length=20, null=False, blank=False)
+    mother = models.CharField(
+        db_column="Mother", max_length=20, null=False, blank=False
+    )
+    father = models.CharField(
+        db_column="Father", max_length=20, null=False, blank=False
+    )
     date_born = models.DateField(db_column="DBorn", null=True, default=None)
     number_born = models.CharField(
         db_column="NBorn", max_length=5, null=True, default=None
