@@ -71,7 +71,7 @@ class ProjectMiceForm(forms.ModelForm):
 
     class Meta:
         model = Mouse
-        fields = "__all__" 
+        fields = "__all__"
 
 
 class RepositoryMiceForm(forms.ModelForm):
@@ -138,6 +138,7 @@ class RepositoryMiceForm(forms.ModelForm):
     class Meta:
         model = Mouse
         fields = "__all__"  # or list the fields you want to include
+
 
 class CommentForm(forms.ModelForm):
 
