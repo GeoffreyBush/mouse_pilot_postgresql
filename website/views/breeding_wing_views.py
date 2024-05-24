@@ -31,20 +31,11 @@ def breeding_wing_add_litter(request):
 
 
 @login_required
-def breeding_wing_view_cage(request, box_no):
+def view_breeding_cage(request, box_no):
     mycage = BreedingCage.objects.get(box_no=box_no)
-    mymice = Mice.objects.filter(cage=box_no).values()
-    # Select only those mice that belong to this cage
-    filter = BWFilter(request.GET, queryset=mymice)
-    if "search" in request.GET:
-        mymice = filter.qs
-    elif "cancel" in request.GET:
-        filter = BWFilter(queryset=mymice)
-    template = loader.get_template("breeding_wing/breeding_wing_view_cage.html")
+    template = loader.get_template("breeding_wing/view_breeding_cage.html")
     context = {
         "mycage": mycage,
-        "mymice": mymice,
-        "filter": filter,
     }
 
     return HttpResponse(template.render(context, request))

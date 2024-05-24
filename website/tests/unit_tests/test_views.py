@@ -304,12 +304,12 @@ class BreedingWingViewIndividualCageTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
 
     # Access breeding wing cage view logged in
-    def test_breeding_wing_view_cage_with_authenticated_user(self):
+    def test_view_breeding_cage_with_authenticated_user(self):
         response = self.client.get(
-            reverse("breeding_wing_view_cage", args=[self.cage.box_no])
+            reverse("view_breeding_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_wing/breeding_wing_view_cage.html")
+        self.assertTemplateUsed(response, "breeding_wing/view_breeding_cage.html")
         self.assertIn("mycage", response.context)
         self.assertIn("mymice", response.context)
         self.assertIn("filter", response.context)
@@ -319,13 +319,13 @@ class BreedingWingViewIndividualCageTest(TestCase):
     def test_breeding_wing_view_non_existent_cage(self):
         self.client.login(username="testuser", password="testpassword")
         with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse("breeding_wing_view_cage", args=[10]))
+            self.client.get(reverse("view_breeding_cage", args=[10]))
 
     # Access breeding wing cage view without logging in
-    def test_breeding_wing_view_cage_with_unauthenticated_user(self):
+    def test_view_breeding_cage_with_unauthenticated_user(self):
         self.client.logout()
         response = self.client.get(
-            reverse("breeding_wing_view_cage", args=[self.cage.box_no])
+            reverse("view_breeding_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 302)
 

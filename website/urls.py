@@ -42,9 +42,9 @@ urlpatterns += [
         name="breeding_wing_add_litter",
     ),
     path(
-        "breeding_wing_view_cage<str:box_no>",
-        views.breeding_wing_view_cage,
-        name="breeding_wing_view_cage",
+        "view_breeding_cage<str:box_no>",
+        views.view_breeding_cage,
+        name="view_breeding_cage",
     ),
     path(
         "edit_breeding_cage<str:box_no>",

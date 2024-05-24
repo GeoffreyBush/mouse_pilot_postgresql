@@ -1,6 +1,6 @@
 from .breeding_wing_views import (
     breeding_wing_add_litter,
-    breeding_wing_view_cage,
+    view_breeding_cage,
     create_breeding_pair,
     edit_breeding_cage,
     list_breeding_cages,
@@ -19,7 +19,7 @@ from .researcher_views import researcher_dashboard, show_comment, show_project
 __all__ = [
     "list_breeding_cages",
     "breeding_wing_add_litter",
-    "breeding_wing_view_cage",
+    "view_breeding_cage",
     "create_breeding_pair",
     "edit_breeding_cage",
     "family_tree",
