@@ -3,20 +3,31 @@
 {% block title %}Add Mouse to Repo{% endblock %}
 {% block content %}
 {% comment %} Need to rework this page to draw only from the mice_repository  {% endcomment %}
-<div class="container">
+<div class="container p-3">
     <h2 class="my-3">
-        Add a New Mouse
+        Add a Pre-existing Mouse to the Central Repository
     </h2>
-    <a class="btn btn-primary" href="#">
+    <ul class="list-group">
+        <li class="list-group-item">
+            This form is for adding a mouse that needs to be imported to the MousePilot central repository manually.
+        </li>
+        <li class="list-group-item list-group-item ">
+            There should be safeguards in place to prevent the same mouse from being added twice, but it is always a good idea to double-check to make sure.
+        </li>
+        <li class="list-group-item list-group-item-warning">
+            This form is <u><b>not</b></u> for moving a mouse from breeding cages to stock cages. That functionality can be found in the "Breeding Cages" section on the left instead.
+        </li>
+    </ul>
+    <a class="btn btn-primary mt-4" href="#">
         Should lead back to repository
     </a>
 </div>
 <div class="container my-3">
     <form method="post">
         {% csrf_token %}
-        <div class="mb-3">
+        <div class="mb-1">
             {% for field in mice_form %}
-            <div class="row">
+            <div class="row mb-1">
                 <div class="col-3">
                     {{ field.label_tag }}
                 </div>
