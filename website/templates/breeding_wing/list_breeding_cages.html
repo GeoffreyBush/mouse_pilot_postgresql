@@ -26,7 +26,7 @@
     <div class="row">
         {% for cage in mycages %}
         <div class="col">
-            <div class="card card-body square-cage mb-4">
+            <div class="card card-body square-cage mb-4 shadow-sm">
                 <h5 class="card-title">
                     <a href="{% url 'view_breeding_cage' cage.box_no %}" style="text-decoration: none;">{{ cage.box_no }}</a>
                 </h5>
