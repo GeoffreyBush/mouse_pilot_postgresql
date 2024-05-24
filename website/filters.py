@@ -5,6 +5,7 @@ from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
+
 # This filter doesn't meet requirements - will only filter mice born on a specific date, not a range
 class CustomDateTimeWidget(forms.widgets.SelectDateWidget):
     def __init__(self, years=None, months=None, empty_label="---", attrs=None):
@@ -18,6 +19,7 @@ class CustomDateTimeWidget(forms.widgets.SelectDateWidget):
         super().__init__(
             years=years, months=months, empty_label=empty_label, attrs=attrs
         )
+
 
 class BWFilter(django_filters.FilterSet):
     SEX_CHOICES = (
@@ -40,6 +42,7 @@ class BWFilter(django_filters.FilterSet):
         widget=forms.Select(attrs={"class": "form-control w-25"}),
         label="Earmark: ",
     )
+
 
 class ProjectFilter(django_filters.FilterSet):
     SEX_CHOICES = (

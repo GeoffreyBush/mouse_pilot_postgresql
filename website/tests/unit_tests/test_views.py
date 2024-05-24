@@ -817,6 +817,7 @@ class SignUpViewTest(TestCase):
 ### MICE REPOSITORY ###
 #######################
 
+
 class MiceRepositoryViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
