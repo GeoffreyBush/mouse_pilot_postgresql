@@ -1,9 +1,9 @@
 from .breeding_wing_views import (
     breeding_wing_add_litter,
-    view_breeding_cage,
     create_breeding_pair,
     edit_breeding_cage,
     list_breeding_cages,
+    view_breeding_cage,
 )
 from .family_tree_views import create_family_tree_data, family_tree
 from .login_views import SignUpView, signup

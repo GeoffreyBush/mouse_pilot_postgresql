@@ -3,9 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 
-from website.filters import BWFilter
 from website.forms import BreedingCageForm, BreedingPairForm, MiceForm
-from website.models import BreedingCage, Mice
+from website.models import BreedingCage
 
 
 @login_required
