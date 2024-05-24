@@ -2,25 +2,24 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
-{% comment %} <div class="settings-container" style="padding-left: 20px;"></div>  {% endcomment %}
-<div class="projects-container" style="padding: 30px;"> 
-    <div class="login-move-form">
-        <span class="center-login-warning">
+<div class="container py-3"> 
+    <div class="text-center">
+        <span>
             {% if form.errors %}
-            <p class="settings-subtext"> Your username and password didn't match. Please try again.</p>
+            <p class="text-muted"> Your username and password didn't match. Please try again.</p>
             {% endif %} 
             {% if next %}
                 {% if user.is_authenticated %}
-                    <p class="settings-subtext">Your account doesn't have access to this page. To proceed, please login with an account that has access</p>
+                    <p class="text-muted">Your account doesn't have access to this page. To proceed, please login with an account that has access</p>
                 {% else %}
-                    <p class="settings-subtext">Please login to see this page</p>
+                    <p class="text-muted">Please login to see this page</p>
                 {% endif %}
             {% endif %}
         </span>
     </div>
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <table class="form-table">
+        <table class="table">
             <tr>
                 <td>{{ form.username.label_tag }}</td>
             </tr>
@@ -35,26 +34,22 @@
             </tr>
             <tr>
                 <td>
-                    <div style="padding-top: 10px;">
-                        <button class="login-signup menu-button menu-button-text" type="submit">
-                            <p style="margin: auto;">Login</p>
+                    <div class="pt-2">
+                        <button class="btn btn-primary" type="submit">
+                            Login
                         </button>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="sign-password-link">
-                        <a href="{% url 'signup' %}" class="custom-link" style="padding-right: 108px;">Create an Account</a>    
-                        <a href="{% url 'password_reset' %}" class="custom-link" >Lost password?</a>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'signup' %}" class="text-decoration-none">Create an Account</a>    
+                        <a href="{% url 'password_reset' %}" class="text-decoration-none">Lost password?</a>
                     </div>
                 </td>
             <tr>
         </table>
-        
-        {% comment %} what's this? {% endcomment %}
-        {% comment %} <input type="hidden" name="next" value="{{ next }}"> {% endcomment %} 
-        
     </form>
 </div>
 
