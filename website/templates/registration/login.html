@@ -2,7 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
-<div class="container py-3"> 
+<div class="container mt-5 py-3 col-4 borde shadow"> 
     <div class="text-center">
         <span>
             {% if form.errors %}
@@ -19,37 +19,23 @@
     </div>
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <table class="table">
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="pt-2">
-                        <button class="btn btn-primary" type="submit">
-                            Login
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="d-flex justify-content-between">
-                        <a href="{% url 'signup' %}" class="text-decoration-none">Create an Account</a>    
-                        <a href="{% url 'password_reset' %}" class="text-decoration-none">Lost password?</a>
-                    </div>
-                </td>
-            <tr>
-        </table>
+        <div class="form-group">
+            <div>{{ form.username.label }}</div>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <div>{{ form.password.label }}</div>
+            {{ form.password }}
+        </div>
+        <div class="form-group pt-2">
+            <button class="btn btn-primary" type="submit">
+                Login
+            </button>
+        </div>
+        <div class="form-group d-flex justify-content-between">
+            <a href="{% url 'signup' %}" class="text-decoration-none">Create an Account</a>    
+            <a href="{% url 'password_reset' %}" class="text-decoration-none">Lost password?</a>
+        </div>
     </form>
 </div>
 
