@@ -296,7 +296,6 @@ class BreedingCageModelTest(TestCase):
     # IntegrityError with missing attributes
 
 
-
 ###############
 ### PROJECT ###
 ###############
