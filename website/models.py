@@ -26,12 +26,16 @@ class Mouse(models.Model):
     )
     dob = models.DateField(db_column="Date of Birth", null=False)
     clippedDate = models.DateField(db_column="Clipped Date", null=True, blank=True)
-    genotyped = models.BooleanField(db_column="Genotyped", null=False)
+    
     # Culled boolean attribute will be useful
 
     ##########################
     # Foreign keys for Mouse #
     ##########################
+
+    strain = models.ForeignKey(
+        "Strain", on_delete=models.SET_NULL, blank=True, null=True
+    )
     mother = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -57,12 +61,7 @@ class Mouse(models.Model):
     project = models.ForeignKey(
         "Project", on_delete=models.SET_NULL, null=True, blank=True
     )
-    genotyper = models.ForeignKey(
-        "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
-    )
-    strain = models.ForeignKey(
-        "Strain", on_delete=models.SET_NULL, blank=True, null=True
-    )
+    genotyped = models.BooleanField(db_column="Genotyped", null=False)
     earmark = models.CharField(
         db_column="Earmark",
         max_length=4,
@@ -70,6 +69,11 @@ class Mouse(models.Model):
         choices=EARMARK_CHOICES_PAIRED,
         null=False,
     )
+    genotyper = models.ForeignKey(
+        "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
+    )
+
+
     history = HistoricalRecords()
 
     def __str__(self):

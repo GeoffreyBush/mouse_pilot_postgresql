@@ -6,13 +6,52 @@ from website.constants import EARMARK_CHOICES_PAIRED
 from .models import BreedingCage, Comment, CustomUser, Mouse, Project, Request, Strain
 
 
-class MiceForm(forms.ModelForm):
+class ProjectMiceForm(forms.ModelForm):
+    SEX_CHOICES = [
+        ("M", "Male"),
+        ("F", "Female"),
+    ]
+    TRUE_OR_FALSE = [
+        (False, "No"),
+        (True, "Yes"),
+    ]
+
+    sex = forms.ChoiceField(
+        choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"})
+    )
+    dob = forms.DateField(
+        input_formats=["%Y-%m-%d"],
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}),
+    )
+    clippedDate = forms.DateField(
+        required=False,
+        input_formats=["%Y-%m-%d"],
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}),
+    )
+    mother = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+    father = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+    project = forms.ModelChoiceField(queryset=Project.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+    genotyped = forms.ChoiceField(
+        required=True, choices=TRUE_OR_FALSE, widget=forms.Select(attrs={"class": "form-select"})
+    )
+    earmark = forms.ChoiceField(choices=EARMARK_CHOICES_PAIRED, widget=forms.Select(attrs={"class": "form-select"}))
+    genotyper = forms.ModelChoiceField(
+        queryset=CustomUser.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"})
+    )
+    strain = forms.ModelChoiceField(queryset=Strain.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+
+    class Meta:
+        model = Mouse
+        fields = "__all__"  # or list the fields you want to include
+
+
+class RepositoryMiceForm(forms.ModelForm):
     SEX_CHOICES = [
         ("M", "Male"),
         ("F", "Female"),
     ]
 
-    # this area is to change the style and the type of each field
+
     sex = forms.ChoiceField(
         choices=SEX_CHOICES, widget=forms.Select(attrs={"style": "width: 70px;"})
     )
@@ -40,7 +79,6 @@ class MiceForm(forms.ModelForm):
     class Meta:
         model = Mouse
         fields = "__all__"  # or list the fields you want to include
-
 
 class CommentForm(forms.ModelForm):
 

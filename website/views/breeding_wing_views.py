@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 
-from website.forms import BreedingCageForm, BreedingPairForm, MiceForm
+from website.forms import BreedingCageForm, BreedingPairForm, ProjectMiceForm
 from website.models import BreedingCage
 
 
@@ -18,12 +18,12 @@ def list_breeding_cages(request):
 @login_required
 def breeding_wing_add_litter(request):
     if request.method == "POST":
-        form = MiceForm(request.POST)
+        form = ProjectMiceForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("list_breeding_cages")
     else:
-        form = MiceForm()
+        form = ProjectMiceForm()
     return render(
         request, "breeding_wing/breeding_wing_add_litter.html", {"form": form}
     )

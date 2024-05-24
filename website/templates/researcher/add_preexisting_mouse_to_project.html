@@ -1,0 +1,37 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Add Mouse to Project{% endblock %}
+{% block content %}
+{% comment %} Need to rework this page to draw only from the mice_repository  {% endcomment %}
+<div class="container">
+    <h2 class="my-3">
+        Add a New Mouse
+    </h2>
+    <h3 class="my-3">
+        Don't use this functionality. Not integrated with other systems properly
+    </h3>
+    <a class="btn btn-primary" href="{% url 'show_project' projectname=projectname %}">
+        Back to Project
+    </a>
+</div>
+<div class="container my-3">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {% for field in mice_form %}
+            <div class="row">
+                <div class="col-3">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-primary" type="submit">
+            Confirm Add Mouse
+        </button>
+    </form>
+</div>
+{% endblock %}

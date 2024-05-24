@@ -18,6 +18,7 @@ urlpatterns = [
 # Mice repository URLs
 urlpatterns += [
     path("mice_repository", views.mice_repository, name="mice_repository"),
+    path("add_preexisting_mouse_to_repository", views.add_preexisting_mouse_to_repository, name="add_preexisting_mouse_to_repository"),
 ]
 
 # Researcher URLs
@@ -60,7 +61,7 @@ urlpatterns += [
 
 # Add, Edit, and Delete Mouse URLs
 urlpatterns += [
-    path("add_mouse/<str:projectname>/", views.add_mouse, name="add_mouse"),
+    path("add_preexisting_mouse_to_project/<str:projectname>/", views.add_preexisting_mouse_to_project, name="add_preexisting_mouse_to_project"),
     path(
         "edit_mouse/<str:projectname>/<int:mouse_id>/",
         views.edit_mouse,

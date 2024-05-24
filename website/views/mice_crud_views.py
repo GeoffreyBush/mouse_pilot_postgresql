@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from website.forms import MiceForm
+from website.forms import ProjectMiceForm
 from website.models import HistoricalMouse, Mouse
 
 
@@ -9,28 +9,28 @@ from website.models import HistoricalMouse, Mouse
 def edit_mouse(request, projectname, mouse_id):
     mouse = Mouse.objects.get(id=mouse_id)
     if request.method == "POST":
-        form = MiceForm(request.POST, instance=mouse)
+        form = ProjectMiceForm(request.POST, instance=mouse)
         if form.is_valid():
             form.save()
             return redirect("show_project", projectname=projectname)
     else:
-        form = MiceForm(instance=mouse)
+        form = ProjectMiceForm(instance=mouse)
     return render(
         request, "edit_mouse.html", {"form": form, "projectname": projectname}
     )
 
 
 @login_required
-def add_mouse(request, projectname):
+def add_preexisting_mouse_to_project(request, projectname):
     if request.method == "POST":
-        form = MiceForm(request.POST)
+        form = ProjectMiceForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("show_project", projectname=projectname)
     else:
-        form = MiceForm()
+        form = ProjectMiceForm()
     return render(
-        request, "add_mouse.html", {"mice_form": form, "projectname": projectname}
+        request, "researcher/add_preexisting_mouse_to_project.html", {"mice_form": form, "projectname": projectname}
     )
 
 

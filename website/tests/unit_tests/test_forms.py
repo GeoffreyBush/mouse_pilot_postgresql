@@ -10,7 +10,7 @@ from website.forms import (
     CommentForm,
     CustomUserChangeForm,
     CustomUserCreationForm,
-    MiceForm,
+    ProjectMiceForm,
     MouseSelectionForm,
     RequestForm,
 )
@@ -20,7 +20,7 @@ from website.models import CustomUser, Mouse, Project, Strain
 #################
 ### MICE FORM ###
 #################
-class MiceFormTestCase(TestCase):
+class ProjectMiceFormTestCase(TestCase):
     def setUp(self):
 
         # Add cage back in when stock or experimental cage is added to Mouse model
@@ -37,7 +37,7 @@ class MiceFormTestCase(TestCase):
 
     # Valid data
     def test_mice_form_valid_data(self):
-        form = MiceForm(
+        form = ProjectMiceForm(
             data={
                 "sex": "M",
                 "dob": date.today(),
@@ -55,14 +55,14 @@ class MiceFormTestCase(TestCase):
 
     # Empty data
     def test_mice_form_empty_data(self):
-        form = MiceForm(data={})
+        form = ProjectMiceForm(data={})
         self.assertFalse(form.is_valid())
         self.assertIn("sex", form.errors)
         self.assertIn("dob", form.errors)
 
     # Invalid sex
     def test_mice_form_invalid_sex(self):
-        form = MiceForm(
+        form = ProjectMiceForm(
             data={
                 "sex": "X",
                 "dob": date.today(),
