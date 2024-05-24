@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
         db_table = "user"
 
 
-class Mice(models.Model):
+class Mouse(models.Model):
 
     sex = models.CharField(
         db_column="Sex",
@@ -29,9 +29,9 @@ class Mice(models.Model):
     genotyped = models.BooleanField(db_column="Genotyped", null=False)
     # Culled boolean attribute will be useful
 
-    #########################
-    # Foreign keys for Mice #
-    #########################
+    ##########################
+    # Foreign keys for Mouse #
+    ##########################
     mother = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -94,7 +94,7 @@ class Request(models.Model):
         "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
     task_type = models.CharField(max_length=2, choices=TASK_CHOICES, default="Cl")
-    mice = models.ManyToManyField("Mice", db_column="Mice")
+    mice = models.ManyToManyField("Mouse", db_column="Mouse")
     confirmed = models.BooleanField(
         default=False
     )  # confirmed attribute could be switched to flag with choices?
@@ -124,8 +124,8 @@ class Request(models.Model):
 
 class Comment(models.Model):
 
-    # Comment ID primary key is derived from Mice ID primary key
-    comment = models.OneToOneField("Mice", on_delete=models.CASCADE, primary_key=True)
+    # Comment ID primary key is derived from Mouse ID primary key
+    comment = models.OneToOneField("Mouse", on_delete=models.CASCADE, primary_key=True)
 
     # Django forces you to set a max_length property. Not sure if 500 characters is too much/enough.
     comment_text = models.CharField(
@@ -140,9 +140,9 @@ class Comment(models.Model):
         db_table = "comment"
 
 
-################################################
-# Models needed as foreign keys for Mice model #
-################################################
+#################################################
+# Models needed as foreign keys for Mouse model #
+#################################################
 
 
 class Strain(models.Model):

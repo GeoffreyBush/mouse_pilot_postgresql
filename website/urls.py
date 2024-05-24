@@ -53,7 +53,7 @@ urlpatterns += [
     ),
 ]
 
-# Add, Edit, and Delete Mice URLs
+# Add, Edit, and Delete Mouse URLs
 urlpatterns += [
     path("add_mouse/<str:projectname>/", views.add_mouse, name="add_mouse"),
     path(

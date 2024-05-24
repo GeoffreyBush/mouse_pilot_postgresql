@@ -7,16 +7,16 @@ from django.template import loader
 
 from website.filters import ProjectFilter
 from website.forms import CommentForm, MouseSelectionForm
-from website.models import Comment, Mice, Project, Request
+from website.models import Comment, Mouse, Project, Request
 
 
 @login_required
 def researcher_dashboard(request):
     myprojects = Project.objects.all()
-    mymice = Mice.objects.all()
+    mymice = Mouse.objects.all()
 
     # Update mice counts of each project - inefficient n^m time
-    # Should be made a Project or Mice object method instead
+    # Should be made a Project or Mouse object method instead
     for project in myprojects:
         for mouse in mymice:
             if project.projectname == mouse.project.projectname:
@@ -39,7 +39,7 @@ def show_project(http_request, projectname):
         mycomment = Comment.objects.all()
 
         # Select only those mice that belong to this project
-        mymice = Mice.objects.filter(project=projectname)
+        mymice = Mouse.objects.filter(project=projectname)
 
         # Select all mice that belong to this project that have a request
         queryset_miceids = chain(
@@ -89,7 +89,7 @@ def show_project(http_request, projectname):
 @login_required
 def show_comment(request, mouse_id):
     comment = Comment.objects.get(pk=mouse_id)
-    mouse = Mice.objects.get(pk=mouse_id)
+    mouse = Mouse.objects.get(pk=mouse_id)
     projectname = mouse.project.projectname
     if request.method == "POST":
         form = CommentForm(request.POST, instance=comment)

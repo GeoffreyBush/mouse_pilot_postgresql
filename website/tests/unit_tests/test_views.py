@@ -19,7 +19,7 @@ from website.models import (
     Comment,
     CustomUser,
     HistoricalMice,
-    Mice,
+    Mouse,
     Project,
     Request,
     Strain,
@@ -45,9 +45,9 @@ class FamilyTreeTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
-        self.mouse1 = Mice.objects.create(sex="F", dob=date.today(), genotyped=False)
-        self.mouse2 = Mice.objects.create(sex="M", dob=date.today(), genotyped=False)
-        self.mouse3 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(sex="F", dob=date.today(), genotyped=False)
+        self.mouse2 = Mouse.objects.create(sex="M", dob=date.today(), genotyped=False)
+        self.mouse3 = Mouse.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
@@ -118,21 +118,21 @@ class ShowProjectViewTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.project = Project.objects.create(projectname="TestProject")
 
-        # Add cage back in when experimental or stock cage is added to Mice model
+        # Add cage back in when experimental or stock cage is added to Mouse model
         """
         self.cage = Cage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
         """
 
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             sex="M",
             dob=date.today(),
             genotyped=False,
             project=self.project,
             # cage=self.cage,
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
@@ -190,7 +190,7 @@ class ShowCommentViewTest(TestCase):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
         self.project = Project.objects.create(projectname="Test Project")
-        self.mouse = Mice.objects.create(
+        self.mouse = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), genotyped=True, project=self.project
         )
         self.comment = Comment.objects.create(
@@ -268,14 +268,14 @@ class BreedingWingAddLitter(TestCase):
     def setup(self):
         self.user = UserFactory()
         self.client.force_login(self.user)
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             sex="M",
             dob=date.today(),
             genotyped=False,
             project=self.project,
             cage=self.cage,
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
@@ -418,7 +418,7 @@ class AddMouseViewTest(TestCase):
         self.assertTemplateUsed(response, "add_mouse.html")
         self.assertIsInstance(response.context["mice_form"], MiceForm)
         self.assertEqual(response.context["projectname"], self.project.projectname)
-        self.assertFalse(Mice.objects.exists())
+        self.assertFalse(Mouse.objects.exists())
 
     # Access add_mouse without logging in
     def test_add_mouse_view_login_required(self):
@@ -442,17 +442,17 @@ class EditMouseViewTest(TestCase):
             email="testgenotyper@example.com",
             password="testpassword",
         )
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             sex="M", dob=date.today(), genotyped=True, project=self.project
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             sex="F", dob=date.today(), genotyped=True, project=self.project
         )
-        self.mouse3 = Mice.objects.create(
+        self.mouse3 = Mouse.objects.create(
             sex="M", dob=date.today(), genotyped=True, project=self.project
         )
 
-        # Add cage back in when stock or experimental cage is added to Mice model
+        # Add cage back in when stock or experimental cage is added to Mouse model
         """
         self.cage = Cage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
@@ -579,7 +579,7 @@ class DeleteMouseViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.project = Project.objects.create(projectname="TestProject")
-        self.mouse = Mice.objects.create(
+        self.mouse = Mouse.objects.create(
             sex="M", dob=date.today(), genotyped=True, project=self.project
         )
 
@@ -593,7 +593,7 @@ class DeleteMouseViewTest(TestCase):
         self.assertRedirects(
             response, reverse("show_project", args=[self.project.projectname])
         )
-        self.assertFalse(Mice.objects.filter(id=self.mouse.id).exists())
+        self.assertFalse(Mouse.objects.filter(id=self.mouse.id).exists())
 
     # Delete mouse while not logged in
     def test_delete_mouse_view_login_required(self):
@@ -652,10 +652,10 @@ class AddRequestViewTest(TestCase):
         )
         self.client.login(username="testuser", password="strongpassword123")
         self.project = Project.objects.create(projectname="TestProject")
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), genotyped=True, project=self.project
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             id=2, sex="F", dob=date.today(), genotyped=True, project=self.project
         )
         self.mice = [self.mouse1, self.mouse2]
@@ -731,7 +731,7 @@ class ConfirmRequestViewTest(TestCase):
             password="strongpassword123",
         )
         self.client.login(username="testuser", password="strongpassword123")
-        self.mouse = Mice.objects.create(dob=date.today(), genotyped=False)
+        self.mouse = Mouse.objects.create(dob=date.today(), genotyped=False)
         self.request = Request.objects.create(
             researcher=self.user, task_type="Cl", confirmed=False
         )

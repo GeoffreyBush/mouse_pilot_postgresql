@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import BreedingCage, Comment, CustomUser, Mice, Project, Strain
+from .models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain
 
 
 # Changes what attributes are displayed and which attributes you can filter by in admin page
-@admin.register(Mice)
+@admin.register(Mouse)
 class MiceAdmin(admin.ModelAdmin):
     list_display = ("clippedDate", "genotyped")
 

@@ -9,7 +9,7 @@ from website.models import (
     BreedingCage,
     Comment,
     CustomUser,
-    Mice,
+    Mouse,
     Project,
     Request,
     Strain,
@@ -26,7 +26,7 @@ class MiceTestCase(TestCase):
 
         # Create foreign keys
 
-        # Add cage back in when stock or experimental cage is added to Mice model
+        # Add cage back in when stock or experimental cage is added to Mouse model
         """
         cage = Cage.objects.create(date_born=date.today(), date_wean=date.today())
         """
@@ -35,8 +35,8 @@ class MiceTestCase(TestCase):
         earmark = random.choice(EARMARK_CHOICES_PAIRED)
         strain = Strain.objects.create(strain_name="Strain1")
 
-        # Create some Mice objects for testing
-        Mice.objects.create(
+        # Create some Mouse objects for testing
+        Mouse.objects.create(
             sex="M",
             dob=date.today(),
             genotyped=True,
@@ -44,65 +44,65 @@ class MiceTestCase(TestCase):
             earmark=earmark,
             strain=strain,
         )
-        Mice.objects.create(
+        Mouse.objects.create(
             sex="F", dob=date.today(), clippedDate=date.today(), genotyped=False
         )
 
     # String method
     def test_mice_str_method(self):
-        mice = Mice.objects.first()
-        self.assertEqual(str(mice), str(mice.id), "Mice .str() method is incorrect")
+        mice = Mouse.objects.first()
+        self.assertEqual(str(mice), str(mice.id), "Mouse .str() method is incorrect")
 
     # Only male or female
     def test_mice_sex_choices(self):
-        mice = Mice.objects.first()
+        mice = Mouse.objects.first()
         self.assertIn(
             mice.sex,
             ["M", "F"],
-            "Sex attribute of Mice was able to be something other than 'M' or 'F'",
+            "Sex attribute of Mouse was able to be something other than 'M' or 'F'",
         )
 
     # DOB must exist
     def test_mice_dob_not_null(self):
-        mice = Mice.objects.first()
-        self.assertIsNotNone(mice.dob, "Mice model instance without a date of birth")
+        mice = Mouse.objects.first()
+        self.assertIsNotNone(mice.dob, "Mouse model instance without a date of birth")
 
     # Clipped date can be blank
     def test_mice_clippedDate_blank(self):
-        mice = Mice.objects.first()
+        mice = Mouse.objects.first()
         self.assertIsNone(
             mice.clippedDate, "Clipped date was not able to be set to null"
         )
 
     # Genotyped not null
     def test_mice_genotyped_not_null(self):
-        mice = Mice.objects.first()
+        mice = Mouse.objects.first()
         self.assertIsNotNone(
-            mice.genotyped, "Genotyped attribute for Mice should not be able to be null"
+            mice.genotyped, "Genotyped attribute for Mouse should not be able to be null"
         )
 
-    # Add cage back in when stock or experimental cage is added to Mice model
+    # Add cage back in when stock or experimental cage is added to Mouse model
     """
     # Cage key exists
     def test_mice_cage_id_key(self):
-        mice = Mice.objects.first()
-        self.assertIsNotNone(mice.cage_id, "Cage foreign key in Mice does not exist")
+        mice = Mouse.objects.first()
+        self.assertIsNotNone(mice.cage_id, "Cage foreign key in Mouse does not exist")
     """
 
     # Project key exists
     def test_mice_project_key(self):
-        mice = Mice.objects.first()
-        self.assertIsNotNone(mice.project, "Project foreign key in Mice does not exist")
+        mice = Mouse.objects.first()
+        self.assertIsNotNone(mice.project, "Project foreign key in Mouse does not exist")
 
     # Strain key exists
     def test_mice_strain_foreign_key(self):
-        mice = Mice.objects.first()
-        self.assertIsNotNone(mice.strain, "Strain foreign key in Mice does not exist")
+        mice = Mouse.objects.first()
+        self.assertIsNotNone(mice.strain, "Strain foreign key in Mouse does not exist")
 
     # Earmark exists
     def test_mice_earmark_foreign_key(self):
-        mice = Mice.objects.first()
-        self.assertIsNotNone(mice.earmark, "Earmark in Mice does not exist")
+        mice = Mouse.objects.first()
+        self.assertIsNotNone(mice.earmark, "Earmark in Mouse does not exist")
 
 
 ##################
@@ -162,8 +162,8 @@ class RequestModelTests(TestCase):
             email="testuser@example.com",
             password="strongpassword123",
         )
-        self.mouse1 = Mice.objects.create(dob=date.today(), genotyped=False)
-        self.mouse2 = Mice.objects.create(dob=date.today(), genotyped=False)
+        self.mouse1 = Mouse.objects.create(dob=date.today(), genotyped=False)
+        self.mouse2 = Mouse.objects.create(dob=date.today(), genotyped=False)
         self.request = Request.objects.create(
             researcher=self.user, task_type="Cl", confirmed=False
         )
@@ -367,7 +367,7 @@ class ProjectModelTest(TestCase):
             "Incorrect number of researchers associated with the project.",
         )
 
-    # Mice count
+    # Mouse count
     def test_project_mice_count(self):
         project = Project.objects.get(projectname="TestName")
         self.assertEqual(project.mice_count, 0)
@@ -384,7 +384,7 @@ class CommentTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        mice = Mice.objects.create(sex="M", dob=date.today(), genotyped=True)
+        mice = Mouse.objects.create(sex="M", dob=date.today(), genotyped=True)
         Comment.objects.create(comment=mice, comment_text="Mouse has long nails")
 
     # String method

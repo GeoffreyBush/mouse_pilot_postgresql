@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import BreedingCage, Comment, CustomUser, Mice, Project, Strain
+from website.models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 
@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         fake = Faker()
         fake.add_provider(Provider)
-        Mice.objects.all()
+        Mouse.objects.all()
 
         print("Creating cages...", end=" ")
         for _ in range(x):
@@ -143,7 +143,7 @@ class Command(BaseCommand):
 
         # Create all the mice first
         for _ in range(x):
-            Mice.objects.create(
+            Mouse.objects.create(
                 sex=random.choice(["M", "F"]),
                 dob=fake.date(),
                 clippedDate=fake.date(),
@@ -160,9 +160,9 @@ class Command(BaseCommand):
         """
         # This doesn't create mothers and fathers as intended, review Autumn 2024
         # Assign mothers and fathers for the mice
-        all_mice = Mice.objects.all()
+        all_mice = Mouse.objects.all()
         for mouse in all_mice:
-            project_mice = Mice.objects.filter(project=mouse.project)
+            project_mice = Mouse.objects.filter(project=mouse.project)
 
             # Filter the project mice to get the eligible mothers and fathers
             eligible_mothers = project_mice.filter(sex='F').exclude(id=mouse.id)
@@ -185,7 +185,7 @@ class Command(BaseCommand):
         fake = Faker()
 
         print("Creating comments...", end=" ")
-        existing_mice = Mice.objects.all()
+        existing_mice = Mouse.objects.all()
 
         for index in range(len(existing_mice)):
             mouse = existing_mice[index]

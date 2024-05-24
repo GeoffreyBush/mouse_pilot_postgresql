@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from website.models import CustomUser, Mice, Project, Request
+from website.models import CustomUser, Mouse, Project, Request
 from website.tests.integration_tests.helpers import auto_login, chrome_test_setup
 
 
@@ -20,10 +20,10 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
 
         # Create objects for testing
         self.project = Project.objects.create(projectname="TestProject")
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             sex="M", dob=date.today(), genotyped=False, project=self.project
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             sex="F", dob=date.today(), genotyped=False, project=self.project
         )
         self.request1 = Request.objects.create(
@@ -47,7 +47,7 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
 
         # Assert the requests table is displayed
         self.assertIn("Messaging", self.driver.page_source)
-        self.assertIn("Mice IDs", self.driver.page_source)
+        self.assertIn("Mouse IDs", self.driver.page_source)
         self.assertIn("Tasks", self.driver.page_source)
         self.assertIn("Confirm", self.driver.page_source)
 

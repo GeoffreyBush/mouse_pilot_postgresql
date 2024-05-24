@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from website.forms import MiceForm
-from website.models import HistoricalMice, Mice
+from website.models import HistoricalMouse, Mouse
 
 
 @login_required
 def edit_mouse(request, projectname, mouse_id):
-    mouse = Mice.objects.get(id=mouse_id)
+    mouse = Mouse.objects.get(id=mouse_id)
     if request.method == "POST":
         form = MiceForm(request.POST, instance=mouse)
         if form.is_valid():
@@ -36,7 +36,7 @@ def add_mouse(request, projectname):
 
 @login_required
 def delete_mouse(request, projectname, mouse_id):
-    mouse = Mice.objects.get(id=mouse_id)
+    mouse = Mouse.objects.get(id=mouse_id)
     mouse.delete()
     return redirect("show_project", projectname=projectname)
 
@@ -44,7 +44,7 @@ def delete_mouse(request, projectname, mouse_id):
 @login_required
 def edit_history(request):
     histories_with_diff = []
-    histories = HistoricalMice.objects.all().order_by("-history_date")
+    histories = HistoricalMouse.objects.all().order_by("-history_date")
 
     for history in histories:
         if hasattr(history, "prev_record") and history.prev_record is not None:

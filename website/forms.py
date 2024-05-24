@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
-from .models import BreedingCage, Comment, CustomUser, Mice, Project, Request, Strain
+from .models import BreedingCage, Comment, CustomUser, Mouse, Project, Request, Strain
 
 
 class MiceForm(forms.ModelForm):
@@ -28,8 +28,8 @@ class MiceForm(forms.ModelForm):
     genotyped = forms.BooleanField(
         required=False, widget=forms.CheckboxInput(attrs={"type": "checkbox"})
     )
-    mother = forms.ModelChoiceField(queryset=Mice.objects.all(), required=False)
-    father = forms.ModelChoiceField(queryset=Mice.objects.all(), required=False)
+    mother = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False)
+    father = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False)
     project = forms.ModelChoiceField(queryset=Project.objects.all(), required=False)
     earmark = forms.ChoiceField(choices=EARMARK_CHOICES_PAIRED, widget=forms.Select())
     genotyper = forms.ModelChoiceField(
@@ -38,7 +38,7 @@ class MiceForm(forms.ModelForm):
     strain = forms.ModelChoiceField(queryset=Strain.objects.all(), required=False)
 
     class Meta:
-        model = Mice
+        model = Mouse
         fields = "__all__"  # or list the fields you want to include
 
 
@@ -96,9 +96,9 @@ class RequestForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.project:
-            self.fields["mice"].queryset = Mice.objects.filter(project=self.project)
+            self.fields["mice"].queryset = Mouse.objects.filter(project=self.project)
         else:
-            self.fields["mice"].queryset = Mice.objects.all()
+            self.fields["mice"].queryset = Mouse.objects.all()
 
     # Add checkbox for mice selection
     mice = forms.ModelMultipleChoiceField(
@@ -119,9 +119,9 @@ class MouseSelectionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.project:
-            self.fields["mice"].queryset = Mice.objects.filter(project=self.project)
+            self.fields["mice"].queryset = Mouse.objects.filter(project=self.project)
         else:
-            self.fields["mice"].queryset = Mice.objects.all()
+            self.fields["mice"].queryset = Mouse.objects.all()
 
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
@@ -129,7 +129,7 @@ class MouseSelectionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Mice
+        model = Mouse
         fields = ["id"]
 
 

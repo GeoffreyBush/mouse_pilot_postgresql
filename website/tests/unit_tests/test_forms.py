@@ -14,7 +14,7 @@ from website.forms import (
     MouseSelectionForm,
     RequestForm,
 )
-from website.models import CustomUser, Mice, Project, Strain
+from website.models import CustomUser, Mouse, Project, Strain
 
 
 #################
@@ -23,7 +23,7 @@ from website.models import CustomUser, Mice, Project, Strain
 class MiceFormTestCase(TestCase):
     def setUp(self):
 
-        # Add cage back in when stock or experimental cage is added to Mice model
+        # Add cage back in when stock or experimental cage is added to Mouse model
         """
         self.cage = Cage.objects.create(
             cageID=1, date_born=date.today(), date_wean=date.today()
@@ -87,7 +87,7 @@ class MiceFormTestCase(TestCase):
 ####################
 class CommentFormTestCase(TestCase):
     def setUp(self):
-        self.mouse = Mice.objects.create(
+        self.mouse = Mouse.objects.create(
             id=1, sex="M", dob="2022-01-01", genotyped=True
         )
 
@@ -224,13 +224,13 @@ class RequestFormTestCase(TestCase):
         self.user = CustomUser.objects.create_user(
             username="testuser", password="testpass123"
         )
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), genotyped=True, project=self.project1
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             id=2, sex="F", dob=date.today(), genotyped=True, project=self.project1
         )
-        self.mouse3 = Mice.objects.create(
+        self.mouse3 = Mouse.objects.create(
             id=3, sex="M", dob=date.today(), genotyped=True, project=self.project2
         )
 
@@ -275,13 +275,13 @@ class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
         self.project1 = Project.objects.create(projectname="Project 1")
         self.project2 = Project.objects.create(projectname="Project 2")
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), genotyped=True, project=self.project1
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             id=2, sex="F", dob=date.today(), genotyped=True, project=self.project1
         )
-        self.mouse3 = Mice.objects.create(
+        self.mouse3 = Mouse.objects.create(
             id=3, sex="M", dob=date.today(), genotyped=True, project=self.project2
         )
 

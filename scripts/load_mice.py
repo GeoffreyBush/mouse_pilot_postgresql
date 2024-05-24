@@ -1,18 +1,18 @@
 import csv
 
-from website.models import Mice
+from website.models import Mouse
 
 
 def run():
     with open("website/static/mouse_stocks.csv") as file:
         reader = csv.reader(file)
 
-        Mice.objects.all().delete()
+        Mouse.objects.all().delete()
 
         for row in reader:
             print(row)
 
-            mice = Mice(
+            mice = Mouse(
                 id=row[0],
                 clippedDate=row[1],
                 genotypedOrNot=row[2],

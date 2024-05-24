@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from website.models import CustomUser, Mice, Project
+from website.models import CustomUser, Mouse, Project
 from website.tests.integration_tests.helpers import auto_login, chrome_test_setup
 
 
@@ -20,21 +20,21 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
 
         self.project = Project.objects.create(projectname="TestProject")
 
-        # Add cage back in when stock or experimental cage is added to Mice model
+        # Add cage back in when stock or experimental cage is added to Mouse model
         """
         self.cage = BreedingCage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
         """
 
-        self.mouse1 = Mice.objects.create(
+        self.mouse1 = Mouse.objects.create(
             sex="M",
             dob=date.today(),
             genotyped=True,
             cage=self.cage,
             project=self.project,
         )
-        self.mouse2 = Mice.objects.create(
+        self.mouse2 = Mouse.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
