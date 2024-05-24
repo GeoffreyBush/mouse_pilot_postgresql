@@ -130,14 +130,14 @@ class ShowProjectViewTest(TestCase):
             dob=date.today(),
             genotyped=False,
             project=self.project,
-            #cage=self.cage,
+            # cage=self.cage,
         )
         self.mouse2 = Mice.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
             project=self.project,
-            #cage=self.cage,
+            # cage=self.cage,
         )
         self.comment = Comment.objects.create(comment_id=1, comment_text="Test comment")
         self.request = Request.objects.create(researcher=self.user)

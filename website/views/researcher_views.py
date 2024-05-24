@@ -37,7 +37,7 @@ def show_project(http_request, projectname):
     # Load page with no "Add Request" form submission
     if http_request.method == "GET":
         mycomment = Comment.objects.all()
-        
+
         # Select only those mice that belong to this project
         mymice = Mice.objects.select_related("cage").filter(project=projectname)
 
@@ -63,7 +63,6 @@ def show_project(http_request, projectname):
         context = {
             "myproject": myproject,
             "mymice": mymice,
-
             "mycomment": mycomment,
             "mice_ids_with_requests": mice_ids_with_requests,
             "projectname": projectname,
