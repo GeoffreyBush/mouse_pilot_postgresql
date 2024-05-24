@@ -16,14 +16,14 @@ def mice_repository(request):
 
 
 @login_required
-def add_preexisting_mouse_to_repository(request):
+def add_mouse_to_repository(request):
     if request.method == "POST":
         form = ProjectMiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("general/add_preexisting_mouse_to_repository")
+            return redirect("general/add_mouse_to_repository")
     else:
         form = ProjectMiceForm()
     return render(
-        request, "general/add_preexisting_mouse_to_repository.html", {"mice_form": form}
+        request, "general/add_mouse_to_repository.html", {"mice_form": form}
     )

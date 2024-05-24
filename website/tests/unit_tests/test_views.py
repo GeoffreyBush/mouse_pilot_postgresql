@@ -13,6 +13,7 @@ from website.forms import (
     CustomUserCreationForm,
     ProjectMiceForm,
     RequestForm,
+    RepositoryMiceForm,
 )
 from website.models import (
     BreedingCage,
@@ -839,3 +840,14 @@ class MiceRepositoryViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "general/mice_repository.html")
         self.assertIn("mymice", response.context)
+
+# test for add mouse to repository
+    def test_add_mouse_to_repository(self):
+        response = self.client.get(reverse("add_mouse_to_repository"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "general/add_mouse_to_repository.html")
+        #self.assertIsInstance(response.context["form"], RepositoryMiceForm)
+
+    # POST RequestForm with valid data
+    #def test_add_mouse_to_repository_post_valid(self):
+     #   data = {

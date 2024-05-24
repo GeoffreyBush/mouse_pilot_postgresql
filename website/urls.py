@@ -19,9 +19,9 @@ urlpatterns = [
 urlpatterns += [
     path("mice_repository", views.mice_repository, name="mice_repository"),
     path(
-        "add_preexisting_mouse_to_repository",
-        views.add_preexisting_mouse_to_repository,
-        name="add_preexisting_mouse_to_repository",
+        "add_mouse_to_repository",
+        views.add_mouse_to_repository,
+        name="add_mouse_to_repository",
     ),
 ]
 

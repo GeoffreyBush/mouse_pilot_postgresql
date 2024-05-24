@@ -13,7 +13,7 @@ from .mice_crud_views import (
     edit_history,
     edit_mouse,
 )
-from .mice_repository_views import add_preexisting_mouse_to_repository, mice_repository
+from .mice_repository_views import add_mouse_to_repository, mice_repository
 from .mice_request_views import (
     add_request,
     confirm_request,
@@ -44,5 +44,5 @@ __all__ = [
     "confirm_request",
     "show_message",
     "mice_repository",
-    "add_preexisting_mouse_to_repository",
+    "add_mouse_to_repository",
 ]
