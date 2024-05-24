@@ -180,6 +180,7 @@ class BreedingCageForm(forms.ModelForm):
         model = BreedingCage
         fields = "__all__"
 
+
 class BreedingPairForm(forms.ModelForm):
     box_no = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "---"}), label="Box Number"
