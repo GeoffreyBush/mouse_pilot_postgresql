@@ -4,6 +4,7 @@ from simple_history.models import HistoricalRecords
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
+
 class CustomUser(AbstractUser):
 
     def __str__(self):
@@ -182,7 +183,6 @@ class BreedingCage(models.Model):
         db_column="Status",
         max_length=20,
         default="Empty",
-
         # Need more information from breeding wing team to determine the choices
         choices=[
             ("Empty", "Empty"),
