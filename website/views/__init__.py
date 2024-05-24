@@ -15,6 +15,7 @@ from .mice_request_views import (
     show_requests,
 )
 from .researcher_views import researcher_dashboard, show_comment, show_project
+from .mice_repository_views import mice_repository
 
 __all__ = [
     "list_breeding_cages",
@@ -37,4 +38,5 @@ __all__ = [
     "add_request",
     "confirm_request",
     "show_message",
+    "mice_repository"
 ]

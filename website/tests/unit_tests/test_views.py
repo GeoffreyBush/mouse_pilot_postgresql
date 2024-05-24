@@ -18,7 +18,7 @@ from website.models import (
     BreedingCage,
     Comment,
     CustomUser,
-    HistoricalMice,
+    HistoricalMouse,
     Mouse,
     Project,
     Request,
@@ -535,7 +535,7 @@ class EditHistoryViewTest(TestCase):
         self.project1 = Project.objects.create(projectname="TestProject1")
         self.project2 = Project.objects.create(projectname="TestProject2")
 
-        self.history1 = HistoricalMice.objects.create(
+        self.history1 = HistoricalMouse.objects.create(
             id=1,
             history_date=timezone.now(),  # Using timezone to avoid warnings about a 'naive datetime'
             sex="M",
@@ -543,7 +543,7 @@ class EditHistoryViewTest(TestCase):
             genotyped=False,
             project=self.project1,
         )
-        self.history2 = HistoricalMice.objects.create(
+        self.history2 = HistoricalMouse.objects.create(
             id=2,
             history_date=timezone.now(),
             sex="F",
@@ -811,3 +811,20 @@ class SignUpViewTest(TestCase):
         self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
         self.assertEqual(SignUpView.success_url, reverse_lazy("login"))
         self.assertEqual(SignUpView.template_name, "registration/signup.html")
+
+
+#######################
+### MICE REPOSITORY ###
+#######################
+
+class MiceRepositoryViewTest(TestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.login(username="testuser", password="testpassword")
+
+    # GET mice_repository while logged in
+    def test_mice_repository_view_get_request(self):
+        response = self.client.get(reverse("mice_repository"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "general/mice_repository.html")
+        self.assertIn("mymice", response.context)

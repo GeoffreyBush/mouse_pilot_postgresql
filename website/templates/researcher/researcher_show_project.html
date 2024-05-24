@@ -4,51 +4,44 @@
 <!-- The Modal (mouse information popup) -->
 <div id="myModal" class="modal">
   <!-- Modal content -->
-  <div id="mouse-information-pop-up">
+  <div id="mouse-information-pop-up" class="modal-content">
       <span id="modal-span" class="close">&times;</span>
       <!-- Dynamic comments will be injected here -->
   </div>
 </div>
 <form method="post" action="{% url 'add_request' projectname=projectname %}">
     {% csrf_token %}
-<div class="projects-container">
-  <div class="projects-header" style="justify-content: flex-start; overflow-y: auto">
-    <h1 class="project-header-text">{{ projectname }}</h1>
-      <div class="header-button-div">
-        <button class="menu-button menu-button-text" id="add-request-button" style="margin-left: auto;"  type="submit">Add Request</button>
-        <button class="menu-button menu-button-text" style="margin-left: auto; margin-right: 10px;"> 
-            <a href="{% url 'add_mouse' projectname %}" class="menu-button-text" style="text-decoration: none; white-space: nowrap;">
-                Add Mouse
-            </a>
-        </button>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>{{ projectname }}</h1>
+    <div>
+      <button class="btn btn-primary mr-2" id="add-request-button">Add Request</button>
+      <a href="{% url 'add_mouse' projectname %}" class="btn btn-secondary">Add Mouse</a>
+    </div>
+  </div>
+
+  <form method="get" class="mb-3">
+    <div class="row">
+      <div class="col-md-8">
+        {% for field in filter.form %}
+        <span>
+          <label for="id_{{ field.label }}">{{ field.label }}</label>
+          {{ field }}
+        </span>
+        {% endfor %}
+      </div>
+      <div class="col-md-4 text-center">
+        <button type="submit" name="search" class="btn btn-primary">Search</button>
+        <button type="submit" name="cancel" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
-  <div>
   </form>
-    <form method="get">
-      <table style="width: 100%;">
-        <tr>
-          <td style="width: 80%; vertical-align: top; display: inline-block;">
-            {% for field in filter.form %}
-              <div style="display: inline-block; margin: 3px;">
-                <label for="id_{{ field.label }}">{{ field.label }}</label>
-                {{ field }}
-              </div>
-            {% endfor %}
-            </td>
-            <td style="width: 20%; text-align: center; vertical-align: top;">
-              <button type="submit" name="search" class="menu-button menu-button-text" style="display: inline;">Search</button>
-              <button type="submit" name="cancel" class="menu-button menu-button-text" style="display: inline;">Cancel</button>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
-  <div style="overflow-x: auto">
+
+  <div class="overflow-auto">
 
     <table class="main-table" id="mice_table">
         <thead>
-            <tr style="position: sticky; top: 0">
+            <tr class="position-sticky" style="top: 0">
                 <th>Select</th>
                 <th>Mouse ID</th>
                 <th>Genotyped</th>

@@ -15,6 +15,11 @@ urlpatterns = [
     path("family_tree/<int:mouse_id>/", views.family_tree, name="family_tree"),
 ]
 
+# Mice repository URLs
+urlpatterns += [
+    path("mice_repository", views.mice_repository, name="mice_repository"),
+]
+
 # Researcher URLs
 urlpatterns += [
     path(

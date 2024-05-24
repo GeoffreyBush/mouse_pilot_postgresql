@@ -5,15 +5,12 @@ from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
-
-# filters for BW cage view
-# variable name have to follow the model otherwise won't display properly
+# This filter doesn't meet requirements - will only filter mice born on a specific date, not a range
 class CustomDateTimeWidget(forms.widgets.SelectDateWidget):
     def __init__(self, years=None, months=None, empty_label="---", attrs=None):
         if attrs is None:
             attrs = {}
-        attrs.setdefault("style", "")
-        attrs["style"] += "margin-right: 2px;"
+        attrs.setdefault("class", "mr-2")
         if years is None:
             years = range(
                 datetime.date.today().year - 100, datetime.date.today().year + 100
@@ -22,7 +19,6 @@ class CustomDateTimeWidget(forms.widgets.SelectDateWidget):
             years=years, months=months, empty_label=empty_label, attrs=attrs
         )
 
-
 class BWFilter(django_filters.FilterSet):
     SEX_CHOICES = (
         ("F", "F"),
@@ -30,24 +26,20 @@ class BWFilter(django_filters.FilterSet):
     )
 
     id = django_filters.CharFilter(
-        widget=forms.TextInput(attrs={"style": "width: 60px;"}), label="Mouse ID: "
-    )
-    dob = django_filters.DateTimeFilter(
-        widget=CustomDateTimeWidget(attrs={}), field_name="dob", label="Date of birth: "
+        widget=forms.TextInput(attrs={"class": "form-control w-25"}), label="Mouse ID: "
     )
     sex = django_filters.ChoiceFilter(
         choices=SEX_CHOICES,
         empty_label="---",
-        widget=forms.Select(attrs={"style": "width: 60px;"}),
+        widget=forms.Select(attrs={"class": "form-control w-25"}),
         label="Sex: ",
     )
     earmark = django_filters.ChoiceFilter(
         choices=EARMARK_CHOICES_PAIRED,
         empty_label="---",
-        widget=forms.Select(attrs={"style": "width: 60px;"}),
+        widget=forms.Select(attrs={"class": "form-control w-25"}),
         label="Earmark: ",
     )
-
 
 class ProjectFilter(django_filters.FilterSet):
     SEX_CHOICES = (
@@ -67,46 +59,28 @@ class ProjectFilter(django_filters.FilterSet):
         ("BRBL", "BRBL"),
     )
     id = django_filters.CharFilter(
-        widget=forms.TextInput(attrs={"style": "width: 70px;"}), label="Mouse ID: "
+        widget=forms.TextInput(attrs={"class": "form-control w-25"}), label="Mouse ID: "
     )
     genotyped = django_filters.ChoiceFilter(
         choices=[(True, "True"), (False, "False")],
         empty_label="---",
-        widget=forms.Select(attrs={"style": "width: 70px;"}),
+        widget=forms.Select(attrs={"class": "form-control w-25"}),
         label="Genotyped: ",
-    )
-    dob = django_filters.DateTimeFilter(
-        widget=CustomDateTimeWidget(attrs={}), field_name="dob", label="Date of birth: "
     )
     sex = django_filters.ChoiceFilter(
         choices=SEX_CHOICES,
         empty_label="---",
-        widget=forms.Select(attrs={"style": "margin-left: 45px; width: 70px;"}),
+        widget=forms.Select(attrs={"class": "form-control w-25 ml-5"}),
         label="Sex:",
     )
-    # cage = django_filters.CharFilter(
-    #     widget = forms.TextInput(attrs={'style': 'margin-left: 45px; width: 70px;'}),
-    #     label = "Cage: "
-    # )
     box_no = django_filters.CharFilter(
-        widget=forms.TextInput(attrs={"style": "margin-left: 45px; width: 70px;"}),
+        widget=forms.TextInput(attrs={"class": "form-control w-25 ml-5"}),
         label="Cage: ",
         field_name="cage__box_no",
     )
     earmark = django_filters.ChoiceFilter(
         choices=EARMARK_CHOICES_PAIRED,
         empty_label="---",
-        widget=forms.Select(attrs={"style": "margin-left: 32px; width: 97px;"}),
+        widget=forms.Select(attrs={"class": "form-control w-25 ml-3"}),
         label="Earmark: ",
     )
-
-
-# class CageFilter(django_filters.FilterSet):
-#     cage = django_filters.CharFilter(
-#         widget = forms.TextInput(attrs={'style': 'margin-left: 45px; width: 70px;'}),
-#         label = "Cage: ",
-#         field_name='Cage__box_no'
-#     )
-#     class Meta:
-#         model = Mice
-#         fields = ['cage']
