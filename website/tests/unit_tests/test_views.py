@@ -241,7 +241,7 @@ class BreedingWingListCagesTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.strain = Strain.objects.create(strain_name="TestStrain")
         self.cage = BreedingCage.objects.create(
-            cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
+            box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
 
     # Access breeding wing dashboard logged in
@@ -299,14 +299,14 @@ class BreedingWingViewIndividualCageTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.cage = BreedingCage.objects.create(
-            cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
+            box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
         self.client.login(username="testuser", password="testpassword")
 
     # Access breeding wing cage view logged in
     def test_breeding_wing_view_cage_with_authenticated_user(self):
         response = self.client.get(
-            reverse("breeding_wing_view_cage", args=[self.cage.cageID])
+            reverse("breeding_wing_view_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "breeding_wing/breeding_wing_view_cage.html")
@@ -325,7 +325,7 @@ class BreedingWingViewIndividualCageTest(TestCase):
     def test_breeding_wing_view_cage_with_unauthenticated_user(self):
         self.client.logout()
         response = self.client.get(
-            reverse("breeding_wing_view_cage", args=[self.cage.cageID])
+            reverse("breeding_wing_view_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 302)
 

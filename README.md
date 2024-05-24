@@ -4,7 +4,7 @@ This is a fork of a project that was initially developed as a 3rd year undergrad
 
 It is an open-source web application that provides a centralised repository for tracking mice used in experimentation, and aims to create consistent, real-time data transfer between the site where mice are bred and the site where research is planned and carried out.
 
-It was forked mainly to replace an SQLite database with MongoDB and incorporate Alpine.js and HTMX into the front-end.
+It was forked mainly to replace an SQLite database with PostgreSQL and incorporate Alpine.js and HTMX into the front-end.
 
 ---
 
@@ -82,11 +82,6 @@ python manage.py test website/tests/unit_tests/*
 # Run all integration tests
 python manage.py test website/tests/integration_tests/*
 
-# Run a single test file
-python manage.py test website.tests.<integration_or_unit_tests>.<name_of_test_file>
-
-# Run a single test method in a test file
-python manage.py test website.tests.<integration_or_unit_tests>.<name_of_test_file>.<name_of_test_method>
 ```
 
 And if you want to generate a coverage report of what code is executed while running all tests, use the Python tool Coverage.
@@ -100,6 +95,9 @@ coverage html
 
 ### Changelog
 
+-0.5
+  - Can add a breeding pair to a breeding cage
+  - Converted the application to Bootstrap CSS
 - 0.4
   - Breeding cage view
   - Can add comments to mice

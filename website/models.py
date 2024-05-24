@@ -171,13 +171,12 @@ class Project(models.Model):
         managed = True
         db_table = "project"
 
-
-# assume this to be the breeding cage
 class BreedingCage(models.Model):
 
-    cageID = models.AutoField(db_column="Cage ID", primary_key=True)
+    """ Could benefit from a data when the breeding pair was put in the cage """
+
     box_no = models.CharField(
-        db_column="Box Number", max_length=10, null=False, blank=False
+        db_column="Box Number", max_length=10, primary_key=True
     )
     status = models.CharField(
         db_column="Status",
@@ -194,19 +193,19 @@ class BreedingCage(models.Model):
     )
     mother = models.CharField(db_column="Mother", max_length=20, null=False, blank=False)
     father = models.CharField(db_column="Father", max_length=20, null=False, blank=False)
-    date_born = models.DateField(db_column="DBorn", null=True, default=None)
+    date_born = models.DateField(db_column="DBorn", null=True, blank=True, default=None)
     number_born = models.CharField(
-        db_column="NBorn", max_length=5, null=True, default=None
+        db_column="NBorn", max_length=5, null=True, blank=True, default=None
     )
-    cull_to = models.CharField(db_column="C/To", max_length=20, null=True, default=None)
-    date_wean = models.DateField(db_column="Dwean", null=True, default=None)
+    cull_to = models.CharField(db_column="C/To", max_length=20, null=True, blank=True, default=None)
+    date_wean = models.DateField(db_column="Dwean", null=True, blank=True, default=None)
     number_wean = models.CharField(
-        db_column="Nwean", max_length=5, null=True, default=None
+        db_column="Nwean", max_length=5, null=True, blank=True, default=None
     )
-    pwl = models.CharField(db_column="PWL", max_length=5, null=True, default=None)
+    pwl = models.CharField(db_column="PWL", max_length=5, null=True, blank=True, default=None)
 
     def __str__(self):
-        return f"{self.cageID}"
+        return f"{self.box_no}"
 
     class Meta:
         managed = True

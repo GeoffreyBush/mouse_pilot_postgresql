@@ -5,6 +5,7 @@ from django.test import TestCase
 
 from website.constants import EARMARK_CHOICES
 from website.forms import (
+    BreedingPairForm,
     BreedingCageForm,
     CommentForm,
     CustomUserChangeForm,
@@ -69,7 +70,7 @@ class MiceFormTestCase(TestCase):
                 "genotyped": True,
                 "mother": None,
                 "father": None,
-                "cage": self.cage.cageID,
+                #"cage": self.cage.cageID,
                 "project": self.project.projectname,
                 "earmark": "ABCD",
                 "genotyper": self.user.id,
@@ -300,6 +301,28 @@ class MouseSelectionFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("mice", form.errors)
 
+
+##########################
+### BREEDING PAIR FORM ###
+##########################
+class BreedingPairFormTest(TestCase):
+
+    def test_valid_form(self):
+        data = {
+            "box_no": "1-1",
+            "mother": "TestMother",
+            "father": "TestFather",
+        }
+        form = BreedingPairForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_form(self):
+        data = {
+            "mother": "TestMother",
+            "father": "TestFather",
+        }
+        form = BreedingPairForm(data=data)
+        self.assertFalse(form.is_valid())
 
 ##########################
 ### BREEDING CAGE FORM ###

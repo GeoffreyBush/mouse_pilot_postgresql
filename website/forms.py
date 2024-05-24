@@ -179,3 +179,18 @@ class BreedingCageForm(forms.ModelForm):
     class Meta:
         model = BreedingCage
         fields = "__all__"
+
+class BreedingPairForm(forms.ModelForm):
+    box_no = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "---"}), label="Box Number"
+    )
+    mother = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "Female ID"}), label="Mother"
+    )
+    father = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "Male ID"}), label="Father"
+    )
+
+    class Meta:
+        model = BreedingCage
+        fields = ["box_no", "mother", "father"]

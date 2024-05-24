@@ -273,13 +273,13 @@ class BreedingCageModelTest(TestCase):
     # String method
     def test_cage_str(self):
         self.assertEqual(
-            str(self.cage), str(self.cage.cageID), "Cage .str() method is incorrect"
+            str(self.cage), str(self.cage.box_no), "Cage .str() method is incorrect"
         )
 
     # Primary key
     def test_cage_key(self):
         self.assertTrue(
-            BreedingCage._meta.get_field("cageID").primary_key,
+            BreedingCage._meta.get_field("box_no").primary_key,
             "Primary key for 'cage' is not set",
         )
 

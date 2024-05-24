@@ -32,25 +32,21 @@ urlpatterns += [
         name="list_breeding_cages",
     ),
     path(
+        "create_breeding_pair",
+        views.create_breeding_pair,
+        name="create_breeding_pair",
+    ),
+    path(
         "breeding_wing_add_litter",
         views.breeding_wing_add_litter,
         name="breeding_wing_add_litter",
     ),
     path(
-        "breeding_wing_view_cage<str:cageID>",
+        "breeding_wing_view_cage<str:box_no>",
         views.breeding_wing_view_cage,
         name="breeding_wing_view_cage",
     ),
-]
-
-# Add and Edit Cage URLs
-urlpatterns += [
-    path(
-        "create_breeding_pair",
-        views.create_breeding_pair,
-        name="create_breeding_pair",
-    ),
-    path("edit_breeding_cage<str:cageID>", views.edit_breeding_cage, name="edit_breeding_cage"),
+    path("edit_breeding_cage<str:box_no>", views.edit_breeding_cage, name="edit_breeding_cage"),
 ]
 
 # Add, Edit, and Delete Mice URLs

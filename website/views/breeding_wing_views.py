@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 
 from website.filters import BWFilter
-from website.forms import BreedingCageForm, MiceForm
+from website.forms import BreedingCageForm, BreedingPairForm, MiceForm
 from website.models import BreedingCage, Mice
 
 
@@ -31,9 +31,9 @@ def breeding_wing_add_litter(request):
 
 
 @login_required
-def breeding_wing_view_cage(request, cageID):
-    mycage = BreedingCage.objects.get(cageID=cageID)
-    mymice = Mice.objects.filter(cage=cageID).values()
+def breeding_wing_view_cage(request, box_no):
+    mycage = BreedingCage.objects.get(box_no=box_no)
+    mymice = Mice.objects.filter(cage=box_no).values()
     # Select only those mice that belong to this cage
     filter = BWFilter(request.GET, queryset=mymice)
     if "search" in request.GET:
@@ -53,18 +53,18 @@ def breeding_wing_view_cage(request, cageID):
 @login_required
 def create_breeding_pair(request):
     if request.method == "POST":
-        form = BreedingCageForm(request.POST)
+        form = BreedingPairForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("list_breeding_cages")
     else:
-        form = BreedingCageForm()
+        form = BreedingPairForm()
     return render(request, "breeding_wing/create_breeding_pair.html", {"form": form})
 
 
 @login_required
-def edit_breeding_cage(request, cageID):
-    cage = BreedingCage.objects.get(cageID=cageID)
+def edit_breeding_cage(request, box_no):
+    cage = BreedingCage.objects.get(box_no=box_no)
     if request.method == "POST":
         form = BreedingCageForm(request.POST, instance=cage)
         if form.is_valid():
