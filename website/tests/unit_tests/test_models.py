@@ -5,7 +5,15 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.constants import EARMARK_CHOICES_PAIRED
-from website.models import BreedingCage, Comment, CustomUser, Mice, Project, Request, Strain
+from website.models import (
+    BreedingCage,
+    Comment,
+    CustomUser,
+    Mice,
+    Project,
+    Request,
+    Strain,
+)
 
 
 ############
@@ -17,7 +25,7 @@ class MiceTestCase(TestCase):
     def setUpTestData(cls):
 
         # Create foreign keys
-        
+
         # Add cage back in when stock or experimental cage is added to Mice model
         """
         cage = Cage.objects.create(date_born=date.today(), date_wean=date.today())
@@ -80,7 +88,7 @@ class MiceTestCase(TestCase):
         mice = Mice.objects.first()
         self.assertIsNotNone(mice.cage_id, "Cage foreign key in Mice does not exist")
     """
-        
+
     # Project key exists
     def test_mice_project_key(self):
         mice = Mice.objects.first()
@@ -281,7 +289,9 @@ class BreedingCageModelTest(TestCase):
 
     # DB table name
     def test_cage_table(self):
-        self.assertEqual(BreedingCage._meta.db_table, "breedingcage", "Cage table name mismatch")
+        self.assertEqual(
+            BreedingCage._meta.db_table, "breedingcage", "Cage table name mismatch"
+        )
 
     # IntegrityError with missing attributes
     def test_cage_with_missing_required_field(self):
