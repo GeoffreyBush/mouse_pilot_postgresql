@@ -42,7 +42,7 @@ class ProjectMiceForm(forms.ModelForm):
 
     class Meta:
         model = Mouse
-        fields = "__all__"  # or list the fields you want to include
+        fields = "__all__" 
 
 
 class RepositoryMiceForm(forms.ModelForm):
@@ -50,35 +50,38 @@ class RepositoryMiceForm(forms.ModelForm):
         ("M", "Male"),
         ("F", "Female"),
     ]
-
+    TRUE_OR_FALSE = [
+        (False, "No"),
+        (True, "Yes"),
+    ]
 
     sex = forms.ChoiceField(
-        choices=SEX_CHOICES, widget=forms.Select(attrs={"style": "width: 70px;"})
+        choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"})
     )
     dob = forms.DateField(
         input_formats=["%Y-%m-%d"],
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}),
     )
     clippedDate = forms.DateField(
         required=False,
         input_formats=["%Y-%m-%d"],
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}),
     )
-    genotyped = forms.BooleanField(
-        required=False, widget=forms.CheckboxInput(attrs={"type": "checkbox"})
+    mother = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+    father = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+    project = forms.ModelChoiceField(queryset=Project.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
+    genotyped = forms.ChoiceField(
+        required=True, choices=TRUE_OR_FALSE, widget=forms.Select(attrs={"class": "form-select"})
     )
-    mother = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False)
-    father = forms.ModelChoiceField(queryset=Mouse.objects.all(), required=False)
-    project = forms.ModelChoiceField(queryset=Project.objects.all(), required=False)
-    earmark = forms.ChoiceField(choices=EARMARK_CHOICES_PAIRED, widget=forms.Select())
+    earmark = forms.ChoiceField(choices=EARMARK_CHOICES_PAIRED, widget=forms.Select(attrs={"class": "form-select"}))
     genotyper = forms.ModelChoiceField(
-        queryset=CustomUser.objects.all(), required=False
+        queryset=CustomUser.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"})
     )
-    strain = forms.ModelChoiceField(queryset=Strain.objects.all(), required=False)
+    strain = forms.ModelChoiceField(queryset=Strain.objects.all(), required=False, widget=forms.Select(attrs={"class": "form-select"}))
 
     class Meta:
         model = Mouse
-        fields = "__all__"  # or list the fields you want to include
+        fields = "__all__" 
 
 class CommentForm(forms.ModelForm):
 
