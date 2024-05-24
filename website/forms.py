@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
-from .models import Cage, Comment, CustomUser, Mice, Project, Request, Strain
+from .models import BreedingCage, Comment, CustomUser, Mice, Project, Request, Strain
 
 
 class MiceForm(forms.ModelForm):
@@ -30,7 +30,6 @@ class MiceForm(forms.ModelForm):
     )
     mother = forms.ModelChoiceField(queryset=Mice.objects.all(), required=False)
     father = forms.ModelChoiceField(queryset=Mice.objects.all(), required=False)
-    cage = forms.ModelChoiceField(queryset=Cage.objects.all(), required=False)
     project = forms.ModelChoiceField(queryset=Project.objects.all(), required=False)
     earmark = forms.ChoiceField(choices=EARMARK_CHOICES_PAIRED, widget=forms.Select())
     genotyper = forms.ModelChoiceField(
@@ -134,7 +133,7 @@ class MouseSelectionForm(forms.ModelForm):
         fields = ["id"]
 
 
-class CageForm(forms.ModelForm):
+class BreedingCageForm(forms.ModelForm):
 
     STATUS_CHOICE = [
         ("Empty", "Empty"),
@@ -178,5 +177,5 @@ class CageForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Cage
+        model = BreedingCage
         fields = "__all__"

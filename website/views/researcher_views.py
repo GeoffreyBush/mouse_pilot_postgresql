@@ -7,7 +7,7 @@ from django.template import loader
 
 from website.filters import ProjectFilter
 from website.forms import CommentForm, MouseSelectionForm
-from website.models import Cage, Comment, Mice, Project, Request
+from website.models import Comment, Mice, Project, Request
 
 
 @login_required
@@ -37,8 +37,7 @@ def show_project(http_request, projectname):
     # Load page with no "Add Request" form submission
     if http_request.method == "GET":
         mycomment = Comment.objects.all()
-        mycage = Cage.objects.all()
-
+        
         # Select only those mice that belong to this project
         mymice = Mice.objects.select_related("cage").filter(project=projectname)
 
@@ -64,7 +63,7 @@ def show_project(http_request, projectname):
         context = {
             "myproject": myproject,
             "mymice": mymice,
-            "mycage": mycage,
+
             "mycomment": mycomment,
             "mice_ids_with_requests": mice_ids_with_requests,
             "projectname": projectname,

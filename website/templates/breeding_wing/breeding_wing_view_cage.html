@@ -1,5 +1,5 @@
 {% extends 'base_template.html' %} {% load static %} 
-{% block title %}Breeding Wing View Cage{% endblock %}
+{% block title %}View Breeding Cages{% endblock %}
 {% block content %}
 
 <div class="container">
@@ -11,14 +11,14 @@
       <tr>
         <td>Status:</td>
         <td>{{ mycage.status }}</td>
-        <td>Dborn:</td>
-        <td>{{ mycage.date_born }}</td>
+        <td>Dwean:</td>
+        <td>{{ mycage.date_wean }}</td>
       </tr>
       <tr>
         <td>Male ID:</td>
         <td>{{ mycage.father }}</td>
-        <td>Nborn:</td>
-        <td>{{ mycage.number_born }}</td>
+        <td>Nwean:</td>
+        <td>{{ mycage.number_wean }}</td>
       </tr>
       <tr>
         <td>Female: ID</td>
@@ -27,10 +27,10 @@
         <td>{{ mycage.cull_to }}</td>
       </tr>
       <tr>
-        <td>Dwean:</td>
-        <td>{{ mycage.date_wean }}</td>
-        <td>Nwean:</td>
-        <td>{{ mycage.number_wean }}</td>
+        <td>Dborn:</td>
+        <td>{{ mycage.date_born }}</td>
+        <td>Nborn:</td>
+        <td>{{ mycage.number_born }}</td>
       </tr>
       <tr>
         <td></td>
@@ -41,5 +41,4 @@
     <tbody>
   </table>
 </div>
-<script src="{% static 'show_project.js' %}"></script>
 {% endblock %}

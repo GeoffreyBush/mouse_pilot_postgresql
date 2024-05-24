@@ -5,12 +5,12 @@ from django.template import loader
 
 from website.filters import BWFilter
 from website.forms import CageForm, MiceForm
-from website.models import Cage, Mice
+from website.models import BreedingCage, Mice
 
 
 @login_required
 def list_breeding_cages(request):
-    mycages = Cage.objects.all()
+    mycages = BreedingCage.objects.all()
     template = loader.get_template("breeding_wing/list_breeding_cages.html")
     context = {"mycages": mycages}
     return HttpResponse(template.render(context, request))
@@ -32,7 +32,7 @@ def breeding_wing_add_litter(request):
 
 @login_required
 def breeding_wing_view_cage(request, cageID):
-    mycage = Cage.objects.get(cageID=cageID)
+    mycage = BreedingCage.objects.get(cageID=cageID)
     mymice = Mice.objects.filter(cage=cageID).values()
     # Select only those mice that belong to this cage
     filter = BWFilter(request.GET, queryset=mymice)
@@ -64,7 +64,7 @@ def create_breeding_pair(request):
 
 @login_required
 def edit_cage(request, cageID):
-    cage = Cage.objects.get(cageID=cageID)
+    cage = BreedingCage.objects.get(cageID=cageID)
     if request.method == "POST":
         form = CageForm(request.POST, instance=cage)
         if form.is_valid():

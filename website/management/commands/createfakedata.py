@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import Cage, Comment, CustomUser, Mice, Project, Strain
+from website.models import BreedingCage, Comment, CustomUser, Mice, Project, Strain
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 
@@ -52,7 +52,7 @@ class Command(BaseCommand):
         for _ in range(x):
             variable_number_born = random.randint(1, 21)
             variable_number_wean = random.randint(1, variable_number_born)
-            Cage.objects.create(
+            BreedingCage.objects.create(
                 box_no=fake.unique.website_box_no(),
                 status=random.choice(["Empty", "ParentsInside", "ParentsRemoved"]),
                 mother="Female ID",
@@ -133,7 +133,8 @@ class Command(BaseCommand):
         fake = Faker()
 
         # Collect foreign keys
-        existing_cages = Cage.objects.all()
+        """ Cage should be either experimental or breeding cage """
+        # existing_cages = Cage.objects.all()
         existing_projects = Project.objects.all()
         existing_researchers = CustomUser.objects.all()
         existing_strains = Strain.objects.all()
@@ -147,7 +148,7 @@ class Command(BaseCommand):
                 dob=fake.date(),
                 clippedDate=fake.date(),
                 genotyped=fake.boolean(chance_of_getting_true=60),
-                cage=random.choice(existing_cages),
+                #cage=random.choice(existing_cages),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),
                 strain=random.choice(existing_strains),

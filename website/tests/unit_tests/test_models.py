@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.constants import EARMARK_CHOICES_PAIRED
-from website.models import Cage, Comment, CustomUser, Mice, Project, Request, Strain
+from website.models import BreedingCage, Comment, CustomUser, Mice, Project, Request, Strain
 
 
 ############
@@ -17,7 +17,12 @@ class MiceTestCase(TestCase):
     def setUpTestData(cls):
 
         # Create foreign keys
+        
+        # Add cage back in when stock or experimental cage is added to Mice model
+        """
         cage = Cage.objects.create(date_born=date.today(), date_wean=date.today())
+        """
+
         project = Project.objects.create(projectname="Test Project")
         earmark = random.choice(EARMARK_CHOICES_PAIRED)
         strain = Strain.objects.create(strain_name="Strain1")
@@ -27,7 +32,6 @@ class MiceTestCase(TestCase):
             sex="M",
             dob=date.today(),
             genotyped=True,
-            cage=cage,
             project=project,
             earmark=earmark,
             strain=strain,
@@ -69,11 +73,14 @@ class MiceTestCase(TestCase):
             mice.genotyped, "Genotyped attribute for Mice should not be able to be null"
         )
 
+    # Add cage back in when stock or experimental cage is added to Mice model
+    """
     # Cage key exists
     def test_mice_cage_id_key(self):
         mice = Mice.objects.first()
         self.assertIsNotNone(mice.cage_id, "Cage foreign key in Mice does not exist")
-
+    """
+        
     # Project key exists
     def test_mice_project_key(self):
         mice = Mice.objects.first()
@@ -229,12 +236,12 @@ class StrainTestCase(TestCase):
 ############
 ### CAGE ###
 ############
-class CageModelTest(TestCase):
+class BreedingCageModelTest(TestCase):
 
     @classmethod
     # Initial Cage
     def setUp(self):
-        self.cage = Cage.objects.create(
+        self.cage = BreedingCage.objects.create(
             box_no="1-1",
             status="Empty",
             date_born=date.today(),
@@ -246,7 +253,7 @@ class CageModelTest(TestCase):
 
     # Cage creation
     def test_cage_creation(self):
-        self.assertIsInstance(self.cage, Cage)
+        self.assertIsInstance(self.cage, BreedingCage)
         self.assertEqual(self.cage.box_no, "1-1")
         self.assertEqual(self.cage.status, "Empty")
         self.assertEqual(self.cage.date_born, date.today())
@@ -264,7 +271,7 @@ class CageModelTest(TestCase):
     # Primary key
     def test_cage_key(self):
         self.assertTrue(
-            Cage._meta.get_field("cageID").primary_key,
+            BreedingCage._meta.get_field("cageID").primary_key,
             "Primary key for 'cage' is not set",
         )
 
@@ -274,13 +281,12 @@ class CageModelTest(TestCase):
 
     # DB table name
     def test_cage_table(self):
-        self.assertEqual(Cage._meta.db_table, "cage", "Cage table name mismatch")
+        self.assertEqual(BreedingCage._meta.db_table, "breedingcage", "Cage table name mismatch")
 
     # IntegrityError with missing attributes
     def test_cage_with_missing_required_field(self):
         with self.assertRaises(IntegrityError):
-            Cage.objects.create(
-                box_no="2-2",
+            BreedingCage.objects.create(
                 status="Empty",
                 number_born="6",
                 number_wean="5",

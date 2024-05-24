@@ -52,9 +52,14 @@ class Mice(models.Model):
         blank=True,
         related_name="father_mice",
     )
+
+    # Should be either stock cage or experimental cage
+    """
     cage = models.ForeignKey(
         "Cage", models.SET_NULL, db_column="Cage ID", null=True, blank=True
     )
+    """
+
     project = models.ForeignKey(
         "Project", on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -175,13 +180,11 @@ class Project(models.Model):
 
 
 # assume this to be the breeding cage
-class Cage(models.Model):
+class BreedingCage(models.Model):
 
-    # auto-generated unique ID
     cageID = models.AutoField(db_column="Cage ID", primary_key=True)
-    # identifier BW currently uses e.g. 1-1
     box_no = models.CharField(
-        db_column="Box Number", max_length=10, null=True, blank=True
+        db_column="Box Number", max_length=10, null=False, blank=False
     )
     # the status of the cage
     status = models.CharField(
@@ -213,4 +216,4 @@ class Cage(models.Model):
 
     class Meta:
         managed = True
-        db_table = "cage"
+        db_table = "breedingcage"

@@ -54,7 +54,6 @@
                 <th>Genotyped</th>
                 <th>Date of Birth</th>
                 <th>Sex</th>
-                <th>Cage</th>
                 <th>Earmark</th>
                 <th>Tree</th>
                 <th>Edit</th>
@@ -70,7 +69,6 @@
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.genotyped }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.dob }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.sex }}</td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.cage.box_no }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.earmark }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="fetchFamilyTree({{ mouse.id }})"><img src="{% static 'media/tree-structure-fill-svgrepo-com.svg' %}" style="height: 20px"></td>
               

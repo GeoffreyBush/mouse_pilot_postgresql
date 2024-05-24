@@ -13,7 +13,7 @@ from website.forms import (
     MouseSelectionForm,
     RequestForm,
 )
-from website.models import Cage, CustomUser, Mice, Project, Strain
+from website.models import CustomUser, Mice, Project, Strain
 
 
 #################
@@ -21,9 +21,13 @@ from website.models import Cage, CustomUser, Mice, Project, Strain
 #################
 class MiceFormTestCase(TestCase):
     def setUp(self):
+
+        # Add cage back in when stock or experimental cage is added to Mice model
+        """
         self.cage = Cage.objects.create(
             cageID=1, date_born=date.today(), date_wean=date.today()
         )
+        """
         self.user = CustomUser.objects.create_user(
             username="testuser", password="testpass", email="testemail@gmail.com"
         )

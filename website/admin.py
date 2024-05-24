@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import Cage, Comment, CustomUser, Mice, Project, Strain
+from .models import BreedingCage, Comment, CustomUser, Mice, Project, Strain
 
 
 # Changes what attributes are displayed and which attributes you can filter by in admin page
@@ -21,7 +21,7 @@ class CustomUserAdmin(UserAdmin):
 
 # Register your models here.
 admin.site.register(Project)
-admin.site.register(Cage)
+admin.site.register(BreedingCage)
 admin.site.register(Strain)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Comment)

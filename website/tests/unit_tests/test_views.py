@@ -8,14 +8,14 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 
 from website.forms import (
-    CageForm,
+    BreedingCageForm,
     CommentForm,
     CustomUserCreationForm,
     MiceForm,
     RequestForm,
 )
 from website.models import (
-    Cage,
+    BreedingCage,
     Comment,
     CustomUser,
     HistoricalMice,
@@ -117,22 +117,27 @@ class ShowProjectViewTest(TestCase):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
         self.project = Project.objects.create(projectname="TestProject")
+
+        # Add cage back in when experimental or stock cage is added to Mice model
+        """
         self.cage = Cage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
+        """
+
         self.mouse1 = Mice.objects.create(
             sex="M",
             dob=date.today(),
             genotyped=False,
             project=self.project,
-            cage=self.cage,
+            #cage=self.cage,
         )
         self.mouse2 = Mice.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
             project=self.project,
-            cage=self.cage,
+            #cage=self.cage,
         )
         self.comment = Comment.objects.create(comment_id=1, comment_text="Test comment")
         self.request = Request.objects.create(researcher=self.user)
@@ -226,16 +231,16 @@ class ShowCommentViewTest(TestCase):
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
 
-###############################
-### BREEDING WING DASHBOARD ###
-###############################
-class BreedingWingDashboardViewTest(TestCase):
+###########################
+### LIST BREEDING CAGES ###
+###########################
+class BreedingWingListCagesTest(TestCase):
 
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
         self.strain = Strain.objects.create(strain_name="TestStrain")
-        self.cage = Cage.objects.create(
+        self.cage = BreedingCage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
 
@@ -287,13 +292,13 @@ class BreedingWingAddLitter(TestCase):
         # self.assertRedirects(response, reverse('breeding_wing_add_litter'))
 
 
-###############################
-### BREEDING WING VIEW CAGE ###
-###############################
-class BreedingWingViewCageTest(TestCase):
+##########################################
+### BREEDING WING VIEW INDIVIDUAL CAGE ###
+##########################################
+class BreedingWingViewIndividualCageTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
-        self.cage = Cage.objects.create(
+        self.cage = BreedingCage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
         self.client.login(username="testuser", password="testpassword")
@@ -353,7 +358,7 @@ class AddCageViewTest(TestCase):
             "number_wean": "3",
             "pwl": "2",
         }
-        form = CageForm(data=data)
+        form = BreedingCageForm(data=data)
         self.assertTrue(form.is_valid())
         response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 302)
@@ -460,9 +465,13 @@ class EditMouseViewTest(TestCase):
         self.mouse3 = Mice.objects.create(
             sex="M", dob=date.today(), genotyped=True, project=self.project
         )
+
+        # Add cage back in when stock or experimental cage is added to Mice model
+        """
         self.cage = Cage.objects.create(
             cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
         )
+        """
         self.strain = Strain.objects.create(strain_name="TestStrain")
 
     # Access edit_mouse while logged in
