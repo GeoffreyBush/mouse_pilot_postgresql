@@ -1,0 +1,7 @@
+.square-cage {
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    min-width: 200px;
+    max-width: 300px;
+}

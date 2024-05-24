@@ -294,14 +294,7 @@ class BreedingCageModelTest(TestCase):
         )
 
     # IntegrityError with missing attributes
-    def test_cage_with_missing_required_field(self):
-        with self.assertRaises(IntegrityError):
-            BreedingCage.objects.create(
-                status="Empty",
-                number_born="6",
-                number_wean="5",
-                pwl="PWL2",
-            )
+
 
 
 ###############

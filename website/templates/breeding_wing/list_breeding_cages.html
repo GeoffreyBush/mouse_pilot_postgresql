@@ -1,36 +1,40 @@
 {% extends 'base_template.html' %}
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/list_breeding_cages.css' %}">
+{% endblock %}
 {% block title %}Breeding Cages{% endblock %} 
 {% block content %}
 <div class="container-fluid">
 
     <!-- Header and buttons -->
     <div class="row">
-        <div class="col-md-12">
-            <h1 class="project-header-text">Breeding Cage View</h1>
-            <a href="{% url 'create_breeding_pair' %}" class="btn btn-primary">
-                Create Breeding Pair
-            </a>
-            <a href="#" class="btn btn-primary">Record Birth</a>
-            <a href="#" class="btn btn-primary">Transfer to Stock</a>
+        <div class="col-md-12 d-flex justify-content-between " >
+            <h1 class="project-header-text">Breeding Cage List</h1>
+            <div>
+                <a href="{% url 'create_breeding_pair' %}" class="btn btn-primary">
+                    Create Breeding Pair
+                </a>
+                <a href="#" class="btn btn-primary">Add Existing Cage</a>
+                <a href="#" class="btn btn-primary">Record Birth</a>
+                <a href="#" class="btn btn-primary">Transfer to Stock</a>
+            </div>
         </div>
     </div>
     {% comment %} Add a graveyard to put deceased mice without the need to edit the cage {% endcomment %}
     <!-- Show breeding cages -->
     <div class="row">
         {% for cage in mycages %}
-        <div class="col-md-3">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="{% url 'view_breeding_cage' cage.box_no %}" style="text-decoration: none;">{{ cage.box_no }}</a>
-                    </h5>
-                    {% comment %} If breeding pair present in cage, render large mouse image for each member {% endcomment %}
-                    {% comment %} For each mouse pup in the cage, render a small mouse image {% endcomment %}
-                    <a href="{% url 'edit_breeding_cage' cage.box_no %}" style="text-decoration: none;">
-                        <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
-                    </a>
-                </div>
+        <div class="col">
+            <div class="card card-body square-cage mb-4">
+                <h5 class="card-title">
+                    <a href="{% url 'view_breeding_cage' cage.box_no %}" style="text-decoration: none;">{{ cage.box_no }}</a>
+                </h5>
+                {% comment %} If breeding pair present in cage, render large mouse image for each member {% endcomment %}
+                {% comment %} For each mouse pup in the cage, render a small mouse image {% endcomment %}
+                <a href="{% url 'edit_breeding_cage' cage.box_no %}" style="text-decoration: none;">
+                    <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
+                </a>
             </div>
         </div>
         {% endfor %}
