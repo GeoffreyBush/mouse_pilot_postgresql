@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from website.constants import EARMARK_CHOICES
 from website.forms import (
-    CageForm,
+    BreedingCageForm,
     CommentForm,
     CustomUserChangeForm,
     CustomUserCreationForm,
@@ -301,10 +301,10 @@ class MouseSelectionFormTestCase(TestCase):
         self.assertIn("mice", form.errors)
 
 
-#################
-### CAGE FORM ###
-#################
-class CageFormTest(TestCase):
+##########################
+### BREEDING CAGE FORM ###
+##########################
+class BreedingCageFormTest(TestCase):
 
     # Valid data
     def test_valid_form(self):
@@ -320,7 +320,7 @@ class CageFormTest(TestCase):
             "number_wean": "3",
             "pwl": "2",
         }
-        form = CageForm(data=data)
+        form = BreedingCageForm(data=data)
         self.assertTrue(form.is_valid())
 
     # Missing cage number
@@ -337,5 +337,5 @@ class CageFormTest(TestCase):
             "number_wean": "3",
             "pwl": "2",
         }
-        form = CageForm(data=data)
+        form = BreedingCageForm(data=data)
         self.assertFalse(form.is_valid())

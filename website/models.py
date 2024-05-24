@@ -4,13 +4,6 @@ from simple_history.models import HistoricalRecords
 
 from website.constants import EARMARK_CHOICES_PAIRED
 
-""" DANGER ZONE """
-""" Editing this file affects the database """
-
-# It's preferred not to set null=True for CharField and TextField, use empty string (default value) or blank instead,
-# or raise ValidationError for empty input
-
-
 class CustomUser(AbstractUser):
 
     def __str__(self):
@@ -186,30 +179,31 @@ class BreedingCage(models.Model):
     box_no = models.CharField(
         db_column="Box Number", max_length=10, null=False, blank=False
     )
-    # the status of the cage
     status = models.CharField(
         db_column="Status",
         max_length=20,
         default="Empty",
+
+        # Need more information from breeding wing team to determine the choices
         choices=[
             ("Empty", "Empty"),
             ("ParentsInside", "ParentsInside"),
             ("ParentsRemoved", "ParentsRemoved"),
         ],
-        null=False,
+        null=True,
     )
-    mother = models.CharField(db_column="Mother", max_length=20, null=True, blank=True)
-    father = models.CharField(db_column="Father", max_length=20, null=True, blank=True)
-    date_born = models.DateField(db_column="DBorn", null=False)
+    mother = models.CharField(db_column="Mother", max_length=20, null=False, blank=False)
+    father = models.CharField(db_column="Father", max_length=20, null=False, blank=False)
+    date_born = models.DateField(db_column="DBorn", null=True, default=None)
     number_born = models.CharField(
-        db_column="NBorn", max_length=5, null=True, blank=True
+        db_column="NBorn", max_length=5, null=True, default=None
     )
-    cull_to = models.CharField(db_column="C/To", max_length=20, null=True, blank=True)
-    date_wean = models.DateField(db_column="Dwean", null=False)
+    cull_to = models.CharField(db_column="C/To", max_length=20, null=True, default=None)
+    date_wean = models.DateField(db_column="Dwean", null=True, default=None)
     number_wean = models.CharField(
-        db_column="Nwean", max_length=5, null=True, blank=True
+        db_column="Nwean", max_length=5, null=True, default=None
     )
-    pwl = models.CharField(db_column="PWL", max_length=5, null=True, blank=True)
+    pwl = models.CharField(db_column="PWL", max_length=5, null=True, default=None)
 
     def __str__(self):
         return f"{self.cageID}"

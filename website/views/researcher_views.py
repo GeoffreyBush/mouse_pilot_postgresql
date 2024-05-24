@@ -39,7 +39,7 @@ def show_project(http_request, projectname):
         mycomment = Comment.objects.all()
 
         # Select only those mice that belong to this project
-        mymice = Mice.objects.select_related("cage").filter(project=projectname)
+        mymice = Mice.objects.filter(project=projectname)
 
         # Select all mice that belong to this project that have a request
         queryset_miceids = chain(

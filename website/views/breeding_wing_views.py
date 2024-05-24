@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 
 from website.filters import BWFilter
-from website.forms import CageForm, MiceForm
+from website.forms import BreedingCageForm, MiceForm
 from website.models import BreedingCage, Mice
 
 
@@ -53,23 +53,23 @@ def breeding_wing_view_cage(request, cageID):
 @login_required
 def create_breeding_pair(request):
     if request.method == "POST":
-        form = CageForm(request.POST)
+        form = BreedingCageForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("list_breeding_cages")
     else:
-        form = CageForm()
+        form = BreedingCageForm()
     return render(request, "breeding_wing/create_breeding_pair.html", {"form": form})
 
 
 @login_required
-def edit_cage(request, cageID):
+def edit_breeding_cage(request, cageID):
     cage = BreedingCage.objects.get(cageID=cageID)
     if request.method == "POST":
-        form = CageForm(request.POST, instance=cage)
+        form = BreedingCageForm(request.POST, instance=cage)
         if form.is_valid():
             form.save()
             return redirect("list_breeding_cages")
     else:
-        form = CageForm(instance=cage)
-    return render(request, "edit_cage.html", {"form": form})
+        form = BreedingCageForm(instance=cage)
+    return render(request, "breeding_wing/edit_breeding_cage.html", {"form": form})

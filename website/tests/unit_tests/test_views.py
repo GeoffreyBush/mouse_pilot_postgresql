@@ -330,33 +330,27 @@ class BreedingWingViewIndividualCageTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-#########################
-### ADD BREEDING CAGE ###
-#########################
+############################
+### CREATE BREEDING PAIR ###
+############################
 class AddCageViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
 
-    # Access add cage while logged in
+    # Access Create Breeding Pair while logged in
     def test_create_breeding_pair_get_with_authenticated_user(self):
         response = self.client.get(reverse("create_breeding_pair"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "breeding_wing/create_breeding_pair.html")
 
-    # POST CageForm with valid data
+    # POST BreedingCageForm with valid data
     def test_create_breeding_pair_post_valid(self):
         data = {
             "box_no": "1-1",
-            "status": "Empty",
+            "status": "Empty", # Should change to occupied
             "mother": "TestMother",
             "father": "TestFather",
-            "date_born": date.today(),
-            "number_born": "5",
-            "cull_to": "2",
-            "date_wean": date.today(),
-            "number_wean": "3",
-            "pwl": "2",
         }
         form = BreedingCageForm(data=data)
         self.assertTrue(form.is_valid())
@@ -364,19 +358,11 @@ class AddCageViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("list_breeding_cages"))
 
-    # POST CageForm with invalid data
+    # POST BreedingCageForm with invalid data
     def test_create_breeding_pair_post_invalid(self):
         data = {
             "box_no": "1-1",
-            "status": "Empty",
             "mother": "TestMother",
-            "father": "TestFather",
-            "date_born": date.today(),
-            "number_born": "5",
-            "cull_to": "2",
-            "date_wean": "",  # Invalid date
-            "number_wean": "3",
-            "pwl": "2",
         }
         response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 200)

@@ -50,7 +50,7 @@ urlpatterns += [
         views.create_breeding_pair,
         name="create_breeding_pair",
     ),
-    path("edit_cage<str:cageID>", views.edit_cage, name="edit_cage"),
+    path("edit_breeding_cage<str:cageID>", views.edit_breeding_cage, name="edit_breeding_cage"),
 ]
 
 # Add, Edit, and Delete Mice URLs
