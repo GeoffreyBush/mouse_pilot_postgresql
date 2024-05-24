@@ -78,7 +78,8 @@ class MiceTestCase(TestCase):
     def test_mice_genotyped_not_null(self):
         mice = Mouse.objects.first()
         self.assertIsNotNone(
-            mice.genotyped, "Genotyped attribute for Mouse should not be able to be null"
+            mice.genotyped,
+            "Genotyped attribute for Mouse should not be able to be null",
         )
 
     # Add cage back in when stock or experimental cage is added to Mouse model
@@ -92,7 +93,9 @@ class MiceTestCase(TestCase):
     # Project key exists
     def test_mice_project_key(self):
         mice = Mouse.objects.first()
-        self.assertIsNotNone(mice.project, "Project foreign key in Mouse does not exist")
+        self.assertIsNotNone(
+            mice.project, "Project foreign key in Mouse does not exist"
+        )
 
     # Strain key exists
     def test_mice_strain_foreign_key(self):
