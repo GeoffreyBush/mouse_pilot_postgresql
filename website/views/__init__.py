@@ -7,8 +7,13 @@ from .breeding_wing_views import (
 )
 from .family_tree_views import create_family_tree_data, family_tree
 from .login_views import SignUpView, signup
-from .mice_crud_views import add_preexisting_mouse_to_project, delete_mouse, edit_history, edit_mouse
-from .mice_repository_views import mice_repository, add_preexisting_mouse_to_repository
+from .mice_crud_views import (
+    add_preexisting_mouse_to_project,
+    delete_mouse,
+    edit_history,
+    edit_mouse,
+)
+from .mice_repository_views import add_preexisting_mouse_to_repository, mice_repository
 from .mice_request_views import (
     add_request,
     confirm_request,

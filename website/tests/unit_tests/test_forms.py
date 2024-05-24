@@ -10,8 +10,8 @@ from website.forms import (
     CommentForm,
     CustomUserChangeForm,
     CustomUserCreationForm,
-    ProjectMiceForm,
     MouseSelectionForm,
+    ProjectMiceForm,
     RequestForm,
 )
 from website.models import CustomUser, Mouse, Project, Strain

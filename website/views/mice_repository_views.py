@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.template import loader
 from django.shortcuts import redirect, render
+from django.template import loader
 
-from website.models import Mouse
 from website.forms import ProjectMiceForm
+from website.models import Mouse
+
 
 @login_required
 def mice_repository(request):
@@ -12,6 +13,7 @@ def mice_repository(request):
     template = loader.get_template("general/mice_repository.html")
     context = {"mymice": mymice}
     return HttpResponse(template.render(context, request))
+
 
 @login_required
 def add_preexisting_mouse_to_repository(request):
