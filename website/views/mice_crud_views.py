@@ -30,7 +30,9 @@ def add_preexisting_mouse_to_project(request, projectname):
     else:
         form = ProjectMiceForm()
     return render(
-        request, "researcher/add_preexisting_mouse_to_project.html", {"mice_form": form, "projectname": projectname}
+        request,
+        "researcher/add_preexisting_mouse_to_project.html",
+        {"mice_form": form, "projectname": projectname},
     )
 
 

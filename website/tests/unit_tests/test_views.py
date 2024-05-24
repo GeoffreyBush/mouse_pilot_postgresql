@@ -395,10 +395,14 @@ class AddMouseViewTest(TestCase):
 
     # Access add_preexisting_mouse_to_project while logged in
     def test_add_preexisting_mouse_to_project_get(self):
-        url = reverse("add_preexisting_mouse_to_project", args=[self.project.projectname])
+        url = reverse(
+            "add_preexisting_mouse_to_project", args=[self.project.projectname]
+        )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "researcher/add_preexisting_mouse_to_project.html")
+        self.assertTemplateUsed(
+            response, "researcher/add_preexisting_mouse_to_project.html"
+        )
         self.assertIsInstance(response.context["mice_form"], ProjectMiceForm)
         self.assertEqual(response.context["projectname"], self.project.projectname)
 
@@ -406,7 +410,9 @@ class AddMouseViewTest(TestCase):
     """ Likely similar valid POST issue as edit_mouse test, below, where genotyper field causes issues """
 
     def test_add_preexisting_mouse_to_project_post_invalid(self):
-        url = reverse("add_preexisting_mouse_to_project", args=[self.project.projectname])
+        url = reverse(
+            "add_preexisting_mouse_to_project", args=[self.project.projectname]
+        )
         data = {
             "sex": "Invalid",
             "dob": "2022-01-01",
@@ -415,7 +421,9 @@ class AddMouseViewTest(TestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "researcher/add_preexisting_mouse_to_project.html")
+        self.assertTemplateUsed(
+            response, "researcher/add_preexisting_mouse_to_project.html"
+        )
         self.assertIsInstance(response.context["mice_form"], ProjectMiceForm)
         self.assertEqual(response.context["projectname"], self.project.projectname)
         self.assertFalse(Mouse.objects.exists())
@@ -423,7 +431,9 @@ class AddMouseViewTest(TestCase):
     # Access add_preexisting_mouse_to_project without logging in
     def test_add_preexisting_mouse_to_project_view_login_required(self):
         self.client.logout()
-        url = reverse("add_preexisting_mouse_to_project", args=[self.project.projectname])
+        url = reverse(
+            "add_preexisting_mouse_to_project", args=[self.project.projectname]
+        )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
