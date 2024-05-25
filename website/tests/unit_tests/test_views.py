@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 
 from website.forms import (
-    BreedingCageForm,
+    BreedingPairForm,
     CommentForm,
     CustomUserCreationForm,
     ProjectMiceForm,
@@ -152,7 +152,6 @@ class ShowProjectViewTest(TestCase):
         self.assertContains(response, self.project.projectname)
         self.assertIn("myproject", response.context)
         self.assertIn("mymice", response.context)
-        self.assertIn("mycage", response.context)
         self.assertIn("mycomment", response.context)
         self.assertIn("mice_ids_with_requests", response.context)
         self.assertIn("projectname", response.context)
@@ -311,8 +310,6 @@ class BreedingWingViewIndividualCageTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "breeding_wing/view_breeding_cage.html")
         self.assertIn("mycage", response.context)
-        self.assertIn("mymice", response.context)
-        self.assertIn("filter", response.context)
         self.assertEqual(response.context["mycage"], self.cage)
 
     # Access non-existent cage
@@ -333,7 +330,7 @@ class BreedingWingViewIndividualCageTest(TestCase):
 ############################
 ### CREATE BREEDING PAIR ###
 ############################
-class AddCageViewTest(TestCase):
+class AddBreedingPairViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
@@ -348,11 +345,10 @@ class AddCageViewTest(TestCase):
     def test_create_breeding_pair_post_valid(self):
         data = {
             "box_no": "1-1",
-            "status": "Empty",  # Should change to occupied
             "mother": "TestMother",
             "father": "TestFather",
         }
-        form = BreedingCageForm(data=data)
+        form = BreedingPairForm(data=data)
         self.assertTrue(form.is_valid())
         response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 302)

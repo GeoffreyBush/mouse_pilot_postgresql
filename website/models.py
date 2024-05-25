@@ -25,7 +25,6 @@ class Mouse(models.Model):
         null=False,
     )
     dob = models.DateField(db_column="Date of Birth", null=False)
-    clippedDate = models.DateField(db_column="Clipped Date", null=True, blank=True)
 
     # Culled boolean attribute will be useful
 
@@ -62,6 +61,7 @@ class Mouse(models.Model):
         "Project", on_delete=models.SET_NULL, null=True, blank=True
     )
     genotyped = models.BooleanField(db_column="Genotyped", null=False)
+    clippedDate = models.DateField(db_column="Clipped Date", null=True, blank=True)
     earmark = models.CharField(
         db_column="Earmark",
         max_length=4,
