@@ -1,4 +1,12 @@
-# This page is mainly used by createfakedata
+SEX_CHOICES = [
+    ("M", "Male"),
+    ("F", "Female"),
+]
+
+TRUE_OR_FALSE = [
+    (False, "No"),
+    (True, "Yes"),
+]
 
 STRAINS = [
     "DDY",

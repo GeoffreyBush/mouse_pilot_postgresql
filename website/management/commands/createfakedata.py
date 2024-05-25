@@ -39,32 +39,6 @@ class Command(BaseCommand):
             Strain.objects.get_or_create(strain_name=STRAINS[i])
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-    ######################################
-    ### Create x number of cages in DB ###
-    ######################################
-    def create_cages(self, x):
-
-        fake = Faker()
-        fake.add_provider(Provider)
-        Mouse.objects.all()
-
-        print("Creating cages...", end=" ")
-        for _ in range(x):
-            variable_number_born = random.randint(1, 21)
-            variable_number_wean = random.randint(1, variable_number_born)
-            BreedingCage.objects.create(
-                box_no=fake.unique.website_box_no(),
-                status=random.choice(["Empty", "ParentsInside", "ParentsRemoved"]),
-                mother="Female ID",
-                father="Male ID",
-                date_born=fake.date(),
-                number_born=variable_number_born,
-                cull_to="placeholder",
-                date_wean=fake.date(),
-                number_wean=variable_number_wean,
-                pwl=variable_number_born - variable_number_wean,
-            )
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     ######################################
     ### Create x number of users in DB ###
@@ -133,8 +107,6 @@ class Command(BaseCommand):
         fake = Faker()
 
         # Collect foreign keys
-        """ Cage should be either experimental or breeding cage """
-        # existing_cages = Cage.objects.all()
         existing_projects = Project.objects.all()
         existing_researchers = CustomUser.objects.all()
         existing_strains = Strain.objects.all()
@@ -175,6 +147,36 @@ class Command(BaseCommand):
                 mouse.save()
         """
 
+        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+    
+    ######################################
+    ### Create x number of cages in DB ###
+    ######################################
+    def create_cages(self, x):
+
+        fake = Faker()
+        fake.add_provider(Provider)
+        existing_mice = Mouse.objects.all()
+        female_mice = existing_mice.filter(sex="F")
+        male_mice = existing_mice.filter(sex="M")  
+
+        print("Creating cages...", end=" ")
+        for _ in range(x):
+            variable_number_born = random.randint(1, 21)
+            variable_number_wean = random.randint(1, variable_number_born)
+            BreedingCage.objects.create(
+                box_no=fake.unique.website_box_no(),
+                status=random.choice(["Empty", "ParentsInside", "ParentsRemoved"]),
+                mother=random.choice(female_mice),
+                father=random.choice(male_mice),
+                date_born=fake.date(),
+                number_born=variable_number_born,
+                cull_to="placeholder",
+                date_wean=fake.date(),
+                number_wean=variable_number_wean,
+                pwl=variable_number_born - variable_number_wean,
+            )
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     #########################################
@@ -232,11 +234,11 @@ class Command(BaseCommand):
 
         # Add fake data to database
         self.create_strains()
-        self.create_cages(30)
         self.create_users(20)
         self.create_super_user()
         self.create_projects(10)
         self.create_mice(500)
+        self.create_cages(30)
         self.create_comments(50)
 
         self.stdout.write(

@@ -40,14 +40,14 @@ class Mouse(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="mother_mice",
+        related_name="mother_mouse",
     )
     father = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="father_mice",
+        related_name="father_mouse",
     )
 
     # Should be either stock cage or experimental cage
@@ -192,11 +192,19 @@ class BreedingCage(models.Model):
         ],
         null=True,
     )
-    mother = models.CharField(
-        db_column="Mother", max_length=20, null=False, blank=False
+    mother = models.ForeignKey(
+        "Mouse",
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        related_name="mother_breedingcage",
     )
-    father = models.CharField(
-        db_column="Father", max_length=20, null=False, blank=False
+    father = models.ForeignKey(
+        "Mouse",
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        related_name="father_breedingcage",
     )
     date_born = models.DateField(db_column="DBorn", null=True, blank=True, default=None)
     number_born = models.CharField(

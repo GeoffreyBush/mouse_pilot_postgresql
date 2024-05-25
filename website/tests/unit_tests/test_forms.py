@@ -23,12 +23,6 @@ from website.models import CustomUser, Mouse, Project, Strain
 class ProjectMiceFormTestCase(TestCase):
     def setUp(self):
 
-        # Add cage back in when stock or experimental cage is added to Mouse model
-        """
-        self.cage = Cage.objects.create(
-            cageID=1, date_born=date.today(), date_wean=date.today()
-        )
-        """
         self.user = CustomUser.objects.create_user(
             username="testuser", password="testpass", email="testemail@gmail.com"
         )
@@ -88,7 +82,7 @@ class ProjectMiceFormTestCase(TestCase):
 class CommentFormTestCase(TestCase):
     def setUp(self):
         self.mouse = Mouse.objects.create(
-            id=1, sex="M", dob="2022-01-01", genotyped=True
+            id=1, sex="M", dob=date.today(), genotyped=True
         )
 
     # Valid data
@@ -307,19 +301,27 @@ class MouseSelectionFormTestCase(TestCase):
 ##########################
 class BreedingPairFormTest(TestCase):
 
+    def setUp(self):
+        self.father = Mouse.objects.create(
+            id=1, sex="M", dob=date.today(), genotyped=True
+        )
+        self.mother = Mouse.objects.create(
+            id=2, sex="M", dob=date.today(), genotyped=True
+        )
+
     def test_valid_form(self):
         data = {
             "box_no": "1-1",
-            "mother": "TestMother",
-            "father": "TestFather",
+            "mother": self.mother,
+            "father": self.father,
         }
         form = BreedingPairForm(data=data)
         self.assertTrue(form.is_valid())
 
     def test_invalid_form(self):
         data = {
-            "mother": "TestMother",
-            "father": "TestFather",
+            "mother": self.mother,
+            "father": self.father,
         }
         form = BreedingPairForm(data=data)
         self.assertFalse(form.is_valid())
@@ -330,13 +332,21 @@ class BreedingPairFormTest(TestCase):
 ##########################
 class BreedingCageFormTest(TestCase):
 
+    def setUp(self):
+        self.father = Mouse.objects.create(
+            id=1, sex="M", dob=date.today(), genotyped=True
+        )
+        self.mother = Mouse.objects.create(
+            id=2, sex="M", dob=date.today(), genotyped=True
+        )
+
     # Valid data
     def test_valid_form(self):
         data = {
             "box_no": "1-1",
             "status": "Empty",
-            "mother": "TestMother",
-            "father": "TestFather",
+            "mother": self.mother,
+            "father": self.father,
             "date_born": date.today(),
             "number_born": "5",
             "cull_to": "2",
@@ -352,8 +362,8 @@ class BreedingCageFormTest(TestCase):
         data = {
             "box_no": "",
             "status": "Empty",
-            "mother": "TestMother",
-            "father": "TestFather",
+            "mother": self.mother,
+            "father": self.father,
             "date_born": date.today(),
             "number_born": "5",
             "cull_to": "2",

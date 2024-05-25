@@ -334,6 +334,12 @@ class AddBreedingPairViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
+        self.father = Mouse.objects.create(
+            id=1, sex="M", dob=date.today(), genotyped=True
+        )
+        self.mother = Mouse.objects.create(
+            id=2, sex="M", dob=date.today(), genotyped=True
+        )
 
     # Access Create Breeding Pair while logged in
     def test_create_breeding_pair_get_with_authenticated_user(self):
@@ -345,8 +351,8 @@ class AddBreedingPairViewTest(TestCase):
     def test_create_breeding_pair_post_valid(self):
         data = {
             "box_no": "1-1",
-            "mother": "TestMother",
-            "father": "TestFather",
+            "mother": self.mother,
+            "father": self.father,
         }
         form = BreedingPairForm(data=data)
         self.assertTrue(form.is_valid())
@@ -358,7 +364,7 @@ class AddBreedingPairViewTest(TestCase):
     def test_create_breeding_pair_post_invalid(self):
         data = {
             "box_no": "1-1",
-            "mother": "TestMother",
+            "mother": self.mother,
         }
         response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 200)

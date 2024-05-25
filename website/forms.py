@@ -1,22 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-from website.constants import EARMARK_CHOICES_PAIRED
+from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES, TRUE_OR_FALSE
 
 from .models import BreedingCage, Comment, CustomUser, Mouse, Project, Request, Strain
 
 
 class ProjectMiceForm(forms.ModelForm):
-
-    # Export SEX_CHOICES and TRUE_OR_FALSE to constants.py
-    SEX_CHOICES = [
-        ("M", "Male"),
-        ("F", "Female"),
-    ]
-    TRUE_OR_FALSE = [
-        (False, "No"),
-        (True, "Yes"),
-    ]
 
     sex = forms.ChoiceField(
         choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"})
@@ -75,14 +65,6 @@ class ProjectMiceForm(forms.ModelForm):
 
 
 class RepositoryMiceForm(forms.ModelForm):
-    SEX_CHOICES = [
-        ("M", "Male"),
-        ("F", "Female"),
-    ]
-    TRUE_OR_FALSE = [
-        (False, "No"),
-        (True, "Yes"),
-    ]
 
     sex = forms.ChoiceField(
         choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"})
@@ -245,11 +227,15 @@ class BreedingCageForm(forms.ModelForm):
     status = forms.ChoiceField(
         choices=STATUS_CHOICE, widget=forms.Select(), label="Status"
     )
-    mother = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Female ID"}), label="Mother"
+    mother = forms.ModelChoiceField(
+        queryset=Mouse.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Mother ID"}),
     )
-    father = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Male ID"}), label="Father"
+    father = forms.ModelChoiceField(
+        queryset=Mouse.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Father ID"}),
     )
     date_born = forms.DateField(
         input_formats=["%Y-%m-%d"],
@@ -283,11 +269,15 @@ class BreedingPairForm(forms.ModelForm):
     box_no = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "---"}), label="Box Number"
     )
-    mother = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Female ID"}), label="Mother"
+    mother = forms.ModelChoiceField(
+        queryset=Mouse.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Mother ID"}),
     )
-    father = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Male ID"}), label="Father"
+    mother = forms.ModelChoiceField(
+        queryset=Mouse.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Father ID"}),
     )
 
     class Meta:
