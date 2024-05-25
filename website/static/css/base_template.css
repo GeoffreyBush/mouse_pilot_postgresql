@@ -1,3 +1,7 @@
+/*########################
+### base_template.html ###
+########################*/
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f8f9fa;
@@ -16,4 +20,16 @@ body {
     padding: 0.75rem 1rem;
     display: flex;
     align-items: center;
+}
+
+/*#################
+### Cage design ###
+#################*/
+
+.square-cage {
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    min-width: 200px;
+    max-width: 300px;
 }
