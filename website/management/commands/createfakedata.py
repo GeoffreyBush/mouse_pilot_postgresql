@@ -39,7 +39,6 @@ class Command(BaseCommand):
             Strain.objects.get_or_create(strain_name=STRAINS[i])
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-
     ######################################
     ### Create x number of users in DB ###
     ######################################
@@ -149,7 +148,6 @@ class Command(BaseCommand):
 
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-    
     ######################################
     ### Create x number of cages in DB ###
     ######################################
@@ -159,7 +157,7 @@ class Command(BaseCommand):
         fake.add_provider(Provider)
         existing_mice = Mouse.objects.all()
         female_mice = existing_mice.filter(sex="F")
-        male_mice = existing_mice.filter(sex="M")  
+        male_mice = existing_mice.filter(sex="M")
 
         print("Creating cages...", end=" ")
         for _ in range(x):
