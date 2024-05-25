@@ -23,14 +23,12 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
             sex="M",
             dob=date.today(),
             genotyped=True,
-            cage=self.cage,
             project=self.project,
         )
         self.mouse2 = Mouse.objects.create(
             sex="F",
             dob=date.today(),
             genotyped=False,
-            cage=self.cage,
             project=self.project,
         )
 
@@ -66,7 +64,6 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
             str(self.mouse1.dob.strftime("%B %d, %Y")), self.driver.page_source
         )
         self.assertIn(self.mouse1.sex, self.driver.page_source)
-        self.assertIn(self.cage.box_no, self.driver.page_source)
         self.assertIn(self.mouse1.earmark, self.driver.page_source)
 
         self.assertIn(str(self.mouse2.genotyped), self.driver.page_source)
@@ -74,7 +71,6 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
             str(self.mouse2.dob.strftime("%B %d, %Y")), self.driver.page_source
         )
         self.assertIn(self.mouse2.sex, self.driver.page_source)
-        self.assertIn(self.cage.box_no, self.driver.page_source)
         self.assertIn(self.mouse2.earmark, self.driver.page_source)
 
     def test_add_request(self):
