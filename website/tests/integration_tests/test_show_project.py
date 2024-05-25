@@ -19,14 +19,6 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         )
 
         self.project = Project.objects.create(projectname="TestProject")
-
-        # Add cage back in when stock or experimental cage is added to Mouse model
-        """
-        self.cage = BreedingCage.objects.create(
-            cageID=1, box_no="1-1", date_born=date.today(), date_wean=date.today()
-        )
-        """
-
         self.mouse1 = Mouse.objects.create(
             sex="M",
             dob=date.today(),
