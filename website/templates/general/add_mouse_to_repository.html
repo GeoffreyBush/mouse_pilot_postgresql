@@ -7,17 +7,20 @@
     <h2 class="my-3">
         Add a Pre-existing Mouse to the Central Repository
     </h2>
-    <ul class="list-group">
-        <li class="list-group-item">
-            This page is for adding a mouse that needs to be imported to the MousePilot central repository manually. For example, if the mouse was bred before MousePilot was deployed at the facility, or if the mouse was purchased from a vendor.
-        </li>
-        <li class="list-group-item list-group-item-warning">
-            This page is <u><b>not</b></u> for moving a mouse from breeding cages to stock cages and you would create duplicate mice by doing so. See "Breeding Cages" on your left instead.
-        </li>
-    </ul>
-    <a class="btn btn-primary mt-4" href="#">
-        Should lead back to repository
-    </a>
+    <div class="col-10">
+        <ul class="list-group">
+            <li class="list-group-item">
+                This page is for adding a mouse that needs to be imported to the MousePilot central repository manually. For example, if the mouse was bred before MousePilot was deployed at the facility, or if the mouse was purchased from a vendor.
+            </li>
+            <li class="list-group-item list-group-item-warning">
+                This page is <u><b>not</b></u> for moving a mouse from breeding cages to stock cages and you would create duplicate mice by doing so. 
+                Use the "Record Birth" functionality found in <a href="{% url 'list_breeding_cages' %}">Breeding Cages</a> for that purpose.
+            </li>
+        </ul>
+        <a class="btn btn-secondary mt-4" href="#">
+            Should lead back to repository
+        </a>
+    </div>
 </div>
 <div class="container my-3">
     <form method="post">
@@ -34,7 +37,7 @@
             </div>
             {% endfor %}
         </div>
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-success" type="submit">
             Confirm Add Mouse
         </button>
     </form>
