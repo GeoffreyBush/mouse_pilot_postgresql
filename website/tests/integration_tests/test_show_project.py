@@ -88,9 +88,12 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
             By.CSS_SELECTOR, 'button[id="add-request-button"]'
         ).click()
 
-        # Wait for the redirect and assert the request was created
+        # Assert the user is redirected to the add request page
         wait = WebDriverWait(self.driver, 10)
         wait.until(
             EC.url_contains(reverse("add_request", args=[self.project.projectname]))
         )
         self.assertIn("Add Request", self.driver.page_source)
+        # click the submit button
+        
+        # Assert that the request was created 
