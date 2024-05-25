@@ -95,5 +95,5 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         )
         self.assertIn("Add Request", self.driver.page_source)
         # click the submit button
-        
-        # Assert that the request was created 
+
+        # Assert that the request was created
