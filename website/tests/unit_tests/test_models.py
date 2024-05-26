@@ -3,13 +3,7 @@ from datetime import date
 from django.db import IntegrityError
 from django.test import TestCase
 
-from website.models import (
-    CustomUser,
-    Mouse,
-    Project,
-    Request,
-    Strain,
-)
+from website.models import CustomUser, Mouse, Project, Request, Strain
 
 
 ##################

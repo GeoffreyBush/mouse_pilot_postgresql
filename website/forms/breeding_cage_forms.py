@@ -1,5 +1,7 @@
 from django import forms
+
 from website.models import BreedingCage, Mouse
+
 
 class BreedingCageForm(forms.ModelForm):
 
