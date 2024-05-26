@@ -115,13 +115,12 @@ class Command(BaseCommand):
         # Create all the mice first
         for _ in range(x):
             Mouse.objects.create(
+                strain=random.choice(existing_strains),
                 sex=random.choice(["M", "F"]),
                 dob=fake.date(),
                 clippedDate=fake.date(),
-                # cage=random.choice(existing_cages),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),
-                strain=random.choice(existing_strains),
                 earmark=random.choice(EARMARK_CHOICES),
                 mother=None,
                 father=None,
@@ -150,7 +149,7 @@ class Command(BaseCommand):
     ######################################
     ### Create x number of cages in DB ###
     ######################################
-    def create_cages(self, x):
+    def create_breeding_cages(self, x):
 
         fake = Faker()
         fake.add_provider(Provider)
@@ -194,9 +193,9 @@ class Command(BaseCommand):
             )
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-    ######################################
-    ### Create x number of users in DB ###
-    ######################################
+    #########################################
+    ### Create x number of requests in DB ###
+    #########################################
     def create_requests(self):
         print("Creating requests", end=" ")
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
@@ -235,7 +234,7 @@ class Command(BaseCommand):
         self.create_super_user()
         self.create_projects(10)
         self.create_mice(500)
-        self.create_cages(30)
+        self.create_breeding_cages(30)
         self.create_comments(50)
 
         self.stdout.write(
