@@ -45,11 +45,12 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     project_name = factory.Sequence(lambda n: f"project{n}")
     research_area = random.choice(RESEARCH_AREAS)
 
+
 # This factory is not accurate - need more inforation from breeding wing
 class BreedingCageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "website.BreedingCage"
-    
+
     box_no = factory.Sequence(lambda n: f"box{n}")
     mother = factory.SubFactory(MouseFactory)
     father = factory.SubFactory(MouseFactory)
