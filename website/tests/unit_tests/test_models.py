@@ -4,8 +4,6 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.models import (
-    BreedingCage,
-    Comment,
     CustomUser,
     Mouse,
     Project,
