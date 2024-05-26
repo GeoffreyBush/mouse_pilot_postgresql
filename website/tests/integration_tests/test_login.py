@@ -1,12 +1,4 @@
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.urls import reverse
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
-from website.models import CustomUser
-from website.tests.integration_tests.helpers import chrome_test_setup
 
 """
 class LoginTest(StaticLiveServerTestCase):

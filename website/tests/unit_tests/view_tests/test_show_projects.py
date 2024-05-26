@@ -1,29 +1,17 @@
 from datetime import date
 
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
-from django.urls import reverse, reverse_lazy
-from django.utils import timezone
-from website.tests.factories import UserFactory
+from django.urls import reverse
 
-from website.forms import (
-    BreedingPairForm,
-    CommentForm,
-    CustomUserCreationForm,
-    ProjectMiceForm,
-    RequestForm,
-)
 from website.models import (
-    BreedingCage,
     Comment,
-    CustomUser,
-    HistoricalMouse,
     Mouse,
     Project,
     Request,
-    Strain,
 )
+from website.tests.factories import UserFactory
+
 
 class ResearcherDashboardViewTest(TestCase):
 
