@@ -1,12 +1,12 @@
-from django.contrib.auth.hashers import make_password
-from faker import Faker
 import factory
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from faker import Faker
 
-from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain
+from website.models import CustomUser
 
 fake = Faker()
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:

@@ -36,7 +36,6 @@ class ProjectMiceFormTestCase(TestCase):
                 "sex": "M",
                 "dob": date.today(),
                 "clippedDate": date.today(),
-
                 "earmark": random.choice(EARMARK_CHOICES),
             }
         )
@@ -79,9 +78,7 @@ class ProjectMiceFormTestCase(TestCase):
 ####################
 class CommentFormTestCase(TestCase):
     def setUp(self):
-        self.mouse = Mouse.objects.create(
-            id=1, sex="M", dob=date.today()
-        )
+        self.mouse = Mouse.objects.create(id=1, sex="M", dob=date.today())
 
     # Valid data
     def test_comment_form_valid_data(self):
@@ -300,12 +297,8 @@ class MouseSelectionFormTestCase(TestCase):
 class BreedingPairFormTest(TestCase):
 
     def setUp(self):
-        self.father = Mouse.objects.create(
-            id=1, sex="M", dob=date.today()
-        )
-        self.mother = Mouse.objects.create(
-            id=2, sex="M", dob=date.today()
-        )
+        self.father = Mouse.objects.create(id=1, sex="M", dob=date.today())
+        self.mother = Mouse.objects.create(id=2, sex="M", dob=date.today())
 
     def test_valid_form(self):
         data = {
@@ -331,12 +324,8 @@ class BreedingPairFormTest(TestCase):
 class BreedingCageFormTest(TestCase):
 
     def setUp(self):
-        self.father = Mouse.objects.create(
-            id=1, sex="M", dob=date.today()
-        )
-        self.mother = Mouse.objects.create(
-            id=2, sex="M", dob=date.today()
-        )
+        self.father = Mouse.objects.create(id=1, sex="M", dob=date.today())
+        self.mother = Mouse.objects.create(id=2, sex="M", dob=date.today())
 
     # Valid data
     def test_valid_form(self):
