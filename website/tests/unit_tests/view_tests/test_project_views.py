@@ -32,7 +32,7 @@ class ListProjectsTest(TestCase):
 
 class ShowProjectViewTest(TestCase):
     def setUp(self):
-        self.user = UserFactory()
+        self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.project = ProjectFactory()
         self.mouse1, self.mouse2 = MouseFactory(), MouseFactory
