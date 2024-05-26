@@ -7,8 +7,9 @@ from website.models import CustomUser, Mouse, Project, Strain
 class ProjectMiceForm(forms.ModelForm):
 
     sex = forms.ChoiceField(
-        choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"}),
-        required=True
+        choices=SEX_CHOICES,
+        widget=forms.Select(attrs={"class": "form-select"}),
+        required=True,
     )
     dob = forms.DateField(
         input_formats=["%Y-%m-%d"],
