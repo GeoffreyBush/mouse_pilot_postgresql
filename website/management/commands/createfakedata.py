@@ -118,7 +118,6 @@ class Command(BaseCommand):
                 sex=random.choice(["M", "F"]),
                 dob=fake.date(),
                 clippedDate=fake.date(),
-                genotyped=fake.boolean(chance_of_getting_true=60),
                 # cage=random.choice(existing_cages),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),

@@ -36,7 +36,7 @@ class ProjectMiceFormTestCase(TestCase):
                 "sex": "M",
                 "dob": date.today(),
                 "clippedDate": date.today(),
-                "genotyped": True,
+
                 "earmark": random.choice(EARMARK_CHOICES),
             }
         )
@@ -45,7 +45,7 @@ class ProjectMiceFormTestCase(TestCase):
         self.assertEqual(mouse.sex, "M")
         self.assertEqual(mouse.dob, date.today())
         self.assertEqual(mouse.clippedDate, date.today())
-        self.assertTrue(mouse.genotyped)
+        self.assertTrue(mouse.is_genotyped())
 
     # Empty data
     def test_mice_form_empty_data(self):
@@ -61,10 +61,8 @@ class ProjectMiceFormTestCase(TestCase):
                 "sex": "X",
                 "dob": date.today(),
                 "clippedDate": date.today(),
-                "genotyped": True,
                 "mother": None,
                 "father": None,
-                # "cage": self.cage.cageID,
                 "project": self.project.projectname,
                 "earmark": "ABCD",
                 "genotyper": self.user.id,
@@ -82,7 +80,7 @@ class ProjectMiceFormTestCase(TestCase):
 class CommentFormTestCase(TestCase):
     def setUp(self):
         self.mouse = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), genotyped=True
+            id=1, sex="M", dob=date.today()
         )
 
     # Valid data
@@ -219,13 +217,13 @@ class RequestFormTestCase(TestCase):
             username="testuser", password="testpass123"
         )
         self.mouse1 = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), genotyped=True, project=self.project1
+            id=1, sex="M", dob=date.today(), project=self.project1
         )
         self.mouse2 = Mouse.objects.create(
-            id=2, sex="F", dob=date.today(), genotyped=True, project=self.project1
+            id=2, sex="F", dob=date.today(), project=self.project1
         )
         self.mouse3 = Mouse.objects.create(
-            id=3, sex="M", dob=date.today(), genotyped=True, project=self.project2
+            id=3, sex="M", dob=date.today(), project=self.project2
         )
 
     # Valid data
@@ -270,13 +268,13 @@ class MouseSelectionFormTestCase(TestCase):
         self.project1 = Project.objects.create(projectname="Project 1")
         self.project2 = Project.objects.create(projectname="Project 2")
         self.mouse1 = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), genotyped=True, project=self.project1
+            id=1, sex="M", dob=date.today(), project=self.project1
         )
         self.mouse2 = Mouse.objects.create(
-            id=2, sex="F", dob=date.today(), genotyped=True, project=self.project1
+            id=2, sex="F", dob=date.today(), project=self.project1
         )
         self.mouse3 = Mouse.objects.create(
-            id=3, sex="M", dob=date.today(), genotyped=True, project=self.project2
+            id=3, sex="M", dob=date.today(), project=self.project2
         )
 
     # Valid data
@@ -303,10 +301,10 @@ class BreedingPairFormTest(TestCase):
 
     def setUp(self):
         self.father = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), genotyped=True
+            id=1, sex="M", dob=date.today()
         )
         self.mother = Mouse.objects.create(
-            id=2, sex="M", dob=date.today(), genotyped=True
+            id=2, sex="M", dob=date.today()
         )
 
     def test_valid_form(self):
@@ -334,10 +332,10 @@ class BreedingCageFormTest(TestCase):
 
     def setUp(self):
         self.father = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), genotyped=True
+            id=1, sex="M", dob=date.today()
         )
         self.mother = Mouse.objects.create(
-            id=2, sex="M", dob=date.today(), genotyped=True
+            id=2, sex="M", dob=date.today()
         )
 
     # Valid data

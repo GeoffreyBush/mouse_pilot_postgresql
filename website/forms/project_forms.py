@@ -37,11 +37,6 @@ class ProjectMiceForm(forms.ModelForm):
         required=False,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
-    genotyped = forms.ChoiceField(
-        required=True,
-        choices=TRUE_OR_FALSE,
-        widget=forms.Select(attrs={"class": "form-select"}),
-    )
     earmark = forms.ChoiceField(
         choices=EARMARK_CHOICES_PAIRED,
         widget=forms.Select(attrs={"class": "form-select"}),

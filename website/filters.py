@@ -64,12 +64,15 @@ class ProjectFilter(django_filters.FilterSet):
     id = django_filters.CharFilter(
         widget=forms.TextInput(attrs={"class": "form-control w-25"}), label="Mouse ID: "
     )
+    # Review how to use this filter with mouse.is_genotyped()
+    """
     genotyped = django_filters.ChoiceFilter(
         choices=[(True, "True"), (False, "False")],
         empty_label="---",
         widget=forms.Select(attrs={"class": "form-control w-25"}),
         label="Genotyped: ",
     )
+    """
     sex = django_filters.ChoiceFilter(
         choices=SEX_CHOICES,
         empty_label="---",

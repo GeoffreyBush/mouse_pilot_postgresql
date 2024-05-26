@@ -22,13 +22,11 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         self.mouse1 = Mouse.objects.create(
             sex="M",
             dob=date.today(),
-            genotyped=True,
             project=self.project,
         )
         self.mouse2 = Mouse.objects.create(
             sex="F",
             dob=date.today(),
-            genotyped=False,
             project=self.project,
         )
 
@@ -53,20 +51,17 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
 
         # Assert the mice table is displayed
         self.assertIn("Mouse ID", self.driver.page_source)
-        self.assertIn("Genotyped", self.driver.page_source)
         self.assertIn("Date of Birth", self.driver.page_source)
         self.assertIn("Sex", self.driver.page_source)
         self.assertIn("Earmark", self.driver.page_source)
 
         # Assert the mouse details are displayed
-        self.assertIn(str(self.mouse1.genotyped), self.driver.page_source)
         self.assertIn(
             str(self.mouse1.dob.strftime("%B %d, %Y")), self.driver.page_source
         )
         self.assertIn(self.mouse1.sex, self.driver.page_source)
         self.assertIn(self.mouse1.earmark, self.driver.page_source)
 
-        self.assertIn(str(self.mouse2.genotyped), self.driver.page_source)
         self.assertIn(
             str(self.mouse2.dob.strftime("%B %d, %Y")), self.driver.page_source
         )

@@ -2,10 +2,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from simple_history.models import HistoricalRecords
 
-from website.constants import EARMARK_CHOICES_PAIRED
-
 
 class CustomUser(AbstractUser):
+
+    email = models.EmailField(unique=True)
 
     def __str__(self):
         return self.username
@@ -16,6 +16,22 @@ class CustomUser(AbstractUser):
 
 
 class Mouse(models.Model):
+
+    EARMARK_CHOICES_PAIRED = [
+        ("", ""),
+        ("TR", "TR"),
+        ("TL", "TL"),
+        ("BR", "BR"),
+        ("BL", "BL"),
+        ("TRTL", "TRTL"),
+        ("TRBR", "TRBR"),
+        ("TRTL", "TRTL"),
+        ("TLBR", "TLBR"),
+        ("TLBL", "TLBL"),
+        ("BRBL", "BRBL"),
+    ]
+
+    #tube = models.CharField(db_column="Tube", primary_key=True, max_length=20)
 
     sex = models.CharField(
         db_column="Sex",
@@ -50,17 +66,14 @@ class Mouse(models.Model):
         related_name="father_mouse",
     )
 
-    # Should be either stock cage or experimental cage
-    """
-    cage = models.ForeignKey(
-        "Cage", models.SET_NULL, db_column="Cage ID", null=True, blank=True
-    )
-    """
+    #location = models.ForeignKey(
+     #   "Cage", models.SET_NULL, db_column="Cage ID", null=True, blank=True
+    #)
 
     project = models.ForeignKey(
         "Project", on_delete=models.SET_NULL, null=True, blank=True
     )
-    genotyped = models.BooleanField(db_column="Genotyped", null=False)
+    
     clippedDate = models.DateField(db_column="Clipped Date", null=True, blank=True)
     earmark = models.CharField(
         db_column="Earmark",
@@ -76,7 +89,10 @@ class Mouse(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.tube}"
+    
+    def is_genotyped(self):
+        return True if self.earmark != "" else False
 
     class Meta:
         managed = True
@@ -111,9 +127,10 @@ class Request(models.Model):
 
             if self.task_type == "Cl":
                 for mouse in self.mice.all():
-                    mouse.genotyped = True
+                    ###################################
+                    """ Need to update earmark here """
+                    ###################################
                     mouse.save()
-                    # need to prompt user for earmark vefore clipping is confirmed
 
             # Add other task types here
 
