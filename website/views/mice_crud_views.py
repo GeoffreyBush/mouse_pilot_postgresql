@@ -6,8 +6,8 @@ from website.models import HistoricalMouse, Mouse
 
 
 @login_required
-def edit_mouse(request, project_name, mouse_id):
-    mouse = Mouse.objects.get(id=mouse_id)
+def edit_mouse(request, project_name, tube):
+    mouse = Mouse.objects.get(pk=tube)
     if request.method == "POST":
         form = ProjectMiceForm(request.POST, instance=mouse)
         if form.is_valid():
@@ -37,8 +37,8 @@ def add_preexisting_mouse_to_project(request, project_name):
 
 
 @login_required
-def delete_mouse(request, project_name, mouse_id):
-    mouse = Mouse.objects.get(id=mouse_id)
+def delete_mouse(request, project_name, tube):
+    mouse = Mouse.objects.get(pk=tube)
     mouse.delete()
     return redirect("show_project", project_name=project_name)
 

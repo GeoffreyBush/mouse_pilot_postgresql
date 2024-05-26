@@ -47,7 +47,7 @@ class ShowProjectViewTest(TestCase):
             reverse("show_project", args=[self.project.project_name])
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "researcher/researcher_show_project.html")
+        self.assertTemplateUsed(response, "researcher/show_project.html")
         self.assertContains(response, self.project.project_name)
         self.assertIn("myproject", response.context)
         self.assertIn("mymice", response.context)

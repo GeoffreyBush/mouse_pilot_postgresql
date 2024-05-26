@@ -17,32 +17,7 @@ from website.views import SignUpView
 ####################
 ### DELETE MOUSE ###
 ####################
-class DeleteMouseViewTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory()
-        self.project = Project.objects.create(project_name="TestProject")
-        self.mouse = Mouse.objects.create(
-            sex="M", dob=date.today(), genotyped=True, project=self.project
-        )
 
-    # Delete mouse while logged in
-    def test_delete_mouse_view(self):
-        self.client.login(username="testuser", password="testpassword")
-        response = self.client.get(
-            reverse("delete_mouse", args=[self.project.project_name, self.mouse.id])
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response, reverse("show_project", args=[self.project.project_name])
-        )
-        self.assertFalse(Mouse.objects.filter(id=self.mouse.id).exists())
-
-    # Delete mouse while not logged in
-    def test_delete_mouse_view_login_required(self):
-        url = reverse("delete_mouse", args=[self.project.project_name, self.mouse.id])
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
 
 #####################

@@ -10,7 +10,7 @@ urlpatterns = [
     path(
         "", views.mice_repository, name="mice_repository"
     ),  # dashboard is placeholder, should probably be a login or home page instead
-    path("show_comment/<int:mouse_id>/", views.show_comment, name="show_comment"),
+    path("show_comment/<str:tube>/", views.show_comment, name="show_comment"),
     path("edit_history", views.edit_history, name="edit_history"),
 ]
 
@@ -63,12 +63,12 @@ urlpatterns += [
         name="add_preexisting_mouse_to_project",
     ),
     path(
-        "edit_mouse/<str:project_name>/<int:mouse_id>/",
+        "edit_mouse/<str:project_name>/<str:tube>/",
         views.edit_mouse,
         name="edit_mouse",
     ),
     path(
-        "delete_mouse/<str:project_name>/<int:mouse_id>/",
+        "delete_mouse/<str:project_name>/<str:tube>/",
         views.delete_mouse,
         name="delete_mouse",
     ),
