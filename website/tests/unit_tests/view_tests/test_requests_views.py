@@ -39,6 +39,7 @@ class ShowRequestsViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
+
 class AddRequestViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -114,6 +115,8 @@ class AddRequestViewTest(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("add_request", args=["AnyOtherName"]))
     """
+
+
 class ConfirmRequestViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -154,4 +157,6 @@ class ConfirmRequestViewTest(TestCase):
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
     """
+
+
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
