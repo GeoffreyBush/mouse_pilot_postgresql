@@ -4,16 +4,12 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.models import (
-    BreedingCage,
-    Comment,
     CustomUser,
     Mouse,
     Project,
     Request,
     Strain,
 )
-
-
 
 
 ##################
@@ -97,7 +93,6 @@ class StrainTestCase(TestCase):
     def test_strain_uniqueness(self):
         with self.assertRaises(Exception):
             Strain.objects.create(strain_name="CRE1")
-
 
 
 ###############
