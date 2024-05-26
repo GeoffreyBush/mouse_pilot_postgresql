@@ -1,19 +1,11 @@
 from datetime import date
 
-
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from website.models import (
-
-    HistoricalMouse,
-
-    Project,
-
-)
-from website.tests.factories import UserFactory, ProjectFactory
-
+from website.models import HistoricalMouse
+from website.tests.factories import ProjectFactory, UserFactory
 
 """
 class AddMouseViewTest(TestCase):
@@ -154,6 +146,7 @@ class EditMouseViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 """
+
 
 class EditHistoryViewTest(TestCase):
 

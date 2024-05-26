@@ -3,21 +3,15 @@ from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
-from django.utils import timezone
 
-from website.forms import CustomUserCreationForm, ProjectMiceForm, RequestForm
-from website.models import CustomUser, HistoricalMouse, Mouse, Project, Request, Strain
+from website.forms import CustomUserCreationForm, RequestForm
+from website.models import CustomUser, Mouse, Project, Request
 from website.tests.factories import UserFactory
 from website.views import SignUpView
-
-
-
-
 
 #########################
 ### SHOW EDIT HISTORY ###
 #########################
-
 
 
 ####################
