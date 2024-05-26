@@ -43,8 +43,14 @@ jobs:
         driver.quit()
         EOF
 
-    - name: Run Unit Tests
-      run: python manage.py test website/tests/unit_tests
+    - name: Run Model Unit Tests
+      run: python manage.py test website.tests.unit_tests.test_models
+
+    - name: Run Form Unit Tests
+      run: python manage.py test website.tests.unit_tests.test_forms 
+
+    - name: Run View Unit Tests
+      run: python manage.py test website.tests.unit_tests.test_views
 
     - name: Run Integration Tests
       run: python manage.py test website/tests/integration_tests
