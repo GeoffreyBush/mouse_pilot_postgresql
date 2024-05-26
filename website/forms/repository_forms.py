@@ -1,6 +1,6 @@
 from django import forms
 
-from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES, TRUE_OR_FALSE
+from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from website.models import CustomUser, Mouse, Project, Strain
 
 

@@ -31,7 +31,7 @@ class Mouse(models.Model):
         ("BRBL", "BRBL"),
     ]
 
-    #tube = models.CharField(db_column="Tube", primary_key=True, max_length=20)
+    # tube = models.CharField(db_column="Tube", primary_key=True, max_length=20)
 
     sex = models.CharField(
         db_column="Sex",
@@ -66,14 +66,14 @@ class Mouse(models.Model):
         related_name="father_mouse",
     )
 
-    #location = models.ForeignKey(
-     #   "Cage", models.SET_NULL, db_column="Cage ID", null=True, blank=True
-    #)
+    # location = models.ForeignKey(
+    #   "Cage", models.SET_NULL, db_column="Cage ID", null=True, blank=True
+    # )
 
     project = models.ForeignKey(
         "Project", on_delete=models.SET_NULL, null=True, blank=True
     )
-    
+
     clippedDate = models.DateField(db_column="Clipped Date", null=True, blank=True)
     earmark = models.CharField(
         db_column="Earmark",
@@ -90,7 +90,7 @@ class Mouse(models.Model):
 
     def __str__(self):
         return f"{self.tube}"
-    
+
     def is_genotyped(self):
         return True if self.earmark != "" else False
 
@@ -128,7 +128,7 @@ class Request(models.Model):
             if self.task_type == "Cl":
                 for mouse in self.mice.all():
                     ###################################
-                    """ Need to update earmark here """
+                    """Need to update earmark here"""
                     ###################################
                     mouse.save()
 

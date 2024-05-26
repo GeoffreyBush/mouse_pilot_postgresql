@@ -2,18 +2,14 @@ from datetime import date
 
 from django.db import IntegrityError
 from django.test import TestCase
+
+from website.models import CustomUser, Mouse, Project, Request, Strain
 from website.tests.factories import UserFactory
-from website.models import (
-    CustomUser,
-    Mouse,
-    Project,
-    Request,
-    Strain,
-)
 
 #############
 ### MOUSE ###
 #############
+
 
 class MouseTest(TestCase):
     pass
@@ -86,6 +82,7 @@ class RequestModelTests(TestCase):
         for mouse in self.request.mice.all():
             self.assertTrue(mouse.is_genotyped())
     """
+
 
 ##############
 ### STRAIN ###
