@@ -1,8 +1,8 @@
 from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES, TRUE_OR_FALSE
-
 from website.models import CustomUser, Mouse, Project, Strain
+
 
 class RepositoryMiceForm(forms.ModelForm):
 
@@ -55,13 +55,3 @@ class RepositoryMiceForm(forms.ModelForm):
     class Meta:
         model = Mouse
         fields = "__all__"  # or list the fields you want to include
-
-
-
-
-
-
-
-
-
-

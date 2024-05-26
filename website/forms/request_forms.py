@@ -2,6 +2,7 @@ from django import forms
 
 from website.models import Mouse, Request
 
+
 class RequestForm(forms.ModelForm):
 
     # Override __init__() to filter mice by project

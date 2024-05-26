@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from website.models import CustomUser
 
+
 class CustomUserCreationForm(UserCreationForm):
 
     username = forms.CharField(
