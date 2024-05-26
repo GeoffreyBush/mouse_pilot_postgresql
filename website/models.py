@@ -123,7 +123,7 @@ class Request(models.Model):
 
     # Should set constraints to have at least one mouse and delete if there are none
     mice = models.ManyToManyField("Mouse", db_column="Mouse")
-    
+
     confirmed = models.BooleanField(
         default=False
     )  # confirmed attribute could be switched to flag with choices?

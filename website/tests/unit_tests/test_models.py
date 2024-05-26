@@ -3,13 +3,13 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
-from website.models import Mouse, Request, Strain, BreedingCage
+from website.models import BreedingCage, Mouse, Request, Strain
 from website.tests.factories import (
+    BreedingCageFactory,
     MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
-    BreedingCageFactory,
 )
 
 #############
@@ -180,9 +180,11 @@ class ProjectModelTest(TestCase):
         self.project.mice_count += 1
         self.assertEqual(self.project.mice_count, 1)
 
+
 #####################
 ### BREEDING CAGE ###
 #####################
+
 
 class BreedingCageTest(TestCase):
 
