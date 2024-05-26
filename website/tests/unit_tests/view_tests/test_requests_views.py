@@ -39,10 +39,6 @@ class ShowRequestsViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
-
-###################
-### ADD REQUEST ###
-###################
 class AddRequestViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -118,6 +114,44 @@ class AddRequestViewTest(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("add_request", args=["AnyOtherName"]))
     """
+class ConfirmRequestViewTest(TestCase):
+    def setUp(self):
+        self.user = UserFactory(username="testuser")
+        self.client.login(username="testuser", password="testpassword")
+        self.mouse = MouseFactory()
+        self.request = Request.objects.create(
+            researcher=self.user, task_type="Cl", confirmed=False
+        )
+        self.request.mice.add(self.mouse)
 
+    # Unauthenticated user redirected to login page
+    def test_confirm_request_view_unauthenticated_user(self):
+        self.client.logout()
+        response = self.client.get(
+            reverse("confirm_request", args=[self.request.request_id])
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            f"{reverse('login')}?next={reverse('confirm_request', args=[self.request.request_id])}",
+        )
 
+    # Redirect to show_requests after confirming
+    def test_confirm_request_view_get_request(self):
+        response = self.client.get(
+            reverse("confirm_request", args=[self.request.request_id])
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("show_requests"))
+
+    # Need to get the clip request to ask for an earmark input for this test to work now
+    # Confirm request changes mice.genotyped to True
+    """
+    def test_confirm_request_view_updates_request_status(self):
+        self.client.get(reverse("confirm_request", args=[self.request.request_id]))
+        self.request.refresh_from_db()
+        self.assertTrue(self.request.confirmed)
+        self.mouse.refresh_from_db()
+        self.assertTrue(self.mouse.is_genotyped())
+    """
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
