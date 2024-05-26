@@ -25,6 +25,7 @@ from website.models import (
     Strain,
 )
 
+from website.views import SignUpView
 
 ##############################
 ### HELPER FACTORY METHODS ###
