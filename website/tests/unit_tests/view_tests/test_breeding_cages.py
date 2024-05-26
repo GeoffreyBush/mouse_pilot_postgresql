@@ -1,19 +1,16 @@
-from datetime import date
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-
-from website.forms import (
-    BreedingPairForm,
-)
-from website.models import (
-    BreedingCage,
-
-    Mouse,
+from website.forms import BreedingPairForm
+from website.tests.factories import (
+    BreedingCageFactory,
+    MouseFactory,
+    StrainFactory,
+    UserFactory,
 )
 
-from website.tests.factories import UserFactory, StrainFactory, MouseFactory, BreedingCageFactory
 
 class ListBreedingCagesTest(TestCase):
 
@@ -70,6 +67,7 @@ class ViewBreedingCageTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
 
+
 class AddBreedingPairViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -114,5 +112,6 @@ class AddBreedingPairViewTest(TestCase):
         url = reverse("create_breeding_pair")
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
+
 
 # Edit breeding cage view
