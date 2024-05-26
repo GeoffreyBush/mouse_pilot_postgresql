@@ -4,7 +4,12 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.models import Mouse, Request, Strain
-from website.tests.factories import MouseFactory, StrainFactory, UserFactory, ProjectFactory
+from website.tests.factories import (
+    MouseFactory,
+    ProjectFactory,
+    StrainFactory,
+    UserFactory,
+)
 
 #############
 ### MOUSE ###
@@ -85,7 +90,9 @@ class RequestModelTests(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.strain = StrainFactory()
-        self.mouse1, self.mouse2 = MouseFactory(strain=self.strain), MouseFactory(strain=self.strain)
+        self.mouse1, self.mouse2 = MouseFactory(strain=self.strain), MouseFactory(
+            strain=self.strain
+        )
 
         self.request = Request.objects.create(
             researcher=self.user, task_type="Cl", confirmed=False
@@ -166,6 +173,7 @@ class ProjectModelTest(TestCase):
 
     # Mouse count
     """ Replace this test to use the future class method, Project.mice_count() instead """
+
     def test_project_mice_count(self):
         self.assertEqual(self.project.mice_count, 0)
         self.project.mice_count += 1
