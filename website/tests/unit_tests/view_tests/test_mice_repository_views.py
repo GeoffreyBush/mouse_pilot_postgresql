@@ -2,13 +2,14 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from website.tests.factories import UserFactory
+from website.tests.factories import UserFactory, MouseFactory
 
 
 class MiceRepositoryViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
+        self.mouse = MouseFactory()
 
     # GET mice_repository while logged in
     def test_mice_repository_view_get_request(self):
@@ -16,6 +17,8 @@ class MiceRepositoryViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "repository/mice_repository.html")
         self.assertIn("mymice", response.context)
+        mymice = response.context["mymice"]
+        self.assertTrue(mymice.filter(pk=self.mouse.pk).exists)
 
     # test for add mouse to repository
     def test_add_mouse_to_repository(self):
