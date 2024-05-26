@@ -1,17 +1,12 @@
 from datetime import date
+
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError 
+from django.db import IntegrityError
 from django.test import TestCase
 
-from website.models import CustomUser, Mouse, Project, Request, Strain
+from website.models import Mouse, Project, Request, Strain
 from website.tests.factories import UserFactory
-from website.models import (
-    Mouse,
-    Project,
-    Request,
-    Strain,
-)
 
 #############
 ### MOUSE ###
@@ -51,7 +46,7 @@ class CustomUserTest(TestCase):
     def test_password_complexity(self):
         with self.assertRaises(ValidationError):
             validate_password("12345678")
-    
+
     # Password too common
     def test_password_common(self):
         with self.assertRaises(ValidationError):
