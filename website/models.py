@@ -212,7 +212,7 @@ class Project(models.Model):
 
 
 class BreedingCage(models.Model):
-    """Could benefit from a data when the breeding pair was put in the cage"""
+    """Could benefit from tracking when the breeding pair was put in the cage"""
 
     box_no = models.CharField(db_column="Box Number", max_length=10, primary_key=True)
     mother = models.ForeignKey(
@@ -243,6 +243,9 @@ class BreedingCage(models.Model):
     pwl = models.CharField(
         db_column="PWL", max_length=5, null=True, blank=True, default=None
     )
+
+    def move_to_stock(self):
+        pass
 
     def __str__(self):
         return f"{self.box_no}"

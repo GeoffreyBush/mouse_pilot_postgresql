@@ -13,18 +13,18 @@
 <body>
 
     <!-- Vertical navigation bar -->
-    <div class="container-fluid px-0 min-vh-100 d-flex sticky-top">
-        <div class="nav nav-pills flex-column bg-dark p-3">
+    <div class="container-fluid px-0 min-vh-100 d-flex sticky-bottom">
+        <div class="nav nav-pills flex-column bg-dark p-3 sticky-bottom">
             <a class="nav-link text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</a>
             <div class="mt-2">
                 <div class="text-bg-dark fw-bold fs-5">General</div>
                 <a class="nav-link text-bg-dark p-2" href="#"><s>Dashboard</s></a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'show_requests' %}">Requests</a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Requests</s></a>
                 <a class="nav-link text-bg-dark p-2" href="{% url 'mice_repository' %}">Mice Repository</a>
             </div>
             <div class="mt-2">
                 <div class="text-bg-dark fw-bold fs-5">Users</div>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'researcher_dashboard' %}">Projects</a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Projects</s></a>
                 <a class="nav-link text-bg-dark p-2" href="#"><s>Experimental Cages</s></a>
             </div>
             <div class="mt-2">
@@ -59,9 +59,21 @@
                 </div>
             </header>
 
-            <!-- Page content -->
+            
             <div class="col">
                 <div class="d-flex p-4">
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <!-- The form will be loaded into this div -->
+                                <div id="modal-body-content"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main page content -->
                     {% block content %}{% endblock %}
                 </div>
             </div>

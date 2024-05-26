@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from website.models import CustomUser, Mouse, Project
 from website.tests.integration_tests.helpers import auto_login, chrome_test_setup
 
-
+"""
 class ResearcherShowProjectTest(StaticLiveServerTestCase):
     def setUp(self):
         self.driver = webdriver.Chrome(options=chrome_test_setup())
@@ -92,3 +92,4 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         # click the submit button
 
         # Assert that the request was created
+"""

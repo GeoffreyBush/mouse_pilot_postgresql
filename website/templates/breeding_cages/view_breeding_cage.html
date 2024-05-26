@@ -3,55 +3,63 @@
 {% block content %}
 
 <div class="container">
-  <div class="d-flex align-items-center justify-content-start overflow-auto">
-    <h1 class="h4">Cage Number: {{ mycage.box_no }}</h1>
-  </div>
-  <table class="table">
-    <tbody>
-      <tr>
-        <td>Male ID:</td>
-        <td>{{ mycage.father }}</td>
-        <td>Dwean:</td>
-        <td>{{ mycage.date_wean }}</td>
-      </tr>
-      <tr>
-        <td>Female ID:</td>
-        <td>{{ mycage.mother }}</td>
-        <td>Nwean:</td>
-        <td>{{ mycage.number_wean }}</td>
-      </tr>
-      <tr>
-        <td>Dborn:</td>
-        <td>{{ mycage.date_born }}</td>
-        <td>C/To:</td>
-        <td>{{ mycage.cull_to }}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td>Nborn:</td>
-        <td>{{ mycage.number_born }}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td>PWL:</td>
-        <td>{{ mycage.pwl }}</td>
-      </tr>
-    <tbody>
-  </table>
-  <div class="d-flex justify-content-around">
-    <!-- Only show "Record Birth" button if no births recorded -->
-    <button class="btn btn-primary">
-      <a href="#" class="text-decoration-none text-white">Record Birth of Litter</a>
-    </button>
-    <button class="btn btn-secondary">
-      <a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
-          Back to Dashboard
-      </a>
-    </button>
+	<div class="d-flex align-items-center justify-content-start overflow-auto">
+    	<h1 class="h4">Cage Number: {{ mycage.box_no }}</h1>
+  	</div>
+  	<table class="table">
+		<tbody>
+			<tr>
+				<td>Male ID:</td>
+				<td>{{ mycage.father }}</td>
+				<td>Dwean:</td>
+				<td>{{ mycage.date_wean }}</td>
+			</tr>
+			<tr>
+				<td>Female ID:</td>
+				<td>{{ mycage.mother }}</td>
+				<td>Nwean:</td>
+				<td>{{ mycage.number_wean }}</td>
+			</tr>
+			<tr>
+				<td>Dborn:</td>
+				<td>{{ mycage.date_born }}</td>
+				<td>C/To:</td>
+				<td>{{ mycage.cull_to }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>Nborn:</td>
+				<td>{{ mycage.number_born }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>PWL:</td>
+				<td>{{ mycage.pwl }}</td>
+			</tr>
+		<tbody>
+	</table>
 
-  </div>
+	<div class="d-flex justify-content-around">
+
+		<!-- Modal form to record birth of litter -->
+		{% if mycage.number_born == 0 %}
+		<button class="btn btn-primary" hx-get="{% url 'your-url-name' %}" hx-trigger="click" 
+			hx-target="#modal-body-content" hx-swap="innerHTML" hx-select="#myForm" 
+			data-toggle="modal" data-target="#myModal">
+			Record Birth of Litter
+		</button>
+		{% endif %}
+
+		<!-- Navigate back to breeding cages -->
+		<button class="btn btn-secondary">
+			<a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
+				Back to Breeding Cages
+			</a>
+		</button>
+
+	</div>
   
 </div>
 {% endblock %}
