@@ -331,7 +331,6 @@ class BreedingCageFormTest(TestCase):
     def test_valid_form(self):
         data = {
             "box_no": "1-1",
-            "status": "Empty",
             "mother": self.mother,
             "father": self.father,
             "date_born": date.today(),
@@ -348,7 +347,6 @@ class BreedingCageFormTest(TestCase):
     def test_invalid_form(self):
         data = {
             "box_no": "",
-            "status": "Empty",
             "mother": self.mother,
             "father": self.father,
             "date_born": date.today(),

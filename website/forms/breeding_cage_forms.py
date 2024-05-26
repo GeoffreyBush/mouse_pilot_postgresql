@@ -5,17 +5,8 @@ from website.models import BreedingCage, Mouse
 
 class BreedingCageForm(forms.ModelForm):
 
-    STATUS_CHOICE = [
-        ("Empty", "Empty"),
-        ("ParentsInside", "ParentsInside"),
-        ("ParentsRemoved", "ParentsRemoved"),
-    ]
-
     box_no = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "---"}), label="Box Number"
-    )
-    status = forms.ChoiceField(
-        choices=STATUS_CHOICE, widget=forms.Select(), label="Status"
     )
     mother = forms.ModelChoiceField(
         queryset=Mouse.objects.all(),

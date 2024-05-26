@@ -215,18 +215,6 @@ class BreedingCage(models.Model):
     """Could benefit from a data when the breeding pair was put in the cage"""
 
     box_no = models.CharField(db_column="Box Number", max_length=10, primary_key=True)
-    status = models.CharField(
-        db_column="Status",
-        max_length=20,
-        default="Empty",
-        # Need more information from breeding wing team to determine the choices
-        choices=[
-            ("Empty", "Empty"),
-            ("ParentsInside", "ParentsInside"),
-            ("ParentsRemoved", "ParentsRemoved"),
-        ],
-        null=True,
-    )
     mother = models.ForeignKey(
         "Mouse",
         on_delete=models.PROTECT,

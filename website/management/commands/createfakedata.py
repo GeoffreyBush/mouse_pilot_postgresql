@@ -163,7 +163,6 @@ class Command(BaseCommand):
             variable_number_wean = random.randint(1, variable_number_born)
             BreedingCage.objects.create(
                 box_no=fake.unique.website_box_no(),
-                status=random.choice(["Empty", "ParentsInside", "ParentsRemoved"]),
                 mother=random.choice(female_mice),
                 father=random.choice(male_mice),
                 date_born=fake.date(),
