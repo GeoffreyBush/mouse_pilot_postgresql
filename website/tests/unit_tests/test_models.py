@@ -3,8 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
-from website.models import Mouse, Project, Request, Strain
-from website.tests.factories import MouseFactory, StrainFactory, UserFactory
+from website.models import Mouse, Request, Strain
+from website.tests.factories import MouseFactory, StrainFactory, UserFactory, ProjectFactory
 
 #############
 ### MOUSE ###
@@ -15,12 +15,13 @@ class MouseTest(TestCase):
 
     @classmethod
     def setUp(self):
-        self.mouse = MouseFactory()
+        self.strain = StrainFactory(strain_name="teststrain")
+        self.mouse = MouseFactory(strain=self.strain)
 
     # Check MouseFactory works
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
-        self.mouse.strain_name = "teststrain"
+        self.assertEqual(self.mouse.strain.strain_name, "teststrain")
 
     # Tube attribute for breeding wing ID
     def test_mouse_tube_id(self):
@@ -83,7 +84,8 @@ class CustomUserTest(TestCase):
 class RequestModelTests(TestCase):
     def setUp(self):
         self.user = UserFactory()
-        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
+        self.strain = StrainFactory()
+        self.mouse1, self.mouse2 = MouseFactory(strain=self.strain), MouseFactory(strain=self.strain)
 
         self.request = Request.objects.create(
             researcher=self.user, task_type="Cl", confirmed=False
@@ -150,34 +152,21 @@ class ProjectModelTest(TestCase):
     def setUp(self):
         strain1, strain2 = StrainFactory(), StrainFactory()
         user1, user2 = UserFactory(), UserFactory()
-        project = Project.objects.create(
-            projectname="TestName",
-            researcharea="TestArea",
-        )
-        project.strains.add(strain1, strain2)
-        project.researchers.add(user1, user2)
+        self.project = ProjectFactory()
+        self.project.strains.add(strain1, strain2)
+        self.project.researchers.add(user1, user2)
 
     # Strains many-to-many
     def test_project_strains(self):
-        project = Project.objects.get(projectname="TestName")
-        self.assertEqual(
-            project.strains.count(),
-            2,
-            "Incorrect number of strains associated with the project.",
-        )
+        self.assertEqual(self.project.strains.count(), 2)
 
     # Researchers many-to-many
     def test_project_researchers(self):
-        project = Project.objects.get(projectname="TestName")
-        self.assertEqual(
-            project.researchers.count(),
-            2,
-            "Incorrect number of researchers associated with the project.",
-        )
+        self.assertEqual(self.project.researchers.count(), 2)
 
     # Mouse count
+    """ Replace this test to use the future class method, Project.mice_count() instead """
     def test_project_mice_count(self):
-        project = Project.objects.get(projectname="TestName")
-        self.assertEqual(project.mice_count, 0)
-        project.mice_count += 1
-        self.assertEqual(project.mice_count, 1)
+        self.assertEqual(self.project.mice_count, 0)
+        self.project.mice_count += 1
+        self.assertEqual(self.project.mice_count, 1)

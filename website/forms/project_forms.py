@@ -15,7 +15,7 @@ class ProjectMiceForm(forms.ModelForm):
             format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}
         ),
     )
-    clippedDate = forms.DateField(
+    clipped_date = forms.DateField(
         required=False,
         input_formats=["%Y-%m-%d"],
         widget=forms.DateInput(

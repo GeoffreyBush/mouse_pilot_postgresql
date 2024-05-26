@@ -30,8 +30,8 @@ urlpatterns += [
     path(
         "researcher_dashboard", views.researcher_dashboard, name="researcher_dashboard"
     ),
-    path("show_project/<str:projectname>/", views.show_project, name="show_project"),
-    path("show_project/<str:projectname>/", views.show_project, name="show_project"),
+    path("show_project/<str:project_name>/", views.show_project, name="show_project"),
+    path("show_project/<str:project_name>/", views.show_project, name="show_project"),
 ]
 
 # Breeding Wing URLs
@@ -61,17 +61,17 @@ urlpatterns += [
 # Add, Edit, and Delete Mouse URLs
 urlpatterns += [
     path(
-        "add_preexisting_mouse_to_project/<str:projectname>/",
+        "add_preexisting_mouse_to_project/<str:project_name>/",
         views.add_preexisting_mouse_to_project,
         name="add_preexisting_mouse_to_project",
     ),
     path(
-        "edit_mouse/<str:projectname>/<int:mouse_id>/",
+        "edit_mouse/<str:project_name>/<int:mouse_id>/",
         views.edit_mouse,
         name="edit_mouse",
     ),
     path(
-        "delete_mouse/<str:projectname>/<int:mouse_id>/",
+        "delete_mouse/<str:project_name>/<int:mouse_id>/",
         views.delete_mouse,
         name="delete_mouse",
     ),
@@ -85,7 +85,7 @@ urlpatterns += [
         views.confirm_request,
         name="confirm_request",
     ),
-    path("add_request/<str:projectname>/", views.add_request, name="add_request"),
+    path("add_request/<str:project_name>/", views.add_request, name="add_request"),
     # Request messaging is not implemented yet
     path("show_message/<int:request_id>/", views.show_message, name="show_message"),
 ]

@@ -18,7 +18,7 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         )
 
         # Create objects for testing
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
         self.mouse1 = Mouse.objects.create(
             sex="M", dob=date.today(), project=self.project
         )

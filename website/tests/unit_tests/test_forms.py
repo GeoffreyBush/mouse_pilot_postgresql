@@ -26,7 +26,7 @@ class ProjectMiceFormTestCase(TestCase):
         self.user = CustomUser.objects.create_user(
             username="testuser", password="testpass", email="testemail@gmail.com"
         )
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
         self.strain = Strain.objects.create(strain_name="Test Strain")
 
     # Valid data
@@ -35,7 +35,7 @@ class ProjectMiceFormTestCase(TestCase):
             data={
                 "sex": "M",
                 "dob": date.today(),
-                "clippedDate": date.today(),
+                "clipped_date": date.today(),
                 "earmark": random.choice(EARMARK_CHOICES),
             }
         )
@@ -43,7 +43,7 @@ class ProjectMiceFormTestCase(TestCase):
         mouse = form.save()
         self.assertEqual(mouse.sex, "M")
         self.assertEqual(mouse.dob, date.today())
-        self.assertEqual(mouse.clippedDate, date.today())
+        self.assertEqual(mouse.clipped_date, date.today())
         self.assertTrue(mouse.is_genotyped())
 
     # Empty data
@@ -59,10 +59,10 @@ class ProjectMiceFormTestCase(TestCase):
             data={
                 "sex": "X",
                 "dob": date.today(),
-                "clippedDate": date.today(),
+                "clipped_date": date.today(),
                 "mother": None,
                 "father": None,
-                "project": self.project.projectname,
+                "project": self.project.project_name,
                 "earmark": "ABCD",
                 "genotyper": self.user.id,
                 "strain": self.strain.strain_name,
@@ -208,8 +208,8 @@ class CustomUserChangeFormTestCase(TestCase):
 ####################
 class RequestFormTestCase(TestCase):
     def setUp(self):
-        self.project1 = Project.objects.create(projectname="Project 1")
-        self.project2 = Project.objects.create(projectname="Project 2")
+        self.project1 = Project.objects.create(project_name="Project 1")
+        self.project2 = Project.objects.create(project_name="Project 2")
         self.user = CustomUser.objects.create_user(
             username="testuser", password="testpass123"
         )
@@ -262,8 +262,8 @@ class RequestFormTestCase(TestCase):
 ###########################
 class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
-        self.project1 = Project.objects.create(projectname="Project 1")
-        self.project2 = Project.objects.create(projectname="Project 2")
+        self.project1 = Project.objects.create(project_name="Project 1")
+        self.project2 = Project.objects.create(project_name="Project 2")
         self.mouse1 = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), project=self.project1
         )

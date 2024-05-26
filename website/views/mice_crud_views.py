@@ -6,41 +6,41 @@ from website.models import HistoricalMouse, Mouse
 
 
 @login_required
-def edit_mouse(request, projectname, mouse_id):
+def edit_mouse(request, project_name, mouse_id):
     mouse = Mouse.objects.get(id=mouse_id)
     if request.method == "POST":
         form = ProjectMiceForm(request.POST, instance=mouse)
         if form.is_valid():
             form.save()
-            return redirect("show_project", projectname=projectname)
+            return redirect("show_project", project_name=project_name)
     else:
         form = ProjectMiceForm(instance=mouse)
     return render(
-        request, "edit_mouse.html", {"form": form, "projectname": projectname}
+        request, "edit_mouse.html", {"form": form, "project_name": project_name}
     )
 
 
 @login_required
-def add_preexisting_mouse_to_project(request, projectname):
+def add_preexisting_mouse_to_project(request, project_name):
     if request.method == "POST":
         form = ProjectMiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("show_project", projectname=projectname)
+            return redirect("show_project", project_name=project_name)
     else:
         form = ProjectMiceForm()
     return render(
         request,
         "researcher/add_preexisting_mouse_to_project.html",
-        {"mice_form": form, "projectname": projectname},
+        {"mice_form": form, "project_name": project_name},
     )
 
 
 @login_required
-def delete_mouse(request, projectname, mouse_id):
+def delete_mouse(request, project_name, mouse_id):
     mouse = Mouse.objects.get(id=mouse_id)
     mouse.delete()
-    return redirect("show_project", projectname=projectname)
+    return redirect("show_project", project_name=project_name)
 
 
 @login_required

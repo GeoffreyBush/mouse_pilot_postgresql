@@ -70,7 +70,7 @@ class Mouse(models.Model):
         "Project", on_delete=models.SET_NULL, null=True, blank=True
     )
 
-    clippedDate = models.DateField(db_column="Clipped Date", null=True, blank=True)
+    clipped_date = models.DateField(db_column="Clipped Date", null=True, blank=True)
     earmark = models.CharField(
         db_column="Earmark",
         max_length=4,
@@ -192,16 +192,19 @@ class Strain(models.Model):
 
 
 class Project(models.Model):
-    projectname = models.CharField(db_column="Name", primary_key=True, max_length=30)
-    researcharea = models.CharField(
+    project_name = models.CharField(db_column="Name", primary_key=True, max_length=30)
+    research_area = models.CharField(
         db_column="Research Area", max_length=50, null=True, blank=True
     )
     strains = models.ManyToManyField("Strain", db_column="Strain")
     researchers = models.ManyToManyField(CustomUser)
+
+    # Rework how mice_count is calculated. Currently done in views.py.
+    # Should be whenever a mouse is added to a project.
     mice_count = 0
 
     def __str__(self):
-        return f"{self.projectname}"
+        return f"{self.project_name}"
 
     class Meta:
         managed = True

@@ -8,7 +8,7 @@ from .models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain
 # Changes what attributes are displayed and which attributes you can filter by in admin page
 @admin.register(Mouse)
 class MiceAdmin(admin.ModelAdmin):
-    list_display = ("clippedDate", "strain")
+    list_display = ("clipped_date", "strain")
 
 
 # Add custom admin class to admin page

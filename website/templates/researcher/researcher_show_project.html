@@ -9,14 +9,14 @@
       <!-- Dynamic comments will be injected here -->
   </div>
 </div>
-<form method="post" action="{% url 'add_request' projectname=projectname %}">
+<form method="post" action="{% url 'add_request' project_name=project_name %}">
     {% csrf_token %}
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>{{ projectname }}</h1>
+    <h1>{{ project_name }}</h1>
     <div>
       <button class="btn btn-primary mr-2" id="add-request-button">Add Request</button>
-      <a href="{% url 'add_preexisting_mouse_to_project' projectname %}" class="btn btn-secondary">Add Mouse</a>
+      <a href="{% url 'add_preexisting_mouse_to_project' project_name %}" class="btn btn-secondary">Add Mouse</a>
     </div>
   </div>
 
@@ -65,9 +65,9 @@
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.earmark }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="fetchFamilyTree({{ mouse.id }})"><img src="{% static 'media/tree-structure-fill-svgrepo-com.svg' %}" style="height: 20px"></td>
               
-              <td><a href="{% url 'edit_mouse' projectname=projectname mouse_id=mouse.id %}"><img src="{% static '/media/edit.svg' %}" style="height: 20px"></a></td>
+              <td><a href="{% url 'edit_mouse' project_name=project_name mouse_id=mouse.id %}"><img src="{% static '/media/edit.svg' %}" style="height: 20px"></a></td>
               <td>
-                  <a onclick="return confirm('Are you sure you want to delete this mouse?')" href="{% url 'delete_mouse' projectname=projectname mouse_id=mouse.id %}">
+                  <a onclick="return confirm('Are you sure you want to delete this mouse?')" href="{% url 'delete_mouse' project_name=project_name mouse_id=mouse.id %}">
                       <img src="{% static '/media/delete.svg' %}" style="height: 20px">
                   </a>
               </td>

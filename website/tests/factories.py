@@ -4,6 +4,7 @@ from datetime import date
 import factory
 from django.contrib.auth import get_user_model
 from faker import Faker
+from website.constants import RESEARCH_AREAS
 
 fake = Faker()
 
@@ -31,6 +32,13 @@ class MouseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "website.Mouse"
 
-    strain = factory.SubFactory(StrainFactory, strain_name="teststrain")
+    strain = factory.SubFactory(StrainFactory)
     sex = random.choice(["M", "F"])
     dob = date.today()
+
+class ProjectFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "website.Project"
+
+    project_name = factory.Sequence(lambda n: f"project{n}")
+    research_area = random.choice(RESEARCH_AREAS)

@@ -18,7 +18,7 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
             username="testuser", password="testpassword"
         )
 
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
         self.mouse1 = Mouse.objects.create(
             sex="M",
             dob=date.today(),
@@ -39,15 +39,15 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
 
         self.driver.get(
             self.live_server_url
-            + reverse("show_project", args=[self.project.projectname])
+            + reverse("show_project", args=[self.project.project_name])
         )
 
         # Wait for the page to load and assert the project name
         wait = WebDriverWait(self.driver, 10)
         wait.until(
-            EC.url_contains(reverse("show_project", args=[self.project.projectname]))
+            EC.url_contains(reverse("show_project", args=[self.project.project_name]))
         )
-        self.assertIn(self.project.projectname, self.driver.page_source)
+        self.assertIn(self.project.project_name, self.driver.page_source)
 
         # Assert the mice table is displayed
         self.assertIn("Mouse ID", self.driver.page_source)
@@ -72,7 +72,7 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
 
         self.driver.get(
             self.live_server_url
-            + reverse("show_project", args=[self.project.projectname])
+            + reverse("show_project", args=[self.project.project_name])
         )
 
         # Select the first mouse
@@ -86,7 +86,7 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         # Assert the user is redirected to the add request page
         wait = WebDriverWait(self.driver, 10)
         wait.until(
-            EC.url_contains(reverse("add_request", args=[self.project.projectname]))
+            EC.url_contains(reverse("add_request", args=[self.project.project_name]))
         )
         self.assertIn("Add Request", self.driver.page_source)
         # click the submit button

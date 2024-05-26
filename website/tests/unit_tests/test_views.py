@@ -87,8 +87,8 @@ class ResearcherDashboardViewTest(TestCase):
     # Create a test user and projects
     def setUp(self):
         self.user = UserFactory()
-        self.project1 = Project.objects.create(projectname="TestProject1")
-        self.project2 = Project.objects.create(projectname="TestProject2")
+        self.project1 = Project.objects.create(project_name="TestProject1")
+        self.project2 = Project.objects.create(project_name="TestProject2")
 
     # Access researcher dashboard logged in
     def test_researcher_dashboard_view_with_authenticated_user(self):
@@ -116,7 +116,7 @@ class ShowProjectViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
 
         # Add cage back in when experimental or stock cage is added to Mouse model
         """
@@ -145,22 +145,22 @@ class ShowProjectViewTest(TestCase):
     # GET behaviour to show project
     def test_show_project_get(self):
         response = self.client.get(
-            reverse("show_project", args=[self.project.projectname])
+            reverse("show_project", args=[self.project.project_name])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "researcher/researcher_show_project.html")
-        self.assertContains(response, self.project.projectname)
+        self.assertContains(response, self.project.project_name)
         self.assertIn("myproject", response.context)
         self.assertIn("mymice", response.context)
         self.assertIn("mycomment", response.context)
         self.assertIn("mice_ids_with_requests", response.context)
-        self.assertIn("projectname", response.context)
+        self.assertIn("project_name", response.context)
         self.assertIn("filter", response.context)
 
     # POST MouseSelectionForm
     def test_show_project_post(self):
         response = self.client.post(
-            reverse("add_request", args=[self.project.projectname])
+            reverse("add_request", args=[self.project.project_name])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")
@@ -174,9 +174,9 @@ class ShowProjectViewTest(TestCase):
     def test_show_project_with_unauthenticated_user(self):
         self.client.logout()
         response = self.client.get(
-            reverse("show_project", args=[self.project.projectname])
+            reverse("show_project", args=[self.project.project_name])
         )
-        url = reverse("show_project", args=[self.project.projectname])
+        url = reverse("show_project", args=[self.project.project_name])
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
@@ -188,7 +188,7 @@ class ShowCommentViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
-        self.project = Project.objects.create(projectname="Test Project")
+        self.project = Project.objects.create(project_name="Test Project")
         self.mouse = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), genotyped=True, project=self.project
         )
@@ -211,7 +211,7 @@ class ShowCommentViewTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
-            response, reverse("show_project", args=[self.project.projectname])
+            response, reverse("show_project", args=[self.project.project_name])
         )
         self.comment.refresh_from_db()
         self.assertEqual(self.comment.comment_text, "Updated comment")
@@ -362,12 +362,12 @@ class AddMouseViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
 
     # Access add_preexisting_mouse_to_project while logged in
     def test_add_preexisting_mouse_to_project_get(self):
         url = reverse(
-            "add_preexisting_mouse_to_project", args=[self.project.projectname]
+            "add_preexisting_mouse_to_project", args=[self.project.project_name]
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -375,20 +375,20 @@ class AddMouseViewTest(TestCase):
             response, "researcher/add_preexisting_mouse_to_project.html"
         )
         self.assertIsInstance(response.context["mice_form"], ProjectMiceForm)
-        self.assertEqual(response.context["projectname"], self.project.projectname)
+        self.assertEqual(response.context["project_name"], self.project.project_name)
 
     # Add valid data test here
     """ Likely similar valid POST issue as edit_mouse test, below, where genotyper field causes issues """
 
     def test_add_preexisting_mouse_to_project_post_invalid(self):
         url = reverse(
-            "add_preexisting_mouse_to_project", args=[self.project.projectname]
+            "add_preexisting_mouse_to_project", args=[self.project.project_name]
         )
         data = {
             "sex": "Invalid",
             "dob": "2022-01-01",
             "genotyped": True,
-            "project": self.project.projectname,
+            "project": self.project.project_name,
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
@@ -396,14 +396,14 @@ class AddMouseViewTest(TestCase):
             response, "researcher/add_preexisting_mouse_to_project.html"
         )
         self.assertIsInstance(response.context["mice_form"], ProjectMiceForm)
-        self.assertEqual(response.context["projectname"], self.project.projectname)
+        self.assertEqual(response.context["project_name"], self.project.project_name)
         self.assertFalse(Mouse.objects.exists())
 
     # Access add_preexisting_mouse_to_project without logging in
     def test_add_preexisting_mouse_to_project_view_login_required(self):
         self.client.logout()
         url = reverse(
-            "add_preexisting_mouse_to_project", args=[self.project.projectname]
+            "add_preexisting_mouse_to_project", args=[self.project.project_name]
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
@@ -417,7 +417,7 @@ class EditMouseViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
         self.genotyper = CustomUser.objects.create_user(
             username="TestGenotyper",
             email="testgenotyper@example.com",
@@ -443,23 +443,23 @@ class EditMouseViewTest(TestCase):
 
     # Access edit_mouse while logged in
     def test_edit_mouse_get(self):
-        url = reverse("edit_mouse", args=[self.project.projectname, self.mouse1.id])
+        url = reverse("edit_mouse", args=[self.project.project_name, self.mouse1.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_mouse.html")
         self.assertIsInstance(response.context["form"], ProjectMiceForm)
         self.assertEqual(response.context["form"].instance, self.mouse1)
-        self.assertEqual(response.context["projectname"], self.project.projectname)
+        self.assertEqual(response.context["project_name"], self.project.project_name)
 
     # Can't get this valid POST test to work correctly. Genotyper field causes issues
     """
     # POST with valid data
     def test_edit_mouse_post_valid(self):
-        url = reverse('edit_mouse', args=[self.project.projectname, self.mouse1.id])
+        url = reverse('edit_mouse', args=[self.project.project_name, self.mouse1.id])
         data = {
             'sex': 'M',
             'dob': date.today(),
-            'clippedDate': date.today(),
+            'clipped_date': date.today(),
             'genotyped': True,
             'mother': self.mouse2,
             'father': self.mouse3,
@@ -479,18 +479,18 @@ class EditMouseViewTest(TestCase):
 
     # POST with invalid data
     def test_edit_mouse_post_invalid(self):
-        url = reverse("edit_mouse", args=[self.project.projectname, self.mouse1.id])
+        url = reverse("edit_mouse", args=[self.project.project_name, self.mouse1.id])
         data = {
             "sex": "Invalid",
             "dob": date.today(),
             "genotyped": False,
-            "project": self.project.projectname,
+            "project": self.project.project_name,
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_mouse.html")
         self.assertIsInstance(response.context["form"], ProjectMiceForm)
-        self.assertEqual(response.context["projectname"], self.project.projectname)
+        self.assertEqual(response.context["project_name"], self.project.project_name)
         self.mouse1.refresh_from_db()
         self.assertEqual(self.mouse1.sex, "M")
         self.assertEqual(self.mouse1.dob, date.today())
@@ -499,7 +499,7 @@ class EditMouseViewTest(TestCase):
     # Access edit_mouse without logging in
     def test_edit_mouse_view_with_unauthenticated_user(self):
         self.client.logout()
-        url = reverse("edit_mouse", args=[self.project.projectname, self.mouse1.id])
+        url = reverse("edit_mouse", args=[self.project.project_name, self.mouse1.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
@@ -513,8 +513,8 @@ class EditHistoryViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.login(username="testuser", password="testpassword")
-        self.project1 = Project.objects.create(projectname="TestProject1")
-        self.project2 = Project.objects.create(projectname="TestProject2")
+        self.project1 = Project.objects.create(project_name="TestProject1")
+        self.project2 = Project.objects.create(project_name="TestProject2")
 
         self.history1 = HistoricalMouse.objects.create(
             id=1,
@@ -559,7 +559,7 @@ class EditHistoryViewTest(TestCase):
 class DeleteMouseViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory()
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
         self.mouse = Mouse.objects.create(
             sex="M", dob=date.today(), genotyped=True, project=self.project
         )
@@ -568,17 +568,17 @@ class DeleteMouseViewTest(TestCase):
     def test_delete_mouse_view(self):
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(
-            reverse("delete_mouse", args=[self.project.projectname, self.mouse.id])
+            reverse("delete_mouse", args=[self.project.project_name, self.mouse.id])
         )
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
-            response, reverse("show_project", args=[self.project.projectname])
+            response, reverse("show_project", args=[self.project.project_name])
         )
         self.assertFalse(Mouse.objects.filter(id=self.mouse.id).exists())
 
     # Delete mouse while not logged in
     def test_delete_mouse_view_login_required(self):
-        url = reverse("delete_mouse", args=[self.project.projectname, self.mouse.id])
+        url = reverse("delete_mouse", args=[self.project.project_name, self.mouse.id])
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
@@ -632,7 +632,7 @@ class AddRequestViewTest(TestCase):
             password="strongpassword123",
         )
         self.client.login(username="testuser", password="strongpassword123")
-        self.project = Project.objects.create(projectname="TestProject")
+        self.project = Project.objects.create(project_name="TestProject")
         self.mouse1 = Mouse.objects.create(
             id=1, sex="M", dob=date.today(), genotyped=True, project=self.project
         )
@@ -643,26 +643,26 @@ class AddRequestViewTest(TestCase):
 
     # GET RequestForm while logged in
     def test_add_request_get(self):
-        url = reverse("add_request", args=[self.project.projectname])
+        url = reverse("add_request", args=[self.project.project_name])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")
         self.assertIsInstance(response.context["form"], RequestForm)
-        self.assertEqual(response.context["projectname"], self.project.projectname)
+        self.assertEqual(response.context["project_name"], self.project.project_name)
 
     # Get RequestForm while not logged in
     def test_add_request_get_with_unauthenticated_user(self):
         self.client.logout()
         response = self.client.get(
-            reverse("add_request", args=[self.project.projectname])
+            reverse("add_request", args=[self.project.project_name])
         )
-        url = reverse("add_request", args=[self.project.projectname])
+        url = reverse("add_request", args=[self.project.project_name])
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     # POST RequestForm with valid data
     def test_add_request_post_valid(self):
-        url = reverse("add_request", args=[self.project.projectname])
+        url = reverse("add_request", args=[self.project.project_name])
         data = {
             "task_type": "Cl",
             "mice": [self.mice[0].id, self.mice[1].id],
@@ -671,7 +671,7 @@ class AddRequestViewTest(TestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
-            response, reverse("show_project", args=[self.project.projectname])
+            response, reverse("show_project", args=[self.project.project_name])
         )
         self.assertTrue(
             Request.objects.filter(task_type="Cl", mice__in=self.mice).exists()
@@ -686,13 +686,13 @@ class AddRequestViewTest(TestCase):
 
     # POST RequestForm with invalid data
     def test_add_request_post_invalid(self):
-        url = reverse("add_request", args=[self.project.projectname])
+        url = reverse("add_request", args=[self.project.project_name])
         data = {"task_type": "Invalid", "mice": []}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")
         self.assertIsInstance(response.context["form"], RequestForm)
-        self.assertEqual(response.context["projectname"], self.project.projectname)
+        self.assertEqual(response.context["project_name"], self.project.project_name)
         self.assertFalse(Request.objects.exists())
 
     # Try to add request to a non-existent project

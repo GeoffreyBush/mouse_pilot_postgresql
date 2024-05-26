@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ),
                 ("dob", models.DateField(db_column="Date of Birth")),
                 (
-                    "clippedDate",
+                    "clipped_date",
                     models.DateField(blank=True, db_column="Clipped Date", null=True),
                 ),
                 (
@@ -357,7 +357,7 @@ class Migration(migrations.Migration):
             name="Project",
             fields=[
                 (
-                    "projectname",
+                    "project_name",
                     models.CharField(
                         db_column="Name",
                         max_length=30,
@@ -366,7 +366,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "researcharea",
+                    "research_area",
                     models.CharField(
                         blank=True, db_column="Research Area", max_length=50, null=True
                     ),
@@ -462,7 +462,7 @@ class Migration(migrations.Migration):
                 ),
                 ("dob", models.DateField(db_column="Date of Birth")),
                 (
-                    "clippedDate",
+                    "clipped_date",
                     models.DateField(blank=True, db_column="Clipped Date", null=True),
                 ),
                 (

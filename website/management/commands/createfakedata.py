@@ -85,8 +85,8 @@ class Command(BaseCommand):
 
             # Make a project
             project = Project.objects.create(
-                projectname=fake.unique.website_project_name(),
-                researcharea=fake.unique.website_research_area(),
+                project_name=fake.unique.website_project_name(),
+                research_area=fake.unique.website_research_area(),
             )
 
             # Add strains and researchers from random indexes
@@ -118,7 +118,7 @@ class Command(BaseCommand):
                 strain=random.choice(existing_strains),
                 sex=random.choice(["M", "F"]),
                 dob=fake.date(),
-                clippedDate=fake.date(),
+                clipped_date=fake.date(),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),
                 earmark=random.choice(EARMARK_CHOICES),

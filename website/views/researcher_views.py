@@ -19,7 +19,7 @@ def researcher_dashboard(request):
     # Should be made a Project or Mouse object method instead
     for project in myprojects:
         for mouse in mymice:
-            if project.projectname == mouse.project.projectname:
+            if project.project_name == mouse.project.project_name:
                 project.mice_count += 1
 
     template = loader.get_template("researcher/researcher_dashboard.html")
@@ -31,15 +31,15 @@ def researcher_dashboard(request):
 
 
 @login_required
-def show_project(http_request, projectname):
-    myproject = Project.objects.get(pk=projectname)
+def show_project(http_request, project_name):
+    myproject = Project.objects.get(pk=project_name)
 
     # Load page with no "Add Request" form submission
     if http_request.method == "GET":
         mycomment = Comment.objects.all()
 
         # Select only those mice that belong to this project
-        mymice = Mouse.objects.filter(project=projectname)
+        mymice = Mouse.objects.filter(project=project_name)
 
         # Select all mice that belong to this project that have a request
         queryset_miceids = chain(
@@ -65,7 +65,7 @@ def show_project(http_request, projectname):
             "mymice": mymice,
             "mycomment": mycomment,
             "mice_ids_with_requests": mice_ids_with_requests,
-            "projectname": projectname,
+            "project_name": project_name,
             "filter": filter,
         }
         return HttpResponse(template.render(context, http_request))
@@ -81,21 +81,21 @@ def show_project(http_request, projectname):
             return render(
                 http_request,
                 "researcher/researcher_show_project.html",
-                {"form": form, "projectname": projectname},
+                {"form": form, "project_name": project_name},
             )
-    return render(http_request, "add_request.html", {"projectname": projectname})
+    return render(http_request, "add_request.html", {"project_name": project_name})
 
 
 @login_required
 def show_comment(request, mouse_id):
     comment = Comment.objects.get(pk=mouse_id)
     mouse = Mouse.objects.get(pk=mouse_id)
-    projectname = mouse.project.projectname
+    project_name = mouse.project.project_name
     if request.method == "POST":
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            return redirect("show_project", projectname=projectname)
+            return redirect("show_project", project_name=project_name)
     else:
         form = CommentForm(instance=comment)
     return render(

@@ -12,11 +12,11 @@ def show_requests(http_request):
 
 
 @login_required
-def add_request(http_request, projectname):
+def add_request(http_request, project_name):
     # Find associated project, if it exists
     project = None
-    if projectname is not None:
-        project = Project.objects.get(pk=projectname)
+    if project_name is not None:
+        project = Project.objects.get(pk=project_name)
 
     # Fetch RequestForm
     if http_request.method == "POST":
@@ -25,11 +25,11 @@ def add_request(http_request, projectname):
             task = form.save(commit=False)
             task.save()
             task.mice.set(form.cleaned_data["mice"])
-            return redirect("show_project", projectname=projectname)
+            return redirect("show_project", project_name=project_name)
     else:
         form = RequestForm(project=project)
     return render(
-        http_request, "add_request.html", {"form": form, "projectname": projectname}
+        http_request, "add_request.html", {"form": form, "project_name": project_name}
     )
 
 
