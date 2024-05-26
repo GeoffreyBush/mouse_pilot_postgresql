@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from simple_history.models import HistoricalRecords
+from django.db.models import F
 
 
 class CustomUser(AbstractUser):
@@ -30,8 +31,10 @@ class Mouse(models.Model):
         ("TLBL", "TLBL"),
         ("BRBL", "BRBL"),
     ]
-
-    # tube = models.CharField(db_column="Tube", primary_key=True, max_length=20)
+    strain = models.ForeignKey(
+        "Strain", on_delete=models.PROTECT, blank=False, null=False
+    )
+    _tube = models.CharField(db_column="Tube", primary_key=True, max_length=20)
 
     sex = models.CharField(
         db_column="Sex",
@@ -44,23 +47,16 @@ class Mouse(models.Model):
 
     # Culled boolean attribute will be useful
 
-    ##########################
-    # Foreign keys for Mouse #
-    ##########################
-
-    strain = models.ForeignKey(
-        "Strain", on_delete=models.SET_NULL, blank=True, null=True
-    )
     mother = models.ForeignKey(
         "self",
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
         related_name="mother_mouse",
     )
     father = models.ForeignKey(
         "self",
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
         related_name="father_mouse",
@@ -88,11 +84,22 @@ class Mouse(models.Model):
 
     history = HistoricalRecords()
 
-    def __str__(self):
-        return f"{self.tube}"
+    @property
+    def tube(self):
+        return self._tube
+
+    def save(self, *args, **kwargs):
+        if not self._tube:
+            self.strain.increment_mice_count()
+            self._tube = f"{self.strain.strain_name}-{self.strain.mice_count}"
+        super().save(*args, **kwargs)
+        self.refresh_from_db()
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
+    
+    def __str__(self):
+        return f"{self.tube}"
 
     class Meta:
         managed = True
@@ -167,6 +174,12 @@ class Comment(models.Model):
 
 class Strain(models.Model):
     strain_name = models.CharField(db_column="Strain", primary_key=True, max_length=20)
+    mice_count = models.IntegerField(db_column="Mice Count", default=0, null=False, blank=False)
+
+    def increment_mice_count(self):
+        self.mice_count = F('mice_count') + 1
+        self.save(update_fields=['mice_count'])
+        self.refresh_from_db()
 
     def __str__(self):
         return f"{self.strain_name}"

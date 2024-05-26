@@ -1,12 +1,10 @@
-from datetime import date
-
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
 from website.models import Mouse, Project, Request, Strain
-from website.tests.factories import UserFactory
+from website.tests.factories import UserFactory, MouseFactory, StrainFactory
 
 #############
 ### MOUSE ###
@@ -14,8 +12,28 @@ from website.tests.factories import UserFactory
 
 
 class MouseTest(TestCase):
-    pass
+    
+    @classmethod
+    def setUp(self):
+        self.mouse = MouseFactory()
+    
+    # Check MouseFactory works
+    def test_mouse_creation(self):
+        self.assertIsInstance(self.mouse, Mouse)
+        self.mouse.strain_name = "teststrain"
 
+    # Tube attribute for breeding wing ID
+    def test_mouse_tube_id(self):
+        self.assertEqual(self.mouse.tube, "teststrain-1")
+
+    # is_genotyped method
+    def test_mouse_genotyped(self):
+        self.assertFalse(self.mouse.is_genotyped())
+        self.mouse.earmark="TR"
+        self.mouse.save()
+        self.mouse.refresh_from_db()
+        self.assertTrue(self.mouse.is_genotyped())
+    
 
 ##################
 ### CUSTOMUSER ###
@@ -23,7 +41,6 @@ class MouseTest(TestCase):
 class CustomUserTest(TestCase):
 
     @classmethod
-    # Create test user
     def setUp(self):
         self.user = UserFactory(username="testuser", email="testuser@example.com")
 
@@ -66,8 +83,8 @@ class CustomUserTest(TestCase):
 class RequestModelTests(TestCase):
     def setUp(self):
         self.user = UserFactory()
-        self.mouse1 = Mouse.objects.create(dob=date.today())
-        self.mouse2 = Mouse.objects.create(dob=date.today())
+        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
+
         self.request = Request.objects.create(
             researcher=self.user, task_type="Cl", confirmed=False
         )
@@ -108,14 +125,19 @@ class RequestModelTests(TestCase):
 class StrainTestCase(TestCase):
 
     @classmethod
-    # Initial Strain
-    def setUpTestData(cls):
-        Strain.objects.create(strain_name="CRE1")
+    def setUp(self):
+        self.strain = StrainFactory(strain_name="teststrain")
 
-    # Uniqueness
-    def test_strain_uniqueness(self):
-        with self.assertRaises(Exception):
-            Strain.objects.create(strain_name="CRE1")
+    # Duplicate strain name
+    def test_strain_duplicates(self):
+        with self.assertRaises(IntegrityError):
+            Strain.objects.create(strain_name="teststrain")
+
+    # Incremenet mice count of a strain
+    def test_strain_mice_count(self):
+        self.assertEqual(self.strain.mice_count, 0)
+        self.strain.increment_mice_count()
+        self.assertEqual(self.strain.mice_count, 1)
 
 
 ###############
@@ -125,9 +147,8 @@ class ProjectModelTest(TestCase):
 
     @classmethod
     # Initial Project
-    def setUpTestData(cls):
-        strain1 = Strain.objects.create(strain_name="FLOX")
-        strain2 = Strain.objects.create(strain_name="CMV")
+    def setUp(self):
+        strain1, strain2 = StrainFactory(), StrainFactory()
         user1, user2 = UserFactory(), UserFactory()
         project = Project.objects.create(
             projectname="TestName",
