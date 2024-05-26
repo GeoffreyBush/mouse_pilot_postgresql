@@ -1,14 +1,6 @@
 {% extends 'base_template.html' %} {% load static %}
 {% block title %}Researcher View Project{% endblock %} {% block content %}
 
-<!-- The Modal (mouse information popup) -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div id="mouse-information-pop-up" class="modal-content">
-      <span id="modal-span" class="close">&times;</span>
-      <!-- Dynamic comments will be injected here -->
-  </div>
-</div>
 <form method="post" action="{% url 'add_request' project_name=project_name %}">
     {% csrf_token %}
 <div class="container">
@@ -51,17 +43,16 @@
                 <th>Tree</th>
                 <th>Edit</th>
                 <th>Delete</th>
-                <th>Comments</th>
             </tr>
         </thead>
         <tbody>
           {% for mouse in filter.qs %}
           <tr {% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}">
               <td><input type="checkbox" name="mice" value='{{ mouse.id }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.id }}</td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.dob }}</td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.sex }}</td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.earmark }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.id }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.dob }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.sex }}</td>
+              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.earmark }}</td>
             
               
               <td><a href="{% url 'edit_mouse' project_name=project_name tube=tube %}"><img src="{% static '/media/edit.svg' %}" style="height: 20px"></a></td>
@@ -70,9 +61,6 @@
                       <img src="{% static '/media/delete.svg' %}" style="height: 20px">
                   </a>
               </td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">
-                <img src="{% static '/media/comment.svg' %}" style="height: 20px">
-              </td>
           </tr>
           {% endfor %}
       </tbody>
@@ -80,6 +68,5 @@
   </div>
 </div>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="{% static 'js/comment_popup.js' %}"></script>
 <script src="{% static 'js/show_project.js' %}"></script>
 {% endblock %}

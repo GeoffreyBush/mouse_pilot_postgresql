@@ -12,7 +12,7 @@ from .mice_crud_views import (
     edit_mouse,
 )
 from .mice_repository_views import add_mouse_to_repository, mice_repository
-from .project_views import list_projects, show_comment, show_project
+from .project_views import list_projects, show_project
 from .request_views import add_request, confirm_request, show_message, show_requests
 
 __all__ = [
@@ -28,7 +28,6 @@ __all__ = [
     "edit_history",
     "list_projects",
     "show_project",
-    "show_comment",
     "show_requests",
     "add_request",
     "confirm_request",

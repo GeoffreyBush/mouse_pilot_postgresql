@@ -7,14 +7,14 @@ from website.constants import EARMARK_CHOICES
 from website.forms import (
     BreedingCageForm,
     BreedingPairForm,
-    CommentForm,
     CustomUserChangeForm,
     CustomUserCreationForm,
     MouseSelectionForm,
     ProjectMiceForm,
     RequestForm,
 )
-from website.models import CustomUser, Mouse, Project, Strain
+from website.models import CustomUser, Mouse, Project
+from website.tests.factories import StrainFactory, ProjectFactory, UserFactory
 
 
 #################
@@ -22,21 +22,24 @@ from website.models import CustomUser, Mouse, Project, Strain
 #################
 class ProjectMiceFormTestCase(TestCase):
     def setUp(self):
-
-        self.user = CustomUser.objects.create_user(
-            username="testuser", password="testpass", email="testemail@gmail.com"
-        )
-        self.project = Project.objects.create(project_name="TestProject")
-        self.strain = Strain.objects.create(strain_name="Test Strain")
+        self.project = ProjectFactory()
+        self.strain = StrainFactory()
+        self.user = UserFactory()
 
     # Valid data
     def test_mice_form_valid_data(self):
+        strain = StrainFactory()
         form = ProjectMiceForm(
             data={
                 "sex": "M",
                 "dob": date.today(),
                 "clipped_date": date.today(),
+                "mother": None,
+                "father": None,
+                "project": self.project.project_name,
                 "earmark": random.choice(EARMARK_CHOICES),
+                "genotyper": self.user.id,
+                "strain": strain.strain_name,
             }
         )
         self.assertTrue(form.is_valid())
@@ -54,7 +57,7 @@ class ProjectMiceFormTestCase(TestCase):
         self.assertIn("dob", form.errors)
 
     # Invalid sex
-    def test_mice_form_invalid_sex(self):
+    def test_mice_form_invalid_data(self):
         form = ProjectMiceForm(
             data={
                 "sex": "X",
@@ -71,31 +74,6 @@ class ProjectMiceFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("sex", form.errors)
         self.assertIn("earmark", form.errors)
-
-
-####################
-### COMMENT FORM ###
-####################
-class CommentFormTestCase(TestCase):
-    def setUp(self):
-        self.mouse = Mouse.objects.create(id=1, sex="M", dob=date.today())
-
-    # Valid data
-    def test_comment_form_valid_data(self):
-        form = CommentForm(data={"comment_text": "This is a test comment."})
-        self.assertTrue(form.is_valid())
-        comment = form.save(commit=False)
-        comment.comment = self.mouse
-        comment.save()
-        self.assertEqual(comment.comment_text, "This is a test comment.")
-        self.assertEqual(comment.comment.id, self.mouse.id)
-
-    # Exceed max length
-    def test_comment_form_long_text(self):
-        long_text = "A" * 501
-        form = CommentForm(data={"comment_text": long_text})
-        self.assertFalse(form.is_valid())
-        self.assertIn("comment_text", form.errors)
 
 
 ################################

@@ -7,7 +7,8 @@ from website.models import CustomUser, Mouse, Project, Strain
 class ProjectMiceForm(forms.ModelForm):
 
     sex = forms.ChoiceField(
-        choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"})
+        choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"}),
+        required=True
     )
     dob = forms.DateField(
         input_formats=["%Y-%m-%d"],
@@ -48,10 +49,20 @@ class ProjectMiceForm(forms.ModelForm):
     )
     strain = forms.ModelChoiceField(
         queryset=Strain.objects.all(),
-        required=False,
+        required=True,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
     class Meta:
         model = Mouse
-        fields = "__all__"
+        fields = [
+            "sex",
+            "dob",
+            "clipped_date",
+            "mother",
+            "father",
+            "project",
+            "earmark",
+            "genotyper",
+            "strain",
+        ]

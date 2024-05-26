@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from website.models import Comment, Request
+from website.models import Request
 from website.tests.factories import MouseFactory, ProjectFactory, UserFactory
 
 
@@ -36,7 +36,6 @@ class ShowProjectViewTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.project = ProjectFactory()
         self.mouse1, self.mouse2 = MouseFactory(), MouseFactory
-        self.comment = Comment.objects.create(comment_id=1, comment_text="Test comment")
         self.request = Request.objects.create(researcher=self.user)
 
     # Broken test. Likely many issues
@@ -51,7 +50,6 @@ class ShowProjectViewTest(TestCase):
         self.assertContains(response, self.project.project_name)
         self.assertIn("myproject", response.context)
         self.assertIn("mymice", response.context)
-        self.assertIn("mycomment", response.context)
         self.assertIn("mice_ids_with_requests", response.context)
         self.assertIn("project_name", response.context)
         self.assertIn("filter", response.context)

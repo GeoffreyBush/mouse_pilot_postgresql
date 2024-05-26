@@ -6,8 +6,8 @@ from django.shortcuts import redirect, render
 from django.template import loader
 
 from website.filters import ProjectFilter
-from website.forms import CommentForm, MouseSelectionForm
-from website.models import Comment, Mouse, Project, Request
+from website.forms import MouseSelectionForm
+from website.models import Mouse, Project, Request
 
 
 @login_required
@@ -36,7 +36,6 @@ def show_project(http_request, project_name):
 
     # Load page with no "Add Request" form submission
     if http_request.method == "GET":
-        mycomment = Comment.objects.all()
 
         # Select only those mice that belong to this project
         mymice = Mouse.objects.filter(project=project_name)
@@ -63,7 +62,6 @@ def show_project(http_request, project_name):
         context = {
             "myproject": myproject,
             "mymice": mymice,
-            "mycomment": mycomment,
             "mice_ids_with_requests": mice_ids_with_requests,
             "project_name": project_name,
             "filter": filter,
@@ -84,20 +82,3 @@ def show_project(http_request, project_name):
                 {"form": form, "project_name": project_name},
             )
     return render(http_request, "add_request.html", {"project_name": project_name})
-
-
-@login_required
-def show_comment(request, tube):
-    comment = Comment.objects.get(pk=tube)
-    mouse = Mouse.objects.get(pk=tube)
-    project_name = mouse.project.project_name
-    if request.method == "POST":
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            form.save()
-            return redirect("show_project", project_name=project_name)
-    else:
-        form = CommentForm(instance=comment)
-    return render(
-        request, "popups/comment_fragment.html", {"form": form, "comment": comment}
-    )
