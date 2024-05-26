@@ -145,7 +145,7 @@ class StrainTestCase(TestCase):
     # Incremenet mice count of a strain
     def test_strain_mice_count(self):
         self.assertEqual(self.strain.mice_count, 0)
-        self.strain.increment_mice_count()
+        self.mouse=MouseFactory(strain=self.strain)
         self.assertEqual(self.strain.mice_count, 1)
 
 
