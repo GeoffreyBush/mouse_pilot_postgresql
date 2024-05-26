@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from website.models import HistoricalMouse, Mouse
-from website.tests.factories import ProjectFactory, UserFactory, MouseFactory
+from website.tests.factories import MouseFactory, ProjectFactory, UserFactory
 
 """
 class AddMouseViewTest(TestCase):
@@ -147,6 +147,7 @@ class EditMouseViewTest(TestCase):
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 """
 
+
 class DeleteMouseViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -166,7 +167,6 @@ class DeleteMouseViewTest(TestCase):
         )
         self.assertFalse(Mouse.objects.filter(pk=self.mouse.tube).exists())
 
-    
     # Delete mouse while not logged in
     def test_delete_mouse_view_unauthenticated_user(self):
         self.client.logout()
@@ -175,7 +175,7 @@ class DeleteMouseViewTest(TestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
-    
+
 
 class EditHistoryViewTest(TestCase):
 
