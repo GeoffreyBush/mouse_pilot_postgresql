@@ -11,7 +11,7 @@ from website.models import Comment, Mouse, Project, Request
 
 
 @login_required
-def researcher_dashboard(request):
+def list_projects(request):
     myprojects = Project.objects.all()
     mymice = Mouse.objects.all()
 
@@ -22,7 +22,7 @@ def researcher_dashboard(request):
             if project.project_name == mouse.project.project_name:
                 project.mice_count += 1
 
-    template = loader.get_template("researcher/researcher_dashboard.html")
+    template = loader.get_template("researcher/list_projects.html")
     context = {
         # Could add researcher/user variable here
         "myprojects": myprojects,

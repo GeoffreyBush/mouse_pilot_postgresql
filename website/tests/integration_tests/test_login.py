@@ -21,7 +21,7 @@ class LoginTest(StaticLiveServerTestCase):
 
         # Wait for the redirect and assert the user is logged in
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.url_contains(reverse("researcher_dashboard")))
+        wait.until(EC.url_contains(reverse("mice_repository")))
         self.assertIn("Research Home Page", self.driver.page_source)
 
 

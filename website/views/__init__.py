@@ -4,7 +4,7 @@ from .breeding_wing_views import (
     list_breeding_cages,
     view_breeding_cage,
 )
-from .family_tree_views import create_family_tree_data, family_tree
+
 from .login_views import SignUpView, signup
 from .mice_crud_views import (
     add_preexisting_mouse_to_project,
@@ -19,22 +19,20 @@ from .mice_request_views import (
     show_message,
     show_requests,
 )
-from .researcher_views import researcher_dashboard, show_comment, show_project
+from .researcher_views import list_projects, show_comment, show_project
 
 __all__ = [
     "list_breeding_cages",
     "view_breeding_cage",
     "create_breeding_pair",
     "edit_breeding_cage",
-    "family_tree",
-    "create_family_tree_data",
     "SignUpView",
     "signup",
     "edit_mouse",
     "add_preexisting_mouse_to_project",
     "delete_mouse",
     "edit_history",
-    "researcher_dashboard",
+    "list_projects",
     "show_project",
     "show_comment",
     "show_requests",

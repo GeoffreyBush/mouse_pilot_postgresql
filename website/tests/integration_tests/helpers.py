@@ -21,4 +21,4 @@ def auto_login(test):
     test.driver.find_element(By.ID, "id_password").send_keys("testpassword")
     test.driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
     wait = WebDriverWait(test.driver, 10)
-    wait.until(EC.url_contains(reverse("researcher_dashboard")))
+    wait.until(EC.url_contains(reverse("mice_repository")))

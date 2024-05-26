@@ -24,7 +24,6 @@ from website.models import (
     Request,
     Strain,
 )
-from website.views import SignUpView, create_family_tree_data
 
 
 ##############################
@@ -36,47 +35,6 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     username = "testuser"
     password = factory.PostGenerationMethodCall("set_password", "testpassword")
-
-
-###################
-### FAMILY TREE ###
-###################
-class FamilyTreeTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.login(username="testuser", password="testpassword")
-        self.mouse1 = Mouse.objects.create(sex="F", dob=date.today(), genotyped=False)
-        self.mouse2 = Mouse.objects.create(sex="M", dob=date.today(), genotyped=False)
-        self.mouse3 = Mouse.objects.create(
-            sex="F",
-            dob=date.today(),
-            genotyped=False,
-            mother=self.mouse1,
-            father=self.mouse2,
-        )
-
-    # Family tree returns correct response data
-    def test_create_family_tree_data(self):
-        response = self.client.get(reverse("family_tree", args=[self.mouse3]))
-        self.assertEqual(response.status_code, 200)
-        data = create_family_tree_data(self.mouse3)
-        self.assertEqual(
-            data,
-            {
-                "name": str(self.mouse3.id),
-                "role": None,
-                "parent": str(self.mouse1.id),
-                "children": [
-                    {"name": str(self.mouse1.id), "role": "Mother", "parent": None},
-                    {"name": str(self.mouse2.id), "role": "Father", "parent": None},
-                ],
-            },
-        )
-
-    # Try to create a family tree from a mouse that doesn't exist
-    def test_family_tree_view_with_non_existent_mouse(self):
-        with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse("family_tree", args=[10]))
 
 
 ################

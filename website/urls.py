@@ -8,11 +8,10 @@ from .views import *  # noqa: F403
 # Unsorted URLs
 urlpatterns = [
     path(
-        "", views.researcher_dashboard, name="researcher_dashboard"
+        "", views.mice_repository, name="mice_repository"
     ),  # dashboard is placeholder, should probably be a login or home page instead
     path("show_comment/<int:mouse_id>/", views.show_comment, name="show_comment"),
     path("edit_history", views.edit_history, name="edit_history"),
-    path("family_tree/<int:mouse_id>/", views.family_tree, name="family_tree"),
 ]
 
 # Mice repository URLs
@@ -28,7 +27,7 @@ urlpatterns += [
 # Researcher URLs
 urlpatterns += [
     path(
-        "researcher_dashboard", views.researcher_dashboard, name="researcher_dashboard"
+        "list_projects", views.list_projects, name="list_projects"
     ),
     path("show_project/<str:project_name>/", views.show_project, name="show_project"),
     path("show_project/<str:project_name>/", views.show_project, name="show_project"),

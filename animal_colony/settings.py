@@ -139,7 +139,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media_root")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Which HTML page to go to after login or logout
-LOGIN_REDIRECT_URL = "/website/researcher_dashboard"
+LOGIN_REDIRECT_URL = "/website/list_projects"
 LOGOUT_REDIRECT_URL = "/"
 
 # This line enables testing of password recovery without having to send emails
