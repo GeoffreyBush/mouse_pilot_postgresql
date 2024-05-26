@@ -38,5 +38,6 @@ class ShowRequestsViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
-# Test the confirm behaviour 
+
+# Test the confirm behaviour
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
