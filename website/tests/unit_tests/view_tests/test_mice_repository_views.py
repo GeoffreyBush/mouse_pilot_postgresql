@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from website.tests.factories import UserFactory, MouseFactory
+from website.tests.factories import MouseFactory, UserFactory
 
 
 class MiceRepositoryViewTest(TestCase):
