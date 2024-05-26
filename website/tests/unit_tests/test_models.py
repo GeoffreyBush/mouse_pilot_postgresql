@@ -27,12 +27,12 @@ class CustomUserTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser", email="testuser@example.com")
 
-    # Duplicate username
+    # Try to create a user with a duplicate username
     def test_user_with_duplicate_username(self):
         with self.assertRaises(IntegrityError):
             UserFactory(username="testuser")
 
-    # Duplicate email
+    # Try to create a user with a duplicate email
     def test_user_with_duplicate_email(self):
         with self.assertRaises(IntegrityError):
             UserFactory(email="testuser@example.com")
@@ -55,7 +55,7 @@ class CustomUserTest(TestCase):
     # Password too similar to username
     def test_password_similar_to_username(self):
         with self.assertRaises(ValidationError):
-            validate_password("testuser")
+            validate_password("testuser", self.user)
 
 
 ###############
