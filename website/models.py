@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from simple_history.models import HistoricalRecords
 from django.db.models import F
+from simple_history.models import HistoricalRecords
 
 
 class CustomUser(AbstractUser):
@@ -97,7 +97,7 @@ class Mouse(models.Model):
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
-    
+
     def __str__(self):
         return f"{self.tube}"
 
@@ -174,11 +174,13 @@ class Comment(models.Model):
 
 class Strain(models.Model):
     strain_name = models.CharField(db_column="Strain", primary_key=True, max_length=20)
-    mice_count = models.IntegerField(db_column="Mice Count", default=0, null=False, blank=False)
+    mice_count = models.IntegerField(
+        db_column="Mice Count", default=0, null=False, blank=False
+    )
 
     def increment_mice_count(self):
-        self.mice_count = F('mice_count') + 1
-        self.save(update_fields=['mice_count'])
+        self.mice_count = F("mice_count") + 1
+        self.save(update_fields=["mice_count"])
         self.refresh_from_db()
 
     def __str__(self):

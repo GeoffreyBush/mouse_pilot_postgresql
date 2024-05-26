@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.models import Mouse, Project, Request, Strain
-from website.tests.factories import UserFactory, MouseFactory, StrainFactory
+from website.tests.factories import MouseFactory, StrainFactory, UserFactory
 
 #############
 ### MOUSE ###
@@ -12,11 +12,11 @@ from website.tests.factories import UserFactory, MouseFactory, StrainFactory
 
 
 class MouseTest(TestCase):
-    
+
     @classmethod
     def setUp(self):
         self.mouse = MouseFactory()
-    
+
     # Check MouseFactory works
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
@@ -29,11 +29,11 @@ class MouseTest(TestCase):
     # is_genotyped method
     def test_mouse_genotyped(self):
         self.assertFalse(self.mouse.is_genotyped())
-        self.mouse.earmark="TR"
+        self.mouse.earmark = "TR"
         self.mouse.save()
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
-    
+
 
 ##################
 ### CUSTOMUSER ###
