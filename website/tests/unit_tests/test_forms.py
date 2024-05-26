@@ -13,8 +13,13 @@ from website.forms import (
     ProjectMiceForm,
     RequestForm,
 )
-from website.models import CustomUser, Mouse, Project
-from website.tests.factories import StrainFactory, ProjectFactory, UserFactory, MouseFactory    
+from website.models import CustomUser
+from website.tests.factories import (
+    MouseFactory,
+    ProjectFactory,
+    StrainFactory,
+    UserFactory,
+)
 
 
 #################
@@ -185,7 +190,9 @@ class RequestFormTestCase(TestCase):
     def setUp(self):
         self.project = ProjectFactory()
         self.user = UserFactory()
-        self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(project=self.project) 
+        self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(
+            project=self.project
+        )
 
     # Valid data
     def test_request_form_valid_data(self):
@@ -227,7 +234,11 @@ class RequestFormTestCase(TestCase):
 class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2, self.mouse3 = MouseFactory(project=self.project), MouseFactory(project=self.project), MouseFactory()
+        self.mouse1, self.mouse2, self.mouse3 = (
+            MouseFactory(project=self.project),
+            MouseFactory(project=self.project),
+            MouseFactory(),
+        )
 
     # Valid data
     def test_mouse_selection_form_valid_data(self):
