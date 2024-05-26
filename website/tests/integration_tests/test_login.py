@@ -1,5 +1,3 @@
-
-
 """
 class LoginTest(StaticLiveServerTestCase):
     def setUp(self):

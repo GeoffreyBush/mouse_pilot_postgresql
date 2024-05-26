@@ -1,11 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from website.models import (
-    Comment,
-    Request,
-)
-from website.tests.factories import UserFactory, ProjectFactory, MouseFactory
+from website.models import Comment, Request
+from website.tests.factories import MouseFactory, ProjectFactory, UserFactory
 
 
 class ListProjectsTest(TestCase):
@@ -31,6 +28,7 @@ class ListProjectsTest(TestCase):
         self.assertRedirects(
             response, f'/accounts/login/?next={reverse("list_projects")}'
         )
+
 
 class ShowProjectViewTest(TestCase):
     def setUp(self):

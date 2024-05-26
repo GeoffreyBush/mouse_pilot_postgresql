@@ -1,6 +1,3 @@
-
-
-
 """
 class ResearcherShowProjectTest(StaticLiveServerTestCase):
     def setUp(self):

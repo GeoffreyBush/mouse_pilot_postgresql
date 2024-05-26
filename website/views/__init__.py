@@ -4,7 +4,6 @@ from .breeding_wing_views import (
     list_breeding_cages,
     view_breeding_cage,
 )
-
 from .login_views import SignUpView, signup
 from .mice_crud_views import (
     add_preexisting_mouse_to_project,
