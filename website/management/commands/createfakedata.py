@@ -161,10 +161,12 @@ class Command(BaseCommand):
         for _ in range(x):
             variable_number_born = random.randint(1, 21)
             variable_number_wean = random.randint(1, variable_number_born)
+            mother=random.choice(female_mice)
+            father = male_mice.filter(strain=mother.strain).order_by('?').first()
             BreedingCage.objects.create(
                 box_no=fake.unique.website_box_no(),
-                mother=random.choice(female_mice),
-                father=random.choice(male_mice),
+                mother=mother,
+                father=father,
                 date_born=fake.date(),
                 number_born=variable_number_born,
                 cull_to="placeholder",
