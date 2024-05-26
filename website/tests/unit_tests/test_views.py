@@ -247,7 +247,7 @@ class BreedingWingListCagesTest(TestCase):
     def test_list_breeding_cages_view_with_authenticated_user(self):
         response = self.client.get(reverse("list_breeding_cages"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_wing/list_breeding_cages.html")
+        self.assertTemplateUsed(response, "breeding_cages/list_breeding_cages.html")
         self.assertIn("mycages", response.context)
         self.assertIn(self.cage, response.context["mycages"])
 
@@ -258,37 +258,6 @@ class BreedingWingListCagesTest(TestCase):
         url = reverse("list_breeding_cages")
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
-
-
-################################
-### BREEDING WING ADD LITTER ###
-################################
-class BreedingWingAddLitter(TestCase):
-    def setup(self):
-        self.user = UserFactory()
-        self.client.force_login(self.user)
-        self.mouse1 = Mouse.objects.create(
-            sex="M",
-            dob=date.today(),
-            genotyped=False,
-            project=self.project,
-            cage=self.cage,
-        )
-        self.mouse2 = Mouse.objects.create(
-            sex="F",
-            dob=date.today(),
-            genotyped=False,
-            project=self.project,
-            cage=self.cage,
-        )
-
-    """ Broken test - self.assertRedirects() goes to login page instead. Tested on live server and login was not a problem """
-
-    # Access breeding wing add litter logged in
-    def test_breeding_wing_add_litter_with_authenticated_user(self):
-        response = self.client.get(reverse("breeding_wing_add_litter"))
-        self.assertEqual(response.status_code, 302)
-        # self.assertRedirects(response, reverse('breeding_wing_add_litter'))
 
 
 ##########################################
@@ -308,12 +277,12 @@ class BreedingWingViewIndividualCageTest(TestCase):
             reverse("view_breeding_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_wing/view_breeding_cage.html")
+        self.assertTemplateUsed(response, "breeding_cages/view_breeding_cage.html")
         self.assertIn("mycage", response.context)
         self.assertEqual(response.context["mycage"], self.cage)
 
     # Access non-existent cage
-    def test_breeding_wing_view_non_existent_cage(self):
+    def test_view_non_existent_breeding_cage(self):
         self.client.login(username="testuser", password="testpassword")
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("view_breeding_cage", args=[10]))
@@ -345,7 +314,7 @@ class AddBreedingPairViewTest(TestCase):
     def test_create_breeding_pair_get_with_authenticated_user(self):
         response = self.client.get(reverse("create_breeding_pair"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_wing/create_breeding_pair.html")
+        self.assertTemplateUsed(response, "breeding_cages/create_breeding_pair.html")
 
     # POST BreedingCageForm with valid data
     def test_create_breeding_pair_post_valid(self):
@@ -368,7 +337,7 @@ class AddBreedingPairViewTest(TestCase):
         }
         response = self.client.post(reverse("create_breeding_pair"), data)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_wing/create_breeding_pair.html")
+        self.assertTemplateUsed(response, "breeding_cages/create_breeding_pair.html")
         form = response.context["form"]
         self.assertFalse(form.is_valid())
 
@@ -839,14 +808,14 @@ class MiceRepositoryViewTest(TestCase):
     def test_mice_repository_view_get_request(self):
         response = self.client.get(reverse("mice_repository"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "general/mice_repository.html")
+        self.assertTemplateUsed(response, "repository/mice_repository.html")
         self.assertIn("mymice", response.context)
 
     # test for add mouse to repository
     def test_add_mouse_to_repository(self):
         response = self.client.get(reverse("add_mouse_to_repository"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "general/add_mouse_to_repository.html")
+        self.assertTemplateUsed(response, "repository/add_mouse_to_repository.html")
         # self.assertIsInstance(response.context["form"], RepositoryMiceForm)
 
     # POST RequestForm with valid data

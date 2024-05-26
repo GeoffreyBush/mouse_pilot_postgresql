@@ -47,11 +47,6 @@ urlpatterns += [
         name="create_breeding_pair",
     ),
     path(
-        "breeding_wing_add_litter",
-        views.breeding_wing_add_litter,
-        name="breeding_wing_add_litter",
-    ),
-    path(
         "view_breeding_cage<str:box_no>",
         views.view_breeding_cage,
         name="view_breeding_cage",

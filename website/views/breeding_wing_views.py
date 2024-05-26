@@ -3,36 +3,22 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 
-from website.forms import BreedingCageForm, BreedingPairForm, ProjectMiceForm
+from website.forms import BreedingCageForm, BreedingPairForm
 from website.models import BreedingCage
 
 
 @login_required
 def list_breeding_cages(request):
     mycages = BreedingCage.objects.all()
-    template = loader.get_template("breeding_wing/list_breeding_cages.html")
+    template = loader.get_template("breeding_cages/list_breeding_cages.html")
     context = {"mycages": mycages}
     return HttpResponse(template.render(context, request))
 
 
 @login_required
-def breeding_wing_add_litter(request):
-    if request.method == "POST":
-        form = ProjectMiceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("list_breeding_cages")
-    else:
-        form = ProjectMiceForm()
-    return render(
-        request, "breeding_wing/breeding_wing_add_litter.html", {"form": form}
-    )
-
-
-@login_required
 def view_breeding_cage(request, box_no):
     mycage = BreedingCage.objects.get(box_no=box_no)
-    template = loader.get_template("breeding_wing/view_breeding_cage.html")
+    template = loader.get_template("breeding_cages/view_breeding_cage.html")
     context = {
         "mycage": mycage,
     }
@@ -49,7 +35,7 @@ def create_breeding_pair(request):
             return redirect("list_breeding_cages")
     else:
         form = BreedingPairForm()
-    return render(request, "breeding_wing/create_breeding_pair.html", {"form": form})
+    return render(request, "breeding_cages/create_breeding_pair.html", {"form": form})
 
 
 @login_required
@@ -62,4 +48,4 @@ def edit_breeding_cage(request, box_no):
             return redirect("list_breeding_cages")
     else:
         form = BreedingCageForm(instance=cage)
-    return render(request, "breeding_wing/edit_breeding_cage.html", {"form": form})
+    return render(request, "breeding_cages/edit_breeding_cage.html", {"form": form})
