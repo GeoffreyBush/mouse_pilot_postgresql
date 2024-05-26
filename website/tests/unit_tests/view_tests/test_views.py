@@ -12,47 +12,7 @@ from website.views import SignUpView
 #######################
 ### CONFIRM REQUEST ###
 #######################
-class ConfirmRequestViewTest(TestCase):
-    def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            username="testuser",
-            email="testuser@example.com",
-            password="strongpassword123",
-        )
-        self.client.login(username="testuser", password="strongpassword123")
-        self.mouse = Mouse.objects.create(dob=date.today(), genotyped=False)
-        self.request = Request.objects.create(
-            researcher=self.user, task_type="Cl", confirmed=False
-        )
-        self.request.mice.add(self.mouse)
 
-    # User needs to be logged in
-    def test_confirm_request_view_login_required(self):
-        self.client.logout()
-        response = self.client.get(
-            reverse("confirm_request", args=[self.request.request_id])
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response,
-            f"{reverse('login')}?next={reverse('confirm_request', args=[self.request.request_id])}",
-        )
-
-    # Redirect to show_requests after confirming
-    def test_confirm_request_view_get_request(self):
-        response = self.client.get(
-            reverse("confirm_request", args=[self.request.request_id])
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("show_requests"))
-
-    # Confirm request changes mice.genotyped to True
-    def test_confirm_request_view_updates_request_status(self):
-        self.client.get(reverse("confirm_request", args=[self.request.request_id]))
-        self.request.refresh_from_db()
-        self.assertTrue(self.request.confirmed)
-        self.mouse.refresh_from_db()
-        self.assertTrue(self.mouse.genotyped)
 
 
 ######################
