@@ -1,16 +1,12 @@
 from datetime import date
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 
-from website.forms import CustomUserCreationForm, RequestForm
-from website.models import CustomUser, Mouse, Project, Request
+from website.forms import CustomUserCreationForm
+from website.models import CustomUser, Mouse, Request
 from website.tests.factories import UserFactory
 from website.views import SignUpView
-
-
-
 
 
 #######################

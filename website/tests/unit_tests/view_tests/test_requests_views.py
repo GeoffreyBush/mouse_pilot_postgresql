@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from website.models import Request
-from website.tests.factories import UserFactory, MouseFactory, ProjectFactory
 from website.forms import RequestForm
+from website.models import Request
+from website.tests.factories import MouseFactory, ProjectFactory, UserFactory
 
 
 class ShowRequestsViewTest(TestCase):
@@ -48,7 +48,9 @@ class AddRequestViewTest(TestCase):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(project=self.project)
+        self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(
+            project=self.project
+        )
         self.mice = [self.mouse1, self.mouse2]
 
     # GET RequestForm while logged in
@@ -116,5 +118,6 @@ class AddRequestViewTest(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("add_request", args=["AnyOtherName"]))
     """
+
 
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
