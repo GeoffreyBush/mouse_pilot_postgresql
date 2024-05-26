@@ -63,7 +63,7 @@
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.dob }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.sex }}</td>
               <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="showCommentsForMouse(this)">{{ mouse.earmark }}</td>
-              <td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}" onclick="fetchFamilyTree({{ mouse.id }})"><img src="{% static 'media/tree-structure-fill-svgrepo-com.svg' %}" style="height: 20px"></td>
+            
               
               <td><a href="{% url 'edit_mouse' project_name=project_name mouse_id=mouse.id %}"><img src="{% static '/media/edit.svg' %}" style="height: 20px"></a></td>
               <td>
@@ -79,10 +79,6 @@
       </tbody>
     </table>
   </div>
-</div>
-<div id="family-tree-container" class="hidden" style="position: fixed; z-index: 10; bottom: 0; right: 0; background: rgba(97, 97, 97, 0.8); width: 400px; height: 400px;">
-  <svg id="family-tree" width="400" height="400"></svg>
-  <button style="position: absolute; z-index: 11; top: 0; right: 0;" onclick="closeFamilyTree()">X</button>
 </div>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="{% static 'js/comment_popup.js' %}"></script>
