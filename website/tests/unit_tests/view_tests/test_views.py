@@ -1,18 +1,15 @@
-from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 
 from website.forms import CustomUserCreationForm
-from website.models import CustomUser, Mouse, Request
+from website.models import CustomUser
 from website.tests.factories import UserFactory
 from website.views import SignUpView
-
 
 #######################
 ### CONFIRM REQUEST ###
 #######################
-
 
 
 ######################
