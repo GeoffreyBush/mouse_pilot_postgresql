@@ -44,13 +44,13 @@ def show_project(http_request, project_name):
         # Select all mice that belong to this project that have a request
         queryset_miceids = chain(
             *[
-                mymice.filter(id__in=request.mice.all())
+                mymice.filter(_tube__in=request.mice.all())
                 for request in Request.objects.all()
             ]
         )
         mice_ids_with_requests = []
         for mouse in queryset_miceids:
-            mice_ids_with_requests.append(mouse.id)
+            mice_ids_with_requests.append(mouse.pk)
 
         # Was the search or cancel filter button pressed?
         filter = ProjectFilter(http_request.GET, queryset=mymice)
