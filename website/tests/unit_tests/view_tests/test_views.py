@@ -5,19 +5,8 @@ from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 
-from website.forms import (
-    CustomUserCreationForm,
-    ProjectMiceForm,
-    RequestForm,
-)
-from website.models import (
-    CustomUser,
-    HistoricalMouse,
-    Mouse,
-    Project,
-    Request,
-    Strain,
-)
+from website.forms import CustomUserCreationForm, ProjectMiceForm, RequestForm
+from website.models import CustomUser, HistoricalMouse, Mouse, Project, Request, Strain
 from website.tests.factories import UserFactory
 from website.views import SignUpView
 
