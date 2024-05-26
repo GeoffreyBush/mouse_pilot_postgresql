@@ -1,10 +1,10 @@
 from datetime import date
-
-from django.db import IntegrityError
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError 
 from django.test import TestCase
 from website.tests.factories import UserFactory
 from website.models import (
-    CustomUser,
     Mouse,
     Project,
     Request,
@@ -29,15 +29,35 @@ class CustomUserTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser", email="testuser@example.com")
 
-    # No duplicate usernames
+    # Duplicate username
     def test_user_with_duplicate_username(self):
         with self.assertRaises(IntegrityError):
-            UserFactory().create_valid_user(username="testuser")
+            UserFactory(username="testuser")
 
-    # No duplicate emails
+    # Duplicate email
     def test_user_with_duplicate_email(self):
         with self.assertRaises(IntegrityError):
-            UserFactory().create_valid_user(email="testuser@example.com")
+            UserFactory(email="testuser@example.com")
+
+    # Password length too short
+    def test_password_length(self):
+        with self.assertRaises(ValidationError):
+            validate_password("short")
+
+    # Password too simple
+    def test_password_complexity(self):
+        with self.assertRaises(ValidationError):
+            validate_password("12345678")
+    
+    # Password too common
+    def test_password_common(self):
+        with self.assertRaises(ValidationError):
+            validate_password("password")
+
+    # Password too similar to username
+    def test_password_similar_to_username(self):
+        with self.assertRaises(ValidationError):
+            validate_password("testuser")
 
 
 ###############
@@ -47,11 +67,7 @@ class CustomUserTest(TestCase):
 
 class RequestModelTests(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            username="testuser",
-            email="testuser@example.com",
-            password="strongpassword123",
-        )
+        self.user = UserFactory()
         self.mouse1 = Mouse.objects.create(dob=date.today())
         self.mouse2 = Mouse.objects.create(dob=date.today())
         self.request = Request.objects.create(
@@ -113,12 +129,7 @@ class ProjectModelTest(TestCase):
     def setUpTestData(cls):
         strain1 = Strain.objects.create(strain_name="FLOX")
         strain2 = Strain.objects.create(strain_name="CMV")
-        user1 = CustomUser.objects.create(
-            username="TestUser1", password="testpassword", email="testemail1@test.com"
-        )
-        user2 = CustomUser.objects.create(
-            username="TestUser2", password="testpassword", email="testemail2@test.com"
-        )
+        user1, user2 = UserFactory(), UserFactory()
         project = Project.objects.create(
             projectname="TestName",
             researcharea="TestArea",
