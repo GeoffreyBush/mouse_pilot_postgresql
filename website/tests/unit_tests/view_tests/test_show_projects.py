@@ -1,11 +1,11 @@
 from datetime import date
 
-import factory
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from website.tests.factories import UserFactory
 
 from website.forms import (
     BreedingPairForm,
