@@ -1,3 +1,20 @@
+from datetime import date
+
+
+from django.test import TestCase
+from django.urls import reverse
+from django.utils import timezone
+
+from website.models import (
+
+    HistoricalMouse,
+
+    Project,
+
+)
+from website.tests.factories import UserFactory, ProjectFactory
+
+
 """
 class AddMouseViewTest(TestCase):
     def setUp(self):
@@ -137,3 +154,45 @@ class EditMouseViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 """
+
+class EditHistoryViewTest(TestCase):
+
+    def setUp(self):
+        self.user = UserFactory(username="testuser")
+        self.client.login(username="testuser", password="testpassword")
+        self.project1, self.project2 = ProjectFactory(), ProjectFactory()
+
+        self.history1 = HistoricalMouse.objects.create(
+            history_date=timezone.now(),
+            sex="M",
+            dob=date.today(),
+            project=self.project1,
+        )
+        self.history2 = HistoricalMouse.objects.create(
+            history_date=timezone.now(),
+            sex="F",
+            dob=date.today(),
+            project=self.project2,
+        )
+
+    # Access edit history while logged in
+    def test_edit_history_view_with_authenticated_user(self):
+        response = self.client.get(reverse("edit_history"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "edit_history.html")
+
+    # Access edit history while not logged in
+    def test_edit_history_view_with_unauthenticated_user(self):
+        self.client.logout()
+        url = reverse("edit_history")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f"/accounts/login/?next={url}")
+
+    # Edit history contains correct data
+    def test_edit_history_view(self):
+        response = self.client.get(reverse("edit_history"))
+        self.assertContains(response, self.history1.project)
+        self.assertContains(response, self.history2.project)
+
+    # Should test an actual edit of the mice here too

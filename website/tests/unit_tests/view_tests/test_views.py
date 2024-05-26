@@ -28,49 +28,7 @@ from website.views import SignUpView
 #########################
 ### SHOW EDIT HISTORY ###
 #########################
-class EditHistoryViewTest(TestCase):
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.login(username="testuser", password="testpassword")
-        self.project1 = Project.objects.create(project_name="TestProject1")
-        self.project2 = Project.objects.create(project_name="TestProject2")
-
-        self.history1 = HistoricalMouse.objects.create(
-            id=1,
-            history_date=timezone.now(),  # Using timezone to avoid warnings about a 'naive datetime'
-            sex="M",
-            dob=date.today(),
-            genotyped=False,
-            project=self.project1,
-        )
-        self.history2 = HistoricalMouse.objects.create(
-            id=2,
-            history_date=timezone.now(),
-            sex="F",
-            dob=date.today(),
-            genotyped=True,
-            project=self.project2,
-        )
-
-    # Access edit history while logged in
-    def test_edit_history_view_with_authenticated_user(self):
-        response = self.client.get(reverse("edit_history"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "edit_history.html")
-
-    # Access edit history while not logged in
-    def test_edit_history_view_with_unauthenticated_user(self):
-        self.client.logout()
-        url = reverse("edit_history")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
-
-    def test_edit_history_view(self):
-        response = self.client.get(reverse("edit_history"))
-        self.assertContains(response, self.history1.project)
-        self.assertContains(response, self.history2.project)
 
 
 ####################
