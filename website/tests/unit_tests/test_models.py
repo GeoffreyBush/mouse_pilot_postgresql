@@ -12,8 +12,6 @@ from website.models import (
 )
 
 
-
-
 ##################
 ### CUSTOMUSER ###
 ##################
@@ -95,7 +93,6 @@ class StrainTestCase(TestCase):
     def test_strain_uniqueness(self):
         with self.assertRaises(Exception):
             Strain.objects.create(strain_name="CRE1")
-
 
 
 ###############
