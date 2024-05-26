@@ -14,7 +14,7 @@ from website.forms import (
     RequestForm,
 )
 from website.models import CustomUser, Mouse, Project
-from website.tests.factories import StrainFactory, ProjectFactory, UserFactory
+from website.tests.factories import StrainFactory, ProjectFactory, UserFactory, MouseFactory    
 
 
 #################
@@ -87,15 +87,15 @@ class CustomUserCreationFormTestCase(TestCase):
             data={
                 "username": "testuser",
                 "email": "test@example.com",
-                "password1": "testpass123",
-                "password2": "testpass123",
+                "password1": "testpassword",
+                "password2": "testpassword",
             }
         )
         self.assertTrue(form.is_valid())
         user = form.save()
         self.assertEqual(user.username, "testuser")
         self.assertEqual(user.email, "test@example.com")
-        self.assertTrue(user.check_password("testpass123"))
+        self.assertTrue(user.check_password("testpassword"))
 
     # Empty form
     def test_custom_user_creation_form_empty_data(self):
@@ -141,12 +141,11 @@ class CustomUserCreationFormTestCase(TestCase):
 ############################
 class CustomUserChangeFormTestCase(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            username="testuser", email="test@example.com", password="testpass123"
-        )
+        self.user = UserFactory(username="testuser")
 
     # Valid data
     def test_custom_user_change_form_valid_data(self):
+        self.assertEqual(self.user.username, "testuser")
         form = CustomUserChangeForm(
             instance=self.user, data={"username": "newuser", "email": "new@example.com"}
         )
@@ -163,9 +162,7 @@ class CustomUserChangeFormTestCase(TestCase):
 
     # Duplicate user
     def test_custom_user_change_form_duplicate_username(self):
-        CustomUser.objects.create_user(
-            username="newuser", email="another@example.com", password="testpass123"
-        )
+        UserFactory(username="newuser")
         form = CustomUserChangeForm(
             instance=self.user, data={"username": "newuser", "email": "new@example.com"}
         )
@@ -186,27 +183,16 @@ class CustomUserChangeFormTestCase(TestCase):
 ####################
 class RequestFormTestCase(TestCase):
     def setUp(self):
-        self.project1 = Project.objects.create(project_name="Project 1")
-        self.project2 = Project.objects.create(project_name="Project 2")
-        self.user = CustomUser.objects.create_user(
-            username="testuser", password="testpass123"
-        )
-        self.mouse1 = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), project=self.project1
-        )
-        self.mouse2 = Mouse.objects.create(
-            id=2, sex="F", dob=date.today(), project=self.project1
-        )
-        self.mouse3 = Mouse.objects.create(
-            id=3, sex="M", dob=date.today(), project=self.project2
-        )
+        self.project = ProjectFactory()
+        self.user = UserFactory()
+        self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(project=self.project) 
 
     # Valid data
     def test_request_form_valid_data(self):
         form = RequestForm(
-            project=self.project1,
+            project=self.project,
             data={
-                "mice": [self.mouse1.id, self.mouse2.id],
+                "mice": [self.mouse1.pk, self.mouse2.pk],
                 "task_type": "Cl",
                 "researcher": self.user.id,
                 "new_message": "Test message",
@@ -222,7 +208,7 @@ class RequestFormTestCase(TestCase):
     # Invalid data
     def test_request_form_invalid_data(self):
         form = RequestForm(
-            project=self.project1,
+            project=self.project,
             data={
                 "mice": [],
                 "task_type": "Invalid",
@@ -235,27 +221,18 @@ class RequestFormTestCase(TestCase):
         self.assertIn("task_type", form.errors)
 
 
-###########################
-### MOUSE CHECKBOX FORM ###
-###########################
+############################
+### MOUSE SELECTION FORM ###
+############################
 class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
-        self.project1 = Project.objects.create(project_name="Project 1")
-        self.project2 = Project.objects.create(project_name="Project 2")
-        self.mouse1 = Mouse.objects.create(
-            id=1, sex="M", dob=date.today(), project=self.project1
-        )
-        self.mouse2 = Mouse.objects.create(
-            id=2, sex="F", dob=date.today(), project=self.project1
-        )
-        self.mouse3 = Mouse.objects.create(
-            id=3, sex="M", dob=date.today(), project=self.project2
-        )
+        self.project = ProjectFactory()
+        self.mouse1, self.mouse2, self.mouse3 = MouseFactory(project=self.project), MouseFactory(project=self.project), MouseFactory()
 
     # Valid data
     def test_mouse_selection_form_valid_data(self):
         form = MouseSelectionForm(
-            project=self.project1, data={"mice": [self.mouse1.id, self.mouse2.id]}
+            project=self.project, data={"mice": [self.mouse1.pk, self.mouse2.pk]}
         )
         self.assertTrue(form.is_valid())
         self.assertCountEqual(form.cleaned_data["mice"], [self.mouse1, self.mouse2])
@@ -263,7 +240,7 @@ class MouseSelectionFormTestCase(TestCase):
     # Project mismatch
     def test_mouse_selection_form_invalid_data(self):
         form = MouseSelectionForm(
-            project=self.project1, data={"mice": [self.mouse1.id, self.mouse3.id]}
+            project=self.project, data={"mice": [self.mouse1.pk, self.mouse3.pk]}
         )
         self.assertFalse(form.is_valid())
         self.assertIn("mice", form.errors)
@@ -275,8 +252,7 @@ class MouseSelectionFormTestCase(TestCase):
 class BreedingPairFormTest(TestCase):
 
     def setUp(self):
-        self.father = Mouse.objects.create(id=1, sex="M", dob=date.today())
-        self.mother = Mouse.objects.create(id=2, sex="M", dob=date.today())
+        self.father, self.mother = MouseFactory(sex="M"), MouseFactory(sex="F")
 
     def test_valid_form(self):
         data = {
@@ -302,8 +278,7 @@ class BreedingPairFormTest(TestCase):
 class BreedingCageFormTest(TestCase):
 
     def setUp(self):
-        self.father = Mouse.objects.create(id=1, sex="M", dob=date.today())
-        self.mother = Mouse.objects.create(id=2, sex="M", dob=date.today())
+        self.father, self.mother = MouseFactory(sex="M"), MouseFactory(sex="F")
 
     # Valid data
     def test_valid_form(self):

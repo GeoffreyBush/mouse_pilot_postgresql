@@ -45,4 +45,4 @@ class MouseSelectionForm(forms.ModelForm):
 
     class Meta:
         model = Mouse
-        fields = "__all__"  # ["tube"]
+        fields = ["mice"]
