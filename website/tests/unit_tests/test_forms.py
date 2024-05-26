@@ -14,7 +14,7 @@ from website.forms import (
     RequestForm,
 )
 from website.models import CustomUser, Mouse, Project
-from website.tests.factories import StrainFactory, ProjectFactory, UserFactory
+from website.tests.factories import ProjectFactory, StrainFactory, UserFactory
 
 
 #################
