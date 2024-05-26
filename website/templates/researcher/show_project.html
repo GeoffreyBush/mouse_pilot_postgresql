@@ -1,5 +1,5 @@
 {% extends 'base_template.html' %} {% load static %}
-{% block title %}Researcher View Project{% endblock %} {% block content %}
+{% block title %}View Project{% endblock %} {% block content %}
 
 <form method="post" action="{% url 'add_request' project_name=project_name %}">
     {% csrf_token %}

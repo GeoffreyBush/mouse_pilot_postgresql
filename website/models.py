@@ -67,7 +67,7 @@ class Mouse(models.Model):
     # )
 
     project = models.ForeignKey(
-        "Project", on_delete=models.SET_NULL, null=True, blank=True
+        "Project", on_delete=models.PROTECT, null=True, blank=True
     )
 
     clipped_date = models.DateField(db_column="Clipped Date", null=True, blank=True)
@@ -120,7 +120,10 @@ class Request(models.Model):
         "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
     task_type = models.CharField(max_length=2, choices=TASK_CHOICES, default="Cl")
+
+    # Should set constraints to have at least one mouse and delete if there are none
     mice = models.ManyToManyField("Mouse", db_column="Mouse")
+    
     confirmed = models.BooleanField(
         default=False
     )  # confirmed attribute could be switched to flag with choices?
