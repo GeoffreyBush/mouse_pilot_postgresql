@@ -50,7 +50,7 @@ jobs:
       run: python manage.py test website.tests.unit_tests.test_forms 
 
     - name: Run View Unit Tests
-      run: python manage.py test website.tests.unit_tests.test_views
+      run: python manage.py test website/tests/unit_tests/view_tests/
 
     - name: Run Integration Tests
       run: python manage.py test website/tests/integration_tests
