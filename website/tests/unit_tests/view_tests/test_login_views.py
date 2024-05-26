@@ -5,6 +5,7 @@ from website.forms import CustomUserCreationForm
 from website.models import CustomUser
 from website.views import SignUpView
 
+
 class SignUpViewTest(TestCase):
 
     # GET CustomUseCreationrForm
