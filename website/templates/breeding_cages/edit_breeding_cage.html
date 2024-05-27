@@ -2,29 +2,45 @@
 {% load static %}
 {% block title %}Edit Breeding Cage{% endblock %}
 {% block content %}
-<div class="settings-container">
-    <a class="project-header-text" style="margin-left: 10px; font-size: 20px;">
-        Edit Cage
-    </a>
-    <button class="menu-button menu-button-text back-to-project">
-        <a href="{% url 'list_breeding_cages' %}" style="text-decoration: none;">
-        Back to Dashboard
-        </a>
-    </button>
-</div>
-<div class="projects-container" style="padding: 30px;">
-    <form method="post" style="font-size: 20px">
-        {% csrf_token %}
-        <table>
-            {% for field in form %}
-            <tr>
-                <td>{{ field.label_tag }}</td>
-                <td style="padding-left: 120px;">{{ field }}</td>
-            </tr>
-            {% endfor %}</table>
-        <button class="menu-button menu-button-text save-changes" type="submit">
-            Save Changes
+
+<div class="container p-3">
+    <h2 class="my-3">
+        Edit Breeding Cage
+    </h2>
+    <div class="col-10">
+        <ul class="list-group">
+            <li class="list-group-item">
+                This page is for editing an existing breeding cage to reflect changes such as sexing, weaning, or death of pups.
+            </li>
+            <li class="list-group-item">
+                It will make a new breeding cage labelled with Box Numbers.
+            </li>
+        </ul>
+        <button class="btn btn-secondary ml-auto mt-4">
+            <a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
+                Back to Dashboard
+            </a>
         </button>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-1">
+            {% for field in form %}
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-success mt-2" type="submit">
+            Confirm Edit
     </form>
 </div>
 {% endblock %}
