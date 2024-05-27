@@ -204,25 +204,25 @@ class BreedingCageTest(TestCase):
 
     @classmethod
     def setUp(self):
-        self.mother = MouseFactory()
-        self.father = MouseFactory()
+        self.mother = MouseFactory(sex="F")
+        self.father = MouseFactory(sex="M")
         self.breeding_cage = BreedingCageFactory(mother=self.mother, father=self.father)
 
     # Confirm creation of breeding cage
     def test_breeding_cage_creation(self):
-        self.assertIsInstance(self.cage, BreedingCage)
+        self.assertIsInstance(self.breeding_cage, BreedingCage)
 
     # Transfer to stock cage
     def test_breeding_cage_transfer(self):
         self.breeding_cage.male_pups, self.breeding_cage.female_pups = 5, 3
-        self.stock_cage = StockCageFactory()
-        self.breeding_cage.transfer_to_stock()
-        self.assertTrue(self.cage.transferred_to_stock)
-        self.male_mice = Mouse.objects.filter(sex="M")
-        self.female_mice = Mouse.objects.filter(sex="F")
-        self.assertEqual(self.male_mice.count(), 6)
-        self.assertEqual(self.female_mice.count(), 4)
+        self.stock_cage = self.breeding_cage.transfer_to_stock()
+        self.assertIsInstance(self.stock_cage, StockCage)
+        self.assertTrue(self.breeding_cage.transferred_to_stock)
+        self.assertEqual(Mouse.objects.filter(sex="M").count(), 6)
+        self.assertEqual(Mouse.objects.filter(sex="F").count(), 4)
         self.assertEqual(self.stock_cage.mice.count(), 8)
-        self.assertEqual(random.choice(self.male_mice).sex, "M")
-        self.assertEqual(random.choice(self.female_mice).dob, date.today())
+        self.assertEqual(random.choice(Mouse.objects.all()).strain, self.mother.strain)
+        self.assertEqual(random.choice(Mouse.objects.all()).mother, self.mother)
+        self.assertEqual(random.choice(Mouse.objects.all()).father, self.father)
+        self.assertEqual(random.choice(Mouse.objects.all()).dob, date.today())
         
