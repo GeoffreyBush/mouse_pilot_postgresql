@@ -52,25 +52,3 @@ class BreedingCageForm(forms.ModelForm):
         model = BreedingCage
         fields = "__all__"
 
-
-class BreedingPairForm(forms.ModelForm):
-    box_no = forms.CharField(
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Cage ID"}
-        ),
-        label="Box Number",
-    )
-    mother = forms.ModelChoiceField(
-        queryset=Mouse.objects.all(),
-        required=True,
-        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Mother ID"}),
-    )
-    father = forms.ModelChoiceField(
-        queryset=Mouse.objects.all(),
-        required=True,
-        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Father ID"}),
-    )
-
-    class Meta:
-        model = BreedingCage
-        fields = ["box_no", "mother", "father"]

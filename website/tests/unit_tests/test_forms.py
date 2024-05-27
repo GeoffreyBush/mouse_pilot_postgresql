@@ -257,31 +257,6 @@ class MouseSelectionFormTestCase(TestCase):
         self.assertIn("mice", form.errors)
 
 
-##########################
-### BREEDING PAIR FORM ###
-##########################
-class BreedingPairFormTest(TestCase):
-
-    def setUp(self):
-        self.father, self.mother = MouseFactory(sex="M"), MouseFactory(sex="F")
-
-    def test_valid_form(self):
-        data = {
-            "box_no": "1-1",
-            "mother": self.mother,
-            "father": self.father,
-        }
-        form = BreedingPairForm(data=data)
-        self.assertTrue(form.is_valid())
-
-    def test_invalid_form(self):
-        data = {
-            "mother": self.mother,
-            "father": self.father,
-        }
-        form = BreedingPairForm(data=data)
-        self.assertFalse(form.is_valid())
-
 
 ##########################
 ### BREEDING CAGE FORM ###
