@@ -1,4 +1,3 @@
-import random
 from datetime import date
 
 from django.contrib.auth.password_validation import validate_password
@@ -219,7 +218,7 @@ class BreedingCageTest(TestCase):
         self.assertIsInstance(self.stock_cage, StockCage)
 
     # transfer_to_stock method changed boolean attribute on breeding cage
-    def test_transfer_sets_breeding_cage_attributes(self): 
+    def test_transfer_sets_breeding_cage_attributes(self):
         self.assertTrue(self.breeding_cage.transferred_to_stock)
 
     # transfer_to_stock method creates mice in stock cage
