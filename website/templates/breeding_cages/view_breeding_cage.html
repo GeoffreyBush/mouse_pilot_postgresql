@@ -42,17 +42,16 @@
 	</table>
 
 	<div class="d-flex justify-content-around">
-
-		<!-- Modal form to record birth of litter -->
-		{% if mycage.number_born == 0 %}
-		<button class="btn btn-primary" hx-get="{% url 'your-url-name' %}" hx-trigger="click" 
-			hx-target="#modal-body-content" hx-swap="innerHTML" hx-select="#myForm" 
-			data-toggle="modal" data-target="#myModal">
-			Record Birth of Litter
+		<button class="btn btn-primary">
+			<a href="{% url 'edit_breeding_cage' mycage.box_no %}" class="text-decoration-none text-white">
+				Edit Cage
+			</a>
 		</button>
-		{% endif %}
-
-		<!-- Navigate back to breeding cages -->
+		<button class="btn btn-primary">
+			<a href="#" class="text-decoration-none text-white">
+				Transfer to Stock
+			</a>
+		</button>
 		<button class="btn btn-secondary">
 			<a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
 				Back to Breeding Cages
