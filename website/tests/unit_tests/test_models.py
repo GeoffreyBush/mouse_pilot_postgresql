@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from website.models import BreedingCage, Mouse, Request, StockCage, Strain
-from website.tests.factories import (
+from website.tests.model_factories import (
     BreedingCageFactory,
     MouseFactory,
     ProjectFactory,

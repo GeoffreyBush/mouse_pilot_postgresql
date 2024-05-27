@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from website.forms import BreedingCageForm
-from website.tests.factories import (
+from website.tests.model_factories import (
     BreedingCageFactory,
     MouseFactory,
     StrainFactory,

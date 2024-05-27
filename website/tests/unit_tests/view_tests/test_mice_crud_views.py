@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from website.models import HistoricalMouse, Mouse
-from website.tests.factories import MouseFactory, ProjectFactory, UserFactory
+from website.tests.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 """
 class AddMouseViewTest(TestCase):

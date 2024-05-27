@@ -13,7 +13,7 @@ from website.forms import (
     RequestForm,
 )
 from website.models import CustomUser
-from website.tests.factories import (
+from website.tests.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,
