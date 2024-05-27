@@ -75,14 +75,14 @@ class AddBreedingCageViewTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.father, self.mother = MouseFactory(sex="M"), MouseFactory(sex="F")
 
-    # Access Create Breeding Pair while logged in
-    def test_create_breeding_pair_get_with_authenticated_user(self):
+    # Access Create Breeding Cage while logged in
+    def test_create_breeding_cage_get_with_authenticated_user(self):
         response = self.client.get(reverse("add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "breeding_cages/add_breeding_cage.html")
 
     # POST BreedingCageForm with valid data
-    def test_create_breeding_pair_post_valid(self):
+    def test_create_breeding_cage_post_valid(self):
         data = {
             "box_no": "1",
             "mother": self.mother,
@@ -101,7 +101,7 @@ class AddBreedingCageViewTest(TestCase):
         self.assertRedirects(response, reverse("list_breeding_cages"))
 
     # POST BreedingCageForm with invalid date
-    def test_create_breeding_pair_post_invalid(self):
+    def test_create_breeding_cage_post_invalid(self):
         data = {
             "box_no": "1",
             "mother": self.mother,
@@ -120,7 +120,7 @@ class AddBreedingCageViewTest(TestCase):
         self.assertFalse(form.is_valid())
 
     # Access add cage while not logged in
-    def test_create_breeding_pair_get_with_unauthenticated_user(self):
+    def test_create_breeding_cage_get_with_unauthenticated_user(self):
         self.client.logout()
         response = self.client.get(reverse("add_breeding_cage"))
         url = reverse("add_breeding_cage")
