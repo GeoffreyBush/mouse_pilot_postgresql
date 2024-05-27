@@ -23,25 +23,25 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Install Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+    #- name: Install Chrome
+      #run: |
+        #sudo apt-get update
+        #sudo apt-get install -y google-chrome-stable
         
-    - name: Configure Chrome options
-      run: |
-        google-chrome --version
-        chromedriver --version
-        python <<EOF
-        from selenium import webdriver
-        from selenium.webdriver.chrome.options import Options
-        chrome_options = Options()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--headless')
-        driver = webdriver.Chrome(options=chrome_options)
-        driver.quit()
-        EOF
+   # - name: Configure Chrome options
+      #run: |
+        #google-chrome --version
+        #chromedriver --version
+        #python <<EOF
+        #from selenium import webdriver
+        #from selenium.webdriver.chrome.options import Options
+        #chrome_options = Options()
+        #chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--disable-dev-shm-usage')
+        #chrome_options.add_argument('--headless')
+        #driver = webdriver.Chrome(options=chrome_options)
+        #driver.quit()
+        #EOF
 
     - name: Run Model Unit Tests
       run: python manage.py test website.tests.unit_tests.test_models
