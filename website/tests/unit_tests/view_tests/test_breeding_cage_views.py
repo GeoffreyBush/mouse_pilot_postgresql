@@ -1,9 +1,10 @@
 from datetime import date
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from website.forms import BreedingPairForm, BreedingCageForm
+from website.forms import BreedingCageForm
 from website.tests.factories import (
     BreedingCageFactory,
     MouseFactory,

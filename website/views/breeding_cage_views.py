@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 
-from website.forms import BreedingCageForm, BreedingPairForm
+from website.forms import BreedingCageForm
 from website.models import BreedingCage
 
 
@@ -25,6 +25,7 @@ def view_breeding_cage(request, box_no):
 
     return HttpResponse(template.render(context, request))
 
+
 @login_required
 def add_breeding_cage(request):
     if request.method == "POST":
@@ -35,6 +36,7 @@ def add_breeding_cage(request):
     else:
         form = BreedingCageForm()
     return render(request, "breeding_cages/add_breeding_cage.html", {"form": form})
+
 
 @login_required
 def edit_breeding_cage(request, box_no):
