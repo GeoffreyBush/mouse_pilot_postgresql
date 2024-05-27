@@ -205,24 +205,37 @@ class BreedingCageTest(TestCase):
 
     @classmethod
     def setUp(self):
-        self.mother = MouseFactory(sex="F")
-        self.father = MouseFactory(sex="M")
+        self.strain = StrainFactory()
+        self.mother = MouseFactory(sex="F", strain=self.strain)
+        self.father = MouseFactory(sex="M", strain=self.strain)
         self.breeding_cage = BreedingCageFactory(mother=self.mother, father=self.father)
+        self.breeding_cage.male_pups, self.breeding_cage.female_pups = 5, 3
+        self.stock_cage = self.breeding_cage.transfer_to_stock()
+        self.mouse = Mouse.objects.all().last()
 
     # Confirm creation of breeding cage
     def test_breeding_cage_creation(self):
         self.assertIsInstance(self.breeding_cage, BreedingCage)
+        self.assertIsNotNone(self.breeding_cage.mother)
+        self.assertIsNotNone(self.breeding_cage.father)
 
-    # Transfer to stock cage
-    def test_breeding_cage_transfer(self):
-        self.breeding_cage.male_pups, self.breeding_cage.female_pups = 5, 3
-        self.stock_cage = self.breeding_cage.transfer_to_stock()
+    # Stock cage is created by transfer_to_stock method
+    def test_transfer_creates_stock_cage(self):
         self.assertIsInstance(self.stock_cage, StockCage)
+
+    # transfer_to_stock method changed boolean attribute on breeding cage
+    def test_transfer_sets_breeding_cage_attributes(self): 
         self.assertTrue(self.breeding_cage.transferred_to_stock)
+
+    # transfer_to_stock method creates mice in stock cage
+    def test_transfer_creates_mice(self):
         self.assertEqual(Mouse.objects.filter(sex="M").count(), 6)
         self.assertEqual(Mouse.objects.filter(sex="F").count(), 4)
         self.assertEqual(self.stock_cage.mice.count(), 8)
-        self.assertEqual(random.choice(Mouse.objects.all()).strain, self.mother.strain)
-        self.assertEqual(random.choice(Mouse.objects.all()).mother, self.mother)
-        self.assertEqual(random.choice(Mouse.objects.all()).father, self.father)
-        self.assertEqual(random.choice(Mouse.objects.all()).dob, date.today())
+
+    # Mice created by transfer_to_stock have correct attributes
+    def test_mice_attributes_created_by_transfer(self):
+        self.assertEqual(self.mouse.strain, self.mother.strain)
+        self.assertEqual(self.mouse.mother, self.mother)
+        self.assertEqual(self.mouse.father, self.father)
+        self.assertEqual(self.mouse.dob, date.today())
