@@ -30,18 +30,14 @@ urlpatterns += [
     path("show_project/<str:project_name>/", views.show_project, name="show_project"),
 ]
 
-# Breeding Wing URLs
+# Breeding Cage URLs
 urlpatterns += [
     path(
         "list_breeding_cages",
         views.list_breeding_cages,
         name="list_breeding_cages",
     ),
-    path(
-        "create_breeding_pair",
-        views.create_breeding_pair,
-        name="create_breeding_pair",
-    ),
+    path("add_breeding_cage", views.add_breeding_cage, name="add_breeding_cage"),
     path(
         "view_breeding_cage<str:box_no>",
         views.view_breeding_cage,

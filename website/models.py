@@ -233,8 +233,8 @@ class BreedingCage(models.Model):
         related_name="father_breedingcage",
     )
     date_born = models.DateField(db_column="DBorn", null=True, blank=True, default=None)
-    number_born = models.CharField(
-        db_column="NBorn", max_length=5, null=True, blank=True, default=None
+    number_born = models.IntegerField(
+        db_column="NBorn", null=True, blank=True, default=0
     )
     cull_to = models.CharField(
         db_column="C/To", max_length=20, null=True, blank=True, default=None

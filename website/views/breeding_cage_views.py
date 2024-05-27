@@ -25,18 +25,16 @@ def view_breeding_cage(request, box_no):
 
     return HttpResponse(template.render(context, request))
 
-
 @login_required
-def create_breeding_pair(request):
+def add_breeding_cage(request):
     if request.method == "POST":
-        form = BreedingPairForm(request.POST)
+        form = BreedingCageForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("list_breeding_cages")
     else:
-        form = BreedingPairForm()
-    return render(request, "breeding_cages/create_breeding_pair.html", {"form": form})
-
+        form = BreedingCageForm()
+    return render(request, "breeding_cages/add_breeding_cage.html", {"form": form})
 
 @login_required
 def edit_breeding_cage(request, box_no):

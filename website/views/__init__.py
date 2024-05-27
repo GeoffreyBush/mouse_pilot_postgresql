@@ -1,5 +1,5 @@
 from .breeding_cage_views import (
-    create_breeding_pair,
+    add_breeding_cage,
     edit_breeding_cage,
     list_breeding_cages,
     view_breeding_cage,
@@ -18,7 +18,7 @@ from .request_views import add_request, confirm_request, show_message, show_requ
 __all__ = [
     "list_breeding_cages",
     "view_breeding_cage",
-    "create_breeding_pair",
+    "add_breeding_cage",
     "edit_breeding_cage",
     "SignUpView",
     "signup",

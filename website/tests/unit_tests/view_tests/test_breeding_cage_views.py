@@ -1,8 +1,9 @@
+from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from website.forms import BreedingPairForm
+from website.forms import BreedingPairForm, BreedingCageForm
 from website.tests.factories import (
     BreedingCageFactory,
     MouseFactory,
@@ -67,7 +68,7 @@ class ViewBreedingCageTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-class AddBreedingPairViewTest(TestCase):
+class AddBreedingCageViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
@@ -75,9 +76,9 @@ class AddBreedingPairViewTest(TestCase):
 
     # Access Create Breeding Pair while logged in
     def test_create_breeding_pair_get_with_authenticated_user(self):
-        response = self.client.get(reverse("create_breeding_pair"))
+        response = self.client.get(reverse("add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_cages/create_breeding_pair.html")
+        self.assertTemplateUsed(response, "breeding_cages/add_breeding_cage.html")
 
     # POST BreedingCageForm with valid data
     def test_create_breeding_pair_post_valid(self):
@@ -85,30 +86,43 @@ class AddBreedingPairViewTest(TestCase):
             "box_no": "1",
             "mother": self.mother,
             "father": self.father,
+            "date_born": date.today(),
+            "number_born": 10,
+            "cull_to": 5,
+            "date_wean": date.today(),
+            "number_wean": 5,
+            "pwl": 5,
         }
-        form = BreedingPairForm(data=data)
+        form = BreedingCageForm(data=data)
         self.assertTrue(form.is_valid())
-        response = self.client.post(reverse("create_breeding_pair"), data)
+        response = self.client.post(reverse("add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("list_breeding_cages"))
 
-    # POST BreedingCageForm with invalid data
+    # POST BreedingCageForm with invalid date
     def test_create_breeding_pair_post_invalid(self):
         data = {
-            "box_no": "1-1",
+            "box_no": "1",
             "mother": self.mother,
+            "father": self.father,
+            "date_born": 1,
+            "number_born": 10,
+            "cull_to": 5,
+            "date_wean": date.today(),
+            "number_wean": 5,
+            "pwl": 5,
         }
-        response = self.client.post(reverse("create_breeding_pair"), data)
+        response = self.client.post(reverse("add_breeding_cage"), data)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "breeding_cages/create_breeding_pair.html")
+        self.assertTemplateUsed(response, "breeding_cages/add_breeding_cage.html")
         form = response.context["form"]
         self.assertFalse(form.is_valid())
 
     # Access add cage while not logged in
     def test_create_breeding_pair_get_with_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(reverse("create_breeding_pair"))
-        url = reverse("create_breeding_pair")
+        response = self.client.get(reverse("add_breeding_cage"))
+        url = reverse("add_breeding_cage")
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 

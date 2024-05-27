@@ -6,7 +6,7 @@ from website.models import BreedingCage, Mouse
 class BreedingCageForm(forms.ModelForm):
 
     box_no = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "---"}), label="Box Number"
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}), label="Box Number"
     )
     mother = forms.ModelChoiceField(
         queryset=Mouse.objects.all(),
@@ -19,26 +19,33 @@ class BreedingCageForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-select", "placeholder": "Father ID"}),
     )
     date_born = forms.DateField(
+        required=False,
         input_formats=["%Y-%m-%d"],
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}),
         label="DBorn",
     )
     number_born = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "NBorn"}), label="NBorn"
+        initial="0",
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}), label="NBorn"
     )
     cull_to = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "C/To"}), label="C/To"
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "C/To"}), label="C/To"
     )
     date_wean = forms.DateField(
+        required=False,
         input_formats=["%Y-%m-%d"],
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}),
         label="DWean",
     )
     number_wean = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "NWean"}), label="NWean"
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "NWean"}), label="NWean"
     )
     pwl = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "NBorn - NWean"}), label="PWL"
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "NBorn - NWean"}), label="PWL"
     )
 
     class Meta:
