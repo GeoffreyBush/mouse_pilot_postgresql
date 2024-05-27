@@ -25,7 +25,7 @@ class MouseTest(TestCase):
     @classmethod
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
-        self.mouse = MouseFactory(strain=self.strain)
+        self.mouse = MouseFactory(strain=self.strain, stock_cage=StockCageFactory())
 
     # Check MouseFactory works
     def test_mouse_creation(self):
@@ -38,14 +38,9 @@ class MouseTest(TestCase):
 
     # Count mice from a stock cage using related_name="mice" argument
     def test_mouse_stock_cage(self):
-        self.assertIsNone(self.mouse.stock_cage)
-        self.stock_cage = StockCageFactory()
-        self.mouse.stock_cage = self.stock_cage
-        self.mouse.save()
-        self.mouse.refresh_from_db()
         self.assertIsInstance(self.mouse.stock_cage, StockCage)
         self.assertEqual(self.mouse.stock_cage.cage_id, 1)
-        self.assertEqual(self.stock_cage.mice.count(), 1)
+        self.assertEqual(self.mouse.stock_cage.mice.count(), 1)
 
     # is_genotyped method
     def test_mouse_genotyped(self):
@@ -167,11 +162,9 @@ class ProjectModelTest(TestCase):
     @classmethod
     # Initial Project
     def setUp(self):
-        strain1, strain2 = StrainFactory(), StrainFactory()
-        user1, user2 = UserFactory(), UserFactory()
         self.project = ProjectFactory()
-        self.project.strains.add(strain1, strain2)
-        self.project.researchers.add(user1, user2)
+        self.project.strains.add(StrainFactory(),  StrainFactory())
+        self.project.researchers.add(UserFactory(), UserFactory())
 
     # Strains many-to-many
     def test_project_strains(self):
@@ -202,10 +195,9 @@ class BreedingCageTest(TestCase):
         self.strain = StrainFactory()
         self.mother = MouseFactory(sex="F", strain=self.strain)
         self.father = MouseFactory(sex="M", strain=self.strain)
-        self.breeding_cage = BreedingCageFactory(mother=self.mother, father=self.father)
-        self.breeding_cage.male_pups, self.breeding_cage.female_pups = 5, 3
+        self.breeding_cage = BreedingCageFactory(mother=self.mother, father=self.father, male_pups=5, female_pups=3)
         self.stock_cage = self.breeding_cage.transfer_to_stock()
-        self.mouse = Mouse.objects.all().last()
+        self.new_mouse = Mouse.objects.all().last()
 
     # Confirm creation of breeding cage
     def test_breeding_cage_creation(self):
@@ -229,7 +221,7 @@ class BreedingCageTest(TestCase):
 
     # Mice created by transfer_to_stock have correct attributes
     def test_mice_attributes_created_by_transfer(self):
-        self.assertEqual(self.mouse.strain, self.mother.strain)
-        self.assertEqual(self.mouse.mother, self.mother)
-        self.assertEqual(self.mouse.father, self.father)
-        self.assertEqual(self.mouse.dob, date.today())
+        self.assertEqual(self.new_mouse.strain, self.mother.strain)
+        self.assertEqual(self.new_mouse.mother, self.mother)
+        self.assertEqual(self.new_mouse.father, self.father)
+        self.assertEqual(self.new_mouse.dob, date.today())
