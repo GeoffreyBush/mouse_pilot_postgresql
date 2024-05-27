@@ -60,13 +60,13 @@ class BreedingCageForm(forms.ModelForm):
     )
     male_pups = forms.IntegerField(
         initial="0",
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
         label="Current Male Pups",
     )
     female_pups = forms.CharField(
         initial="0",
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
         label="Current Female Pups",
     )
