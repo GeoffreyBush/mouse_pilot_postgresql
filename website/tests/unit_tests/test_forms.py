@@ -276,7 +276,6 @@ class BreedingCageFormTest(TestCase):
             "date_wean": date.today(),
             "number_wean": "3",
             "pwl": "2",
-
         }
         form = BreedingCageForm(data=data)
         self.assertTrue(form.is_valid())
