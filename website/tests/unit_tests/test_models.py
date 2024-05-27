@@ -163,7 +163,7 @@ class ProjectModelTest(TestCase):
     # Initial Project
     def setUp(self):
         self.project = ProjectFactory()
-        self.project.strains.add(StrainFactory(),  StrainFactory())
+        self.project.strains.add(StrainFactory(), StrainFactory())
         self.project.researchers.add(UserFactory(), UserFactory())
 
     # Strains many-to-many
@@ -195,7 +195,9 @@ class BreedingCageTest(TestCase):
         self.strain = StrainFactory()
         self.mother = MouseFactory(sex="F", strain=self.strain)
         self.father = MouseFactory(sex="M", strain=self.strain)
-        self.breeding_cage = BreedingCageFactory(mother=self.mother, father=self.father, male_pups=5, female_pups=3)
+        self.breeding_cage = BreedingCageFactory(
+            mother=self.mother, father=self.father, male_pups=5, female_pups=3
+        )
         self.stock_cage = self.breeding_cage.transfer_to_stock()
         self.new_mouse = Mouse.objects.all().last()
 
