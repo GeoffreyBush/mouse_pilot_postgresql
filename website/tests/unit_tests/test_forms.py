@@ -6,7 +6,6 @@ from django.test import TestCase
 from website.constants import EARMARK_CHOICES
 from website.forms import (
     BreedingCageForm,
-    BreedingPairForm,
     CustomUserChangeForm,
     CustomUserCreationForm,
     MouseSelectionForm,
@@ -255,7 +254,6 @@ class MouseSelectionFormTestCase(TestCase):
         )
         self.assertFalse(form.is_valid())
         self.assertIn("mice", form.errors)
-
 
 
 ##########################
