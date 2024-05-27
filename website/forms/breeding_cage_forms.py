@@ -62,4 +62,3 @@ class BreedingCageForm(forms.ModelForm):
     class Meta:
         model = BreedingCage
         fields = "__all__"
-

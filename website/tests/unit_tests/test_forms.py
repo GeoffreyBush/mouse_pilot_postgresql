@@ -256,7 +256,6 @@ class MouseSelectionFormTestCase(TestCase):
         self.assertIn("mice", form.errors)
 
 
-
 ##########################
 ### BREEDING CAGE FORM ###
 ##########################
