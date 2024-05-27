@@ -6,7 +6,8 @@ from website.models import BreedingCage, Mouse
 class BreedingCageForm(forms.ModelForm):
 
     box_no = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}), label="Box Number"
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}),
+        label="Box Number",
     )
     mother = forms.ModelChoiceField(
         queryset=Mouse.objects.all(),
@@ -21,31 +22,41 @@ class BreedingCageForm(forms.ModelForm):
     date_born = forms.DateField(
         required=False,
         input_formats=["%Y-%m-%d"],
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}),
+        widget=forms.DateInput(
+            format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}
+        ),
         label="DBorn",
     )
     number_born = forms.CharField(
         initial="0",
         required=True,
-        widget=forms.TextInput(attrs={"class": "form-control"}), label="NBorn"
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        label="NBorn",
     )
     cull_to = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "C/To"}), label="C/To"
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "C/To"}),
+        label="C/To",
     )
     date_wean = forms.DateField(
         required=False,
         input_formats=["%Y-%m-%d"],
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}),
+        widget=forms.DateInput(
+            format="%Y-%m-%d", attrs={"class": "form-control", "type": "date"}
+        ),
         label="DWean",
     )
     number_wean = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "NWean"}), label="NWean"
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "NWean"}),
+        label="NWean",
     )
     pwl = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "NBorn - NWean"}), label="PWL"
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "NBorn - NWean"}
+        ),
+        label="PWL",
     )
 
     class Meta:
