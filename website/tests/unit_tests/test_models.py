@@ -1,18 +1,19 @@
+import random
+from datetime import date
+
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
-import random   
-from datetime import date
 
-from website.models import BreedingCage, Mouse, Request, Strain, StockCage
+from website.models import BreedingCage, Mouse, Request, StockCage, Strain
 from website.tests.factories import (
     BreedingCageFactory,
     MouseFactory,
     ProjectFactory,
+    StockCageFactory,
     StrainFactory,
     UserFactory,
-    StockCageFactory,
 )
 
 #############
@@ -225,4 +226,3 @@ class BreedingCageTest(TestCase):
         self.assertEqual(random.choice(Mouse.objects.all()).mother, self.mother)
         self.assertEqual(random.choice(Mouse.objects.all()).father, self.father)
         self.assertEqual(random.choice(Mouse.objects.all()).dob, date.today())
-        

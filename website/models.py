@@ -61,11 +61,17 @@ class Mouse(models.Model):
         blank=True,
         related_name="father_mouse",
     )
-    
+
     stock_cage = models.ForeignKey(
-        "StockCage", on_delete=models.SET_NULL, db_column="Stock Cage ID", null=True, blank=True, default=None, related_name="mice"
+        "StockCage",
+        on_delete=models.SET_NULL,
+        db_column="Stock Cage ID",
+        null=True,
+        blank=True,
+        default=None,
+        related_name="mice",
     )
-    
+
     project = models.ForeignKey(
         "Project", on_delete=models.PROTECT, null=True, blank=True
     )
@@ -258,9 +264,15 @@ class BreedingCage(models.Model):
     pwl = models.CharField(
         db_column="PWL", max_length=5, null=True, blank=True, default=None
     )
-    male_pups = models.IntegerField(db_column="Male Pups", null=True, blank=True, default=0)
-    female_pups = models.IntegerField(db_column="Female Pups", null=True, blank=True, default=0)
-    transferred_to_stock = models.BooleanField(db_column="Moved to Stock", default=False)
+    male_pups = models.IntegerField(
+        db_column="Male Pups", null=True, blank=True, default=0
+    )
+    female_pups = models.IntegerField(
+        db_column="Female Pups", null=True, blank=True, default=0
+    )
+    transferred_to_stock = models.BooleanField(
+        db_column="Moved to Stock", default=False
+    )
 
     def convert_pup_to_mouse(self, sex, stock_cage):
         mouse = Mouse.objects.create(
@@ -296,5 +308,3 @@ class BreedingCage(models.Model):
     class Meta:
         managed = True
         db_table = "breedingcage"
-
-
