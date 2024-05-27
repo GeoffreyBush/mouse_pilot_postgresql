@@ -60,3 +60,8 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
     date_wean = date.today()
     number_wean = random.randint(1, 10)
     pwl = random.randint(1, 10)
+
+class StockCageFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = "website.StockCage"

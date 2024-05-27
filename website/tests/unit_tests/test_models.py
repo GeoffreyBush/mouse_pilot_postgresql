@@ -2,14 +2,17 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
+import random   
+from datetime import date
 
-from website.models import BreedingCage, Mouse, Request, Strain
+from website.models import BreedingCage, Mouse, Request, Strain, StockCage
 from website.tests.factories import (
     BreedingCageFactory,
     MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
+    StockCageFactory,
 )
 
 #############
@@ -32,6 +35,17 @@ class MouseTest(TestCase):
     # Tube attribute for breeding wing ID
     def test_mouse_tube_id(self):
         self.assertEqual(self.mouse.tube, "teststrain-1")
+
+    # Count mice from a stock cage using related_name="mice" argument
+    def test_mouse_stock_cage(self):
+        self.assertIsNone(self.mouse.stock_cage)
+        self.stock_cage = StockCageFactory()
+        self.mouse.stock_cage = self.stock_cage
+        self.mouse.save()
+        self.mouse.refresh_from_db()
+        self.assertIsInstance(self.mouse.stock_cage, StockCage)
+        self.assertEqual(self.mouse.stock_cage.cage_id, 1)
+        self.assertEqual(self.stock_cage.mice.count(), 1)
 
     # is_genotyped method
     def test_mouse_genotyped(self):
@@ -192,8 +206,23 @@ class BreedingCageTest(TestCase):
     def setUp(self):
         self.mother = MouseFactory()
         self.father = MouseFactory()
-        self.cage = BreedingCageFactory(mother=self.mother, father=self.father)
+        self.breeding_cage = BreedingCageFactory(mother=self.mother, father=self.father)
 
     # Confirm creation of breeding cage
     def test_breeding_cage_creation(self):
         self.assertIsInstance(self.cage, BreedingCage)
+
+    # Transfer to stock cage
+    def test_breeding_cage_transfer(self):
+        self.breeding_cage.male_pups, self.breeding_cage.female_pups = 5, 3
+        self.stock_cage = StockCageFactory()
+        self.breeding_cage.transfer_to_stock()
+        self.assertTrue(self.cage.transferred_to_stock)
+        self.male_mice = Mouse.objects.filter(sex="M")
+        self.female_mice = Mouse.objects.filter(sex="F")
+        self.assertEqual(self.male_mice.count(), 6)
+        self.assertEqual(self.female_mice.count(), 4)
+        self.assertEqual(self.stock_cage.mice.count(), 8)
+        self.assertEqual(random.choice(self.male_mice).sex, "M")
+        self.assertEqual(random.choice(self.female_mice).dob, date.today())
+        

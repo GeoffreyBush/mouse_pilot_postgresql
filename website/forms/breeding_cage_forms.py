@@ -58,7 +58,20 @@ class BreedingCageForm(forms.ModelForm):
         ),
         label="PWL",
     )
+    male_pups = forms.IntegerField(
+        initial="0",
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        label="Current Male Pups",
+    )
+    female_pups = forms.CharField(
+        initial="0",
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        label="Current Female Pups",
+    )
 
     class Meta:
         model = BreedingCage
         fields = "__all__"
+        exclude = ["transferred_to_stock"]

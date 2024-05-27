@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import F
 from simple_history.models import HistoricalRecords
 
-
+from website.tests.factories import StockCageFactory, MouseFactory
 class CustomUser(AbstractUser):
 
     email = models.EmailField(unique=True)
@@ -62,9 +62,9 @@ class Mouse(models.Model):
         related_name="father_mouse",
     )
 
-    # location = models.ForeignKey(
-    #   "Cage", models.SET_NULL, db_column="Cage ID", null=True, blank=True
-    # )
+    stock_cage = models.ForeignKey(
+        "StockCage", on_delete=models.SET_NULL, db_column="Stock Cage ID", null=True, blank=True, default=None, related_name="mice"
+    )
 
     project = models.ForeignKey(
         "Project", on_delete=models.PROTECT, null=True, blank=True
@@ -246,9 +246,42 @@ class BreedingCage(models.Model):
     pwl = models.CharField(
         db_column="PWL", max_length=5, null=True, blank=True, default=None
     )
+    male_pups = models.IntegerField(db_column="Male Pups", null=True, blank=True, default=0)
+    female_pups = models.IntegerField(db_column="Female Pups", null=True, blank=True, default=0)
+    transferred_to_stock = models.BooleanField(db_column="Moved to Stock", default=False)
 
-    def move_to_stock(self):
-        pass
+    def transfer_to_stock(self):
+        if not self.transferred_to_stock:
+            stock_cage = StockCageFactory()
+
+            # Combine these two for loops into a helper function
+            for _ in self.male_pups:
+                mouse = MouseFactory(
+                    strain=self.mother.strain,
+                    sex="M",
+                    stock_cage=stock_cage,
+                    dob=self.date_born,
+                    mother=self.mother,
+                    father=self.father,
+                    # Add project?
+                )
+                mouse.save()
+            
+            for _ in self.female_pups:
+                mouse = MouseFactory(
+                    strain=self.mother.strain,
+                    sex="F",
+                    stock_cage=stock_cage,
+                    dob=self.date_born,
+                    mother=self.mother,
+                    father=self.father,
+                )
+                mouse.save()
+
+            
+        self.transferred_to_stock = True
+        self.save()
+        self.refresh_from_db()
 
     def __str__(self):
         return f"{self.box_no}"
@@ -256,3 +289,14 @@ class BreedingCage(models.Model):
     class Meta:
         managed = True
         db_table = "breedingcage"
+
+class StockCage(models.Model):
+
+    cage_id = models.AutoField(db_column="Cage ID", primary_key=True)
+
+    def __str__(self):
+        return f"{self.cage_id}"
+
+    class Meta:
+        managed = True
+        db_table = "stockcage"
