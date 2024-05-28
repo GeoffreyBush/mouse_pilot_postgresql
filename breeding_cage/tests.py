@@ -14,6 +14,7 @@ from website.tests.model_factories import (
     UserFactory,
 )
 
+
 class BreedingModelTestCase(TestCase):
 
     @classmethod
