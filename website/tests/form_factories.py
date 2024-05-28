@@ -1,7 +1,7 @@
-from datetime import date
 
 from website.forms import BreedingCageForm
 from website.tests.model_factories import MouseFactory
+
 
 class BreedingCageFormFactory:
     @staticmethod
