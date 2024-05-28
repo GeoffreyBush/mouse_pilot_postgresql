@@ -12,8 +12,6 @@ from website.forms import (
     RequestForm,
 )
 
-
-
 # Rework ProjectMiceForm and show_project.html first before using this test
 """
 #################

@@ -1,7 +1,7 @@
 from django import forms
 
-from website.models import Request
 from mice_repository.models import Mouse
+from website.models import Request
 
 
 class RequestForm(forms.ModelForm):

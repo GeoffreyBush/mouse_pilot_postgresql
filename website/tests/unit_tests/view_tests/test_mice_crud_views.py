@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 from mice_repository.models import Mouse
+from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 """
 class AddMouseViewTest(TestCase):

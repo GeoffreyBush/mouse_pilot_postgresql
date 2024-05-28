@@ -84,16 +84,17 @@ class RequestFormFactory:
             "researcher": user.id,
             "new_message": "Test message",
         }
-    
+
+
 class RepositoryFormFactory:
     @staticmethod
     def create(**kwargs):
-        #return RepositoryMiceForm(data=kwargs)
+        # return RepositoryMiceForm(data=kwargs)
         pass
 
     @staticmethod
     def valid_data(**kwargs):
         return {
-            #"strain": StrainFactory(),
+            # "strain": StrainFactory(),
             "tube": 1,
         }

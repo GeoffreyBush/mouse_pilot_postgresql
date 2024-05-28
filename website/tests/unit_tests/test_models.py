@@ -9,7 +9,7 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.models import Request,  Strain
+from website.models import Request, Strain
 
 
 ##################

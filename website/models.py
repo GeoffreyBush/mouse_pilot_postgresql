@@ -15,7 +15,6 @@ class CustomUser(AbstractUser):
         db_table = "user"
 
 
-
 class Request(models.Model):
 
     TASK_CHOICES = [
@@ -65,7 +64,9 @@ class Request(models.Model):
 class Comment(models.Model):
 
     # Comment ID primary key is derived from Mouse ID primary key
-    comment = models.OneToOneField("mice_repository.Mouse", on_delete=models.CASCADE, primary_key=True)
+    comment = models.OneToOneField(
+        "mice_repository.Mouse", on_delete=models.CASCADE, primary_key=True
+    )
 
     # Django forces you to set a max_length property. Not sure if 500 characters is too much/enough.
     comment_text = models.CharField(

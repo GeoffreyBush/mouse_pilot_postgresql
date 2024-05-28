@@ -1,9 +1,15 @@
 from django.test import TestCase
-from mice_repository.models import Mouse
-from website.models import StockCage
 from django.urls import reverse
 
-from test_factories.model_factories import MouseFactory, StockCageFactory, StrainFactory, UserFactory
+from mice_repository.models import Mouse
+from test_factories.model_factories import (
+    MouseFactory,
+    StockCageFactory,
+    StrainFactory,
+    UserFactory,
+)
+from website.models import StockCage
+
 
 class MouseTest(TestCase):
 
@@ -39,6 +45,7 @@ class MouseTest(TestCase):
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
 
+
 # Rework RepositoryMiceForm to have more attributes and then come back to this test
 """
 
@@ -62,6 +69,7 @@ class RepositoryMiceFormTestCase(TestCase):
     # Duplicate mice
 
 """
+
 
 class MiceRepositoryViewTestCase(TestCase):
     def setUp(self):
