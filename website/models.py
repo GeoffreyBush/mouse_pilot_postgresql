@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import F
-from simple_history.models import HistoricalRecords
 
 
 class CustomUser(AbstractUser):
@@ -90,7 +89,7 @@ class Mouse(models.Model):
         "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
 
-    history = HistoricalRecords()
+    #history = HistoricalRecords()
 
     @property
     def tube(self):

@@ -8,7 +8,6 @@ from .login_views import SignUpView, signup
 from .mice_crud_views import (
     add_preexisting_mouse_to_project,
     delete_mouse,
-    edit_history,
     edit_mouse,
 )
 from .mice_repository_views import add_mouse_to_repository, mice_repository
@@ -25,7 +24,6 @@ __all__ = [
     "edit_mouse",
     "add_preexisting_mouse_to_project",
     "delete_mouse",
-    "edit_history",
     "list_projects",
     "show_project",
     "show_requests",
