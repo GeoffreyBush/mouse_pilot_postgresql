@@ -1,5 +1,6 @@
+
 from django import forms
-from datetime import date
+
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from website.models import CustomUser, Mouse, Project, Strain
 
@@ -9,9 +10,10 @@ class RepositoryMiceForm(forms.ModelForm):
     sex = forms.ChoiceField(
         initial="M",
         required=True,
-        choices=SEX_CHOICES, widget=forms.Select(attrs={"class": "form-select"})
+        choices=SEX_CHOICES,
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
-    dob = forms.DateField(  
+    dob = forms.DateField(
         initial=None,
         required=True,
         input_formats=["%Y-%m-%d"],

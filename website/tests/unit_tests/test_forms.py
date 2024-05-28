@@ -6,19 +6,13 @@ from website.forms import (
     CustomUserCreationForm,
     MouseSelectionForm,
     RequestForm,
-    RepositoryMiceForm
 )
 from website.tests.form_factories import (
     BreedingCageFormFactory,
     CustomUserCreationFormFactory,
     RequestFormFactory,
 )
-from website.tests.model_factories import (
-    MouseFactory,
-    ProjectFactory,
-    UserFactory,
-)
-
+from website.tests.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 # Rework RepositoryMiceForm to have more attributes and then come back to this test
 """
@@ -107,6 +101,7 @@ class ProjectMiceFormTestCase(TestCase):
         self.assertIn("sex", form.errors)
         self.assertIn("earmark", form.errors)
 """
+
 
 ################################
 ### CUSTOMUSER CREATION FORM ###
