@@ -3,8 +3,9 @@ from django.urls import reverse
 
 from website.forms import CustomUserCreationForm
 from website.models import CustomUser
-from website.views import SignUpView
 from website.tests.form_factories import CustomUserCreationFormFactory
+from website.views import SignUpView
+
 
 class SignUpViewTest(TestCase):
 
@@ -35,5 +36,3 @@ class SignUpViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "registration/signup.html")
         self.assertTrue(response.context["form"].errors)
-
-
