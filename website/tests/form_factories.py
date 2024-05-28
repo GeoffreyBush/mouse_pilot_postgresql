@@ -1,6 +1,7 @@
 from website.forms import BreedingCageForm, CustomUserCreationForm
 from website.tests.model_factories import MouseFactory
 
+
 class BreedingCageFormFactory:
     @staticmethod
     def create(**kwargs):
