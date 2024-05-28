@@ -2,7 +2,6 @@ from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse
-from faker import Faker
 
 from breeding_cage.forms import BreedingCageForm
 from breeding_cage.models import BreedingCage
@@ -14,9 +13,6 @@ from website.tests.model_factories import (
     StrainFactory,
     UserFactory,
 )
-
-fake = Faker()
-
 
 class BreedingModelTestCase(TestCase):
 
