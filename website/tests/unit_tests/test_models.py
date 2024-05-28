@@ -134,6 +134,7 @@ class RequestModelTests(TestCase):
 
     # There must be at least one mouse present in a request
 
+
 ##############
 ### STRAIN ###
 ##############

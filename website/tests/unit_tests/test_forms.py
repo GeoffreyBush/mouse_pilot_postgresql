@@ -152,6 +152,7 @@ class CustomUserChangeFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
 
+
 ####################
 ### REQUEST FORM ###
 ####################
