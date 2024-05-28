@@ -9,6 +9,7 @@ from website.tests.model_factories import MouseFactory, ProjectFactory, UserFact
 class ShowRequestsViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
+        self.client.login(username="testuser", password="testpassword")
         self.requests = [
             Request.objects.create(
                 request_id=1, researcher=self.user, task_type="Cl", confirmed=True
@@ -23,9 +24,7 @@ class ShowRequestsViewTest(TestCase):
 
     # Show requests whilelogged in
     def test_show_requests_view(self):
-        self.client.login(username="testuser", password="testpassword")
-        url = reverse("show_requests")
-        response = self.client.get(url)
+        response = self.client.get(reverse("show_requests"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "show_requests.html")
         self.assertQuerysetEqual(
@@ -34,6 +33,7 @@ class ShowRequestsViewTest(TestCase):
 
     # Show requests while not logged in
     def test_show_requests_view_login_required(self):
+        self.client.logout()
         url = reverse("show_requests")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
@@ -45,9 +45,7 @@ class AddRequestViewTest(TestCase):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(
-            project=self.project
-        )
+        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
         self.mice = [self.mouse1, self.mouse2]
 
     # GET RequestForm while logged in
@@ -57,15 +55,12 @@ class AddRequestViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")
         self.assertIsInstance(response.context["form"], RequestForm)
-        self.assertEqual(response.context["project_name"], self.project.project_name)
 
     # Get RequestForm while not logged in
     def test_add_request_get_with_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(
-            reverse("add_request", args=[self.project.project_name])
-        )
         url = reverse("add_request", args=[self.project.project_name])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 

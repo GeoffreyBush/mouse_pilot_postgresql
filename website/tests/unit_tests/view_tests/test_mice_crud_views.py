@@ -155,9 +155,11 @@ class DeleteMouseViewTest(TestCase):
         self.project = ProjectFactory()
         self.mouse = MouseFactory(project=self.project)
 
+    def test_mouse_exists(self):
+        self.assertIsInstance(Mouse.objects.first(), Mouse)
+
     # Delete mouse while logged in
     def test_delete_mouse_view_authenticated_user(self):
-        self.assertIsInstance(self.mouse, Mouse)
         response = self.client.get(
             reverse("delete_mouse", args=[self.project.project_name, self.mouse.tube])
         )
@@ -165,16 +167,16 @@ class DeleteMouseViewTest(TestCase):
         self.assertRedirects(
             response, reverse("show_project", args=[self.project.project_name])
         )
-        self.assertFalse(Mouse.objects.filter(pk=self.mouse.tube).exists())
+        self.assertIsNone(Mouse.objects.first())
 
     # Delete mouse while not logged in
     def test_delete_mouse_view_unauthenticated_user(self):
         self.client.logout()
-        self.assertIsInstance(self.mouse, Mouse)
         url = reverse("delete_mouse", args=[self.project.project_name, self.mouse.pk])
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
+        self.assertIsInstance(Mouse.objects.first(), Mouse)
 
 
 class EditHistoryViewTest(TestCase):

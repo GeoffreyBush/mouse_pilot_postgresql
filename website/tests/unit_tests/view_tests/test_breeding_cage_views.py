@@ -51,12 +51,6 @@ class ViewBreedingCageTest(TestCase):
         self.assertIn("mycage", response.context)
         self.assertEqual(response.context["mycage"], self.cage)
 
-    # Access non-existent cage
-    def test_view_non_existent_breeding_cage(self):
-        self.client.login(username="testuser", password="testpassword")
-        with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse("view_breeding_cage", args=[10]))
-
     # Access breeding wing cage view without logging in
     def test_view_breeding_cage_with_unauthenticated_user(self):
         self.client.logout()

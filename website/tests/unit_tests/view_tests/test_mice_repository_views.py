@@ -16,8 +16,7 @@ class MiceRepositoryViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "repository/mice_repository.html")
         self.assertIn("mymice", response.context)
-        mymice = response.context["mymice"]
-        self.assertTrue(mymice.filter(pk=self.mouse.pk).exists)
+        self.assertIn(self.mouse, response.context["mymice"])
 
     # test for add mouse to repository
     def test_add_mouse_to_repository(self):
