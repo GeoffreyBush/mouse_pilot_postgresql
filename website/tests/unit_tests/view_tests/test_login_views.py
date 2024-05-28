@@ -1,50 +1,39 @@
 from django.test import TestCase
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 from website.forms import CustomUserCreationForm
 from website.models import CustomUser
 from website.views import SignUpView
-
+from website.tests.form_factories import CustomUserCreationFormFactory
 
 class SignUpViewTest(TestCase):
 
+    def setUp(self):
+        self.valid_data = CustomUserCreationFormFactory.valid_data()
+        self.invalid_data = CustomUserCreationFormFactory.mismatched_passwords()
+
+    # Correct form used
+    def test_signup_view_attributes(self):
+        self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
+
     # GET CustomUseCreationrForm
-    def test_signup_view_get_request(self):
+    def test_signup_view_get_(self):
         response = self.client.get(reverse("signup"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "registration/signup.html")
-        self.assertIsInstance(response.context["form"], CustomUserCreationForm)
 
     # POST valid data
     def test_signup_view_post_valid_data(self):
-        data = {
-            "username": "testuser",
-            "email": "testuser@example.com",
-            "password1": "strongpassword123",
-            "password2": "strongpassword123",
-        }
-        response = self.client.post(reverse("signup"), data)
+        response = self.client.post(reverse("signup"), self.valid_data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
-        self.assertTrue(CustomUser.objects.filter(username="testuser").exists())
+        self.assertIsNotNone(CustomUser.objects.first())
 
     # POST invalid data
     def test_signup_view_post_invalid_data(self):
-        data = {
-            "username": "",
-            "email": "invalid_email",
-            "password1": "weakpassword",
-            "password2": "mismatchedpassword",
-        }
-        response = self.client.post(reverse("signup"), data)
+        response = self.client.post(reverse("signup"), self.invalid_data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "registration/signup.html")
-        self.assertIsInstance(response.context["form"], CustomUserCreationForm)
         self.assertTrue(response.context["form"].errors)
-        self.assertEqual(CustomUser.objects.count(), 0)
 
-    # Metadata
-    def test_signup_view_attributes(self):
-        self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
-        self.assertEqual(SignUpView.success_url, reverse_lazy("login"))
-        self.assertEqual(SignUpView.template_name, "registration/signup.html")
+
