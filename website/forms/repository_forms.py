@@ -1,4 +1,3 @@
-
 from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES

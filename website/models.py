@@ -36,7 +36,8 @@ class Mouse(models.Model):
     )
     _tube = models.IntegerField(db_column="Tube", blank=False, null=False)
     _global_id = models.CharField(
-        db_column="Global ID", max_length=20, primary_key=True)
+        db_column="Global ID", max_length=20, primary_key=True
+    )
     sex = models.CharField(
         db_column="Sex",
         max_length=1,
