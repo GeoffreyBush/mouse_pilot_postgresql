@@ -41,15 +41,11 @@ def add_breeding_cage(request):
 @login_required
 def edit_breeding_cage(request, box_no):
     cage = BreedingCage.objects.get(box_no=box_no)
-    print(cage.box_no)
     if request.method == "POST":
-        print(cage.box_no)
         form = BreedingCageForm(request.POST, instance=cage)
-        print(cage.box_no)
         if form.is_valid():
-            print(cage.box_no)
+            form.box_no = cage.box_no
             form.save()
-            cage.save()
             return redirect("breeding_cage:list_breeding_cages")
     else:
         form = BreedingCageForm(instance=cage)

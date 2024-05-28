@@ -64,10 +64,10 @@ class BreedingCageFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
     # Missing box_no
-    def test_invalid_box_no(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_box_no())
+    def test_invalid_father(self):
+        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_father())
         self.assertFalse(form.is_valid())
-        self.assertIn("box_no", form.errors)
+        self.assertIn("father", form.errors)
 
     # Invalid mother
     def test_invalid_mother(self):
@@ -178,20 +178,17 @@ class EditBreedingCageViewTestCase(TestCase):
     # POST BreedingCageForm with valid data
     def test_edit_breeding_cage_post_valid(self):
         data = BreedingCageFormFactory.valid_data()
-        data["box_no"] = "222"
-        self.assertEqual(data["box_no"], "222")
+        data["box_no"] = "new"
         response = self.client.post(
             reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
         )
-        self.cage.save()
         self.cage.refresh_from_db()
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
-        self.assertEqual(self.cage.box_no, "222")
+        self.assertEqual(self.cage.box_no, "new")
 
     # POST BreedingCageForm with invalid mother
     def test_edit_breeding_cage_post_invalid(self):
-        print(self.cage.box_no)
         data = BreedingCageFormFactory.invalid_mother()
         response = self.client.post(
             reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
@@ -201,7 +198,6 @@ class EditBreedingCageViewTestCase(TestCase):
 
     # Access add cage while not logged in
     def test_edit_breeding_cage_get_unauthenticated_user(self):
-        print(self.cage.box_no)
         self.client.logout()
         url = reverse("breeding_cage:edit_breeding_cage", args=[self.cage])
         response = self.client.get(url)
