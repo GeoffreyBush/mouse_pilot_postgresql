@@ -28,7 +28,7 @@ class BreedingModelTestCase(TestCase):
         self.stock_cage = self.breeding_cage.transfer_to_stock()
         self.new_mouse = Mouse.objects.all().last()
 
-    # Confirm creation of breeding cage
+    # Confirm BreedingCageFactory works
     def test_breeding_cage_creation(self):
         self.assertIsInstance(self.breeding_cage, BreedingCage)
         self.assertIsNotNone(self.breeding_cage.mother)
