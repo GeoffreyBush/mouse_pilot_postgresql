@@ -10,7 +10,7 @@ urlpatterns = [
     path(
         "", views.mice_repository, name="mice_repository"
     ),  # dashboard is placeholder, should probably be a login or home page instead
-    #path("edit_history", views.edit_history, name="edit_history"),
+    # path("edit_history", views.edit_history, name="edit_history"),
 ]
 
 # Mice repository URLs
