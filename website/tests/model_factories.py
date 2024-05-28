@@ -49,7 +49,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
 # This factory is not accurate - need more inforation from breeding wing
 class BreedingCageFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "website.BreedingCage"
+        model = "breeding_cage.BreedingCage"
 
     box_no = factory.Sequence(lambda n: f"box{n}")
     mother = factory.SubFactory(MouseFactory)
@@ -60,7 +60,6 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
     date_wean = date.today()
     number_wean = random.randint(1, 10)
     pwl = random.randint(1, 10)
-
 
 class StockCageFactory(factory.django.DjangoModelFactory):
 

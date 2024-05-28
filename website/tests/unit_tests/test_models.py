@@ -1,13 +1,10 @@
-from datetime import date
-
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
-from website.models import BreedingCage, Mouse, Request, StockCage, Strain
+from website.models import Mouse, Request, StockCage, Strain
 from website.tests.model_factories import (
-    BreedingCageFactory,
     MouseFactory,
     ProjectFactory,
     StockCageFactory,
@@ -194,42 +191,4 @@ class ProjectModelTest(TestCase):
 #####################
 
 
-class BreedingCageTest(TestCase):
 
-    @classmethod
-    def setUp(self):
-        self.strain = StrainFactory()
-        self.mother = MouseFactory(sex="F", strain=self.strain)
-        self.father = MouseFactory(sex="M", strain=self.strain)
-        self.breeding_cage = BreedingCageFactory(
-            mother=self.mother, father=self.father, male_pups=5, female_pups=3
-        )
-        self.stock_cage = self.breeding_cage.transfer_to_stock()
-        self.new_mouse = Mouse.objects.all().last()
-
-    # Confirm creation of breeding cage
-    def test_breeding_cage_creation(self):
-        self.assertIsInstance(self.breeding_cage, BreedingCage)
-        self.assertIsNotNone(self.breeding_cage.mother)
-        self.assertIsNotNone(self.breeding_cage.father)
-
-    # transfer_to_stock method creates a stock cage
-    def test_transfer_creates_stock_cage(self):
-        self.assertIsInstance(self.stock_cage, StockCage)
-
-    # transfer_to_stock method changed boolean attribute on breeding cage
-    def test_transfer_sets_breeding_cage_attributes(self):
-        self.assertTrue(self.breeding_cage.transferred_to_stock)
-
-    # transfer_to_stock method creates mice in stock cage
-    def test_transfer_creates_mice(self):
-        self.assertEqual(Mouse.objects.filter(sex="M").count(), 6)
-        self.assertEqual(Mouse.objects.filter(sex="F").count(), 4)
-        self.assertEqual(self.stock_cage.mice.count(), 8)
-
-    # transfer_to_stock method creates mice with the correct attributes
-    def test_mice_attributes_created_by_transfer(self):
-        self.assertEqual(self.new_mouse.strain, self.mother.strain)
-        self.assertEqual(self.new_mouse.mother, self.mother)
-        self.assertEqual(self.new_mouse.father, self.father)
-        self.assertEqual(self.new_mouse.dob, date.today())

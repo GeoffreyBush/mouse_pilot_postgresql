@@ -1,14 +1,12 @@
 from django.test import TestCase
 
 from website.forms import (
-    BreedingCageForm,
     CustomUserChangeForm,
     CustomUserCreationForm,
     MouseSelectionForm,
     RequestForm,
 )
 from website.tests.form_factories import (
-    BreedingCageFormFactory,
     CustomUserCreationFormFactory,
     RequestFormFactory,
 )
@@ -236,21 +234,4 @@ class MouseSelectionFormTestCase(TestCase):
 ##########################
 ### BREEDING CAGE FORM ###
 ##########################
-class BreedingCageFormTestCase(TestCase):
 
-    # Valid data
-    def test_valid_form(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
-        self.assertTrue(form.is_valid())
-
-    # Missing box_no
-    def test_invalid_box_no(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_box_no())
-        self.assertFalse(form.is_valid())
-        self.assertIn("box_no", form.errors)
-
-    # Invalid mother
-    def test_invalid_mother(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_mother())
-        self.assertFalse(form.is_valid())
-        self.assertIn("mother", form.errors)
