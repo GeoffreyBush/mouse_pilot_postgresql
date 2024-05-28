@@ -28,5 +28,6 @@ class MiceRepositoryViewTest(TestCase):
     # POST RequestForm with valid data
     # def test_add_mouse_to_repository_post_valid(self):
     #   data = {
-    
+
+
 # Test for adding a mouse to the repository

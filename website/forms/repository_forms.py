@@ -1,7 +1,7 @@
 from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
-from website.models import CustomUser, Mouse, Project, Strain, StockCage
+from website.models import CustomUser, Mouse, Project, StockCage, Strain
 
 
 class RepositoryMiceForm(forms.ModelForm):
@@ -76,20 +76,17 @@ class RepositoryMiceForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     result = forms.CharField(
-        initial="", 
+        initial="",
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     fate = forms.CharField(
-        initial="", 
+        initial="",
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
-
-
 
     class Meta:
         model = Mouse
         fields = "__all__"
         exclude = ["_global_id"]
-        
