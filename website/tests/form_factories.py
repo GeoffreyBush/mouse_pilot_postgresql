@@ -1,4 +1,4 @@
-from website.forms import BreedingCageForm, CustomUserCreationForm, RequestForm
+from website.forms import BreedingCageForm, CustomUserCreationForm, RequestForm, CustomUserChangeForm
 from website.tests.model_factories import MouseFactory, UserFactory
 
 class BreedingCageFormFactory:
@@ -55,6 +55,7 @@ class CustomUserCreationFormFactory:
             "password1": "testpass123",
             "password2": "wrongpass",
         }
+
 
 class RequestFormFactory:
 
