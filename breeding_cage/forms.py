@@ -8,7 +8,7 @@ class BreedingCageForm(forms.ModelForm):
 
     box_no = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}),
-        required=True, # Prevents from creating duplcate boxes when editing a breeding cage
+        required=True,  # Prevents from creating duplcate boxes when editing a breeding cage
         label="Box Number",
     )
     mother = forms.ModelChoiceField(

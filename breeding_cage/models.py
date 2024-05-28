@@ -7,7 +7,13 @@ from website.models import Mouse, StockCage
 class BreedingCage(models.Model):
     """Could benefit from tracking when the breeding pair was put in the cage"""
 
-    box_no = models.CharField(db_column="Box Number", max_length=10, null=False, blank=False, default="Unnamed")
+    box_no = models.CharField(
+        db_column="Box Number",
+        max_length=10,
+        null=False,
+        blank=False,
+        default="Unnamed",
+    )
     mother = models.ForeignKey(
         "website.Mouse",
         on_delete=models.PROTECT,
