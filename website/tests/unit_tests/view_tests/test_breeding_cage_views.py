@@ -2,13 +2,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
+from website.tests.form_factories import BreedingCageFormFactory
 from website.tests.model_factories import (
     BreedingCageFactory,
     StrainFactory,
     UserFactory,
 )
 
-from website.tests.form_factories import BreedingCageFormFactory
 
 class ListBreedingCagesTest(TestCase):
 
