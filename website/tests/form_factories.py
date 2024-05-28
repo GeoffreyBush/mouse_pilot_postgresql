@@ -1,6 +1,7 @@
 from website.forms import BreedingCageForm, CustomUserCreationForm, RequestForm
 from website.tests.model_factories import MouseFactory, UserFactory
 
+
 class BreedingCageFormFactory:
 
     @staticmethod
@@ -33,6 +34,7 @@ class BreedingCageFormFactory:
             "father": father,
         }
 
+
 class CustomUserCreationFormFactory:
     @staticmethod
     def create(**kwargs):
@@ -55,6 +57,7 @@ class CustomUserCreationFormFactory:
             "password1": "testpass123",
             "password2": "wrongpass",
         }
+
 
 class RequestFormFactory:
 
