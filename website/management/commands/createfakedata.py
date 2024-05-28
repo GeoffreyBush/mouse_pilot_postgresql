@@ -7,7 +7,15 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain, StockCage
+from website.models import (
+    BreedingCage,
+    Comment,
+    CustomUser,
+    Mouse,
+    Project,
+    StockCage,
+    Strain,
+)
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 
@@ -46,8 +54,6 @@ class Command(BaseCommand):
     ######################################
     def create_users(self, x):
 
-        
-
         print("Creating users...", end=" ")
         for _ in range(x):
             CustomUser.objects.create(
@@ -62,14 +68,10 @@ class Command(BaseCommand):
             )
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-
-
-
     #########################################
     ### Create x number of projects in DB ###
     #########################################
     def create_projects(self, x):
-
 
         print("Creating projects...", end=" ")
         existing_strains = Strain.objects.all()
@@ -111,7 +113,6 @@ class Command(BaseCommand):
 
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
-
     #####################################
     ### Create x number of mice in DB ###
     #####################################
@@ -132,7 +133,7 @@ class Command(BaseCommand):
                 strain=random.choice(existing_strains),
                 sex=random.choice(["M", "F"]),
                 dob=self.fake.date(),
-                stock_cage = random.choice(existing_stock_cages),
+                stock_cage=random.choice(existing_stock_cages),
                 clipped_date=self.fake.date(),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),
@@ -217,7 +218,6 @@ class Command(BaseCommand):
     #######################################################################
     def create_super_user(self):
 
-
         print("Creating 'SuperUser' account...", end=" ")
         CustomUser.objects.create(
             password=make_password("samplepassword"),
@@ -233,7 +233,6 @@ class Command(BaseCommand):
     ### Main method ###
     ###################
     def handle(self, *args, **kwargs):
-
 
         print("Beginning fake data creation...")
 
