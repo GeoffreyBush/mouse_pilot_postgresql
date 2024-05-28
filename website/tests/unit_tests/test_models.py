@@ -207,7 +207,7 @@ class BreedingCageTest(TestCase):
         self.assertIsNotNone(self.breeding_cage.mother)
         self.assertIsNotNone(self.breeding_cage.father)
 
-    # Stock cage is created by transfer_to_stock method
+    # transfer_to_stock method creates a stock cage 
     def test_transfer_creates_stock_cage(self):
         self.assertIsInstance(self.stock_cage, StockCage)
 
@@ -221,7 +221,7 @@ class BreedingCageTest(TestCase):
         self.assertEqual(Mouse.objects.filter(sex="F").count(), 4)
         self.assertEqual(self.stock_cage.mice.count(), 8)
 
-    # Mice created by transfer_to_stock have correct attributes
+    # transfer_to_stock method creates mice with the correct attributes
     def test_mice_attributes_created_by_transfer(self):
         self.assertEqual(self.new_mouse.strain, self.mother.strain)
         self.assertEqual(self.new_mouse.mother, self.mother)

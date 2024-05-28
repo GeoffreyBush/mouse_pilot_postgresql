@@ -1,17 +1,14 @@
-from datetime import date
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from website.forms import BreedingCageForm
 from website.tests.model_factories import (
     BreedingCageFactory,
-    MouseFactory,
     StrainFactory,
     UserFactory,
 )
 
+from website.tests.form_factories import BreedingCageFormFactory
 
 class ListBreedingCagesTest(TestCase):
 
@@ -73,7 +70,6 @@ class AddBreedingCageViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
-        self.father, self.mother = MouseFactory(sex="M"), MouseFactory(sex="F")
 
     # Access Create Breeding Cage while logged in
     def test_create_breeding_cage_get_with_authenticated_user(self):
@@ -83,41 +79,17 @@ class AddBreedingCageViewTest(TestCase):
 
     # POST BreedingCageForm with valid data
     def test_create_breeding_cage_post_valid(self):
-        data = {
-            "box_no": "1",
-            "mother": self.mother,
-            "father": self.father,
-            "date_born": date.today(),
-            "number_born": 10,
-            "cull_to": 5,
-            "date_wean": date.today(),
-            "number_wean": 5,
-            "pwl": 5,
-        }
-        form = BreedingCageForm(data=data)
-        self.assertTrue(form.is_valid())
+        data = BreedingCageFormFactory.create_valid_data()
         response = self.client.post(reverse("add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("list_breeding_cages"))
 
-    # POST BreedingCageForm with invalid date
+    # POST BreedingCageForm with invalid mother
     def test_create_breeding_cage_post_invalid(self):
-        data = {
-            "box_no": "1",
-            "mother": self.mother,
-            "father": self.father,
-            "date_born": 1,
-            "number_born": 10,
-            "cull_to": 5,
-            "date_wean": date.today(),
-            "number_wean": 5,
-            "pwl": 5,
-        }
+        data = BreedingCageFormFactory.create_invalid_mother()
         response = self.client.post(reverse("add_breeding_cage"), data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "breeding_cages/add_breeding_cage.html")
-        form = response.context["form"]
-        self.assertFalse(form.is_valid())
 
     # Access add cage while not logged in
     def test_create_breeding_cage_get_with_unauthenticated_user(self):

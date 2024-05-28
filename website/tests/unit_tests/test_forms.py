@@ -19,6 +19,7 @@ from website.tests.model_factories import (
     StrainFactory,
     UserFactory,
 )
+from website.tests.form_factories import BreedingCageFormFactory
 
 
 #################
@@ -261,37 +262,19 @@ class MouseSelectionFormTestCase(TestCase):
 ##########################
 class BreedingCageFormTest(TestCase):
 
-    def setUp(self):
-        self.father, self.mother = MouseFactory(sex="M"), MouseFactory(sex="F")
-
     # Valid data
     def test_valid_form(self):
-        data = {
-            "box_no": "1-1",
-            "mother": self.mother,
-            "father": self.father,
-            "date_born": date.today(),
-            "number_born": "5",
-            "cull_to": "2",
-            "date_wean": date.today(),
-            "number_wean": "3",
-            "pwl": "2",
-        }
-        form = BreedingCageForm(data=data)
+        form = BreedingCageForm(data=BreedingCageFormFactory.create_valid_data())
         self.assertTrue(form.is_valid())
 
-    # Missing cage number
-    def test_invalid_form(self):
-        data = {
-            "box_no": "",
-            "mother": self.mother,
-            "father": self.father,
-            "date_born": date.today(),
-            "number_born": "5",
-            "cull_to": "2",
-            "date_wean": date.today(),
-            "number_wean": "3",
-            "pwl": "2",
-        }
-        form = BreedingCageForm(data=data)
+    # Missing box_no
+    def test_invalid_box_no(self):
+        form = BreedingCageForm(data=BreedingCageFormFactory.create_invalid_box_no())
         self.assertFalse(form.is_valid())
+        self.assertIn("box_no", form.errors)
+
+    # Invalid mother
+    def test_invalid_mother(self):
+        form = BreedingCageForm(data=BreedingCageFormFactory.create_invalid_mother())
+        self.assertFalse(form.is_valid())
+        self.assertIn("mother", form.errors)
