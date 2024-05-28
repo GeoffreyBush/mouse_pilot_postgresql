@@ -92,12 +92,12 @@ class Mouse(models.Model):
     """ Add history back in the future. Error across multiple areas """
     # history = HistoricalRecords()
 
-    coat = models.CharField(db_column="Coat", max_length=20, null=True, blank=True)
+    coat = models.CharField(db_column="Coat", max_length=20, null=True, blank=True, default="")
 
     # Think result should be a set of choices
-    result = models.CharField(db_column="Result", max_length=20, null=True, blank=True)
+    result = models.CharField(db_column="Result", max_length=20, null=True, blank=True, default="")
 
-    fate = models.CharField(db_column="Fate", max_length=40, null=True, blank=True)
+    fate = models.CharField(db_column="Fate", max_length=40, null=True, blank=True, default="")
 
     @property
     def tube(self):

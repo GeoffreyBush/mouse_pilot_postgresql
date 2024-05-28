@@ -1,10 +1,16 @@
 from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
-from website.models import CustomUser, Mouse, Project, Strain
+from website.models import CustomUser, Mouse, Project, Strain, StockCage
 
 
 class RepositoryMiceForm(forms.ModelForm):
+
+    _tube = forms.IntegerField(
+        initial="0",
+        required=True,
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
+    )
 
     sex = forms.ChoiceField(
         initial="M",
@@ -40,6 +46,11 @@ class RepositoryMiceForm(forms.ModelForm):
         required=False,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
+    stock_cage = forms.ModelChoiceField(
+        queryset=StockCage.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
     project = forms.ModelChoiceField(
         queryset=Project.objects.all(),
         required=False,
@@ -59,7 +70,26 @@ class RepositoryMiceForm(forms.ModelForm):
         required=False,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
+    coat = forms.CharField(
+        initial="",
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    result = forms.CharField(
+        initial="", 
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    fate = forms.CharField(
+        initial="", 
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+
 
     class Meta:
         model = Mouse
-        fields = "__all__"  # or list the fields you want to include
+        fields = "__all__"
+        exclude = ["_global_id"]
+        

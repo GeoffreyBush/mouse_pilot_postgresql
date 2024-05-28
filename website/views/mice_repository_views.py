@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 
-from website.forms import ProjectMiceForm
+from website.forms import RepositoryMiceForm
 from website.models import Mouse
 
 
@@ -18,12 +18,12 @@ def mice_repository(request):
 @login_required
 def add_mouse_to_repository(request):
     if request.method == "POST":
-        form = ProjectMiceForm(request.POST)
+        form = RepositoryMiceForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("repository/add_mouse_to_repository")
     else:
-        form = ProjectMiceForm()
+        form = RepositoryMiceForm()
     return render(
         request, "repository/add_mouse_to_repository.html", {"mice_form": form}
     )
