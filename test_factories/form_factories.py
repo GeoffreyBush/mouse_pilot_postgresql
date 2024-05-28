@@ -1,6 +1,6 @@
 from breeding_cage.forms import BreedingCageForm
-from website.forms import CustomUserCreationForm, RequestForm
 from test_factories.model_factories import MouseFactory, UserFactory
+from website.forms import CustomUserCreationForm, RequestForm
 
 
 class BreedingCageFormFactory:

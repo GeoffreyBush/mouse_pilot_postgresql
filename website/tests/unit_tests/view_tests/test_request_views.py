@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 from website.forms import RequestForm
 from website.models import Request
-from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 
 class ShowRequestsViewTest(TestCase):

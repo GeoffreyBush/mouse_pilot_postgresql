@@ -1,16 +1,16 @@
 from django.test import TestCase
 
+from test_factories.form_factories import (
+    CustomUserCreationFormFactory,
+    RequestFormFactory,
+)
+from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 from website.forms import (
     CustomUserChangeForm,
     CustomUserCreationForm,
     MouseSelectionForm,
     RequestForm,
 )
-from test_factories.form_factories import (
-    CustomUserCreationFormFactory,
-    RequestFormFactory,
-)
-from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 # Rework RepositoryMiceForm to have more attributes and then come back to this test
 """

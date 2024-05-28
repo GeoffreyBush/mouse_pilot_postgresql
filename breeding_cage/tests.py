@@ -5,7 +5,6 @@ from django.urls import reverse
 
 from breeding_cage.forms import BreedingCageForm
 from breeding_cage.models import BreedingCage
-from website.models import Mouse, StockCage
 from test_factories.form_factories import BreedingCageFormFactory
 from test_factories.model_factories import (
     BreedingCageFactory,
@@ -13,6 +12,7 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
+from website.models import Mouse, StockCage
 
 
 class BreedingModelTestCase(TestCase):
