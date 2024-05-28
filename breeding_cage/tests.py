@@ -15,7 +15,7 @@ from test_factories.model_factories import (
 from website.models import Mouse, StockCage
 
 
-class BreedingModelTestCase(TestCase):
+class BreedingCageModelTestCase(TestCase):
 
     @classmethod
     def setUp(self):
