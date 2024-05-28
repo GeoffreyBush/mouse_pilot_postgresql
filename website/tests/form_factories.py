@@ -1,4 +1,8 @@
-from website.forms import BreedingCageForm, CustomUserCreationForm, RequestForm, CustomUserChangeForm
+from website.forms import (
+    BreedingCageForm,
+    CustomUserCreationForm,
+    RequestForm,
+)
 from website.tests.model_factories import MouseFactory, UserFactory
 
 
