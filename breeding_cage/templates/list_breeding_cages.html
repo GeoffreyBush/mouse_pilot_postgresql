@@ -9,7 +9,7 @@
         <div class="col-md-12 d-flex justify-content-between " >
             <h1 class="project-header-text">Breeding Cage List</h1>
             <div>
-                <a href="{% url 'add_breeding_cage' %}" class="btn btn-primary">Add Breeding Cage</a>
+                <a href="{% url 'breeding_cage:add_breeding_cage' %}" class="btn btn-primary">Add Breeding Cage</a>
                 <a href="#" class="btn btn-primary">Transfer to Stock</a>
             </div>
         </div>
@@ -21,11 +21,11 @@
         <div class="col">
             <div class="card card-body square-cage mb-4 shadow-sm">
                 <h5 class="card-title">
-                    <a href="{% url 'view_breeding_cage' cage.box_no %}" style="text-decoration: none;">{{ cage.box_no }}</a>
+                    <a href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}" style="text-decoration: none;">{{ cage.box_no }}</a>
                 </h5>
                 {% comment %} If breeding pair present in cage, render large mouse image for each member {% endcomment %}
                 {% comment %} For each mouse pup in the cage, render a small mouse image {% endcomment %}
-                <a href="{% url 'edit_breeding_cage' cage.box_no %}" style="text-decoration: none;">
+                <a href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}" style="text-decoration: none;">
                     <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
                 </a>
             </div>

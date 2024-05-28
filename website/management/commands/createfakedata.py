@@ -8,7 +8,6 @@ from faker import Faker
 
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
 from website.models import (
-    BreedingCage,
     Comment,
     CustomUser,
     Mouse,
@@ -16,6 +15,7 @@ from website.models import (
     StockCage,
     Strain,
 )
+from breeding_cage.models import BreedingCage
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 

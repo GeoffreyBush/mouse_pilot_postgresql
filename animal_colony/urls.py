@@ -7,6 +7,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("website/", include("website.urls")),
+    path("breeding_cage/", include("breeding_cage.urls", namespace="breeding_cage")),
     path("", RedirectView.as_view(url="website/", permanent=True)),
     path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

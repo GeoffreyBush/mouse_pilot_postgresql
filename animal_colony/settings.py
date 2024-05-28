@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "simple_history",
     "django_filters",
     "website",
+    "breeding_cage",
 ]
 
 MIDDLEWARE = [

@@ -1,23 +1,23 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% block title %}Edit Breeding Cage{% endblock %}
+{% block title %}Create Breeding Pair{% endblock %}
 {% block content %}
 
 <div class="container p-3">
     <h2 class="my-3">
-        Edit Breeding Cage
+        Add a Breeding Cage
     </h2>
     <div class="col-10">
         <ul class="list-group">
             <li class="list-group-item">
-                This page is for editing an existing breeding cage to reflect changes such as sexing, weaning, or death of pups.
+                This page is for adding a new breeding pair or an existing breeding cage that needs to be imported manually.
             </li>
             <li class="list-group-item">
                 It will make a new breeding cage labelled with Box Numbers.
             </li>
         </ul>
         <button class="btn btn-secondary ml-auto mt-4">
-            <a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
+            <a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
                 Back to Dashboard
             </a>
         </button>
@@ -40,7 +40,7 @@
             {% endfor %}
         </div>
         <button class="btn btn-success mt-2" type="submit">
-            Confirm Edit
+            Confirm Breeding Cage
     </form>
 </div>
 {% endblock %}
