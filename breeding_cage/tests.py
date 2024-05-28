@@ -161,3 +161,43 @@ class AddBreedingCageViewTestCase(TestCase):
 
 
 # Edit breeding cage view
+class EditBreedingCageViewTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory(username="testuser")
+        self.client.login(username="testuser", password="testpassword")
+        self.cage = BreedingCageFactory()
+
+    # Access Edit Breeding Cage while logged in
+    def test_edit_breeding_cage_get_authenticated_user(self):
+        response = self.client.get(reverse("breeding_cage:edit_breeding_cage", args=[self.cage]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "edit_breeding_cage.html")
+
+    # POST BreedingCageForm with valid data
+    def test_edit_breeding_cage_post_valid(self):
+        data = BreedingCageFormFactory.valid_data()
+        data["box_no"] = "222"
+        self.assertEqual(data["box_no"], "222")
+        response = self.client.post(reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data)
+        self.cage.save()
+        self.cage.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
+        self.assertEqual(self.cage.box_no, "222")
+
+    # POST BreedingCageForm with invalid mother
+    def test_edit_breeding_cage_post_invalid(self):
+        print(self.cage.box_no)
+        data = BreedingCageFormFactory.invalid_mother()
+        response = self.client.post(reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "edit_breeding_cage.html")
+
+    # Access add cage while not logged in
+    def test_edit_breeding_cage_get_unauthenticated_user(self):
+        print(self.cage.box_no)
+        self.client.logout()
+        url = reverse("breeding_cage:edit_breeding_cage", args=[self.cage])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f"/accounts/login/?next={url}")
