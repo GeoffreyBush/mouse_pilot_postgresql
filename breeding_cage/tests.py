@@ -169,7 +169,9 @@ class EditBreedingCageViewTestCase(TestCase):
 
     # Access Edit Breeding Cage while logged in
     def test_edit_breeding_cage_get_authenticated_user(self):
-        response = self.client.get(reverse("breeding_cage:edit_breeding_cage", args=[self.cage]))
+        response = self.client.get(
+            reverse("breeding_cage:edit_breeding_cage", args=[self.cage])
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_breeding_cage.html")
 
@@ -178,7 +180,9 @@ class EditBreedingCageViewTestCase(TestCase):
         data = BreedingCageFormFactory.valid_data()
         data["box_no"] = "222"
         self.assertEqual(data["box_no"], "222")
-        response = self.client.post(reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data)
+        response = self.client.post(
+            reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
+        )
         self.cage.save()
         self.cage.refresh_from_db()
         self.assertEqual(response.status_code, 302)
@@ -189,7 +193,9 @@ class EditBreedingCageViewTestCase(TestCase):
     def test_edit_breeding_cage_post_invalid(self):
         print(self.cage.box_no)
         data = BreedingCageFormFactory.invalid_mother()
-        response = self.client.post(reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data)
+        response = self.client.post(
+            reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_breeding_cage.html")
 
