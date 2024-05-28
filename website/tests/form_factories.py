@@ -33,6 +33,7 @@ class BreedingCageFormFactory:
             "father": father,
         }
 
+
 class CustomUserCreationFormFactory:
     @staticmethod
     def create(**kwargs):
@@ -46,7 +47,7 @@ class CustomUserCreationFormFactory:
             "password1": "testpassword",
             "password2": "testpassword",
         }
-    
+
     @staticmethod
     def mismatched_passwords(**kwargs):
         return {

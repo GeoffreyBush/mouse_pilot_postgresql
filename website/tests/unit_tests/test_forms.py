@@ -12,8 +12,10 @@ from website.forms import (
     ProjectMiceForm,
     RequestForm,
 )
-
-from website.tests.form_factories import BreedingCageFormFactory, CustomUserCreationFormFactory
+from website.tests.form_factories import (
+    BreedingCageFormFactory,
+    CustomUserCreationFormFactory,
+)
 from website.tests.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -101,7 +103,9 @@ class CustomUserCreationFormTest(TestCase):
 
     # Password mismatch
     def test_custom_user_creation_form_password_mismatch(self):
-        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.mismatched_passwords())
+        form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.mismatched_passwords()
+        )
         self.assertIn("password2", form.errors)
 
     # Duplicate user
