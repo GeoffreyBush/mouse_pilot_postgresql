@@ -1,8 +1,8 @@
-from website.forms import BreedingCageForm, CustomUserCreationForm
-from website.tests.model_factories import MouseFactory
-
+from website.forms import BreedingCageForm, CustomUserCreationForm, RequestForm
+from website.tests.model_factories import MouseFactory, UserFactory
 
 class BreedingCageFormFactory:
+
     @staticmethod
     def create(**kwargs):
         return BreedingCageForm(data=kwargs)
@@ -33,7 +33,6 @@ class BreedingCageFormFactory:
             "father": father,
         }
 
-
 class CustomUserCreationFormFactory:
     @staticmethod
     def create(**kwargs):
@@ -55,4 +54,30 @@ class CustomUserCreationFormFactory:
             "email": "test@example.com",
             "password1": "testpass123",
             "password2": "wrongpass",
+        }
+
+class RequestFormFactory:
+
+    @staticmethod
+    def create(**kwargs):
+        return RequestForm(data=kwargs)
+
+    @staticmethod
+    def valid_data(mouse1, mouse2, **kwargs):
+        user = UserFactory()
+        return {
+            "mice": [mouse1.pk, mouse2.pk],
+            "task_type": "Cl",
+            "researcher": user.id,
+            "new_message": "Test message",
+        }
+
+    @staticmethod
+    def missing_mice(**kwargs):
+        user = UserFactory()
+        return {
+            "mice": [],
+            "task_type": "Cl",
+            "researcher": user.id,
+            "new_message": "Test message",
         }

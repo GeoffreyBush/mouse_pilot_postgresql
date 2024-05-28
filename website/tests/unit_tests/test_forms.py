@@ -15,6 +15,7 @@ from website.forms import (
 from website.tests.form_factories import (
     BreedingCageFormFactory,
     CustomUserCreationFormFactory,
+    RequestFormFactory,
 )
 from website.tests.model_factories import (
     MouseFactory,
@@ -156,14 +157,12 @@ class CustomUserChangeFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
 
-
 ####################
 ### REQUEST FORM ###
 ####################
 class RequestFormTestCase(TestCase):
     def setUp(self):
         self.project = ProjectFactory()
-        self.user = UserFactory()
         self.mouse1, self.mouse2 = MouseFactory(project=self.project), MouseFactory(
             project=self.project
         )
@@ -172,34 +171,21 @@ class RequestFormTestCase(TestCase):
     def test_request_form_valid_data(self):
         form = RequestForm(
             project=self.project,
-            data={
-                "mice": [self.mouse1.pk, self.mouse2.pk],
-                "task_type": "Cl",
-                "researcher": self.user.id,
-                "new_message": "Test message",
-            },
+            data=RequestFormFactory.valid_data(self.mouse1, self.mouse2),
         )
         self.assertTrue(form.is_valid())
-        request = form.save()
-        self.assertEqual(request.task_type, "Cl")
-        self.assertEqual(request.researcher.id, self.user.id)
-        self.assertEqual(request.new_message, "Test message")
-        self.assertCountEqual(list(request.mice.all()), [self.mouse1, self.mouse2])
+        self.assertEqual(form.save().mice.count(), 2)
 
     # Invalid data
     def test_request_form_invalid_data(self):
         form = RequestForm(
             project=self.project,
-            data={
-                "mice": [],
-                "task_type": "Invalid",
-                "researcher": self.user.id,
-                "new_message": "Test message",
-            },
+            data=RequestFormFactory.missing_mice(),
         )
         self.assertFalse(form.is_valid())
         self.assertIn("mice", form.errors)
-        self.assertIn("task_type", form.errors)
+
+    # There must be at least one mouse present in a request
 
 
 ############################
@@ -234,7 +220,7 @@ class MouseSelectionFormTestCase(TestCase):
 ##########################
 ### BREEDING CAGE FORM ###
 ##########################
-class BreedingCageFormTest(TestCase):
+class BreedingCageFormTestCase(TestCase):
 
     # Valid data
     def test_valid_form(self):

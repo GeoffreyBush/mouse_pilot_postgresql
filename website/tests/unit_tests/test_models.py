@@ -132,6 +132,7 @@ class RequestModelTests(TestCase):
             self.assertTrue(mouse.is_genotyped())
     """
 
+    # There must be at least one mouse present in a request
 
 ##############
 ### STRAIN ###
