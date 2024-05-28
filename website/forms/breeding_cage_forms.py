@@ -7,6 +7,7 @@ class BreedingCageForm(forms.ModelForm):
 
     box_no = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}),
+        required=True,
         label="Box Number",
     )
     mother = forms.ModelChoiceField(

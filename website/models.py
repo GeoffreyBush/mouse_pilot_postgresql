@@ -107,7 +107,7 @@ class Mouse(models.Model):
         return True if self.earmark != "" else False
 
     def __str__(self):
-        return f"{self.tube}"
+        return f"{self._global_id}"
 
     class Meta:
         managed = True

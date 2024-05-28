@@ -158,7 +158,7 @@ class DeleteMouseViewTest(TestCase):
     # Delete mouse while logged in
     def test_delete_mouse_view_authenticated_user(self):
         response = self.client.get(
-            reverse("delete_mouse", args=[self.project.project_name, self.mouse.tube])
+            reverse("delete_mouse", args=[self.project.project_name, self.mouse.pk])
         )
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
