@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from website.forms import CustomUserCreationForm
 from website.models import CustomUser
-from website.tests.form_factories import CustomUserCreationFormFactory
+from test_factories.form_factories import CustomUserCreationFormFactory
 from website.views import SignUpView
 
 

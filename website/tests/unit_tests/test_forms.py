@@ -6,11 +6,11 @@ from website.forms import (
     MouseSelectionForm,
     RequestForm,
 )
-from website.tests.form_factories import (
+from test_factories.form_factories import (
     CustomUserCreationFormFactory,
     RequestFormFactory,
 )
-from website.tests.model_factories import MouseFactory, ProjectFactory, UserFactory
+from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 # Rework RepositoryMiceForm to have more attributes and then come back to this test
 """

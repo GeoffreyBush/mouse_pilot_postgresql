@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from website.models import Request
-from website.tests.model_factories import MouseFactory, ProjectFactory, UserFactory
+from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 
 class ListProjectsTest(TestCase):
