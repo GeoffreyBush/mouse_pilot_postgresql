@@ -241,28 +241,28 @@ class BreedingCage(models.Model):
         on_delete=models.PROTECT,
         null=False,
         blank=False,
-        related_name="mother_breedingcage",
+        related_name="mother_breeding_cage",
     )
     father = models.ForeignKey(
         "Mouse",
         on_delete=models.PROTECT,
         null=False,
         blank=False,
-        related_name="father_breedingcage",
+        related_name="father_breeding_cage",
     )
     date_born = models.DateField(db_column="DBorn", null=True, blank=True, default=None)
     number_born = models.IntegerField(
         db_column="NBorn", null=True, blank=True, default=0
     )
     cull_to = models.CharField(
-        db_column="C/To", max_length=20, null=True, blank=True, default=None
+        db_column="C/To", max_length=20, null=True, blank=True, default=""
     )
     date_wean = models.DateField(db_column="Dwean", null=True, blank=True, default=None)
     number_wean = models.CharField(
-        db_column="Nwean", max_length=5, null=True, blank=True, default=None
+        db_column="Nwean", max_length=5, null=True, blank=True, default=""
     )
     pwl = models.CharField(
-        db_column="PWL", max_length=5, null=True, blank=True, default=None
+        db_column="PWL", max_length=5, null=True, blank=True, default=""
     )
     male_pups = models.IntegerField(
         db_column="Male Pups", null=True, blank=True, default=0

@@ -20,6 +20,7 @@ class BreedingCageForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-select", "placeholder": "Father ID"}),
     )
     date_born = forms.DateField(
+        initial=None,
         required=False,
         input_formats=["%Y-%m-%d"],
         widget=forms.DateInput(
@@ -29,16 +30,18 @@ class BreedingCageForm(forms.ModelForm):
     )
     number_born = forms.CharField(
         initial="0",
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
         label="NBorn",
     )
     cull_to = forms.CharField(
+        initial="",
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "C/To"}),
         label="C/To",
     )
     date_wean = forms.DateField(
+        initial=None,
         required=False,
         input_formats=["%Y-%m-%d"],
         widget=forms.DateInput(
@@ -47,11 +50,13 @@ class BreedingCageForm(forms.ModelForm):
         label="DWean",
     )
     number_wean = forms.CharField(
+        initial="",
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "NWean"}),
         label="NWean",
     )
     pwl = forms.CharField(
+        initial="",
         required=False,
         widget=forms.TextInput(
             attrs={"class": "form-control", "placeholder": "NBorn - NWean"}

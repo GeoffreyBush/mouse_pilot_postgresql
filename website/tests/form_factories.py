@@ -1,7 +1,5 @@
 from website.forms import BreedingCageForm
 from website.tests.model_factories import MouseFactory
-from datetime import date
-
 
 class BreedingCageFormFactory:
     @staticmethod
@@ -15,12 +13,6 @@ class BreedingCageFormFactory:
             "box_no": "1",
             "mother": mother,
             "father": father,
-            "date_born": date.today(),
-            "number_born": 10,
-            "cull_to": 5,
-            "date_wean": date.today(),
-            "number_wean": 5,
-            "pwl": 5,
         }
 
     @staticmethod
