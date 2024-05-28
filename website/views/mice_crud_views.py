@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from website.forms import ProjectMiceForm
-from website.models import Mouse
+from mice_repository.models import Mouse
 
 
 @login_required

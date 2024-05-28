@@ -12,7 +12,9 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.models import Mouse, StockCage
+
+from mice_repository.models import Mouse
+from website.models import StockCage
 
 
 class BreedingCageModelTestCase(TestCase):

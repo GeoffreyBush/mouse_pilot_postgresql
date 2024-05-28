@@ -1,8 +1,8 @@
 from django import forms
 
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
-from website.models import CustomUser, Mouse, Project, Strain
-
+from website.models import CustomUser, Project, Strain
+from mice_repository.models import Mouse
 
 class ProjectMiceForm(forms.ModelForm):
 

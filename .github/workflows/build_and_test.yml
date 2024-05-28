@@ -43,14 +43,15 @@ jobs:
         #driver.quit()
         #EOF
 
-    - name: Run Model Unit Tests
-      run: python manage.py test website.tests.unit_tests.test_models
+    - name: Test "mice_repository"
+      run: python manage.py test mice_repository.tests
 
-    - name: Run Form Unit Tests
-      run: python manage.py test website.tests.unit_tests.test_forms 
+    - name: Test "breeding_cage"
+      run: python manage.py test breeding_cage.tests
 
-    - name: Run View Unit Tests
-      run: python manage.py test website/tests/unit_tests/view_tests/
-
-    - name: Run Integration Tests
-      run: python manage.py test website/tests/integration_tests
+    - name: Run remaining "website" tests
+      run: | 
+        python manage.py test website.tests.unit_tests.test_models
+        python manage.py test website.tests.unit_tests.test_forms
+        python manage.py test website/tests/unit_tests/view_tests/
+        python manage.py test website/tests/integration_tests

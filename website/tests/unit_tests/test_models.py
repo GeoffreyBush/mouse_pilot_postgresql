@@ -6,50 +6,10 @@ from django.test import TestCase
 from test_factories.model_factories import (
     MouseFactory,
     ProjectFactory,
-    StockCageFactory,
     StrainFactory,
     UserFactory,
 )
-from website.models import Mouse, Request, StockCage, Strain
-
-#############
-### MOUSE ###
-#############
-
-
-class MouseTest(TestCase):
-
-    @classmethod
-    def setUp(self):
-        self.strain = StrainFactory(strain_name="teststrain")
-        self.mouse = MouseFactory(strain=self.strain, stock_cage=StockCageFactory())
-
-    # Check MouseFactory works
-    def test_mouse_creation(self):
-        self.assertIsInstance(self.mouse, Mouse)
-        self.assertEqual(self.mouse.strain.strain_name, "teststrain")
-
-    # Primary key is "<strain>-<tube>"
-    def test_mouse_pk(self):
-        self.assertEqual(self.mouse.pk, "teststrain-1")
-
-    # Tube attribute for breeding wing ID
-    def test_mouse_tube_id(self):
-        self.assertEqual(self.mouse.tube, 1)
-
-    # Count mice from a stock cage using related_name="mice" argument
-    def test_mouse_stock_cage(self):
-        self.assertIsInstance(self.mouse.stock_cage, StockCage)
-        self.assertEqual(self.mouse.stock_cage.cage_id, 1)
-        self.assertEqual(self.mouse.stock_cage.mice.count(), 1)
-
-    # is_genotyped method
-    def test_mouse_genotyped(self):
-        self.assertFalse(self.mouse.is_genotyped())
-        self.mouse.earmark = "TR"
-        self.mouse.save()
-        self.mouse.refresh_from_db()
-        self.assertTrue(self.mouse.is_genotyped())
+from website.models import Request,  Strain
 
 
 ##################

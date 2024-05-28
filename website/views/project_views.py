@@ -7,7 +7,8 @@ from django.template import loader
 
 from website.filters import ProjectFilter
 from website.forms import MouseSelectionForm
-from website.models import Mouse, Project, Request
+from website.models import Project, Request
+from mice_repository.models import Mouse
 
 
 @login_required

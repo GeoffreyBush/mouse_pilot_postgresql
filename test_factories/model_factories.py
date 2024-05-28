@@ -31,7 +31,7 @@ class StrainFactory(factory.django.DjangoModelFactory):
 
 class MouseFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "website.Mouse"
+        model = "mice_repository.Mouse"
 
     strain = factory.SubFactory(StrainFactory)
     sex = random.choice(["M", "F"])

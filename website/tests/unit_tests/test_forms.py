@@ -12,32 +12,7 @@ from website.forms import (
     RequestForm,
 )
 
-# Rework RepositoryMiceForm to have more attributes and then come back to this test
-"""
-#######################
-### REPOSITORY FORM ###
-#######################
 
-class RepositoryMiceFormTestCase(TestCase):
-    def setUp(self):
-        self.project = ProjectFactory()
-        self.strain = StrainFactory()
-        self.user = UserFactory()
-
-    # Valid data
-    def test_mice_form_valid_data(self):
-        strain = StrainFactory()
-        form = RepositoryMiceForm(
-            data={
-
-            }
-        )
-
-    # Invalid data
-
-    # Duplicate mice
-
-"""
 
 # Rework ProjectMiceForm and show_project.html first before using this test
 """

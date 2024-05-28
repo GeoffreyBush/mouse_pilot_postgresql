@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django_filters",
     "website",
     "breeding_cage",
+    "mice_repository",
     "test_factories",
 ]
 

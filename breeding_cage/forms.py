@@ -1,7 +1,7 @@
 from django import forms
 
 from breeding_cage.models import BreedingCage
-from website.models import Mouse
+from mice_repository.models import Mouse
 
 
 class BreedingCageForm(forms.ModelForm):

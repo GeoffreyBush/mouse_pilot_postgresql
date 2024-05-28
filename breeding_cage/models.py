@@ -1,6 +1,7 @@
 from django.db import models
 
-from website.models import Mouse, StockCage
+from mice_repository.models import Mouse
+from website.models import StockCage
 
 
 # Create your models here.
@@ -15,14 +16,14 @@ class BreedingCage(models.Model):
         default="Unnamed",
     )
     mother = models.ForeignKey(
-        "website.Mouse",
+        "mice_repository.Mouse",
         on_delete=models.PROTECT,
         null=False,
         blank=False,
         related_name="mother_breeding_cage",
     )
     father = models.ForeignKey(
-        "website.Mouse",
+        "mice_repository.Mouse",
         on_delete=models.PROTECT,
         null=False,
         blank=False,

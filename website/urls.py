@@ -4,24 +4,16 @@ from django.urls import path
 
 from . import views
 from .views import SignUpView
+import mice_repository.views
 
 # Unsorted URLs
 urlpatterns = [
     path(
-        "", views.mice_repository, name="mice_repository"
+        "", mice_repository.views.mice_repository, name="mice_repository"
     ),  # dashboard is placeholder, should probably be a login or home page instead
     # path("edit_history", views.edit_history, name="edit_history"),
 ]
 
-# Mice repository URLs
-urlpatterns += [
-    path("mice_repository", views.mice_repository, name="mice_repository"),
-    path(
-        "add_mouse_to_repository",
-        views.add_mouse_to_repository,
-        name="add_mouse_to_repository",
-    ),
-]
 
 # Researcher URLs
 urlpatterns += [

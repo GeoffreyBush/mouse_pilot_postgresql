@@ -8,7 +8,8 @@ from faker import Faker
 
 from breeding_cage.models import BreedingCage
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import Comment, CustomUser, Mouse, Project, StockCage, Strain
+from website.models import Comment, CustomUser, Project, StockCage, Strain
+from mice_repository.models import Mouse
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 
