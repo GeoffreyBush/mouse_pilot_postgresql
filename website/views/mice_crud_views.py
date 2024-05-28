@@ -42,6 +42,7 @@ def delete_mouse(request, project_name, tube):
     mouse.delete()
     return redirect("show_project", project_name=project_name)
 
+
 # Edit history is broken by missing tube attribute in mice
 """
 @login_required

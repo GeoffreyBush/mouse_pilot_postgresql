@@ -89,7 +89,7 @@ class Mouse(models.Model):
         "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
 
-    #history = HistoricalRecords()
+    # history = HistoricalRecords()
 
     @property
     def tube(self):
