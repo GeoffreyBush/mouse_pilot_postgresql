@@ -34,8 +34,9 @@ class Mouse(models.Model):
     strain = models.ForeignKey(
         "Strain", on_delete=models.PROTECT, blank=False, null=False
     )
-    _tube = models.CharField(db_column="Tube", primary_key=True, max_length=20)
-
+    _tube = models.IntegerField(db_column="Tube", blank=False, null=False)
+    _global_id = models.CharField(
+        db_column="Global ID", max_length=20, primary_key=True)
     sex = models.CharField(
         db_column="Sex",
         max_length=1,
@@ -43,7 +44,7 @@ class Mouse(models.Model):
         choices=[("M", "Male"), ("F", "Female")],
         null=False,
     )
-    dob = models.DateField(db_column="Date of Birth", null=False)
+    dob = models.DateField(db_column="Date of Birth", null=False, blank=False)
 
     # Culled boolean attribute will be useful
 
@@ -97,7 +98,8 @@ class Mouse(models.Model):
     def save(self, *args, **kwargs):
         if not self._tube:
             self.strain.increment_mice_count()
-            self._tube = f"{self.strain.strain_name}-{self.strain.mice_count}"
+            self._tube = self.strain.mice_count
+            self._global_id = f"{self.strain.strain_name}-{self.strain.mice_count}"
         super().save(*args, **kwargs)
         self.refresh_from_db()
 

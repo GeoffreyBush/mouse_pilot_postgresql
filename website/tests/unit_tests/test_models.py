@@ -32,9 +32,13 @@ class MouseTest(TestCase):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
 
+    # Primary key is "<strain>-<tube>"
+    def test_mouse_pk(self):
+        self.assertEqual(self.mouse.pk, "teststrain-1")
+
     # Tube attribute for breeding wing ID
     def test_mouse_tube_id(self):
-        self.assertEqual(self.mouse.tube, "teststrain-1")
+        self.assertEqual(self.mouse.tube, 1)
 
     # Count mice from a stock cage using related_name="mice" argument
     def test_mouse_stock_cage(self):
