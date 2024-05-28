@@ -10,12 +10,12 @@ class BreedingCageForm(forms.ModelForm):
         label="Box Number",
     )
     mother = forms.ModelChoiceField(
-        queryset=Mouse.objects.all(),
+        queryset=Mouse.objects.filter(sex="F"),
         required=True,
         widget=forms.Select(attrs={"class": "form-select", "placeholder": "Mother ID"}),
     )
     father = forms.ModelChoiceField(
-        queryset=Mouse.objects.all(),
+        queryset=Mouse.objects.filter(sex="M"),
         required=True,
         widget=forms.Select(attrs={"class": "form-select", "placeholder": "Father ID"}),
     )
