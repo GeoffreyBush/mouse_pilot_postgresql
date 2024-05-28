@@ -89,7 +89,15 @@ class Mouse(models.Model):
         "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
 
+    """ Add history back in the future. Error across multiple areas """
     # history = HistoricalRecords()
+
+    coat = models.CharField(db_column="Coat", max_length=20, null=True, blank=True)
+
+    # Think result should be a set of choices
+    result = models.CharField(db_column="Result", max_length=20, null=True, blank=True)
+
+    fate = models.CharField(db_column="Fate", max_length=40, null=True, blank=True)
 
     @property
     def tube(self):

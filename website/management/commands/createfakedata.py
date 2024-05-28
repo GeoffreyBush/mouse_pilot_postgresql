@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain
+from website.models import BreedingCage, Comment, CustomUser, Mouse, Project, Strain, StockCage
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 
@@ -29,6 +29,8 @@ class Provider(faker.providers.BaseProvider):
 class Command(BaseCommand):
 
     help = "Command information"
+    fake = Faker()
+    fake.add_provider(Provider)
 
     ###############################################
     ### Add all strains from STRAINS list to DB ###
@@ -44,29 +46,30 @@ class Command(BaseCommand):
     ######################################
     def create_users(self, x):
 
-        fake = Faker()
+        
 
         print("Creating users...", end=" ")
         for _ in range(x):
             CustomUser.objects.create(
-                password=make_password(fake.password()),
+                password=make_password(self.fake.password()),
                 is_superuser=False,
-                username=fake.unique.user_name(),
-                first_name=fake.first_name(),
-                last_name=fake.last_name(),
-                email=fake.ascii_email(),
+                username=self.fake.unique.user_name(),
+                first_name=self.fake.first_name(),
+                last_name=self.fake.last_name(),
+                email=self.fake.ascii_email(),
                 is_staff=True,
                 is_active=True,
             )
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+
+
 
     #########################################
     ### Create x number of projects in DB ###
     #########################################
     def create_projects(self, x):
 
-        fake = Faker()
-        fake.add_provider(Provider)
 
         print("Creating projects...", end=" ")
         existing_strains = Strain.objects.all()
@@ -85,8 +88,8 @@ class Command(BaseCommand):
 
             # Make a project
             project = Project.objects.create(
-                project_name=fake.unique.website_project_name(),
-                research_area=fake.unique.website_research_area(),
+                project_name=self.fake.unique.website_project_name(),
+                research_area=self.fake.unique.website_research_area(),
             )
 
             # Add strains and researchers from random indexes
@@ -98,17 +101,28 @@ class Command(BaseCommand):
 
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
+    ############################################
+    ### Create x number of stock cages in DB ###
+    ############################################
+    def create_stock_cages(self, x):
+        print("Creating stock cages...", end=" ")
+        for _ in range(x):
+            StockCage.objects.create()
+
+        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+
     #####################################
     ### Create x number of mice in DB ###
     #####################################
 
     def create_mice(self, x):
-        fake = Faker()
 
         # Collect foreign keys
         existing_projects = Project.objects.all()
         existing_researchers = CustomUser.objects.all()
         existing_strains = Strain.objects.all()
+        existing_stock_cages = StockCage.objects.all()
 
         print("Creating mice...", end=" ")
 
@@ -117,8 +131,9 @@ class Command(BaseCommand):
             Mouse.objects.create(
                 strain=random.choice(existing_strains),
                 sex=random.choice(["M", "F"]),
-                dob=fake.date(),
-                clipped_date=fake.date(),
+                dob=self.fake.date(),
+                stock_cage = random.choice(existing_stock_cages),
+                clipped_date=self.fake.date(),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),
                 earmark=random.choice(EARMARK_CHOICES),
@@ -151,26 +166,24 @@ class Command(BaseCommand):
     ######################################
     def create_breeding_cages(self, x):
 
-        fake = Faker()
-        fake.add_provider(Provider)
         existing_mice = Mouse.objects.all()
         female_mice = existing_mice.filter(sex="F")
         male_mice = existing_mice.filter(sex="M")
 
-        print("Creating cages...", end=" ")
+        print("Creating breeding cages...", end=" ")
         for _ in range(x):
             variable_number_born = random.randint(1, 21)
             variable_number_wean = random.randint(1, variable_number_born)
             mother = random.choice(female_mice)
             father = male_mice.filter(strain=mother.strain).order_by("?").first()
             BreedingCage.objects.create(
-                box_no=fake.unique.website_box_no(),
+                box_no=self.fake.unique.website_box_no(),
                 mother=mother,
                 father=father,
-                date_born=fake.date(),
+                date_born=self.fake.date(),
                 number_born=variable_number_born,
                 cull_to="placeholder",
-                date_wean=fake.date(),
+                date_wean=self.fake.date(),
                 number_wean=variable_number_wean,
                 pwl=variable_number_born - variable_number_wean,
             )
@@ -181,8 +194,6 @@ class Command(BaseCommand):
     #########################################
     def create_comments(self, x):
 
-        fake = Faker()
-
         print("Creating comments...", end=" ")
         existing_mice = Mouse.objects.all()
 
@@ -190,7 +201,7 @@ class Command(BaseCommand):
             mouse = existing_mice[index]
             Comment.objects.create(
                 comment=mouse,
-                comment_text=fake.text(max_nb_chars=500),
+                comment_text=self.fake.text(max_nb_chars=500),
             )
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
@@ -206,14 +217,13 @@ class Command(BaseCommand):
     #######################################################################
     def create_super_user(self):
 
-        fake = Faker()
 
         print("Creating 'SuperUser' account...", end=" ")
         CustomUser.objects.create(
             password=make_password("samplepassword"),
             is_superuser=True,
             username="SuperUser",
-            email=fake.ascii_email(),
+            email=self.fake.ascii_email(),
             is_staff=True,
             is_active=True,
         )
@@ -224,8 +234,6 @@ class Command(BaseCommand):
     ###################
     def handle(self, *args, **kwargs):
 
-        fake = Faker()
-        fake.add_provider(Provider)
 
         print("Beginning fake data creation...")
 
@@ -234,6 +242,7 @@ class Command(BaseCommand):
         self.create_users(20)
         self.create_super_user()
         self.create_projects(10)
+        self.create_stock_cages(20)
         self.create_mice(500)
         self.create_breeding_cages(30)
         self.create_comments(50)
