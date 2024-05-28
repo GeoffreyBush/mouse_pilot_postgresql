@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class Mouse(models.Model):
 
@@ -20,7 +19,7 @@ class Mouse(models.Model):
     strain = models.ForeignKey(
         "website.Strain", on_delete=models.PROTECT, blank=False, null=False
     )
-    _tube = models.IntegerField(db_column="Tube", blank=False, null=False)
+    _tube = models.IntegerField(db_column="Tube", blank=True, null=True)
     _global_id = models.CharField(
         db_column="Global ID", max_length=20, primary_key=True
     )
@@ -96,13 +95,25 @@ class Mouse(models.Model):
     def tube(self):
         return self._tube
 
+    # Overwrite init method to accept a custom tube number
+    # Not sure if this can lead to integrity issues
+    def __init__(self, *args, **kwargs):
+        custom_tube = kwargs.pop('custom_tube', None)
+        print(f'Model custom_tube: {custom_tube}')  # Add this line
+        super().__init__(*args, **kwargs)
+        if custom_tube is not None:
+            self._tube = custom_tube
+
+    # Overwrite save method to increment tube number
     def save(self, *args, **kwargs):
         if not self._tube:
             self.strain.increment_mice_count()
             self._tube = self.strain.mice_count
+        if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self.strain.mice_count}"
         super().save(*args, **kwargs)
         self.refresh_from_db()
+
 
     def is_genotyped(self):
         return True if self.earmark != "" else False

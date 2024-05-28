@@ -1,7 +1,8 @@
 from breeding_cage.forms import BreedingCageForm
-from test_factories.model_factories import MouseFactory, UserFactory
+from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory, StrainFactory, StockCageFactory
 from website.forms import CustomUserCreationForm, RequestForm
-
+from datetime import date
+import factory
 
 class BreedingCageFormFactory:
 
@@ -67,26 +68,24 @@ class RequestFormFactory:
 
     @staticmethod
     def valid_data(mouse1, mouse2, **kwargs):
-        user = UserFactory()
         return {
             "mice": [mouse1.pk, mouse2.pk],
             "task_type": "Cl",
-            "researcher": user.id,
+            "researcher": UserFactory().id,
             "new_message": "Test message",
         }
 
     @staticmethod
     def missing_mice(**kwargs):
-        user = UserFactory()
         return {
             "mice": [],
             "task_type": "Cl",
-            "researcher": user.id,
+            "researcher": UserFactory().id,
             "new_message": "Test message",
         }
 
 
-class RepositoryFormFactory:
+class RepositoryMiceFormFactory:
     @staticmethod
     def create(**kwargs):
         # return RepositoryMiceForm(data=kwargs)
@@ -95,6 +94,53 @@ class RepositoryFormFactory:
     @staticmethod
     def valid_data(**kwargs):
         return {
-            # "strain": StrainFactory(),
-            "tube": 1,
+            "sex": "M",
+            "dob": date.today(),
+            "clipped_date": date.today(),
+            "mother": MouseFactory(sex="F"),
+            "father": MouseFactory(sex="M"),
+            "stock_cage": StockCageFactory(),
+            "project": ProjectFactory(),
+            "earmark": "TR",
+            "genotyper": UserFactory().id,
+            "strain": StrainFactory(),
+            "coat": "Black",
+            "result": "Positive",
+            "fate": "Culled",
+        }
+    
+    @staticmethod
+    def invalid_dob(**kwargs):
+        return {
+            "sex": "M",
+            "dob": None,
+            "clipped_date": date.today(),
+            "mother": MouseFactory(sex="F"),
+            "father": MouseFactory(sex="M"),
+            "stock_cage": StockCageFactory(),
+            "project": ProjectFactory(),
+            "earmark": "TR",
+            "genotyper": UserFactory().id,
+            "strain": StrainFactory(),
+            "coat": "Black",
+            "result": "Positive",
+            "fate": "Culled",
+        }
+    
+    @staticmethod
+    def duplicate_mice(**kwargs):
+        return {
+            "sex": "M",
+            "dob": date.today(),
+            "clipped_date": date.today(),
+            "mother": MouseFactory(sex="F"),
+            "father": MouseFactory(sex="M"),
+            "stock_cage": StockCageFactory(),
+            "project": ProjectFactory(),
+            "earmark": "TR",
+            "genotyper": None,
+            "strain": StrainFactory(),
+            "coat": "Black",
+            "result": "Positive",
+            "fate": "Culled",
         }

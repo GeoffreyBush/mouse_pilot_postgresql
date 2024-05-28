@@ -10,6 +10,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Global ID</th>
+                            <th scope="col">Tube</th>
                             <th scope="col">Earmark</th>
                             <th scope="col">Sex</th>
                             <th scope="col">DoB</th>
@@ -26,6 +27,7 @@
                         {% for mouse in mymice %}
                         <tr>
                             <td>{{ mouse.pk }}</td>
+                            <td>{{ mouse.tube }}</td>
                             <td>{{ mouse.earmark }}</td>
                             <td>{{ mouse.sex }}</td>
                             <td>{{ mouse.dob }}</td>

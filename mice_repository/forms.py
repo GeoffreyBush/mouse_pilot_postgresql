@@ -7,10 +7,9 @@ from website.models import CustomUser, Project, StockCage, Strain
 
 class RepositoryMiceForm(forms.ModelForm):
 
-    _tube = forms.IntegerField(
-        initial="0",
-        required=True,
-        widget=forms.NumberInput(attrs={"class": "form-control"}),
+    custom_tube = forms.IntegerField(
+        required=False, 
+        widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
     sex = forms.ChoiceField(
@@ -53,11 +52,14 @@ class RepositoryMiceForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-select"}),
     )
     project = forms.ModelChoiceField(
+        initial="",
         queryset=Project.objects.all(),
         required=False,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
     earmark = forms.ChoiceField(
+        initial="",
+        required=False,
         choices=EARMARK_CHOICES_PAIRED,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
@@ -68,7 +70,7 @@ class RepositoryMiceForm(forms.ModelForm):
     )
     strain = forms.ModelChoiceField(
         queryset=Strain.objects.all(),
-        required=False,
+        required=True,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
     coat = forms.CharField(
@@ -91,3 +93,13 @@ class RepositoryMiceForm(forms.ModelForm):
         model = Mouse
         fields = "__all__"
         exclude = ["_global_id"]
+
+    def save(self, commit=True):
+        mouse = super().save(commit=False)
+        custom_tube = self.cleaned_data.get('custom_tube')
+        print(f'Form custom_tube: {custom_tube}') # add this line
+        if custom_tube is not None:
+            mouse._tube = custom_tube
+        if commit:
+            mouse.save()
+        return mouse

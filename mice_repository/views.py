@@ -21,7 +21,7 @@ def add_mouse_to_repository(request):
         form = RepositoryMiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("mice_repository:add_mouse_to_repository")
+            return redirect("mice_repository:mice_repository")
     else:
         form = RepositoryMiceForm()
     return render(request, "add_mouse_to_repository.html", {"mice_form": form})

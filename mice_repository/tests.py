@@ -8,10 +8,12 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
+from test_factories.form_factories import RepositoryMiceFormFactory
 from website.models import StockCage
+from mice_repository.forms import RepositoryMiceForm
 
 
-class MouseTest(TestCase):
+class MouseTestCase(TestCase):
 
     @classmethod
     def setUp(self):
@@ -45,30 +47,60 @@ class MouseTest(TestCase):
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
 
+    # Overwritten __init__ method with custom_tube
+    def test_init_with_custom_tube(self):
+        mouse = MouseFactory(strain=self.strain, custom_tube=123)
+        self.assertEqual(mouse._tube, 123)
 
-# Rework RepositoryMiceForm to have more attributes and then come back to this test
-"""
+    # Overwritten __init__ method without custom_tube
+    def test_init_without_custom_tube(self):
+        mouse = Mouse(strain=self.strain)
+        #self.assertIsNotNone(mouse._tube)
 
-class RepositoryMiceFormTestCase(TestCase):
+    # Overwritten save method with custom_tube
+    def test_save_with_custom_tube(self):
+        mouse = Mouse(strain=self.strain, custom_tube=123)
+        mouse.save()
+        self.assertEqual(mouse._tube, 123)
+
+
+class RepositoryMiceFormTestCase(TestCase):    
     def setUp(self):
-        self.project = ProjectFactory()
         self.strain = StrainFactory()
-        self.user = UserFactory()
 
     # Valid data
     def test_mice_form_valid_data(self):
-        strain = StrainFactory()
-        form = RepositoryMiceForm(
-            data={
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
+        self.assertTrue(form.is_valid())
 
-            }
-        )
+    # Invalid dob
+    def test_mice_form_invalid_dob(self):
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.invalid_dob())
+        self.assertFalse(form.is_valid())
 
-    # Invalid data
+    # No duplicate mice
+    """
+    def test_mice_form_duplicate_mice(self):
+        self.mouse = MouseFactory()
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.duplicate_mice(strain=self.mouse.strain, _tube=self.mouse.tube))
+        self.assertFalse(form.is_valid())
+    """
 
-    # Duplicate mice
+    # Can't alter mouse._global_id on form
+    def test_mice_form_global_id(self):
+        self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
-"""
+    def test_save_custom_tube(self):
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(custom_tube=123))
+        self.assertTrue(form.is_valid())
+        mouse = form.save()
+        self.assertEqual(mouse._tube, 123)
+
+    def test_save_without_custom_tube(self):
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
+        self.assertTrue(form.is_valid())
+        mouse = form.save()
+        self.assertIsNotNone(mouse._tube)
 
 
 class MiceRepositoryViewTestCase(TestCase):
@@ -85,16 +117,25 @@ class MiceRepositoryViewTestCase(TestCase):
         self.assertIn("mymice", response.context)
         self.assertIn(self.mouse, response.context["mymice"])
 
-    # test for add mouse to repository
-    def test_add_mouse_to_repository(self):
+class AddMouseToRepositoryViewTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory(username="testuser")
+        self.client.login(username="testuser", password="testpassword")
+        self.mouse = MouseFactory()
+
+    # GET add_mouse_to_repository while logged in
+    """
+    def test_add_mouse_to_repository_view_get_request(self):
         response = self.client.get(reverse("mice_repository:add_mouse_to_repository"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_mouse_to_repository.html")
-        # self.assertIsInstance(response.context["form"], RepositoryMiceForm)
+        self.assertTemplateUsed(response, "mice_repository.html")
+        self.assertIsInstance(response.context["mice_form"], RepositoryMiceForm)
+    """
 
     # POST RequestForm with valid data
-    # def test_add_mouse_to_repository_post_valid(self):
-    #   data = {
-
-
-# Test for adding a mouse to the repository
+    def test_add_mouse_to_repository_post_valid(self):
+        data = RepositoryMiceFormFactory.valid_data()
+        response = self.client.post(reverse("mice_repository:add_mouse_to_repository"), data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Mouse.objects.count(), 2)
+        self.assertRedirects(response, reverse("mice_repository:add_mouse_to_repository"))
