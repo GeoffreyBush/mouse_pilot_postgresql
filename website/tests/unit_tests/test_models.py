@@ -207,7 +207,7 @@ class BreedingCageTest(TestCase):
         self.assertIsNotNone(self.breeding_cage.mother)
         self.assertIsNotNone(self.breeding_cage.father)
 
-    # transfer_to_stock method creates a stock cage 
+    # transfer_to_stock method creates a stock cage
     def test_transfer_creates_stock_cage(self):
         self.assertIsInstance(self.stock_cage, StockCage)
 

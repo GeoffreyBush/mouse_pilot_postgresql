@@ -1,3 +1,5 @@
+from datetime import date
+
 from website.forms import BreedingCageForm
 from website.tests.model_factories import MouseFactory
 
@@ -22,7 +24,7 @@ class BreedingCageFormFactory:
             "box_no": "1",
             "father": father,
         }
-        
+
     @staticmethod
     def create_invalid_box_no(**kwargs):
         father, mother = MouseFactory(sex="M"), MouseFactory(sex="F")

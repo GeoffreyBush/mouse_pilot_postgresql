@@ -13,13 +13,13 @@ from website.forms import (
     RequestForm,
 )
 from website.models import CustomUser
+from website.tests.form_factories import BreedingCageFormFactory
 from website.tests.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
 )
-from website.tests.form_factories import BreedingCageFormFactory
 
 
 #################
