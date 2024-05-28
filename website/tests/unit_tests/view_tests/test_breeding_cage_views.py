@@ -79,14 +79,14 @@ class AddBreedingCageViewTest(TestCase):
 
     # POST BreedingCageForm with valid data
     def test_create_breeding_cage_post_valid(self):
-        data = BreedingCageFormFactory.create_valid_data()
+        data = BreedingCageFormFactory.valid_data()
         response = self.client.post(reverse("add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("list_breeding_cages"))
 
     # POST BreedingCageForm with invalid mother
     def test_create_breeding_cage_post_invalid(self):
-        data = BreedingCageFormFactory.create_invalid_mother()
+        data = BreedingCageFormFactory.invalid_mother()
         response = self.client.post(reverse("add_breeding_cage"), data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "breeding_cages/add_breeding_cage.html")

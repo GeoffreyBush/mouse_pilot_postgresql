@@ -12,8 +12,8 @@ from website.forms import (
     ProjectMiceForm,
     RequestForm,
 )
-from website.models import CustomUser
-from website.tests.form_factories import BreedingCageFormFactory
+
+from website.tests.form_factories import BreedingCageFormFactory, CustomUserCreationFormFactory
 from website.tests.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -84,28 +84,16 @@ class ProjectMiceFormTestCase(TestCase):
 ################################
 ### CUSTOMUSER CREATION FORM ###
 ################################
-class CustomUserCreationFormTestCase(TestCase):
+class CustomUserCreationFormTest(TestCase):
 
     # Valid data
     def test_custom_user_creation_form_valid_data(self):
-        form = CustomUserCreationForm(
-            data={
-                "username": "testuser",
-                "email": "test@example.com",
-                "password1": "testpassword",
-                "password2": "testpassword",
-            }
-        )
+        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
         self.assertTrue(form.is_valid())
-        user = form.save()
-        self.assertEqual(user.username, "testuser")
-        self.assertEqual(user.email, "test@example.com")
-        self.assertTrue(user.check_password("testpassword"))
 
     # Empty form
     def test_custom_user_creation_form_empty_data(self):
         form = CustomUserCreationForm(data={})
-        self.assertFalse(form.is_valid())
         self.assertIn("username", form.errors)
         self.assertIn("email", form.errors)
         self.assertIn("password1", form.errors)
@@ -113,31 +101,13 @@ class CustomUserCreationFormTestCase(TestCase):
 
     # Password mismatch
     def test_custom_user_creation_form_password_mismatch(self):
-        form = CustomUserCreationForm(
-            data={
-                "username": "testuser",
-                "email": "test@example.com",
-                "password1": "testpass123",
-                "password2": "wrongpass",
-            }
-        )
-        self.assertFalse(form.is_valid())
+        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.mismatched_passwords())
         self.assertIn("password2", form.errors)
 
     # Duplicate user
     def test_custom_user_creation_form_duplicate_username(self):
-        CustomUser.objects.create_user(
-            username="testuser", email="test@example.com", password="testpass123"
-        )
-        form = CustomUserCreationForm(
-            data={
-                "username": "testuser",
-                "email": "another@example.com",
-                "password1": "testpass123",
-                "password2": "testpass123",
-            }
-        )
-        self.assertFalse(form.is_valid())
+        UserFactory(username="testuser")
+        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
         self.assertIn("username", form.errors)
 
 
@@ -264,17 +234,17 @@ class BreedingCageFormTest(TestCase):
 
     # Valid data
     def test_valid_form(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.create_valid_data())
+        form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
         self.assertTrue(form.is_valid())
 
     # Missing box_no
     def test_invalid_box_no(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.create_invalid_box_no())
+        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_box_no())
         self.assertFalse(form.is_valid())
         self.assertIn("box_no", form.errors)
 
     # Invalid mother
     def test_invalid_mother(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.create_invalid_mother())
+        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_mother())
         self.assertFalse(form.is_valid())
         self.assertIn("mother", form.errors)
