@@ -10,14 +10,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.stdout.write("Removing migrations and deleting db.sqlite3")
-        # Remove all migration files
+
         migrations_dir = "website/migrations"
         if os.path.exists(migrations_dir):
             files = glob.glob(os.path.join(migrations_dir, "*.py"))
             for file in files:
                 if file != os.path.join(migrations_dir, "__init__.py"):
                     os.remove(file)
-        # Delete db.sqlite3
+
         if os.path.exists("db.sqlite3"):
             os.remove("db.sqlite3")
 
