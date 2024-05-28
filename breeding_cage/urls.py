@@ -1,4 +1,5 @@
 from django.urls import path
+
 from breeding_cage import views
 
 app_name = "breeding_cage"

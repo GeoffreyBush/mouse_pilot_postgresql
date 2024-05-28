@@ -61,6 +61,7 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
     number_wean = random.randint(1, 10)
     pwl = random.randint(1, 10)
 
+
 class StockCageFactory(factory.django.DjangoModelFactory):
 
     class Meta:

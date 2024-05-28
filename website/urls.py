@@ -31,7 +31,6 @@ urlpatterns += [
 ]
 
 
-
 # Add, Edit, and Delete Mouse URLs
 urlpatterns += [
     path(

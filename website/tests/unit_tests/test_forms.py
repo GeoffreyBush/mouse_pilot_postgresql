@@ -234,4 +234,3 @@ class MouseSelectionFormTestCase(TestCase):
 ##########################
 ### BREEDING CAGE FORM ###
 ##########################
-

@@ -189,6 +189,3 @@ class ProjectModelTest(TestCase):
 #####################
 ### BREEDING CAGE ###
 #####################
-
-
-

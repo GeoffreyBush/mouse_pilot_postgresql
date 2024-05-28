@@ -1,5 +1,7 @@
 from django.db import models
+
 from website.models import Mouse, StockCage
+
 
 # Create your models here.
 class BreedingCage(models.Model):

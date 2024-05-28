@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import  Comment, CustomUser, Mouse, Project, Strain
+from .models import Comment, CustomUser, Mouse, Project, Strain
 
 
 # Changes what attributes are displayed and which attributes you can filter by in admin page

@@ -1,20 +1,22 @@
-from django.test import TestCase
-from django.urls import reverse
 from datetime import date
 
-from breeding_cage.models import BreedingCage
+from django.test import TestCase
+from django.urls import reverse
+from faker import Faker
+
 from breeding_cage.forms import BreedingCageForm
-from website.tests.form_factories import BreedingCageFormFactory
-from website.tests.model_factories import BreedingCageFactory
+from breeding_cage.models import BreedingCage
 from website.models import Mouse, StockCage
+from website.tests.form_factories import BreedingCageFormFactory
 from website.tests.model_factories import (
+    BreedingCageFactory,
+    MouseFactory,
     StrainFactory,
     UserFactory,
-    MouseFactory
 )
 
-from faker import Faker
 fake = Faker()
+
 
 class BreedingModelTestCase(TestCase):
 
@@ -56,6 +58,7 @@ class BreedingModelTestCase(TestCase):
         self.assertEqual(self.new_mouse.father, self.father)
         self.assertEqual(self.new_mouse.dob, date.today())
 
+
 class BreedingCageFormTestCase(TestCase):
 
     # Valid data
@@ -74,6 +77,7 @@ class BreedingCageFormTestCase(TestCase):
         form = BreedingCageForm(data=BreedingCageFormFactory.invalid_mother())
         self.assertFalse(form.is_valid())
         self.assertIn("mother", form.errors)
+
 
 class ListBreedingCagesViewTestCase(TestCase):
 
@@ -98,6 +102,7 @@ class ListBreedingCagesViewTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
+
 
 class ViewBreedingCageViewTestCase(TestCase):
     def setUp(self):
