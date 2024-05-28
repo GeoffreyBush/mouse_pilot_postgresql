@@ -32,7 +32,7 @@ def add_breeding_cage(request):
         form = BreedingCageForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("list_breeding_cages")
+            return redirect("breeding_cage:list_breeding_cages")
     else:
         form = BreedingCageForm()
     return render(request, "add_breeding_cage.html", {"form": form})

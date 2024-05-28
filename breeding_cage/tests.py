@@ -84,7 +84,7 @@ class ListBreedingCagesViewTestCase(TestCase):
         self.cage = BreedingCageFactory()
 
     # Access breeding wing dashboard logged in
-    def test_list_breeding_cages_view_with_authenticated_user(self):
+    def test_list_breeding_cages_view_authenticated_user(self):
         response = self.client.get(reverse("breeding_cage:list_breeding_cages"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "list_breeding_cages.html")
@@ -92,15 +92,14 @@ class ListBreedingCagesViewTestCase(TestCase):
         self.assertIn(self.cage, response.context["mycages"])
 
     # Access breeding wing dashboard without logging in
-    def test_list_breeding_cages_view_with_unauthenticated_user(self):
+    def test_list_breeding_cages_view_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(reverse("breeding_cage:list_breeding_cages"))
-        url = reverse("list_breeding_cages")
+        url = reverse("breeding_cage:list_breeding_cages")
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
-
-class ViewBreedingCageViewTest(TestCase):
+class ViewBreedingCageViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.cage = BreedingCageFactory()
@@ -109,7 +108,7 @@ class ViewBreedingCageViewTest(TestCase):
     # Access breeding wing cage view logged in
     def test_view_breeding_cage_with_authenticated_user(self):
         response = self.client.get(
-            reverse("view_breeding_cage", args=[self.cage.box_no])
+            reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "view_breeding_cage.html")
@@ -119,42 +118,42 @@ class ViewBreedingCageViewTest(TestCase):
     # Access breeding wing cage view without logging in
     def test_view_breeding_cage_with_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(
-            reverse("view_breeding_cage", args=[self.cage.box_no])
-        )
+        url = reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
 
-class AddBreedingCageViewTest(TestCase):
+class AddBreedingCageViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
 
     # Access Create Breeding Cage while logged in
     def test_create_breeding_cage_get_with_authenticated_user(self):
-        response = self.client.get(reverse("add_breeding_cage"))
+        response = self.client.get(reverse("breeding_cage:add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
 
     # POST BreedingCageForm with valid data
     def test_create_breeding_cage_post_valid(self):
         data = BreedingCageFormFactory.valid_data()
-        response = self.client.post(reverse("add_breeding_cage"), data)
+        response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("list_breeding_cages"))
+        self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
 
     # POST BreedingCageForm with invalid mother
     def test_create_breeding_cage_post_invalid(self):
         data = BreedingCageFormFactory.invalid_mother()
-        response = self.client.post(reverse("add_breeding_cage"), data)
+        response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
 
     # Access add cage while not logged in
     def test_create_breeding_cage_get_with_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get(reverse("add_breeding_cage"))
-        url = reverse("add_breeding_cage")
+        url = reverse("breeding_cage:add_breeding_cage")
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 

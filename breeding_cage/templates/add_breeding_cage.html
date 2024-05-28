@@ -1,4 +1,4 @@
-{% extends 'website/templates/base_template.html' %}
+{% extends 'base_template.html' %}
 {% load static %}
 {% block title %}Create Breeding Pair{% endblock %}
 {% block content %}
@@ -17,7 +17,7 @@
             </li>
         </ul>
         <button class="btn btn-secondary ml-auto mt-4">
-            <a href="{% url 'list_breeding_cages' %}" class="text-decoration-none text-white">
+            <a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
                 Back to Dashboard
             </a>
         </button>
