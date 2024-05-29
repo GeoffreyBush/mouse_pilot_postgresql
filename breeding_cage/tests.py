@@ -1,8 +1,8 @@
 from datetime import date
 
+from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
-from django.db.utils import IntegrityError
 
 from breeding_cage.forms import BreedingCageForm
 from breeding_cage.models import BreedingCage
@@ -88,7 +88,6 @@ class BreedingCageFormTestCase(TestCase):
         self.form = BreedingCageForm(data=BreedingCageFormFactory.invalid_mother())
         self.assertFalse(self.form.is_valid())
         self.assertIn("mother", self.form.errors)
-
 
 
 class ListBreedingCagesViewTestCase(TestCase):
