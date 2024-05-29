@@ -1,11 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-# Used to add a a _tube attribute to the Mouse model
-# class MouseManager(models.Manager):
-#   def create_mouse(self, *args, **kwargs):
-
-
 # Create your models here.
 class Mouse(models.Model):
 
