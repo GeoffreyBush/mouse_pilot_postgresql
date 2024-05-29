@@ -52,7 +52,7 @@ class BatchMiceFromBreedingCageFormTestCase(TestCase):
         form = BatchMiceFromBreedingCageForm(data=self.data)
         self.assertFalse(form.is_valid())
 
-    # Forms that would create a duplicate mouse._global_id are not valid
+    # Submitting a duplicate mouse._global_id is not valid
     def test_duplicate_global_id(self):
         self.mouse = MouseFactory(strain=self.strain)
         self.assertTrue(self.form.is_valid())
@@ -60,6 +60,7 @@ class BatchMiceFromBreedingCageFormTestCase(TestCase):
         self.form = BatchMiceFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 
+    # Can't alter mouse._global_id on form 
 
     # Can't transfer from the same breeding cage twice
 

@@ -14,7 +14,6 @@ from test_factories.model_factories import (
 )
 
 
-# NEED TO ALTER TRANSFER TO STOCK METHOD AND UPDATE TESTS
 class BreedingCageModelTestCase(TestCase):
 
     @classmethod
@@ -25,7 +24,6 @@ class BreedingCageModelTestCase(TestCase):
         self.breeding_cage = BreedingCageFactory(
             mother=self.mother, father=self.father, male_pups=5, female_pups=3
         )
-        # self.stock_cage = self.breeding_cage.transfer_to_stock()
         self.new_mouse = Mouse.objects.all().last()
 
     # Confirm BreedingCageFactory works
@@ -34,7 +32,11 @@ class BreedingCageModelTestCase(TestCase):
         self.assertIsNotNone(self.breeding_cage.mother)
         self.assertIsNotNone(self.breeding_cage.father)
 
-    # box_no must be unique
+    # transferred_to_stock attribute exists
+    def test_transferred_to_stock(self):
+        self.assertFalse(self.breeding_cage.transferred_to_stock)
+
+    # box_no must be unique - note that box_no is not a primary key so this is not enforced by Django 
     def test_box_no_unique(self):
         self.assertEqual(self.breeding_cage.box_no, "box0")
         with self.assertRaises(IntegrityError):

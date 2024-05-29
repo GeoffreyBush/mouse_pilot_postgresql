@@ -84,6 +84,13 @@ class RepositoryMiceFormTestCase(TestCase):
     def test_save_without_custom_tube(self):
         self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
 
+    # If tube is provided on form, tube value is set to that value
+    def test_save_custom_tube(self):
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
+        self.assertTrue(form.is_valid())
+        self.mouse2 = form.save()
+        self.assertEqual(self.mouse2._tube, 123)
+
     # Invalid dob
     def test_mice_form_invalid_dob(self):
         self.invalid_dob_form = RepositoryMiceForm(
@@ -95,13 +102,6 @@ class RepositoryMiceFormTestCase(TestCase):
     # Can't alter mouse._global_id on form
     def test_mice_form_global_id(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
-
-    # Can set a custom tube on form
-    def test_save_custom_tube(self):
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
-        self.assertTrue(form.is_valid())
-        self.mouse2 = form.save()
-        self.assertEqual(self.mouse2._tube, 123)
 
 
 class MiceRepositoryViewTestCase(TestCase):
