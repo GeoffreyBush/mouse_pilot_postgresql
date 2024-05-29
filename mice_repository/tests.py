@@ -1,7 +1,6 @@
-
+from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
-from django.db.utils import IntegrityError
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
@@ -80,7 +79,9 @@ class RepositoryMiceFormTestCase(TestCase):
 
     # Invalid dob
     def test_mice_form_invalid_dob(self):
-        self.invalid_dob_form = RepositoryMiceForm(data=RepositoryMiceFormFactory.invalid_dob())
+        self.invalid_dob_form = RepositoryMiceForm(
+            data=RepositoryMiceFormFactory.invalid_dob()
+        )
         self.assertFalse(self.invalid_dob_form.is_valid())
         self.assertIn("dob", self.invalid_dob_form.errors)
 
@@ -94,8 +95,6 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
         self.mouse2 = form.save()
         self.assertEqual(self.mouse2._tube, 123)
-
-
 
 
 class MiceRepositoryViewTestCase(TestCase):
@@ -133,6 +132,4 @@ class AddMouseToRepositoryViewTestCase(TestCase):
             reverse("mice_repository:add_mouse_to_repository"), data
         )
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response, reverse("mice_repository:mice_repository")
-        )
+        self.assertRedirects(response, reverse("mice_repository:mice_repository"))
