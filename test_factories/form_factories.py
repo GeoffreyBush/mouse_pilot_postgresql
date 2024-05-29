@@ -1,8 +1,16 @@
-from breeding_cage.forms import BreedingCageForm
-from test_factories.model_factories import MouseFactory, ProjectFactory, UserFactory, StrainFactory, StockCageFactory
-from website.forms import CustomUserCreationForm, RequestForm
 from datetime import date
-import factory
+
+
+from breeding_cage.forms import BreedingCageForm
+from test_factories.model_factories import (
+    MouseFactory,
+    ProjectFactory,
+    StockCageFactory,
+    StrainFactory,
+    UserFactory,
+)
+from website.forms import CustomUserCreationForm, RequestForm
+
 
 class BreedingCageFormFactory:
 
@@ -108,7 +116,7 @@ class RepositoryMiceFormFactory:
             "result": "Positive",
             "fate": "Culled",
         }
-    
+
     @staticmethod
     def invalid_dob(**kwargs):
         return {
@@ -126,7 +134,7 @@ class RepositoryMiceFormFactory:
             "result": "Positive",
             "fate": "Culled",
         }
-    
+
     @staticmethod
     def duplicate_mice(**kwargs):
         return {

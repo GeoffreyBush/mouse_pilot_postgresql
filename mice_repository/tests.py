@@ -1,17 +1,18 @@
+from datetime import date
+
 from django.test import TestCase
 from django.urls import reverse
 
+from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
+from test_factories.form_factories import RepositoryMiceFormFactory
 from test_factories.model_factories import (
     MouseFactory,
     StockCageFactory,
     StrainFactory,
     UserFactory,
 )
-from test_factories.form_factories import RepositoryMiceFormFactory
 from website.models import StockCage
-from mice_repository.forms import RepositoryMiceForm
-from datetime import date
 
 
 class MouseTestCase(TestCase):
@@ -26,7 +27,6 @@ class MouseTestCase(TestCase):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
         self.assertIsNotNone(self.mouse._tube)
-
 
     # Primary key is "<strain>-<tube>"
     def test_mouse_pk(self):
@@ -52,12 +52,13 @@ class MouseTestCase(TestCase):
 
     # Overridden __init__ method can take custom_tube to set _tube attribute
     def test_init_with_custom_tube(self):
-        mouse = Mouse.objects.create(strain=self.strain, custom_tube=123, dob=date.today(), sex="M")
+        mouse = Mouse.objects.create(
+            strain=self.strain, custom_tube=123, dob=date.today(), sex="M"
+        )
         self.assertEqual(mouse._tube, 123)
 
 
-
-class RepositoryMiceFormTestCase(TestCase):    
+class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
 
@@ -84,7 +85,9 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
     def test_save_custom_tube(self):
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(custom_tube=123))
+        form = RepositoryMiceForm(
+            data=RepositoryMiceFormFactory.valid_data(custom_tube=123)
+        )
         self.assertTrue(form.is_valid())
         mouse = form.save()
         self.assertEqual(mouse._tube, 123)
@@ -110,6 +113,7 @@ class MiceRepositoryViewTestCase(TestCase):
         self.assertIn("mymice", response.context)
         self.assertIn(self.mouse, response.context["mymice"])
 
+
 class AddMouseToRepositoryViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -128,7 +132,11 @@ class AddMouseToRepositoryViewTestCase(TestCase):
     # POST RequestForm with valid data
     def test_add_mouse_to_repository_post_valid(self):
         data = RepositoryMiceFormFactory.valid_data()
-        response = self.client.post(reverse("mice_repository:add_mouse_to_repository"), data)
+        response = self.client.post(
+            reverse("mice_repository:add_mouse_to_repository"), data
+        )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Mouse.objects.count(), 2)
-        self.assertRedirects(response, reverse("mice_repository:add_mouse_to_repository"))
+        self.assertRedirects(
+            response, reverse("mice_repository:add_mouse_to_repository")
+        )

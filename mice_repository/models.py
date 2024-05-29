@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Mouse(models.Model):
 
@@ -98,9 +99,9 @@ class Mouse(models.Model):
     # Overwrite init method to accept a custom tube number
     # Not sure if this can lead to integrity issues
     def __init__(self, *args, **kwargs):
-        print(f'kwargs: {kwargs}')  # Add this line
-        custom_tube = kwargs.pop('custom_tube', None)
-        print(f'Model custom_tube: {custom_tube}')  # Add this line
+        print(f"kwargs: {kwargs}")  # Add this line
+        custom_tube = kwargs.pop("custom_tube", None)
+        print(f"Model custom_tube: {custom_tube}")  # Add this line
         super().__init__(*args, **kwargs)
         if custom_tube is not None:
             self._tube = custom_tube
@@ -114,7 +115,6 @@ class Mouse(models.Model):
             self._global_id = f"{self.strain.strain_name}-{self.strain.mice_count}"
         super().save(*args, **kwargs)
         self.refresh_from_db()
-
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
