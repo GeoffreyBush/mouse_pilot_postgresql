@@ -66,6 +66,9 @@ class BreedingCage(models.Model):
         mouse.save()
         mouse.refresh_from_db()
 
+    # Need to be able to set a custom tube number to start from for transfer to stock
+    # Default is to start from the next available tube number
+    # Need a form to set individual tube numbers for each pup
     def transfer_to_stock(self):
         if not self.transferred_to_stock:
             stock_cage = StockCage.objects.create()

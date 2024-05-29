@@ -3,7 +3,7 @@
 {% block title %}Mice Repository{% endblock %}
 {% block content %}
     <div class="container-fluid">
-        <a href="add_mouse_to_repository" class="btn btn-primary mb-3">Add Pre-existing Mice</a>
+        <a href="{% url 'mice_repository:add_mouse_to_repository' %}" class="btn btn-primary mb-3">Add Pre-existing Mice</a>
         <div class="container-fluid d-flex">
             <div class="col">
                 <table class="table table-striped table-hover">

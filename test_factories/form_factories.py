@@ -100,7 +100,10 @@ class RepositoryMiceFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
+        _tube = kwargs.get("_tube", 1)
+        strain = kwargs.get("strain", StrainFactory())
         return {
+            "_tube": _tube,
             "sex": "M",
             "dob": date.today(),
             "clipped_date": date.today(),
@@ -110,7 +113,7 @@ class RepositoryMiceFormFactory:
             "project": ProjectFactory(),
             "earmark": "TR",
             "genotyper": UserFactory().id,
-            "strain": StrainFactory(),
+            "strain": strain,
             "coat": "Black",
             "result": "Positive",
             "fate": "Culled",

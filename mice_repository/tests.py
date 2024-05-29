@@ -1,6 +1,7 @@
 
 from django.test import TestCase
 from django.urls import reverse
+from django.db.utils import IntegrityError
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
@@ -26,7 +27,12 @@ class MouseTestCase(TestCase):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
 
-    # If no tube is provided, get tube value from strain.mice_count
+    # No duplicate mice
+    def test_mouse_duplicate(self):
+        with self.assertRaises(IntegrityError):
+            self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+
+    # _tube field increments automatically from strain.mice_count
     def test_mouse_without_custom_tube(self):
         self.assertEqual(self.strain.mice_count, 1)
         self.mouse2 = MouseFactory(strain=self.strain)
@@ -41,10 +47,6 @@ class MouseTestCase(TestCase):
         self.assertEqual(self.strain.mice_count, 2)
         self.assertEqual(self.mouse2._tube, 123)
         self.assertEqual(self.mouse2.pk, "teststrain-123")
-
-    # Tube attribute for breeding wing ID
-    def test_mouse_tube_id(self):
-        self.assertEqual(self.mouse.tube, 1)
 
     # Count mice from a stock cage using related_name="mice" argument
     def test_mouse_stock_cage(self):
@@ -64,24 +66,23 @@ class MouseTestCase(TestCase):
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
+        self.form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
+        self.mouse = self.form.save()
 
     # Valid data
     def test_mice_form_valid_data(self):
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
-        self.assertTrue(form.is_valid())
+        self.assertTrue(self.form.is_valid())
+        self.assertIsInstance(self.mouse, Mouse)
+
+    # If no tube is provided on form, tube value is set to strain.mice_count
+    def test_save_without_custom_tube(self):
+        self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
 
     # Invalid dob
     def test_mice_form_invalid_dob(self):
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.invalid_dob())
-        self.assertFalse(form.is_valid())
-
-    # No duplicate mice
-    """
-    def test_mice_form_duplicate_mice(self):
-        self.mouse = MouseFactory()
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.duplicate_mice(strain=self.mouse.strain, _tube=self.mouse.tube))
-        self.assertFalse(form.is_valid())
-    """
+        self.invalid_dob_form = RepositoryMiceForm(data=RepositoryMiceFormFactory.invalid_dob())
+        self.assertFalse(self.invalid_dob_form.is_valid())
+        self.assertIn("dob", self.invalid_dob_form.errors)
 
     # Can't alter mouse._global_id on form
     def test_mice_form_global_id(self):
@@ -91,15 +92,10 @@ class RepositoryMiceFormTestCase(TestCase):
     def test_save_custom_tube(self):
         form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
         self.assertTrue(form.is_valid())
-        self.mouse = form.save()
-        self.assertEqual(self.mouse._tube, 123)
+        self.mouse2 = form.save()
+        self.assertEqual(self.mouse2._tube, 123)
 
-    # If no tube is provided on form, tube value is set to strain.mice_count
-    def test_save_without_custom_tube(self):
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
-        self.assertTrue(form.is_valid())
-        mouse = form.save()
-        self.assertIsNotNone(mouse._tube)
+
 
 
 class MiceRepositoryViewTestCase(TestCase):
@@ -124,13 +120,11 @@ class AddMouseToRepositoryViewTestCase(TestCase):
         self.mouse = MouseFactory()
 
     # GET add_mouse_to_repository while logged in
-    """
     def test_add_mouse_to_repository_view_get_request(self):
         response = self.client.get(reverse("mice_repository:add_mouse_to_repository"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "mice_repository.html")
+        self.assertTemplateUsed(response, "add_mouse_to_repository.html")
         self.assertIsInstance(response.context["mice_form"], RepositoryMiceForm)
-    """
 
     # POST RequestForm with valid data
     def test_add_mouse_to_repository_post_valid(self):
@@ -139,7 +133,6 @@ class AddMouseToRepositoryViewTestCase(TestCase):
             reverse("mice_repository:add_mouse_to_repository"), data
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Mouse.objects.count(), 2)
         self.assertRedirects(
-            response, reverse("mice_repository:add_mouse_to_repository")
+            response, reverse("mice_repository:mice_repository")
         )

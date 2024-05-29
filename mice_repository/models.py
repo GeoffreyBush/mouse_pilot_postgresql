@@ -106,28 +106,9 @@ class Mouse(models.Model):
 
     # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):
-        """
-        print("self._tube before condition")
-        print(self._tube)
-        print("args before condition")
-        print(args)
-        print("kwargs before condition")
-        print(kwargs)
-        """
+        self.strain.increment_mice_count()
         if self._tube is None:
-            self.strain.increment_mice_count()
             self._tube = self.strain.mice_count
-        # Is an else condition to handle setting strain.mice_count with a custom tube needed here?
-
-        """
-        print("self._tube after condition")
-        print(self._tube)
-        print("args after condition")
-        print(args)
-        print("kwargs after condition")
-        print(kwargs)
-        print()
-        """
         if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self._tube}"
         super().save(*args, **kwargs)
