@@ -60,7 +60,6 @@ class BatchMiceFromBreedingCageFormTestCase(TestCase):
         self.form = BatchMiceFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 
-
     # Can't transfer from the same breeding cage twice
 
 
