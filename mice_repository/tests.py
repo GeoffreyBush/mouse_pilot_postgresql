@@ -1,4 +1,3 @@
-from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse
@@ -26,7 +25,6 @@ class MouseTestCase(TestCase):
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
-
 
     # If no tube is provided, get tube value from strain.mice_count
     def test_mouse_without_custom_tube(self):
@@ -63,8 +61,6 @@ class MouseTestCase(TestCase):
         self.assertTrue(self.mouse.is_genotyped())
 
 
-
-
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
@@ -93,9 +89,7 @@ class RepositoryMiceFormTestCase(TestCase):
 
     # Can set a custom tube on form
     def test_save_custom_tube(self):
-        form = RepositoryMiceForm(
-            data=RepositoryMiceFormFactory.valid_data(_tube=123)
-        )
+        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
         self.assertTrue(form.is_valid())
         self.mouse = form.save()
         self.assertEqual(self.mouse._tube, 123)

@@ -1,6 +1,5 @@
 from datetime import date
 
-
 from breeding_cage.forms import BreedingCageForm
 from test_factories.model_factories import (
     MouseFactory,

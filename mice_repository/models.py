@@ -1,9 +1,9 @@
 from django.db import models
 
 # Used to add a a _tube attribute to the Mouse model
-#class MouseManager(models.Manager):
- #   def create_mouse(self, *args, **kwargs):
-    
+# class MouseManager(models.Manager):
+#   def create_mouse(self, *args, **kwargs):
+
 
 # Create your models here.
 class Mouse(models.Model):
@@ -99,7 +99,7 @@ class Mouse(models.Model):
     @property
     def tube(self):
         return self._tube
-    
+
     @tube.setter
     def tube(self, value):
         self._tube = value
