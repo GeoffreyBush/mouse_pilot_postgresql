@@ -57,8 +57,10 @@ class CreateMouseFromBreedingCageFormTestCase(TestCase):
         self.assertEqual(Mouse.objects.count(), 3)
 
     # Missing tube number
-
-    # Missing data not required by form
+    def test_missing_tube_number(self):
+        self.data.pop("_tube")
+        form = CreateMouseFromBreedingCageForm(data=self.data)
+        self.assertFalse(form.is_valid())
 
     # All potential _global_id are unique before attempting to batch create mice
 
