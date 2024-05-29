@@ -2,17 +2,28 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from breeding_cage.models import BreedingCage
-from stock_cage.forms import TransferToStockCageForm
-
+from stock_cage.forms import CreateMouseFromBreedingCageForm
+from django.forms import formset_factory
 
 @login_required
 def transfer_to_stock_cage(request, box_no):
     cage = BreedingCage.objects.get(box_no=box_no)
+    MouseFormSet = formset_factory(CreateMouseFromBreedingCageForm, extra=0)
+
     if request.method == "POST":
-        form = TransferToStockCageForm(request.POST, instance=cage)
-        if form.is_valid():
-            form.save()
+        formset = MouseFormSet(request.POST, prefix="mouse")
+        if formset.is_valid():
+            for form in formset:
+                mouse_instance = form.save(commit=False)
+                mouse_instance.strain = cage.mother.strain
+                mouse_instance.mother = cage.mother
+                mouse_instance.father = cage.father
+                mouse_instance.dob = cage.date_born
+                mouse_instance.save()
             return redirect("breeding_cage:list_breeding_cages")
     else:
-        form = TransferToStockCageForm(instance=cage)
-    return render(request, "transfer_to_stock_cage.html", {"form": form})
+        initial_data_males = [{'sex': 'M', 'strain': cage.mother.strain, 'mother': cage.mother, 'father': cage.father, 'dob': cage.date_born} for _ in range(cage.male_pups)]
+        initial_data_females = [{'sex': 'F', 'strain': cage.mother.strain, 'mother': cage.mother, 'father': cage.father, 'dob': cage.date_born} for _ in range(cage.female_pups)]
+        initial_data = initial_data_males + initial_data_females
+        formset = MouseFormSet(initial=initial_data, prefix="mouse")
+    return render(request, "transfer_to_stock_cage.html", {"formset": formset})

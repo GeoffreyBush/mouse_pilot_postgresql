@@ -1,20 +1,22 @@
 from django import forms
-from django.forms import formset_factory
 
 from mice_repository.models import Mouse
-from stock_cage.models import StockCage
+
+# Need to create validation handling for readonly attributes here
+# Add them to view
+class CreateMouseFromBreedingCageForm(forms.ModelForm):
+    #strain = forms.CharField(max_length=20, required=True,
+     #                       widget=forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}) )
+
+    sex = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}),
+    )
 
 
-class MouseForm(forms.ModelForm):
+
     class Meta:
         model = Mouse
-        fields = "__all__"  # replace with your actual fields
-
-
-MouseFormSet = formset_factory(MouseForm, extra=0)
-
-
-class TransferToStockCageForm(forms.ModelForm):
-    class Meta:
-        model = StockCage
-        fields = "__all__"  # replace with your actual fields
+        fields = "__all__"
+        include = []
+        exclude = ["project", "earmark", "result", "_global_id", "mother", "father", "dob", "strain", "fate", "genotyper", "clipped_date"]

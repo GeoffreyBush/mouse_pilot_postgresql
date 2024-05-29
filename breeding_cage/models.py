@@ -1,8 +1,5 @@
 from django.db import models
 
-from mice_repository.models import Mouse
-from stock_cage.models import StockCage
-
 
 # Create your models here.
 class BreedingCage(models.Model):
@@ -53,37 +50,6 @@ class BreedingCage(models.Model):
     transferred_to_stock = models.BooleanField(
         db_column="Moved to Stock", default=False
     )
-
-    def convert_pup_to_mouse(self, sex, stock_cage):
-        mouse = Mouse.objects.create(
-            strain=self.mother.strain,
-            sex=sex,
-            stock_cage=stock_cage,
-            dob=self.date_born,
-            mother=self.mother,
-            father=self.father,
-            # Add project?
-        )
-        mouse.save()
-        mouse.refresh_from_db()
-
-    # Need to be able to set a custom tube number to start from for transfer to stock
-    # Default is to start from the next available tube number
-    # Need a form to set individual tube numbers for each pup
-    def transfer_to_stock(self):
-        if not self.transferred_to_stock:
-            stock_cage = StockCage.objects.create()
-
-            for _ in range(self.male_pups):
-                self.convert_pup_to_mouse("M", stock_cage)
-
-            for _ in range(self.female_pups):
-                self.convert_pup_to_mouse("F", stock_cage)
-
-        self.transferred_to_stock = True
-        self.save()
-        self.refresh_from_db()
-        return stock_cage
 
     def __str__(self):
         return f"{self.box_no}"

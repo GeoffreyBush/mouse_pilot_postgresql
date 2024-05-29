@@ -9,7 +9,8 @@ from faker import Faker
 from breeding_cage.models import BreedingCage
 from mice_repository.models import Mouse
 from website.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
-from website.models import Comment, CustomUser, Project, StockCage, Strain
+from website.models import Comment, CustomUser, Project, Strain
+from stock_cage.models import StockCage 
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 
@@ -179,6 +180,8 @@ class Command(BaseCommand):
                 date_wean=self.fake.date(),
                 number_wean=variable_number_wean,
                 pwl=variable_number_born - variable_number_wean,
+                male_pups=random.randint(1, 6),
+                female_pups=random.randint(1, 6),
             )
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 

@@ -1,7 +1,28 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from test_factories.model_factories import BreedingCageFactory, UserFactory
+from test_factories.model_factories import BreedingCageFactory, UserFactory, StockCageFactory, MouseFactory
+from stock_cage.models import StockCage
+
+class StockCageModelTestCase(TestCase):
+    def setUp(self):
+        self.cage = StockCageFactory()
+        self.cage.mice.add(MouseFactory(), MouseFactory())
+
+    # Check StockCageFactory works
+    def test_stock_cage_factory(self):
+        self.assertEqual(StockCage.objects.count(), 1)
+        self.assertEqual(self.cage.cage_id, 1)
+
+    # Mice many-to-many
+    def test_stock_mice(self):
+        self.assertEqual(self.cage.mice.count(), 2)
+
+class CreateMouseFromBreedingCageFormTestCase(TestCase):
+    def setUp(self):
+        pass
+
+
 
 
 class TransferToStockCageViewTestCase(TestCase):
