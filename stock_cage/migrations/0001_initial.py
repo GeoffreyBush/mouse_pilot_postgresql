@@ -8,19 +8,31 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('mice_repository', '0001_initial'),
+        ("mice_repository", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='StockCage',
+            name="StockCage",
             fields=[
-                ('cage_id', models.AutoField(db_column='Cage ID', primary_key=True, serialize=False)),
-                ('mice', models.ManyToManyField(db_column='Mouse', related_name='cage', to='mice_repository.mouse')),
+                (
+                    "cage_id",
+                    models.AutoField(
+                        db_column="Cage ID", primary_key=True, serialize=False
+                    ),
+                ),
+                (
+                    "mice",
+                    models.ManyToManyField(
+                        db_column="Mouse",
+                        related_name="cage",
+                        to="mice_repository.mouse",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'stockcage',
-                'managed': True,
+                "db_table": "stockcage",
+                "managed": True,
             },
         ),
     ]
