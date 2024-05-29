@@ -54,7 +54,16 @@ class BatchMiceFromBreedingCageFormTestCase(TestCase):
         form = BatchMiceFromBreedingCageForm(data=self.data)
         self.assertFalse(form.is_valid())
 
-    # All potential _global_id must be unique before attempting to batch create mice
+    # Forms that would create a duplicate mouse._global_id are not valid
+    def test_duplicate_global_id(self):
+        self.mouse = MouseFactory(strain=self.strain)
+        self.assertTrue(self.form.is_valid())
+        self.data["_tube"] = self.mouse._tube
+        self.form = BatchMiceFromBreedingCageForm(data=self.data)
+        self.assertFalse(self.form.is_valid())
+
+
+    # Can't transfer from the same breeding cage twice
 
 
 class TransferToStockCageViewTestCase(TestCase):
@@ -76,3 +85,9 @@ class TransferToStockCageViewTestCase(TestCase):
     # POST TransferToStockCageForm with invalid data
 
     # Access Transfer to Stock Cage while not logged in
+
+    # None of the tube numbers in the formset can be identical
+
+    # All tube numbers must exist and be integers
+
+    # Can't transfer from the same breeding cage twice
