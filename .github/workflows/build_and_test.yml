@@ -49,8 +49,11 @@ jobs:
         python manage.py test website/tests/integration_tests
                 
     - name: Test mice_repository app
-      run: python manage.py test mice_repository.tests
+      run: python manage.py test mice_repository
 
     - name: Test breeding_cage app
-      run: python manage.py test breeding_cage.tests
+      run: python manage.py test breeding_cage
+
+    - name: Test stock_cage app
+      run: python manage.py test stock_cage
 
