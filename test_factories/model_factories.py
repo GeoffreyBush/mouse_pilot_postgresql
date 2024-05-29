@@ -66,4 +66,4 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
 class StockCageFactory(factory.django.DjangoModelFactory):
 
     class Meta:
-        model = "website.StockCage"
+        model = "stock_cage.StockCage"

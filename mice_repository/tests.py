@@ -7,11 +7,9 @@ from mice_repository.models import Mouse
 from test_factories.form_factories import RepositoryMiceFormFactory
 from test_factories.model_factories import (
     MouseFactory,
-    StockCageFactory,
     StrainFactory,
     UserFactory,
 )
-from website.models import StockCage
 
 
 class MouseModelTestCase(TestCase):
@@ -19,7 +17,7 @@ class MouseModelTestCase(TestCase):
     @classmethod
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
-        self.mouse = MouseFactory(strain=self.strain, stock_cage=StockCageFactory())
+        self.mouse = MouseFactory(strain=self.strain)
 
     # Check MouseFactory works
     def test_mouse_creation(self):
@@ -58,12 +56,6 @@ class MouseModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
         self.assertEqual(self.strain.mice_count, 1)
-
-    # Count mice from a stock cage using related_name="mice" argument
-    def test_mouse_stock_cage(self):
-        self.assertIsInstance(self.mouse.stock_cage, StockCage)
-        self.assertEqual(self.mouse.stock_cage.cage_id, 1)
-        self.assertEqual(self.mouse.stock_cage.mice.count(), 1)
 
     # is_genotyped method
     def test_mouse_genotyped(self):

@@ -117,7 +117,6 @@ class Command(BaseCommand):
         existing_projects = Project.objects.all()
         existing_researchers = CustomUser.objects.all()
         existing_strains = Strain.objects.all()
-        existing_stock_cages = StockCage.objects.all()
 
         print("Creating mice...", end=" ")
 
@@ -127,7 +126,6 @@ class Command(BaseCommand):
                 strain=random.choice(existing_strains),
                 sex=random.choice(["M", "F"]),
                 dob=self.fake.date(),
-                stock_cage=random.choice(existing_stock_cages),
                 clipped_date=self.fake.date(),
                 project=random.choice(existing_projects),
                 genotyper=random.choice(existing_researchers),

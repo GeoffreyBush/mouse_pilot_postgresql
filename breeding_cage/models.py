@@ -1,7 +1,7 @@
 from django.db import models
 
 from mice_repository.models import Mouse
-from website.models import StockCage
+from stock_cage.models import StockCage
 
 
 # Create your models here.

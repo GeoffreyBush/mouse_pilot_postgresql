@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "breeding_cage",
     "mice_repository",
     "test_factories",
+    "stock_cage",
 ]
 
 MIDDLEWARE = [

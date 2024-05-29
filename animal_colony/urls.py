@@ -8,6 +8,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("website/", include("website.urls")),
     path("breeding_cage/", include("breeding_cage.urls", namespace="breeding_cage")),
+    path("stock_cage/", include("stock_cage.urls", namespace="stock_cage")),
     path(
         "mice_repository/", include("mice_repository.urls", namespace="mice_repository")
     ),

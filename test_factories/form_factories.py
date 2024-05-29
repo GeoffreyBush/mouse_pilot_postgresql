@@ -4,7 +4,6 @@ from breeding_cage.forms import BreedingCageForm
 from test_factories.model_factories import (
     MouseFactory,
     ProjectFactory,
-    StockCageFactory,
     StrainFactory,
     UserFactory,
 )
@@ -107,7 +106,6 @@ class RepositoryMiceFormFactory:
             "sex": "M",
             "dob": date.today(),
             "clipped_date": date.today(),
-            "stock_cage": StockCageFactory(),
             "project": ProjectFactory(),
             "earmark": "TR",
             "genotyper": UserFactory().id,
@@ -125,7 +123,6 @@ class RepositoryMiceFormFactory:
             "clipped_date": date.today(),
             "mother": None,
             "father": None,
-            "stock_cage": StockCageFactory(),
             "project": ProjectFactory(),
             "earmark": "TR",
             "genotyper": UserFactory().id,
@@ -143,7 +140,6 @@ class RepositoryMiceFormFactory:
             "clipped_date": date.today(),
             "mother": None,
             "father": None,
-            "stock_cage": StockCageFactory(),
             "project": ProjectFactory(),
             "earmark": "TR",
             "genotyper": None,

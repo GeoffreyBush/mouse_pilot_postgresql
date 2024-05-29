@@ -2,7 +2,8 @@ from django import forms
 
 from mice_repository.models import Mouse
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
-from website.models import CustomUser, Project, StockCage, Strain
+from website.models import CustomUser, Project, Strain
+from stock_cage.models import StockCage
 
 
 class RepositoryMiceForm(forms.ModelForm):
@@ -42,11 +43,6 @@ class RepositoryMiceForm(forms.ModelForm):
     father = forms.ModelChoiceField(
         initial=None,
         queryset=Mouse.objects.filter(sex="M"),
-        required=False,
-        widget=forms.Select(attrs={"class": "form-select"}),
-    )
-    stock_cage = forms.ModelChoiceField(
-        queryset=StockCage.objects.all(),
         required=False,
         widget=forms.Select(attrs={"class": "form-select"}),
     )

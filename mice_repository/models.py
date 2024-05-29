@@ -51,16 +51,6 @@ class Mouse(models.Model):
         related_name="father_mouse",
     )
 
-    stock_cage = models.ForeignKey(
-        "website.StockCage",
-        on_delete=models.SET_NULL,
-        db_column="Stock Cage ID",
-        null=True,
-        blank=True,
-        default=None,
-        related_name="mice",
-    )
-
     project = models.ForeignKey(
         "website.Project", on_delete=models.PROTECT, null=True, blank=True
     )

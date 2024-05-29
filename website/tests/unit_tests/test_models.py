@@ -154,8 +154,3 @@ class ProjectModelTest(TestCase):
         self.assertEqual(self.project.mice_count, 0)
         self.project.mice_count += 1
         self.assertEqual(self.project.mice_count, 1)
-
-
-#####################
-### BREEDING CAGE ###
-#####################
