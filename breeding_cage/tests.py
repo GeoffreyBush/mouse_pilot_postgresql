@@ -2,6 +2,7 @@ from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse
+from django.db.utils import IntegrityError
 
 from breeding_cage.forms import BreedingCageForm
 from breeding_cage.models import BreedingCage
@@ -35,6 +36,12 @@ class BreedingCageModelTestCase(TestCase):
         self.assertIsNotNone(self.breeding_cage.mother)
         self.assertIsNotNone(self.breeding_cage.father)
 
+    # box_no must be unique
+    def test_box_no_unique(self):
+        self.assertEqual(self.breeding_cage.box_no, "box0")
+        with self.assertRaises(IntegrityError):
+            self.breeding_cage2 = BreedingCageFactory(box_no="box0")
+
     # transfer_to_stock method creates a stock cage
     def test_transfer_creates_stock_cage(self):
         self.assertIsInstance(self.stock_cage, StockCage)
@@ -60,24 +67,28 @@ class BreedingCageModelTestCase(TestCase):
 
 class BreedingCageFormTestCase(TestCase):
 
+    def setUp(self):
+        self.form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
+        self.breeding_cage = self.form.save()
+
     # Valid data
     def test_valid_form(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
-        self.assertTrue(form.is_valid())
-        self.breeding_cage = form.save()
+        self.assertTrue(self.form.is_valid())
         self.assertEqual(BreedingCage.objects.count(), 1)
+        self.assertEqual(self.breeding_cage.box_no, "1")
 
     # Missing box_no
     def test_invalid_father(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_father())
-        self.assertFalse(form.is_valid())
-        self.assertIn("father", form.errors)
+        self.form = BreedingCageForm(data=BreedingCageFormFactory.invalid_father())
+        self.assertFalse(self.form.is_valid())
+        self.assertIn("father", self.form.errors)
 
     # Invalid mother
     def test_invalid_mother(self):
-        form = BreedingCageForm(data=BreedingCageFormFactory.invalid_mother())
-        self.assertFalse(form.is_valid())
-        self.assertIn("mother", form.errors)
+        self.form = BreedingCageForm(data=BreedingCageFormFactory.invalid_mother())
+        self.assertFalse(self.form.is_valid())
+        self.assertIn("mother", self.form.errors)
+
 
 
 class ListBreedingCagesViewTestCase(TestCase):
@@ -147,6 +158,7 @@ class AddBreedingCageViewTestCase(TestCase):
         response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
+        self.assertEqual(BreedingCage.objects.count(), 1)
 
     # POST BreedingCageForm with invalid mother
     def test_create_breeding_cage_post_invalid(self):

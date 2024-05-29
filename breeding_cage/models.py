@@ -14,6 +14,7 @@ class BreedingCage(models.Model):
         null=False,
         blank=False,
         default="Unnamed",
+        unique=True,
     )
     mother = models.ForeignKey(
         "mice_repository.Mouse",
