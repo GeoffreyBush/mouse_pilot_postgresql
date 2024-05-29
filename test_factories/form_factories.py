@@ -148,3 +148,21 @@ class RepositoryMiceFormFactory:
             "result": "Positive",
             "fate": "Culled",
         }
+    
+class BatchMiceFromBreedingCageFormFactory:
+    @staticmethod
+    def create(**kwargs):
+        pass
+
+    @staticmethod
+    def valid_data(**kwargs):
+        strain = kwargs.get("strain", StrainFactory())
+        return {
+            "_tube": 123,
+            "sex": "M",
+            "coat": "Black",
+            "strain": strain,
+            "mother": MouseFactory(sex="F", strain=strain),
+            "father": MouseFactory(sex="M", strain=strain),
+            "dob": date.today(),
+        }

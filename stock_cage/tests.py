@@ -1,11 +1,12 @@
-from datetime import date
+
 
 from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.models import Mouse
-from stock_cage.forms import CreateMouseFromBreedingCageForm
+from stock_cage.forms import BatchMiceFromBreedingCageForm
 from stock_cage.models import StockCage
+from test_factories.form_factories import BatchMiceFromBreedingCageFormFactory
 from test_factories.model_factories import (
     BreedingCageFactory,
     MouseFactory,
@@ -30,20 +31,11 @@ class StockCageModelTestCase(TestCase):
         self.assertEqual(self.cage.mice.count(), 2)
 
 
-class CreateMouseFromBreedingCageFormTestCase(TestCase):
+class BatchMiceFromBreedingCageFormTestCase(TestCase):
     def setUp(self):
         self.strain = Strain.objects.create(strain_name="TestStrain")
-        self.assertEqual(Strain.objects.count(), 1)
-        self.data = {
-            "_tube": 123,
-            "sex": "M",
-            "coat": "Black",
-            "strain": self.strain,
-            "mother": MouseFactory(sex="F", strain=self.strain),
-            "father": MouseFactory(sex="M", strain=self.strain),
-            "dob": date.today(),
-        }
-        self.form = CreateMouseFromBreedingCageForm(data=self.data)
+        self.data = BatchMiceFromBreedingCageFormFactory.valid_data(strain=self.strain)
+        self.form = BatchMiceFromBreedingCageForm(data=self.data)
 
     # Valid data
     def test_valid_data(self):
@@ -59,10 +51,10 @@ class CreateMouseFromBreedingCageFormTestCase(TestCase):
     # Missing tube number
     def test_missing_tube_number(self):
         self.data.pop("_tube")
-        form = CreateMouseFromBreedingCageForm(data=self.data)
+        form = BatchMiceFromBreedingCageForm(data=self.data)
         self.assertFalse(form.is_valid())
 
-    # All potential _global_id are unique before attempting to batch create mice
+    # All potential _global_id must be unique before attempting to batch create mice
 
 
 class TransferToStockCageViewTestCase(TestCase):

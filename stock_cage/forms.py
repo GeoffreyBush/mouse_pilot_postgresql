@@ -5,7 +5,7 @@ from website.models import Strain
 
 
 # Need to create validation handling for readonly attributes here, add handling to view
-class CreateMouseFromBreedingCageForm(forms.ModelForm):
+class BatchMiceFromBreedingCageForm(forms.ModelForm):
 
     _tube = forms.IntegerField(
         required=True,

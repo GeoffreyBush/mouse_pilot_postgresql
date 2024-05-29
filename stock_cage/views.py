@@ -3,13 +3,13 @@ from django.forms import formset_factory
 from django.shortcuts import redirect, render
 
 from breeding_cage.models import BreedingCage
-from stock_cage.forms import CreateMouseFromBreedingCageForm
+from stock_cage.forms import BatchMiceFromBreedingCageForm
 
 
 @login_required
 def transfer_to_stock_cage(request, box_no):
     cage = BreedingCage.objects.get(box_no=box_no)
-    MouseFormSet = formset_factory(CreateMouseFromBreedingCageForm, extra=0)
+    MouseFormSet = formset_factory(BatchMiceFromBreedingCageForm, extra=0)
 
     if request.method == "POST":
         formset = MouseFormSet(request.POST, prefix="mouse")
