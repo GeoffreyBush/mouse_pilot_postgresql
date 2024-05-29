@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 
 # Used to add a a _tube attribute to the Mouse model
 # class MouseManager(models.Manager):
@@ -105,10 +104,10 @@ class Mouse(models.Model):
     def tube(self, value):
         self._tube = value
 
-    #def validate_unique(self, exclude=None):
-     #   super().validate_unique(exclude)
-      #  if Mouse.objects.filter(_global_id=self._global_id).exists():
-       #     raise ValidationError("Mouse with this global ID already exists")
+    # def validate_unique(self, exclude=None):
+    #   super().validate_unique(exclude)
+    #  if Mouse.objects.filter(_global_id=self._global_id).exists():
+    #     raise ValidationError("Mouse with this global ID already exists")
 
     # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):
