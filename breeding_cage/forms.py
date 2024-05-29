@@ -83,6 +83,7 @@ class BreedingCageForm(forms.ModelForm):
         fields = "__all__"
         exclude = ["transferred_to_stock", "id"]
 
+
 class TransferToStockForm(forms.ModelForm):
     transferred_to_stock = forms.BooleanField(
         required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input"})

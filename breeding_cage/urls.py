@@ -25,5 +25,5 @@ urlpatterns = [
         "transfer_to_stock_cage/<str:box_no>",
         views.transfer_to_stock_cage,
         name="transfer_to_stock_cage",
-    )
+    ),
 ]

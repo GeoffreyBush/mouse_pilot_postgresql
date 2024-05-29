@@ -218,6 +218,7 @@ class EditBreedingCageViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
+
 class TransferToStockCageViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -237,4 +238,3 @@ class TransferToStockCageViewTestCase(TestCase):
     # POST TransferToStockCageForm with invalid data
 
     # Access Transfer to Stock Cage while not logged in
-
