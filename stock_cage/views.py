@@ -21,6 +21,7 @@ def transfer_to_stock_cage(request, box_no):
                 mouse_instance.father = cage.father
                 mouse_instance.dob = cage.date_born
                 mouse_instance.save()
+            cage.transferred_to_stock = True
             return redirect("breeding_cage:list_breeding_cages")
     else:
         initial_data_males = [

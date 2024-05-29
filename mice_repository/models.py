@@ -87,10 +87,6 @@ class Mouse(models.Model):
     def tube(self):
         return self._tube
 
-    @tube.setter
-    def tube(self, value):
-        self._tube = value
-
     # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):
         self.strain.increment_mice_count()

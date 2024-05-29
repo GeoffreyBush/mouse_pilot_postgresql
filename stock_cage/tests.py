@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from datetime import date
 
 from stock_cage.models import StockCage
 from test_factories.model_factories import (
@@ -8,6 +9,9 @@ from test_factories.model_factories import (
     StockCageFactory,
     UserFactory,
 )
+from stock_cage.forms import CreateMouseFromBreedingCageForm
+from mice_repository.models import Mouse
+from website.models import Strain
 
 
 class StockCageModelTestCase(TestCase):
@@ -27,7 +31,39 @@ class StockCageModelTestCase(TestCase):
 
 class CreateMouseFromBreedingCageFormTestCase(TestCase):
     def setUp(self):
-        pass
+        self.strain = Strain.objects.create(strain_name='TestStrain')
+        self.assertEqual(Strain.objects.count(), 1)
+        self.data = {
+            '_tube': 123,
+            'sex': 'M',
+            'coat': 'Black',
+            'strain': self.strain,
+            'mother': MouseFactory(sex="F", strain=self.strain),
+            'father': MouseFactory(sex="M", strain=self.strain),
+            "dob": date.today()
+        }
+        self.form = CreateMouseFromBreedingCageForm(data=self.data)
+
+    # Valid data
+    def test_valid_data(self):
+        self.assertEqual(self.form.data["strain"], 'TestStrain')
+        self.assertTrue(self.form.is_valid())
+
+
+    # Mouse is created with valid data
+    def test_mouse_created(self):
+        self.assertEqual(Mouse.objects.count(), 2)
+        self.form.save()
+        self.assertEqual(Mouse.objects.count(), 3)
+
+    # Missing tube number
+
+    # Missing data not required by form
+
+    # All potential _global_id are unique before attempting to batch create mice
+
+
+
 
 
 class TransferToStockCageViewTestCase(TestCase):

@@ -1,17 +1,39 @@
 from django import forms
 
 from mice_repository.models import Mouse
+from website.models import Strain
 
 
-# Need to create validation handling for readonly attributes here
-# Add them to view
+# Need to create validation handling for readonly attributes here, add handling to view
 class CreateMouseFromBreedingCageForm(forms.ModelForm):
-    # strain = forms.CharField(max_length=20, required=True,
-    #                       widget=forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}) )
+   
+    _tube = forms.IntegerField(
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
 
     sex = forms.CharField(
         required=True,
         widget=forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}),
+    )
+
+    coat = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+    # Hidden fields ????
+    strain = forms.ModelChoiceField(
+        required=True,
+        queryset=Strain.objects.all(),
+    )      
+    mother = forms.ModelChoiceField(
+        required=True,
+        queryset=Mouse.objects.filter(sex="F"),
+    )
+    father = forms.ModelChoiceField(
+        required=True,
+        queryset=Mouse.objects.filter(sex="M"),
     )
 
     class Meta:
@@ -23,10 +45,6 @@ class CreateMouseFromBreedingCageForm(forms.ModelForm):
             "earmark",
             "result",
             "_global_id",
-            "mother",
-            "father",
-            "dob",
-            "strain",
             "fate",
             "genotyper",
             "clipped_date",

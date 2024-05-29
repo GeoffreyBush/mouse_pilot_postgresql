@@ -40,30 +40,6 @@ class BreedingCageModelTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             self.breeding_cage2 = BreedingCageFactory(box_no="box0")
 
-    """
-    # transfer_to_stock method creates a stock cage
-    def test_transfer_creates_stock_cage(self):
-        self.assertIsInstance(self.stock_cage, StockCage)
-
-    # transfer_to_stock method changed boolean attribute on breeding cage
-    def test_transfer_sets_breeding_cage_attributes(self):
-        self.assertTrue(self.breeding_cage.transferred_to_stock)
-
-    # transfer_to_stock method creates mice in stock cage
-    def test_transfer_creates_mice(self):
-        self.assertEqual(Mouse.objects.filter(sex="M").count(), 6)
-        self.assertEqual(Mouse.objects.filter(sex="F").count(), 4)
-        self.assertEqual(self.stock_cage.mice.count(), 8)
-
-    # transfer_to_stock method creates mice with the correct attributes
-    def test_mice_attributes_created_by_transfer(self):
-        self.assertEqual(self.new_mouse.strain, self.mother.strain)
-        self.assertEqual(self.new_mouse.mother, self.mother)
-        self.assertEqual(self.new_mouse.father, self.father)
-        self.assertEqual(self.new_mouse.dob, date.today())
-        # And tube field too?
-    """
-
 
 class BreedingCageFormTestCase(TestCase):
 

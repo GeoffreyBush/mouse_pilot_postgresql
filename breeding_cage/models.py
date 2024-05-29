@@ -1,7 +1,7 @@
 from django.db import models
 
+# Need to track whether female is pregnant
 
-# Create your models here.
 class BreedingCage(models.Model):
     """Could benefit from tracking when the breeding pair was put in the cage"""
 
