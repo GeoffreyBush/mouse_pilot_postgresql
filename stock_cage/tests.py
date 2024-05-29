@@ -47,7 +47,7 @@ class CreateMouseFromBreedingCageFormTestCase(TestCase):
 
     # Valid data
     def test_valid_data(self):
-        self.assertEqual(self.form.data["strain"].strain_name, 'TestStrain')
+        self.assertEqual(self.form.data["strain"].strain_name, "TestStrain")
         self.assertTrue(self.form.is_valid())
 
     # Mouse is created with valid data
