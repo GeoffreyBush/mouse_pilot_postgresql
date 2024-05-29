@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
-from website.models import Strain
 from test_factories.form_factories import RepositoryMiceFormFactory
 from test_factories.model_factories import (
     MouseFactory,
@@ -60,7 +59,6 @@ class MouseModelTestCase(TestCase):
             self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
         self.assertEqual(self.strain.mice_count, 1)
 
-
     # Count mice from a stock cage using related_name="mice" argument
     def test_mouse_stock_cage(self):
         self.assertIsInstance(self.mouse.stock_cage, StockCage)
@@ -79,7 +77,9 @@ class MouseModelTestCase(TestCase):
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
-        self.form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(strain=self.strain, _tube=1))
+        self.form = RepositoryMiceForm(
+            data=RepositoryMiceFormFactory.valid_data(strain=self.strain, _tube=1)
+        )
         self.mouse = self.form.save()
         self.strain.refresh_from_db()
 

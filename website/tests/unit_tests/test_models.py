@@ -126,6 +126,7 @@ class StrainModelTestCase(TestCase):
         self.strain.decrement_mice_count()
         self.assertEqual(self.strain.mice_count, 0)
 
+
 ###############
 ### PROJECT ###
 ###############

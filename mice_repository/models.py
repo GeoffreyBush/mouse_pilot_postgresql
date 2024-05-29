@@ -1,5 +1,6 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+
 
 # Create your models here.
 class Mouse(models.Model):
@@ -108,13 +109,13 @@ class Mouse(models.Model):
         if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self._tube}"
 
-        # If the new _global_id is not unique, revert the strain mice count and raise ValidationError    
-        try: 
+        # If the new _global_id is not unique, revert the strain mice count and raise ValidationError
+        try:
             self.validate_unique()
         except ValidationError as e:
             self.strain.decrement_mice_count()
             raise ValidationError(e)
-        
+
         super().save(*args, **kwargs)
         self.refresh_from_db()
 
