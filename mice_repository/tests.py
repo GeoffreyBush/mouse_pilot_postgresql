@@ -52,7 +52,7 @@ class MouseModelTestCase(TestCase):
         self.mouse2 = MouseFactory(strain=self.strain, _tube=123)
         self.assertEqual(self.strain.mice_count, 2)
 
-    # mouse.save() method only increments strain.mice.count if validate_unique() passes
+    # mouse.save() method doesn't increment strain.mice.count if validate_unique() fails
     def test_mouse_count_no_increment_bad_save(self):
         self.assertEqual(self.strain.mice_count, 1)
         with self.assertRaises(ValidationError):
