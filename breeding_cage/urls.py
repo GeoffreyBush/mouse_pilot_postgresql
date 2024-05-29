@@ -21,5 +21,4 @@ urlpatterns = [
         views.edit_breeding_cage,
         name="edit_breeding_cage",
     ),
-
 ]

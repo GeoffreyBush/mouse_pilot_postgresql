@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from test_factories.model_factories import BreedingCageFactory, UserFactory
 
+
 class TransferToStockCageViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")

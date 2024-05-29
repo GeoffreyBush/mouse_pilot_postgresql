@@ -1,4 +1,5 @@
 from django.urls import path
+
 from stock_cage import views
 
 app_name = "stock_cage"
