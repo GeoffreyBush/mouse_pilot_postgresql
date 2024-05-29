@@ -1,8 +1,8 @@
 name: Lint and Commit
 on:
   push:
-    branches:
-      - master
+
+    
 jobs:
   lint_and_commit:
     runs-on: ubuntu-latest

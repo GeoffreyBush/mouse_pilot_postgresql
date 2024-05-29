@@ -2,8 +2,6 @@ name: Security Check
 
 on:
   push:
-    branches:
-      - master
 
 jobs:
   generate_security_artifact:
