@@ -36,7 +36,7 @@ class BreedingCageModelTestCase(TestCase):
     def test_transferred_to_stock(self):
         self.assertFalse(self.breeding_cage.transferred_to_stock)
 
-    # box_no must be unique - note that box_no is not a primary key so this is not enforced by Django 
+    # box_no must be unique - note that box_no is not a primary key so this is not enforced by Django
     def test_box_no_unique(self):
         self.assertEqual(self.breeding_cage.box_no, "box0")
         with self.assertRaises(IntegrityError):
