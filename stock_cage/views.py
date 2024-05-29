@@ -1,11 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import loader
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
 
-from stock_cage.forms import TransferToStockCageForm
 from breeding_cage.models import BreedingCage
+from stock_cage.forms import TransferToStockCageForm
 
 
 @login_required

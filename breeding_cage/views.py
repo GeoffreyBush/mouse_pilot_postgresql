@@ -49,4 +49,3 @@ def edit_breeding_cage(request, box_no):
     else:
         form = BreedingCageForm(instance=cage)
     return render(request, "edit_breeding_cage.html", {"form": form})
-

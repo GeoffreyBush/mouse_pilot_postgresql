@@ -3,7 +3,6 @@ from django import forms
 from mice_repository.models import Mouse
 from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from website.models import CustomUser, Project, Strain
-from stock_cage.models import StockCage
 
 
 class RepositoryMiceForm(forms.ModelForm):

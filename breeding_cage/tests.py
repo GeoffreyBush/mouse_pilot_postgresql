@@ -1,4 +1,3 @@
-from datetime import date
 
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -14,7 +13,7 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from stock_cage.models import StockCage
+
 
 # NEED TO ALTER TRANSFER TO STOCK METHOD AND UPDATE TESTS
 class BreedingCageModelTestCase(TestCase):
@@ -27,7 +26,7 @@ class BreedingCageModelTestCase(TestCase):
         self.breeding_cage = BreedingCageFactory(
             mother=self.mother, father=self.father, male_pups=5, female_pups=3
         )
-        #self.stock_cage = self.breeding_cage.transfer_to_stock()
+        # self.stock_cage = self.breeding_cage.transfer_to_stock()
         self.new_mouse = Mouse.objects.all().last()
 
     # Confirm BreedingCageFactory works
@@ -219,4 +218,3 @@ class EditBreedingCageViewTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
-
