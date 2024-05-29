@@ -98,6 +98,7 @@ class Mouse(models.Model):
     # Overwrite init method to accept a custom tube number
     # Not sure if this can lead to integrity issues
     def __init__(self, *args, **kwargs):
+        print(f'kwargs: {kwargs}')  # Add this line
         custom_tube = kwargs.pop('custom_tube', None)
         print(f'Model custom_tube: {custom_tube}')  # Add this line
         super().__init__(*args, **kwargs)

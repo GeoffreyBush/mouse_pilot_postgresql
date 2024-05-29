@@ -11,6 +11,7 @@ from test_factories.model_factories import (
 from test_factories.form_factories import RepositoryMiceFormFactory
 from website.models import StockCage
 from mice_repository.forms import RepositoryMiceForm
+from datetime import date
 
 
 class MouseTestCase(TestCase):
@@ -24,6 +25,8 @@ class MouseTestCase(TestCase):
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
+        self.assertIsNotNone(self.mouse._tube)
+
 
     # Primary key is "<strain>-<tube>"
     def test_mouse_pk(self):
@@ -47,21 +50,11 @@ class MouseTestCase(TestCase):
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
 
-    # Overwritten __init__ method with custom_tube
+    # Overridden __init__ method can take custom_tube to set _tube attribute
     def test_init_with_custom_tube(self):
-        mouse = MouseFactory(strain=self.strain, custom_tube=123)
+        mouse = Mouse.objects.create(strain=self.strain, custom_tube=123, dob=date.today(), sex="M")
         self.assertEqual(mouse._tube, 123)
 
-    # Overwritten __init__ method without custom_tube
-    def test_init_without_custom_tube(self):
-        mouse = Mouse(strain=self.strain)
-        #self.assertIsNotNone(mouse._tube)
-
-    # Overwritten save method with custom_tube
-    def test_save_with_custom_tube(self):
-        mouse = Mouse(strain=self.strain, custom_tube=123)
-        mouse.save()
-        self.assertEqual(mouse._tube, 123)
 
 
 class RepositoryMiceFormTestCase(TestCase):    
