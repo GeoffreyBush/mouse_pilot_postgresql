@@ -1,10 +1,10 @@
-from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
+from website.models import Strain
 from test_factories.form_factories import RepositoryMiceFormFactory
 from test_factories.model_factories import (
     MouseFactory,
@@ -15,7 +15,7 @@ from test_factories.model_factories import (
 from website.models import StockCage
 
 
-class MouseTestCase(TestCase):
+class MouseModelTestCase(TestCase):
 
     @classmethod
     def setUp(self):
@@ -28,12 +28,7 @@ class MouseTestCase(TestCase):
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
         self.assertEqual(self.mouse.pk, "teststrain-1")
 
-    # Regression test to prevent a mouse being overwritten by another
-    def test_mouse_duplicate(self):
-        with self.assertRaises(ValidationError):
-            self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
-
-    # _tube field increments automatically from strain.mice_count
+    # _tube field increments automatically from strain.mice_count and sets correct _global_id
     def test_mouse_without_custom_tube(self):
         self.assertEqual(self.strain.mice_count, 1)
         self.mouse2 = MouseFactory(strain=self.strain)
@@ -41,13 +36,30 @@ class MouseTestCase(TestCase):
         self.assertEqual(self.mouse2._tube, 2)
         self.assertEqual(self.mouse2.pk, "teststrain-2")
 
-    # _tube can be manually set
+    # _tube can be manually set and correct _global_id created from it
     def test_mouse_custom_tube(self):
+        self.mouse2 = MouseFactory(strain=self.strain, _tube=123)
+        self.assertEqual(self.mouse2._tube, 123)
+        self.assertEqual(self.mouse2.pk, "teststrain-123")
+
+    # Regression test to prevent a mouse being overwritten by another
+    def test_mouse_duplicate(self):
+        with self.assertRaises(ValidationError):
+            self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+
+    # mouse.save() method increments strain.mice.count if validate_unique() passes
+    def test_mouse_count_increment_good_save(self):
         self.assertEqual(self.strain.mice_count, 1)
         self.mouse2 = MouseFactory(strain=self.strain, _tube=123)
         self.assertEqual(self.strain.mice_count, 2)
-        self.assertEqual(self.mouse2._tube, 123)
-        self.assertEqual(self.mouse2.pk, "teststrain-123")
+
+    # mouse.save() method only increments strain.mice.count if validate_unique() passes
+    def test_mouse_count_no_increment_bad_save(self):
+        self.assertEqual(self.strain.mice_count, 1)
+        with self.assertRaises(ValidationError):
+            self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+        self.assertEqual(self.strain.mice_count, 1)
+
 
     # Count mice from a stock cage using related_name="mice" argument
     def test_mouse_stock_cage(self):
@@ -67,13 +79,18 @@ class MouseTestCase(TestCase):
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
-        self.form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
+        self.form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(strain=self.strain, _tube=1))
         self.mouse = self.form.save()
+        self.strain.refresh_from_db()
 
     # Valid data
     def test_mice_form_valid_data(self):
         self.assertTrue(self.form.is_valid())
-        self.assertIsInstance(self.mouse, Mouse)
+
+    # Correct mice count
+    def test_mice_form_mice_count(self):
+        self.assertEqual(Mouse.objects.all().count(), 1)
+        self.assertEqual(self.strain.mice_count, 1)
 
     # If no tube is provided on form, tube value is set to strain.mice_count
     def test_save_without_custom_tube(self):
@@ -135,3 +152,4 @@ class AddMouseToRepositoryViewTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("mice_repository:mice_repository"))
+        self.assertEqual(Mouse.objects.all().count(), 2)

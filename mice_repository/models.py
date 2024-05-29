@@ -105,11 +105,6 @@ class Mouse(models.Model):
     def tube(self, value):
         self._tube = value
 
-    #def validate_unique(self, exclude=None):
-     #   super().validate_unique(exclude)
-      #  if Mouse.objects.filter(_global_id=self._global_id).exists():
-       #     raise ValidationError("Mouse with this global ID already exists")
-
     # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):
         self.strain.increment_mice_count()
@@ -117,7 +112,14 @@ class Mouse(models.Model):
             self._tube = self.strain.mice_count
         if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self._tube}"
-        self.validate_unique()
+
+        # If the new _global_id is not unique, revert the strain mice count and raise ValidationError    
+        try: 
+            self.validate_unique()
+        except ValidationError as e:
+            self.strain.decrement_mice_count()
+            raise ValidationError(e)
+        
         super().save(*args, **kwargs)
         self.refresh_from_db()
 

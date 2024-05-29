@@ -97,6 +97,12 @@ class Strain(models.Model):
         self.save(update_fields=["mice_count"])
         self.refresh_from_db()
 
+    def decrement_mice_count(self):
+        if self.mice_count > 0:
+            self.mice_count = F("mice_count") - 1
+            self.save(update_fields=["mice_count"])
+            self.refresh_from_db()
+
     def __str__(self):
         return f"{self.strain_name}"
 

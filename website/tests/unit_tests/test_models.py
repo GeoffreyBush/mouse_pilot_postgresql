@@ -99,7 +99,7 @@ class RequestModelTests(TestCase):
 ##############
 ### STRAIN ###
 ##############
-class StrainTestCase(TestCase):
+class StrainModelTestCase(TestCase):
 
     @classmethod
     def setUp(self):
@@ -110,12 +110,21 @@ class StrainTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             Strain.objects.create(strain_name="teststrain")
 
-    # Incremenet mice count of a strain
+    # Increment mice count of a strain by making a mouse
     def test_strain_mice_count(self):
         self.assertEqual(self.strain.mice_count, 0)
         self.mouse = MouseFactory(strain=self.strain)
         self.assertEqual(self.strain.mice_count, 1)
 
+    # Decrement mice count of a strain
+    def test_strain_mice_count_decrement(self):
+        self.assertEqual(self.strain.mice_count, 0)
+        self.strain.decrement_mice_count()
+        self.assertEqual(self.strain.mice_count, 0)
+        self.strain.increment_mice_count()
+        self.assertEqual(self.strain.mice_count, 1)
+        self.strain.decrement_mice_count()
+        self.assertEqual(self.strain.mice_count, 0)
 
 ###############
 ### PROJECT ###

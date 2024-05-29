@@ -64,6 +64,8 @@ class BreedingCageFormTestCase(TestCase):
     def test_valid_form(self):
         form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
         self.assertTrue(form.is_valid())
+        self.breeding_cage = form.save()
+        self.assertEqual(BreedingCage.objects.count(), 1)
 
     # Missing box_no
     def test_invalid_father(self):
