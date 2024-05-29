@@ -7,7 +7,7 @@ from website.models import CustomUser, Project, StockCage, Strain
 
 class RepositoryMiceForm(forms.ModelForm):
 
-    custom_tube = forms.IntegerField(
+    _tube = forms.IntegerField(
         required=False, widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
@@ -92,13 +92,3 @@ class RepositoryMiceForm(forms.ModelForm):
         model = Mouse
         fields = "__all__"
         exclude = ["_global_id"]
-
-    def save(self, commit=True):
-        mouse = super().save(commit=False)
-        custom_tube = self.cleaned_data.get("custom_tube")
-        print(f"Form custom_tube: {custom_tube}")  # add this line
-        if custom_tube is not None:
-            mouse._tube = custom_tube
-        if commit:
-            mouse.save()
-        return mouse

@@ -26,11 +26,23 @@ class MouseTestCase(TestCase):
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
-        self.assertIsNotNone(self.mouse._tube)
 
-    # Primary key is "<strain>-<tube>"
-    def test_mouse_pk(self):
-        self.assertEqual(self.mouse.pk, "teststrain-1")
+
+    # If no tube is provided, get tube value from strain.mice_count
+    def test_mouse_without_custom_tube(self):
+        self.assertEqual(self.strain.mice_count, 1)
+        self.mouse2 = MouseFactory(strain=self.strain)
+        self.assertEqual(self.strain.mice_count, 2)
+        self.assertEqual(self.mouse2._tube, 2)
+        self.assertEqual(self.mouse2.pk, "teststrain-2")
+
+    # _tube can be manually set
+    def test_mouse_custom_tube(self):
+        self.assertEqual(self.strain.mice_count, 1)
+        self.mouse2 = MouseFactory(strain=self.strain, _tube=123)
+        self.assertEqual(self.strain.mice_count, 2)
+        self.assertEqual(self.mouse2._tube, 123)
+        self.assertEqual(self.mouse2.pk, "teststrain-123")
 
     # Tube attribute for breeding wing ID
     def test_mouse_tube_id(self):
@@ -50,12 +62,7 @@ class MouseTestCase(TestCase):
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
 
-    # Overridden __init__ method can take custom_tube to set _tube attribute
-    def test_init_with_custom_tube(self):
-        mouse = Mouse.objects.create(
-            strain=self.strain, custom_tube=123, dob=date.today(), sex="M"
-        )
-        self.assertEqual(mouse._tube, 123)
+
 
 
 class RepositoryMiceFormTestCase(TestCase):
@@ -84,14 +91,16 @@ class RepositoryMiceFormTestCase(TestCase):
     def test_mice_form_global_id(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
+    # Can set a custom tube on form
     def test_save_custom_tube(self):
         form = RepositoryMiceForm(
-            data=RepositoryMiceFormFactory.valid_data(custom_tube=123)
+            data=RepositoryMiceFormFactory.valid_data(_tube=123)
         )
         self.assertTrue(form.is_valid())
-        mouse = form.save()
-        self.assertEqual(mouse._tube, 123)
+        self.mouse = form.save()
+        self.assertEqual(self.mouse._tube, 123)
 
+    # If no tube is provided on form, tube value is set to strain.mice_count
     def test_save_without_custom_tube(self):
         form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data())
         self.assertTrue(form.is_valid())

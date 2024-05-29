@@ -1,5 +1,9 @@
 from django.db import models
 
+# Used to add a a _tube attribute to the Mouse model
+#class MouseManager(models.Manager):
+ #   def create_mouse(self, *args, **kwargs):
+    
 
 # Create your models here.
 class Mouse(models.Model):
@@ -95,24 +99,37 @@ class Mouse(models.Model):
     @property
     def tube(self):
         return self._tube
+    
+    @tube.setter
+    def tube(self, value):
+        self._tube = value
 
-    # Overwrite init method to accept a custom tube number
-    # Not sure if this can lead to integrity issues
-    def __init__(self, *args, **kwargs):
-        print(f"kwargs: {kwargs}")  # Add this line
-        custom_tube = kwargs.pop("custom_tube", None)
-        print(f"Model custom_tube: {custom_tube}")  # Add this line
-        super().__init__(*args, **kwargs)
-        if custom_tube is not None:
-            self._tube = custom_tube
-
-    # Overwrite save method to increment tube number
+    # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):
-        if not self._tube:
+        """
+        print("self._tube before condition")
+        print(self._tube)
+        print("args before condition")
+        print(args)
+        print("kwargs before condition")
+        print(kwargs)
+        """
+        if self._tube is None:
             self.strain.increment_mice_count()
             self._tube = self.strain.mice_count
+        # Is an else condition to handle setting strain.mice_count with a custom tube needed here?
+
+        """
+        print("self._tube after condition")
+        print(self._tube)
+        print("args after condition")
+        print(args)
+        print("kwargs after condition")
+        print(kwargs)
+        print()
+        """
         if not self._global_id:
-            self._global_id = f"{self.strain.strain_name}-{self.strain.mice_count}"
+            self._global_id = f"{self.strain.strain_name}-{self._tube}"
         super().save(*args, **kwargs)
         self.refresh_from_db()
 
