@@ -148,7 +148,8 @@ class RepositoryMiceFormFactory:
             "result": "Positive",
             "fate": "Culled",
         }
-    
+
+
 class BatchMiceFromBreedingCageFormFactory:
     @staticmethod
     def create(**kwargs):
