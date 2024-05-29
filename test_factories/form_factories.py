@@ -8,7 +8,7 @@ from test_factories.model_factories import (
     UserFactory,
 )
 from website.forms import CustomUserCreationForm, RequestForm
-from stock_cage.forms import CreateMouseFromBreedingCageForm
+
 
 class BreedingCageFormFactory:
 
@@ -148,4 +148,3 @@ class RepositoryMiceFormFactory:
             "result": "Positive",
             "fate": "Culled",
         }
-    

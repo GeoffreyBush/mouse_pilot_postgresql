@@ -6,7 +6,7 @@ from website.models import Strain
 
 # Need to create validation handling for readonly attributes here, add handling to view
 class CreateMouseFromBreedingCageForm(forms.ModelForm):
-   
+
     _tube = forms.IntegerField(
         required=True,
         widget=forms.TextInput(attrs={"class": "form-control"}),
@@ -26,7 +26,7 @@ class CreateMouseFromBreedingCageForm(forms.ModelForm):
     strain = forms.ModelChoiceField(
         required=True,
         queryset=Strain.objects.all(),
-    )      
+    )
     mother = forms.ModelChoiceField(
         required=True,
         queryset=Mouse.objects.filter(sex="F"),
