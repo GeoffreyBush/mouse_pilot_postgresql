@@ -1,4 +1,5 @@
 from django.db.utils import IntegrityError
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 
@@ -25,10 +26,11 @@ class MouseTestCase(TestCase):
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
+        self.assertEqual(self.mouse.pk, "teststrain-1")
 
-    # No duplicate mice
+    # Regression test to prevent a mouse being overwritten by another
     def test_mouse_duplicate(self):
-        with self.assertRaises(IntegrityError):
+        with self.assertRaises(ValidationError):
             self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
 
     # _tube field increments automatically from strain.mice_count

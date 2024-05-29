@@ -55,6 +55,7 @@ class BreedingCageModelTestCase(TestCase):
         self.assertEqual(self.new_mouse.mother, self.mother)
         self.assertEqual(self.new_mouse.father, self.father)
         self.assertEqual(self.new_mouse.dob, date.today())
+        # And tube field too?
 
 
 class BreedingCageFormTestCase(TestCase):
