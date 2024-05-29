@@ -43,15 +43,16 @@ jobs:
         #driver.quit()
         #EOF
 
-    - name: Test "mice_repository"
-      run: python manage.py test mice_repository.tests
-
-    - name: Test "breeding_cage"
-      run: python manage.py test breeding_cage.tests
-
-    - name: Run remaining "website" tests
+    - name: Test main website app
       run: | 
         python manage.py test website.tests.unit_tests.test_models
         python manage.py test website.tests.unit_tests.test_forms
         python manage.py test website/tests/unit_tests/view_tests/
         python manage.py test website/tests/integration_tests
+                
+    - name: Test mice_repository app
+      run: python manage.py test mice_repository.tests
+
+    - name: Test breeding_cage app
+      run: python manage.py test breeding_cage.tests
+
