@@ -21,10 +21,11 @@
             <tbody>
                 {% for form in formset %}
                     <tr>
-                    {% for field in form %}
-                        <td>{{ field.label }}</td>
-                        <td>{{ field }}</td>
-                    {% endfor %}
+
+                        <td>{{ form.stock_cage.label }}</td>
+                        <td>{{ form.stock_cage }}</td>
+
+
                     </tr>
                 {% endfor %}
             </tbody>

@@ -1,29 +1,28 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% block title %}Breeding Cages{% endblock %} 
+{% block title %}Stock Cages{% endblock %} 
 {% block content %}
 <div class="container-fluid">
 
     <!-- Header and buttons -->
     <div class="row">
         <div class="col-md-12 d-flex justify-content-between " >
-            <h1 class="project-header-text">Breeding Cage List</h1>
+            <h1 class="project-header-text">Stock Cage List</h1>
             <div>
-                <a href="{% url 'breeding_cage:add_breeding_cage' %}" class="btn btn-primary">Add Breeding Cage</a>
-                <a href="#" class="btn btn-primary">Transfer to Stock</a>
+                <a href="#}" class="btn btn-primary">Add Stock Cage</a>
             </div>
         </div>
     </div>
 
-    <!-- Show breeding cages -->
+    <!-- Show stock cages -->
     <div class="row">
-        {% for cage in mycages %}
+        {% for cage in cages %}
         <div class="col">
             <div class="card card-body square-cage mb-4 shadow-sm">
                 <h5 class="card-title">
-                    <a class="text-decoration-none" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}">{{ cage.box_no }}</a>
+                    <a href="#" class="text-decoration-none">{{ cage.cage_id }}</a>
                 </h5>
-                <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
+                <a href="#" class="text-decoration-none">
                     <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
                 </a>
             </div>

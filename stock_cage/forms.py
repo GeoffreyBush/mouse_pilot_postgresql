@@ -27,7 +27,7 @@ class BatchFromBreedingCageForm(forms.ModelForm):
     stock_cage = forms.ModelChoiceField(
         required=True,
         queryset=StockCage.objects.all(),
-        widget=forms.TextInput(attrs={"class": "form-select"}),
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
 
     strain = forms.ModelChoiceField(
