@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     "django_extensions",
     "simple_history",
     "django_filters",
+    "system_users",
     "website",
     "breeding_cage",
     "mice_repository",
     "test_factories",
     "stock_cage",
+    
 ]
 
 MIDDLEWARE = [
@@ -142,6 +144,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media_root")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+
 # Which HTML page to go to after login or logout
 LOGIN_REDIRECT_URL = "/website/list_projects"
 LOGOUT_REDIRECT_URL = "/"
@@ -150,4 +154,4 @@ LOGOUT_REDIRECT_URL = "/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Custom user group
-AUTH_USER_MODEL = "website.CustomUser"
+AUTH_USER_MODEL = "system_users.CustomUser"

@@ -70,7 +70,7 @@ class Mouse(models.Model):
         null=False,
     )
     genotyper = models.ForeignKey(
-        "website.CustomUser", on_delete=models.SET_NULL, null=True, blank=True
+        "system_users.CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
 
     """ Add history back in the future. Error across multiple areas """

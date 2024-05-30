@@ -1,18 +1,5 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-
-class CustomUser(AbstractUser):
-
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.username
-
-    class Meta:
-        managed = True
-        db_table = "user"
-
+from system_users.models import CustomUser
 
 class Request(models.Model):
 
@@ -25,7 +12,7 @@ class Request(models.Model):
 
     request_id = models.AutoField(db_column="ID", primary_key=True)
     researcher = models.ForeignKey(
-        "CustomUser", on_delete=models.SET_NULL, null=True, blank=True
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
     )
     task_type = models.CharField(max_length=2, choices=TASK_CHOICES, default="Cl")
 

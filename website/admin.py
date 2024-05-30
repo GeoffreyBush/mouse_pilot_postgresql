@@ -4,8 +4,9 @@ from django.contrib.auth.admin import UserAdmin
 from mice_repository.models import Mouse
 from stock_cage.models import StockCage
 
-from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import Comment, CustomUser, Project, Strain
+from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
+from .models import Comment, Project, Strain
+from system_users.models import CustomUser
 
 
 # Changes what attributes are displayed and which attributes you can filter by in admin page

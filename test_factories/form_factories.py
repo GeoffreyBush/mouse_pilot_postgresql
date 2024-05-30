@@ -8,7 +8,8 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.forms import CustomUserCreationForm, RequestForm
+from website.forms import RequestForm
+from system_users.forms import CustomUserCreationForm
 
 # Can rewrite these factories to make better use of kwargs, requiring less repeating code
 

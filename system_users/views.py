@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
-from website.forms import CustomUserCreationForm
+from system_users.forms import CustomUserCreationForm
 
 
 class SignUpView(CreateView):
@@ -20,4 +20,4 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
 
-    return render(request, "signup.html", {"form": form})
+    return render(request, "registration/signup.html", {"form": form})

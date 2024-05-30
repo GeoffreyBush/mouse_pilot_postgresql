@@ -5,7 +5,6 @@ from django.urls import path
 import mice_repository.views
 
 from . import views
-from .views import SignUpView
 
 # Unsorted URLs
 urlpatterns = [
@@ -56,8 +55,7 @@ urlpatterns += [
     path("show_message/<int:request_id>/", views.show_message, name="show_message"),
 ]
 
-# Login URLs
-urlpatterns += [path("signup/", SignUpView.as_view(), name="signup")]  # noqa: F405
+
 
 # if DEBUG is true
 if settings.DEBUG:

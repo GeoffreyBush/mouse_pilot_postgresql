@@ -1,5 +1,3 @@
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
@@ -9,65 +7,10 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.models import Request, Strain, CustomUser
+from website.models import Request, Strain
 
 
-##################
-### CUSTOMUSER ###
-##################
-class CustomUserTest(TestCase):
 
-    @classmethod
-    def setUp(self):
-        self.user = UserFactory(username="testuser", email="testuser@example.com")
-
-    # User creation
-    def test_user_creation(self):
-        self.assertIsInstance(self.user, CustomUser)
-
-    # Username top short
-
-    # Username too long
-
-    # Try to create a user with a duplicate username
-    def test_user_with_duplicate_username(self):
-        with self.assertRaises(IntegrityError):
-            UserFactory(username="testuser")
-
-    # Try to create a user with a duplicate email
-    def test_user_with_duplicate_email(self):
-        with self.assertRaises(IntegrityError):
-            UserFactory(email="testuser@example.com")
-
-    # Password length too short
-    def test_password_length(self):
-        with self.assertRaises(ValidationError):
-            validate_password("short")
-
-    # Password length too long
-
-    # Password too simple
-    def test_password_complexity(self):
-        with self.assertRaises(ValidationError):
-            validate_password("12345678")
-
-    # Password too common
-    def test_password_common(self):
-        with self.assertRaises(ValidationError):
-            validate_password("password")
-
-    # Password too similar to username
-    def test_password_similar_to_username(self):
-        with self.assertRaises(ValidationError):
-            validate_password("testuser", self.user)
-
-    # Missing email
-
-    # Email too short
-
-    # Email too long
-    
-    # Incorrect email format
 
 
 ###############
