@@ -62,6 +62,7 @@ class CustomUserCreationFormFactory:
             "password2": password2,
         }
 
+
 class RequestFormFactory:
 
     @staticmethod
@@ -85,7 +86,6 @@ class RequestFormFactory:
             "researcher": UserFactory().id,
             "new_message": "Test message",
         }
-        
 
 
 class RepositoryMiceFormFactory:
