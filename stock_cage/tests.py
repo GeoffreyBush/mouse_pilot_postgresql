@@ -17,17 +17,16 @@ from website.models import Strain
 class StockCageModelTestCase(TestCase):
     def setUp(self):
         self.cage = StockCageFactory()
-        self.cage.mice.add(MouseFactory(), MouseFactory())
+        self.mouse1, self.mouse2 = MouseFactory(stock_cage=self.cage), MouseFactory(stock_cage=self.cage)
 
     # Check StockCageFactory works
     def test_stock_cage_factory(self):
         self.assertEqual(StockCage.objects.count(), 1)
         self.assertEqual(self.cage.cage_id, 1)
 
-    # Mice many-to-many
+    # one-to-many relationship between StockCage and Mouse works with mouse.related_name attribute
     def test_stock_mice(self):
         self.assertEqual(self.cage.mice.count(), 2)
-
 
 class BatchMiceFromBreedingCageFormTestCase(TestCase):
     def setUp(self):

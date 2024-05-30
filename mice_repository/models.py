@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-# Create your models here.
+# Culled boolean attribute will be useful
 class Mouse(models.Model):
 
     EARMARK_CHOICES_PAIRED = [
@@ -34,7 +34,13 @@ class Mouse(models.Model):
     )
     dob = models.DateField(db_column="Date of Birth", null=False, blank=False)
 
-    # Culled boolean attribute will be useful
+    stock_cage = models.ForeignKey(
+        "stock_cage.StockCage",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="mice",
+    )
 
     mother = models.ForeignKey(
         "self",
@@ -74,7 +80,7 @@ class Mouse(models.Model):
         db_column="Coat", max_length=20, null=True, blank=True, default=""
     )
 
-    # Think result should be a set of choices
+    # Result could be a set of choices?
     result = models.CharField(
         db_column="Result", max_length=20, null=True, blank=True, default=""
     )
