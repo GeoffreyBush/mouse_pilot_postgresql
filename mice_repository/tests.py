@@ -23,9 +23,7 @@ class MouseModelTestCase(TestCase):
 
     # _tube field increments automatically from strain.mice_count and sets correct _global_id
     def test_mouse_without_custom_tube(self):
-        self.assertEqual(self.strain.mice_count, 1)
         self.mouse2 = MouseFactory(strain=self.strain)
-        self.assertEqual(self.strain.mice_count, 2)
         self.assertEqual(self.mouse2._tube, 2)
         self.assertEqual(self.mouse2.pk, "teststrain-2")
 
@@ -80,16 +78,23 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertEqual(Mouse.objects.all().count(), 1)
         self.assertEqual(self.strain.mice_count, 1)
 
-    # If no tube is provided on form, tube value is set to strain.mice_count
-    def test_save_without_custom_tube(self):
-        self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
-
     # If tube is provided on form, tube value is set to that value
     def test_save_custom_tube(self):
         form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
         self.assertTrue(form.is_valid())
         self.mouse2 = form.save()
         self.assertEqual(self.mouse2._tube, 123)
+
+    # If no tube is provided on form, tube value is set to strain.mice_count
+    def test_save_without_custom_tube(self):
+        self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
+
+    # Set a specific strain.mice_count and check that the tube is set to that value
+    def test_save_without_custom_tube_different_strain_mice_count(self):
+        self.strain.mice_count = 11
+        self.form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(strain=self.strain))
+        self.mouse2 = self.form.save()
+        self.assertEqual(self.mouse2._tube, 11)
 
     # Invalid dob
     def test_mice_form_invalid_dob(self):

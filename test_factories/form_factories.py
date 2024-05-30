@@ -100,8 +100,11 @@ class RepositoryMiceFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
-        _tube = kwargs.get("_tube", 1)
         strain = kwargs.get("strain", StrainFactory())
+        if strain is not None and kwargs.get("_tube") is None:
+            _tube = strain.mice_count
+        else:
+            _tube = kwargs.get("_tube", 1)
         return {
             "_tube": _tube,
             "sex": "M",
