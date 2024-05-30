@@ -80,7 +80,9 @@ class ProjectMiceFormTestCase(TestCase):
 class CustomUserCreationFormTest(TestCase):
 
     def setUp(self):
-        self.form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data()
+        )
 
     # Valid data
     def test_custom_user_creation_form_valid_data(self):
@@ -88,16 +90,17 @@ class CustomUserCreationFormTest(TestCase):
 
     # Empty username
     def test_custom_user_creation_form_empty_username(self):
-        self.form = CustomUserCreationForm(data=CustomUserCreationFormFactory.missing_username())
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.missing_username()
+        )
         self.assertIn("username", self.form.errors)
 
-    
     # Empty email
     def test_custom_user_creation_form_empty_email(self):
         pass
-        #self.assertIn("email", self.form.errors)
-        #self.assertIn("password1", self.form.errors)
-        #self.assertIn("password2", self.form.errors)
+        # self.assertIn("email", self.form.errors)
+        # self.assertIn("password1", self.form.errors)
+        # self.assertIn("password2", self.form.errors)
 
     # Incorrect email format
 
