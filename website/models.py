@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import F
 
 
 class CustomUser(AbstractUser):
@@ -92,7 +91,7 @@ class Strain(models.Model):
         db_column="Mice Count", default=0, null=False, blank=False
     )
 
-    # Could use F() expressions for incremenet and decrement for better DB concurrency 
+    # Could use F() expressions for incremenet and decrement for better DB concurrency
     def increment_mice_count(self):
         self.mice_count = self.mice_count + 1
         self.save(update_fields=["mice_count"])
