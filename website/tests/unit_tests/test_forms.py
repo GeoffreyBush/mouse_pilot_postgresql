@@ -74,7 +74,6 @@ class ProjectMiceFormTestCase(TestCase):
 
 
 
-
 ############################
 ### CUSTOMUSER EDIT FORM ###
 ############################
