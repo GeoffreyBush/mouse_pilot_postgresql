@@ -140,9 +140,7 @@ class CustomUserCreationFormTest(TestCase):
     # Empty password
     def test_custom_user_creation_form_empty_password(self):
         self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(
-                password1="", password2=""
-            )
+            data=CustomUserCreationFormFactory.valid_data(password1="", password2="")
         )
         self.assertIn("password1", self.form.errors)
         self.assertIn("password2", self.form.errors)
