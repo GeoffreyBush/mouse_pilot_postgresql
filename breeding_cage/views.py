@@ -49,3 +49,17 @@ def edit_breeding_cage(request, box_no):
     else:
         form = BreedingCageForm(instance=cage)
     return render(request, "edit_breeding_cage.html", {"form": form})
+
+
+@login_required
+def transfer_to_stock_cage(request, box_no):
+    cage = BreedingCage.objects.get(box_no=box_no)
+    if request.method == "POST":
+        form = TransferToStockForm(request.POST, instance=cage)
+        if form.is_valid():
+            form.save()
+            return redirect("breeding_cage:list_breeding_cages")
+    else:
+        form = TransferToStockForm(instance=cage)
+    return render(request, "transfer_to_stock_cage.html", {"form": form})
+

@@ -8,7 +8,7 @@ class BreedingCageForm(forms.ModelForm):
 
     box_no = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}),
-        required=True,  # Prevents from creating duplcate boxes when editing a breeding cage
+        required=True,
         label="Box Number",
     )
     mother = forms.ModelChoiceField(
@@ -82,3 +82,15 @@ class BreedingCageForm(forms.ModelForm):
         model = BreedingCage
         fields = "__all__"
         exclude = ["transferred_to_stock", "id"]
+
+
+class TransferToStockForm(forms.ModelForm):
+    transferred_to_stock = forms.BooleanField(
+        required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
+    )
+
+    class Meta:
+        model = Mouse
+        fields = "__all__"
+        exclude = []
+
