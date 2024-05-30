@@ -2,8 +2,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from mice_repository.models import Mouse
-from website.models import Strain
 from stock_cage.models import StockCage
+from website.models import Strain
 
 
 # Need to create validation handling for readonly attributes here, add handling to view
@@ -47,7 +47,9 @@ class BatchFromBreedingCageForm(forms.ModelForm):
     )
     dob = forms.DateField(
         required=True,
-        widget=forms.DateInput(attrs={"class": "form-control", "readonly": "readonly", "type": "date"}),
+        widget=forms.DateInput(
+            attrs={"class": "form-control", "readonly": "readonly", "type": "date"}
+        ),
     )
 
     # Override clean() to hrow ValidationError if new _global_id is already in use

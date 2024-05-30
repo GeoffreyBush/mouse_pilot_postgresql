@@ -30,6 +30,7 @@ class StockCageModelTestCase(TestCase):
     def test_stock_mice(self):
         self.assertEqual(self.cage.mice.count(), 2)
 
+
 class BatchFromBreedingCageFormTestCase(TestCase):
     def setUp(self):
         self.strain = Strain.objects.create(strain_name="TestStrain")
@@ -90,7 +91,6 @@ class TransferToStockCageViewTestCase(TestCase):
     # POST TransferToStockCageForm with valid data
     def test_transfer_to_stock_cage_valid_data(self):
         pass
-
 
     # POST TransferToStockCageForm with invalid data
 

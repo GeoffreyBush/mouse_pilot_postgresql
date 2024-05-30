@@ -4,9 +4,9 @@ from breeding_cage.forms import BreedingCageForm
 from test_factories.model_factories import (
     MouseFactory,
     ProjectFactory,
+    StockCageFactory,
     StrainFactory,
     UserFactory,
-    StockCageFactory,
 )
 from website.forms import CustomUserCreationForm, RequestForm
 
