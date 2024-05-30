@@ -3,7 +3,7 @@ import datetime
 import django_filters
 from django import forms
 
-from website.constants import EARMARK_CHOICES_PAIRED
+from test_factories.constants import EARMARK_CHOICES_PAIRED
 
 
 # This filter doesn't meet requirements - will only filter mice born on a specific date, not a range

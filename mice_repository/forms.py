@@ -2,7 +2,7 @@ from django import forms
 
 from mice_repository.models import Mouse
 from stock_cage.models import StockCage
-from website.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
+from test_factories.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from website.models import CustomUser, Project, Strain
 
 
