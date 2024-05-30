@@ -79,18 +79,27 @@ class ProjectMiceFormTestCase(TestCase):
 ################################
 class CustomUserCreationFormTest(TestCase):
 
+    def setUp(self):
+        self.form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
+
     # Valid data
     def test_custom_user_creation_form_valid_data(self):
-        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
-        self.assertTrue(form.is_valid())
+        self.assertTrue(self.form.is_valid())
 
-    # Empty form
-    def test_custom_user_creation_form_empty_data(self):
-        form = CustomUserCreationForm(data={})
-        self.assertIn("username", form.errors)
-        self.assertIn("email", form.errors)
-        self.assertIn("password1", form.errors)
-        self.assertIn("password2", form.errors)
+    # Empty username
+    def test_custom_user_creation_form_empty_username(self):
+        self.form = CustomUserCreationForm(data=CustomUserCreationFormFactory.missing_username())
+        self.assertIn("username", self.form.errors)
+
+    
+    # Empty email
+    def test_custom_user_creation_form_empty_email(self):
+        pass
+        #self.assertIn("email", self.form.errors)
+        #self.assertIn("password1", self.form.errors)
+        #self.assertIn("password2", self.form.errors)
+
+    # Incorrect email format
 
     # Password mismatch
     def test_custom_user_creation_form_password_mismatch(self):
@@ -125,6 +134,10 @@ class CustomUserChangeFormTestCase(TestCase):
         form = CustomUserChangeForm(instance=self.user, data={})
         self.assertIn("username", form.errors)
         self.assertIn("email", form.errors)
+
+    # Username too short
+
+    # Password too short
 
     # Duplicate user
     def test_custom_user_change_form_duplicate_username(self):

@@ -58,6 +58,15 @@ class CustomUserCreationFormFactory:
         }
 
     @staticmethod
+    def missing_username(**kwargs):
+        return {
+            "username": "",
+            "email": "test@example.com",
+            "password1": "testpassword",
+            "password2": "testpassword",
+        }
+
+    @staticmethod
     def mismatched_passwords(**kwargs):
         return {
             "username": "testuser",
