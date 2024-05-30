@@ -1,0 +1,44 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Edit Breeding Cage{% endblock %}
+{% block content %}
+
+<div class="container p-3">
+    <h2 class="my-3">
+        Edit Breeding Cage
+    </h2>
+    <div class="col-10">
+        <ul class="list-group">
+            <li class="list-group-item">
+                This page is for editing an existing breeding cage to reflect changes such as sexing, weaning, or death of pups.
+            </li>
+        </ul>
+        <button class="btn btn-secondary ml-auto mt-4">
+            <a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
+                Back to Breeding Cages
+            </a>
+        </button>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-1">
+            {% for field in form %}
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-success mt-2" type="submit">
+            Confirm Edit
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+name: Security Check
+
+on:
+  push:
+
+jobs:
+  generate_security_artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Run Bandit Scan
+        run: bandit -r . --severity-level medium -f html -o bandit-report.html
+      - name: Upload Bandit Scan Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: bandit-findings
+          path: bandit-report.html

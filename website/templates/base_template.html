@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base_template.css' %}">
+</head>
+
+<body>
+
+    <!-- Vertical navigation bar -->
+    <div class="container-fluid px-0 min-vh-100 d-flex sticky-bottom">
+        <div class="nav nav-pills flex-column bg-dark p-3 sticky-bottom">
+            <a class="nav-link text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</a>
+            <div class="mt-2">
+                <div class="text-bg-dark fw-bold fs-5">General</div>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Dashboard</s></a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Requests</s></a>
+                <a class="nav-link text-bg-dark p-2" href="{% url 'mice_repository:mice_repository' %}">Mice Repository</a>
+            </div>
+            <div class="mt-2">
+                <div class="text-bg-dark fw-bold fs-5">Users</div>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Projects</s></a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Experimental Cages</s></a>
+            </div>
+            <div class="mt-2">
+                <div class="text-bg-dark fw-bold fs-5">Breeding Wing</div>
+                <a class="nav-link text-bg-dark p-2" href="{% url 'breeding_cage:list_breeding_cages' %}">Breeding Cages</a>
+                <a class="nav-link text-bg-dark p-2" href="{% url 'stock_cage:list_stock_cages' %}">Stock Cages</a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Strain Management</s></a>
+            </div>
+            <div class="mt-2">
+                <div class="text-bg-dark fw-bold fs-5">Utility</div>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Edit History</s></a>
+                <a class="nav-link text-bg-dark p-2" href="/admin/">Admin</a>
+                <a class="nav-link text-bg-dark p-2" href="#"><s>Help</s></a>
+            </div> 
+        </div>
+        
+        <div class="flex-grow-1 ">
+
+            <!-- Site header -->
+            <header class="bg-white py-3 border-bottom">
+                <div class="container-fluid d-flex justify-content-end align-items-center ">
+                    {% if user.is_authenticated %}
+                        <span class="p-1">
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="nav-link text-primary btn btn-link" type="submit">Logout
+                                    <img src="{% static '/media/logout-svgrepo-com.svg' %}" alt="logout" class="me-2" style="height: 2em"> 
+                                </button>
+                            </form>
+                        </span>
+                    {% endif %}
+                </div>
+            </header>
+
+            
+            <div class="col">
+                <div class="d-flex p-4">
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <!-- The form will be loaded into this div -->
+                                <div id="modal-body-content"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main page content -->
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

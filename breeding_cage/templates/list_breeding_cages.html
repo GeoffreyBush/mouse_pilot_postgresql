@@ -1,0 +1,34 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Breeding Cages{% endblock %} 
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Header and buttons -->
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-between " >
+            <h1 class="project-header-text">Breeding Cage List</h1>
+            <div>
+                <a href="{% url 'breeding_cage:add_breeding_cage' %}" class="btn btn-primary">Add Breeding Cage</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show breeding cages -->
+    <div class="row">
+        {% for cage in mycages %}
+        <div class="col">
+            <div class="card card-body square-cage mb-4 shadow-sm">
+                <h5 class="card-title">
+                    <a class="text-decoration-none" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}">{{ cage.box_no }}</a>
+                </h5>
+                <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
+                    <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

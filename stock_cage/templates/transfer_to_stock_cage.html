@@ -1,0 +1,47 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Add Mouse to Repo{% endblock %}
+{% block content %}
+<div class="container-fluid">
+
+
+<!-- Add dob, strain, mother, and father information back in as information in the header-->
+
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tube</th>
+                    <th>Sex</th>
+                    <th>Box</th>
+                    <th>DoB</th>
+                    <th>Coat</th>
+                    <th>Strain</th>
+                    <th>Mother</th>
+                    <th>Father</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                    <tr>
+                        <td>{{ form.tube }}</td>
+                        <td>{{ form.sex }}</td>
+                        <td>{{ form.stock_cage }}</td>
+                        <td>{{ form.dob }}</td>
+                        <td>{{ form.coat }}</td>
+                        <td>{{ form.strain }}</td>
+                        <td>{{ form.mother }}</td>
+                        <td>{{ form.father }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+{% endblock %}
+

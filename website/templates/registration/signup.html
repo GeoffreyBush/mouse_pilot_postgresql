@@ -1,0 +1,49 @@
+{% extends "base_template.html" %} 
+{% load static %} 
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="projects-container" style="padding: 30px;"> 
+  <h2>Sign Up</h2>
+  <form method="post" class="needs-validation" novalidate style="padding-top: 16px">
+    {% csrf_token %}
+    <table class="signup-table-container">
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>
+          <div>{{ form.username }}</div>
+          <div class="tooltip_text_signup">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ form.email.label_tag }}</td>
+        <td>{{ form.email }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password1.label_tag }}</td>
+        <td>
+          <div>{{ form.password1 }}</div>
+          <ul class="tooltip_text_signup" style="list-style-type: none;">
+            <li>Your password can't be too similar to your other personal information.</li>
+            <li>Your password must contain at least 8 characters.</li>
+            <li>Your password can't be a commonly used password.</li>
+            <li>Your password can't be entirely numeric.</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ form.password2.label_tag }}</td>
+        <td>
+          <div>{{ form.password2 }}</div>
+          <div class="tooltip_text_signup">Enter the same password as before, for verification.</div>
+        </td>
+      </tr>
+    </table>
+    <div class="signup-button">
+      <button type="submit" class="btn btn-primary menu-button menu-button-text">Sign Up</button></td>
+    </div>
+    </form>
+</div>
+
+{% endblock %}

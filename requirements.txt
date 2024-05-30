@@ -1,0 +1,10 @@
+Django
+django-extensions
+Faker
+colorama
+django-filter
+django-simple-history
+selenium
+chromedriver-autoinstaller
+coverage
+factory_boy

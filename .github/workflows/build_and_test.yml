@@ -1,0 +1,59 @@
+name: Build and Test
+
+on:
+  push:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    #- name: Install Chrome
+      #run: |
+        #sudo apt-get update
+        #sudo apt-get install -y google-chrome-stable
+        
+   # - name: Configure Chrome options
+      #run: |
+        #google-chrome --version
+        #chromedriver --version
+        #python <<EOF
+        #from selenium import webdriver
+        #from selenium.webdriver.chrome.options import Options
+        #chrome_options = Options()
+        #chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--disable-dev-shm-usage')
+        #chrome_options.add_argument('--headless')
+        #driver = webdriver.Chrome(options=chrome_options)
+        #driver.quit()
+        #EOF
+
+    - name: Test main website app
+      run: | 
+        python manage.py test website.tests.unit_tests.test_models
+        python manage.py test website.tests.unit_tests.test_forms
+        python manage.py test website/tests/unit_tests/view_tests/
+        python manage.py test website/tests/integration_tests
+                
+    - name: Test mice_repository app
+      run: python manage.py test mice_repository
+
+    - name: Test breeding_cage app
+      run: python manage.py test breeding_cage
+
+    - name: Test stock_cage app
+      run: python manage.py test stock_cage
+

@@ -1,0 +1,53 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Add Mouse to Repo{% endblock %}
+{% block content %}
+<div class="container p-3">
+    <h2 class="my-3">
+        Add a Pre-existing Mouse to the Central Repository
+    </h2>
+    <div class="col-10">
+        <ul class="list-group">
+            <li class="list-group-item">
+                This page is for adding a mouse that needs to be imported to the MousePilot central repository manually. For example, if the mouse was bred before MousePilot was deployed at the facility, or if the mouse was purchased from a vendor.
+            </li>
+            <li class="list-group-item">
+                For now, you can only add one mouse at a time. Future plans include functionality to add multiple existing mice at once through a spreadsheet import or batch creation.
+            </li>  
+            <li class="list-group-item">
+                <b>Only Strain, Sex, and Dob are absolutely required</b> 
+            </li>
+            <li class="list-group-item">
+                If Tube is left blank, it will be auto-generated based on the total count of mice for that strain. For example, if there are 50 mice in Strain A, the next mouse added to Strain A will have a Tube of 51
+            </li>
+            <li class="list-group-item list-group-item-warning">
+                This page is <u><b>not</b></u> for moving a mouse from breeding cages to stock cages and you would create duplicate mice by doing so. 
+                Use the "Transfer to Stock" functionality found in <a href="{% url 'breeding_cage:list_breeding_cages' %}">Breeding Cages</a> for that purpose.
+            </li>
+        </ul>
+        <a class="btn btn-secondary mt-4" href="{% url 'mice_repository:mice_repository' %}">
+            Back to Repository
+        </a>
+    </div>
+</div>
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-1">
+            {% for field in mice_form %}
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-success mt-2" type="submit">
+            Confirm Add Mouse
+        </button>
+    </form>
+</div>
+{% endblock %}

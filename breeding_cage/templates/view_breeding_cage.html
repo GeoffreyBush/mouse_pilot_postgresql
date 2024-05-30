@@ -1,0 +1,66 @@
+{% extends 'base_template.html' %} {% load static %} 
+{% block title %}View Breeding Cages{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="d-flex align-items-center justify-content-start overflow-auto">
+    	<h1 class="h4">Cage Number: {{ mycage.box_no }}</h1>
+  	</div>
+  	<table class="table">
+		<tbody>
+			<tr>
+				<td>Male ID:</td>
+				<td>{{ mycage.father }}</td>
+				<td>Dwean:</td>
+				<td>{{ mycage.date_wean }}</td>
+			</tr>
+			<tr>
+				<td>Female ID:</td>
+				<td>{{ mycage.mother }}</td>
+				<td>Nwean:</td>
+				<td>{{ mycage.number_wean }}</td>
+			</tr>
+			<tr>
+				<td>Dborn:</td>
+				<td>{{ mycage.date_born }}</td>
+				<td>C/To:</td>
+				<td>{{ mycage.cull_to }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>Nborn:</td>
+				<td>{{ mycage.number_born }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>PWL:</td>
+				<td>{{ mycage.pwl }}</td>
+			</tr>
+		<tbody>
+	</table>
+
+	<div class="d-flex justify-content-around">
+		<button class="btn btn-primary">
+			<a href="{% url 'breeding_cage:edit_breeding_cage' mycage.box_no %}" class="text-decoration-none text-white">
+				Edit Cage
+			</a>
+		</button>
+		<button class="btn btn-primary">
+			<a href="{% url 'stock_cage:transfer_to_stock_cage' mycage.box_no %}" class="text-decoration-none text-white">
+				Transfer to Stock
+			</a>
+		</button>
+		
+		<button class="btn btn-secondary">
+			<a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
+				Back to Breeding Cages
+			</a>
+		</button>
+
+	</div>
+	<p>For now there are some temporary fields you need to manually edit on a breeding cage to successfully Transfer to Stock: Current Male Pups and Current Female Pups. These values can be changed by the Edit Cage button. Will switch how the final male and female pup count before transfer is calculated to use the correct attribute in the future, but couldn't remember if it was Nwean or PWL. Still unsure what all the breeding cage and stock cage values mean and how they relate to each other.</p>
+  
+</div>
+{% endblock %}

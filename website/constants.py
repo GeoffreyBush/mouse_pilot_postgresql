@@ -1,0 +1,108 @@
+SEX_CHOICES = [
+    ("M", "Male"),
+    ("F", "Female"),
+]
+
+TRUE_OR_FALSE = [
+    (False, "No"),
+    (True, "Yes"),
+]
+
+STRAINS = [
+    "DDY",
+    "EL",
+    "HR",
+    "ICGN",
+    "MPS",
+    "YPC," "Yok:ddY",
+    "Yok:ICR",
+    "4C30",
+    "CD40L",
+    "CG",
+    "GalA",
+    "GalB",
+    "GalF",
+    "GM1sy",
+    "BKO",
+    "AK",
+    "BK",
+    "CK",
+    "GFP",
+]
+
+EARMARK_CHOICES_PAIRED = [
+    ("", ""),
+    ("TR", "TR"),
+    ("TL", "TL"),
+    ("BR", "BR"),
+    ("BL", "BL"),
+    ("TRTL", "TRTL"),
+    ("TRBR", "TRBR"),
+    ("TRTL", "TRTL"),
+    ("TLBR", "TLBR"),
+    ("TLBL", "TLBL"),
+    ("BRBL", "BRBL"),
+]
+
+EARMARK_CHOICES = [
+    "",
+    "TR",
+    "TL",
+    "BR",
+    "BL",
+    "TRTL",
+    "TRBR",
+    "TRTL",
+    "TLBR",
+    "TLBL",
+    "BRBL",
+]
+
+PROJECT_NAMES = [
+    "BioGenX",
+    "PharmaCare Initiative",
+    "GenoMed Solutions",
+    "BioTech Innovations",
+    "PharmaVision",
+    "GeneThera",
+    "BioWellness",
+    "PharmaNext",
+    "GeneGenie Project",
+    "BioFusion Labs",
+    "PharmaGenomics Initiative",
+    "EcoBio Pharma",
+    "BioSynth Research",
+    "PharmaQuest",
+    "BioHealth Solutions",
+    "PharmaTech Ventures",
+    "GeneWise Initiative",
+    "BioRx Innovations",
+    "PharmaPro Technologies",
+    "CellGenetics Project",
+    "BioVista Innovations",
+    "PharmaSynth Labs",
+    "GeneXcel Solutions",
+    "BioTech Nexus",
+    "PharmaPlus",
+    "GeneScape Project",
+    "BioMed Innovations",
+    "PharmaLogic Initiative",
+    "GeneHorizon",
+    "BioPath Solutions",
+]
+
+RESEARCH_AREAS = [
+    "Carcinogenesis",
+    "Obesity",
+    "Diabetes",
+    "Infection",
+    "Immunodepression",
+    "Brain anomaly",
+    "Epilepsy",
+    "Alopecia",
+    "Nephrosis",
+    "Apoptosis",
+    "Cancer",
+    "Muscular diseases",
+    "Thromboembolism",
+]
