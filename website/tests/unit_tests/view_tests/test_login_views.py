@@ -11,7 +11,7 @@ class SignUpViewTest(TestCase):
 
     def setUp(self):
         self.valid_data = CustomUserCreationFormFactory.valid_data()
-        self.invalid_data = CustomUserCreationFormFactory.mismatched_passwords()
+        self.invalid_data = CustomUserCreationFormFactory.valid_data(username=None)
 
     # Correct form used
     def test_signup_view_attributes(self):
