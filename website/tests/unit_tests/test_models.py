@@ -132,8 +132,7 @@ class StrainModelTestCase(TestCase):
 
     # Changing the strain of a mouse should increment the new strain's mice count
 
-    # Changing the strain of a mouse should decrement the old strain's mice count 
-
+    # Changing the strain of a mouse should decrement the old strain's mice count
 
 
 ###############
