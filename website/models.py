@@ -92,14 +92,15 @@ class Strain(models.Model):
         db_column="Mice Count", default=0, null=False, blank=False
     )
 
+    # Could use F() expressions for incremenet and decrement for better DB concurrency 
     def increment_mice_count(self):
-        self.mice_count = F("mice_count") + 1
+        self.mice_count = self.mice_count + 1
         self.save(update_fields=["mice_count"])
         self.refresh_from_db()
 
     def decrement_mice_count(self):
         if self.mice_count > 0:
-            self.mice_count = F("mice_count") - 1
+            self.mice_count = self.mice_count - 1
             self.save(update_fields=["mice_count"])
             self.refresh_from_db()
 

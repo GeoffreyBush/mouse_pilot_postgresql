@@ -119,6 +119,7 @@ class StrainModelTestCase(TestCase):
     # Decrement mice count from 1 to 0
     def test_strain_mice_count_decrement_from_one(self):
         self.strain.mice_count = 1
+        self.assertEqual(self.strain.mice_count, 1)
         self.strain.decrement_mice_count()
         self.assertEqual(self.strain.mice_count, 0)
 

@@ -126,16 +126,24 @@ class CustomUserCreationFormTest(TestCase):
     # Empty username
     def test_custom_user_creation_form_empty_username(self):
         self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.missing_username()
+            data=CustomUserCreationFormFactory.valid_data(username=None)
         )
         self.assertIn("username", self.form.errors)
 
     # Empty email
     def test_custom_user_creation_form_empty_email(self):
-        pass
-        # self.assertIn("email", self.form.errors)
-        # self.assertIn("password1", self.form.errors)
-        # self.assertIn("password2", self.form.errors)
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data(email=None)
+        )
+        self.assertIn("email", self.form.errors)
+
+    # Empty password
+    def test_custom_user_creation_form_empty_password(self):
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data(password1=None, password2=None)
+        )
+        self.assertIn("password1", self.form.errors)
+        self.assertIn("password2", self.form.errors)
 
     # Incorrect email format
     def test_custom_user_creation_form_invalid_email(self):
