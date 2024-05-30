@@ -7,16 +7,25 @@ from website.models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
 
     username = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Username"}), label="Username"
+        widget=forms.TextInput(attrs={"placeholder": "Username"}), 
+        label="Username",
+        required=True,
+        min_length=5,
+        max_length=20,
     )
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={"placeholder": "Email"}), label="Email"
     )
     password1 = forms.CharField(
-        label="Password", widget=forms.PasswordInput(attrs={"placeholder": "Password"})
+        label="Password", 
+        min_length=8,
+        max_length=20,
+        widget=forms.PasswordInput(attrs={"placeholder": "Password"})
     )
     password2 = forms.CharField(
         label="Confirm Password",
+        min_length=8,
+        max_length=20,
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm Password"}),
     )
 

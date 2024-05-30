@@ -50,31 +50,17 @@ class CustomUserCreationFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
-        return {
-            "username": "testuser",
-            "email": "test@example.com",
-            "password1": "testpassword",
-            "password2": "testpassword",
-        }
+        username = kwargs.get("username", "testuser")
+        email = kwargs.get("email", "test@example.com")
+        password1 = kwargs.get("password1", "testpassword")
+        password2 = kwargs.get("password2", "testpassword")
 
-    @staticmethod
-    def missing_username(**kwargs):
         return {
-            "username": "",
-            "email": "test@example.com",
-            "password1": "testpassword",
-            "password2": "testpassword",
+            "username": username,
+            "email": email,
+            "password1": password1,
+            "password2": password2,
         }
-
-    @staticmethod
-    def mismatched_passwords(**kwargs):
-        return {
-            "username": "testuser",
-            "email": "test@example.com",
-            "password1": "testpass123",
-            "password2": "wrongpass",
-        }
-
 
 class RequestFormFactory:
 
@@ -99,6 +85,7 @@ class RequestFormFactory:
             "researcher": UserFactory().id,
             "new_message": "Test message",
         }
+        
 
 
 class RepositoryMiceFormFactory:
