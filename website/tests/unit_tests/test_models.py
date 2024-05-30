@@ -9,7 +9,7 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.models import Request, Strain
+from website.models import Request, Strain, CustomUser
 
 
 ##################
@@ -20,6 +20,14 @@ class CustomUserTest(TestCase):
     @classmethod
     def setUp(self):
         self.user = UserFactory(username="testuser", email="testuser@example.com")
+
+    # User creation
+    def test_user_creation(self):
+        self.assertIsInstance(self.user, CustomUser)
+
+    # Username top short
+
+    # Username too long
 
     # Try to create a user with a duplicate username
     def test_user_with_duplicate_username(self):
@@ -36,6 +44,8 @@ class CustomUserTest(TestCase):
         with self.assertRaises(ValidationError):
             validate_password("short")
 
+    # Password length too long
+
     # Password too simple
     def test_password_complexity(self):
         with self.assertRaises(ValidationError):
@@ -50,6 +60,14 @@ class CustomUserTest(TestCase):
     def test_password_similar_to_username(self):
         with self.assertRaises(ValidationError):
             validate_password("testuser", self.user)
+
+    # Missing email
+
+    # Email too short
+
+    # Email too long
+    
+    # Incorrect email format
 
 
 ###############

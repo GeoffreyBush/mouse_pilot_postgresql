@@ -104,6 +104,27 @@ class CustomUserCreationFormTest(TestCase):
         )
         self.assertIn("username", self.form.errors)
 
+    # Empty username
+    def test_custom_user_creation_form_empty_username(self):
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data(username="")
+        )
+        self.assertIn("username", self.form.errors)
+
+    # Duplicate username
+    def test_custom_user_creation_form_duplicate_username(self):
+        UserFactory(username="testuser")
+        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
+        self.assertIn("username", form.errors)
+
+    # Empty password
+    def test_custom_user_creation_form_empty_password(self):
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data(password1="", password2="")
+        )
+        self.assertIn("password1", self.form.errors)
+        self.assertIn("password2", self.form.errors)
+
     # Password too short
     def test_custom_user_creation_form_short_password(self):
         self.form = CustomUserCreationForm(
@@ -123,35 +144,6 @@ class CustomUserCreationFormTest(TestCase):
         )
         self.assertIn("password1", self.form.errors)
 
-    # Empty username
-    def test_custom_user_creation_form_empty_username(self):
-        self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(username="")
-        )
-        self.assertIn("username", self.form.errors)
-
-    # Empty email
-    def test_custom_user_creation_form_empty_email(self):
-        self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(email="")
-        )
-        self.assertIn("email", self.form.errors)
-
-    # Empty password
-    def test_custom_user_creation_form_empty_password(self):
-        self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(password1="", password2="")
-        )
-        self.assertIn("password1", self.form.errors)
-        self.assertIn("password2", self.form.errors)
-
-    # Incorrect email format
-    def test_custom_user_creation_form_invalid_email(self):
-        self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(email="invalid_email")
-        )
-        self.assertIn("email", self.form.errors)
-
     # Password mismatch
     def test_custom_user_creation_form_password_mismatch(self):
         form = CustomUserCreationForm(
@@ -161,11 +153,24 @@ class CustomUserCreationFormTest(TestCase):
         )
         self.assertIn("password2", form.errors)
 
-    # Duplicate user
-    def test_custom_user_creation_form_duplicate_username(self):
-        UserFactory(username="testuser")
-        form = CustomUserCreationForm(data=CustomUserCreationFormFactory.valid_data())
-        self.assertIn("username", form.errors)
+    # Empty email
+    def test_custom_user_creation_form_empty_email(self):
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data(email="")
+        )
+        self.assertIn("email", self.form.errors)
+
+    # Incorrect email format
+    def test_custom_user_creation_form_invalid_email(self):
+        self.form = CustomUserCreationForm(
+            data=CustomUserCreationFormFactory.valid_data(email="invalid_email")
+        )
+        self.assertIn("email", self.form.errors)
+
+    # Email too short
+    
+    # Email too long
+
 
 
 ############################
