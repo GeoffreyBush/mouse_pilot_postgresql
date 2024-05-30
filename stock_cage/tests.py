@@ -50,13 +50,13 @@ class BatchFromBreedingCageFormTestCase(TestCase):
 
     # Missing tube number
     def test_missing_tube_number(self):
-        self.data.pop("_tube")
+        self.data.pop("tube")
         form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(form.is_valid())
 
-    # _tube must be an integer
+    # tube must be an integer
     def test_tube_number_not_integer(self):
-        self.data["_tube"] = "str"
+        self.data["tube"] = "str"
         self.form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 
@@ -64,7 +64,7 @@ class BatchFromBreedingCageFormTestCase(TestCase):
     def test_duplicate_global_id(self):
         self.mouse = MouseFactory(strain=self.strain)
         self.assertTrue(self.form.is_valid())
-        self.data["_tube"] = self.mouse._tube
+        self.data["tube"] = self.mouse._tube
         self.form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 

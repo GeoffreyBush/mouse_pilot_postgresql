@@ -160,7 +160,7 @@ class BatchFromBreedingCageFormFactory:
     def valid_data(**kwargs):
         strain = kwargs.get("strain", StrainFactory())
         return {
-            "_tube": 123,
+            "tube": 123,
             "sex": "M",
             "coat": "Black",
             "strain": strain,

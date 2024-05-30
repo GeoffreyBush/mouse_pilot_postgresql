@@ -9,7 +9,7 @@ from website.models import Strain
 # Need to create validation handling for readonly attributes here, add handling to view
 class BatchFromBreedingCageForm(forms.ModelForm):
 
-    _tube = forms.IntegerField(
+    tube = forms.IntegerField(
         required=True,
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
@@ -52,14 +52,22 @@ class BatchFromBreedingCageForm(forms.ModelForm):
         ),
     )
 
-    # Override clean() to hrow ValidationError if new _global_id is already in use
+    # Override clean() to throw ValidationError if new _global_id is already in use
     def clean(self):
         cleaned_data = super().clean()
-        _tube = cleaned_data.get("_tube")
+        tube = cleaned_data.get("tube")
         strain = cleaned_data.get("strain")
-        new_global_id = f"{strain.strain_name}-{_tube}"
+        new_global_id = f"{strain.strain_name}-{tube}"
         if Mouse.objects.filter(_global_id=new_global_id).exists():
             raise ValidationError("Global ID already in use")
+        
+    # Override save() method to convert tube field in form to _tube instance for Mouse model
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance._tube = self.cleaned_data["tube"]
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = Mouse
