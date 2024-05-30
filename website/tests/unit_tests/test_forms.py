@@ -126,14 +126,14 @@ class CustomUserCreationFormTest(TestCase):
     # Empty username
     def test_custom_user_creation_form_empty_username(self):
         self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(username=None)
+            data=CustomUserCreationFormFactory.valid_data(username="")
         )
         self.assertIn("username", self.form.errors)
 
     # Empty email
     def test_custom_user_creation_form_empty_email(self):
         self.form = CustomUserCreationForm(
-            data=CustomUserCreationFormFactory.valid_data(email=None)
+            data=CustomUserCreationFormFactory.valid_data(email="")
         )
         self.assertIn("email", self.form.errors)
 
@@ -141,7 +141,7 @@ class CustomUserCreationFormTest(TestCase):
     def test_custom_user_creation_form_empty_password(self):
         self.form = CustomUserCreationForm(
             data=CustomUserCreationFormFactory.valid_data(
-                password1=None, password2=None
+                password1="", password2=""
             )
         )
         self.assertIn("password1", self.form.errors)

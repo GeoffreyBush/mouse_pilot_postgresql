@@ -11,7 +11,6 @@ class SignUpViewTest(TestCase):
 
     def setUp(self):
         self.valid_data = CustomUserCreationFormFactory.valid_data()
-        self.invalid_data = CustomUserCreationFormFactory.valid_data(username=None)
 
     # Correct form used
     def test_signup_view_attributes(self):
@@ -32,7 +31,7 @@ class SignUpViewTest(TestCase):
 
     # POST invalid data
     def test_signup_view_post_invalid_data(self):
-        response = self.client.post(reverse("signup"), self.invalid_data)
+        response = self.client.post(reverse("signup"), CustomUserCreationFormFactory.valid_data(username=""))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "registration/signup.html")
         self.assertTrue(response.context["form"].errors)

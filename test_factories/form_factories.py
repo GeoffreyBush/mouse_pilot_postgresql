@@ -10,6 +10,7 @@ from test_factories.model_factories import (
 )
 from website.forms import CustomUserCreationForm, RequestForm
 
+# Can rewrite these factories to make better use of kwargs, requiring less repeating code
 
 class BreedingCageFormFactory:
 
