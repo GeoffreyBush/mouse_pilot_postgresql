@@ -10,7 +10,12 @@ from breeding_cage.models import BreedingCage
 from mice_repository.models import Mouse
 from stock_cage.models import StockCage
 from system_users.models import CustomUser
-from test_factories.constants import EARMARK_CHOICES, PROJECT_NAMES, RESEARCH_AREAS, STRAINS
+from test_factories.constants import (
+    EARMARK_CHOICES,
+    PROJECT_NAMES,
+    RESEARCH_AREAS,
+    STRAINS,
+)
 from website.models import Comment, Project, Strain
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
