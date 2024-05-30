@@ -47,7 +47,10 @@ jobs:
         python manage.py test website.tests.unit_tests.test_forms
         python manage.py test website/tests/unit_tests/view_tests/
         python manage.py test website/tests/integration_tests
-                
+               
+    - name: Test system_users app
+      run: python manage.py test system_users    
+
     - name: Test mice_repository app
       run: python manage.py test mice_repository
 
