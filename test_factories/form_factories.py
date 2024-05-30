@@ -6,6 +6,7 @@ from test_factories.model_factories import (
     ProjectFactory,
     StrainFactory,
     UserFactory,
+    StockCageFactory,
 )
 from website.forms import CustomUserCreationForm, RequestForm
 
@@ -150,7 +151,7 @@ class RepositoryMiceFormFactory:
         }
 
 
-class BatchMiceFromBreedingCageFormFactory:
+class BatchFromBreedingCageFormFactory:
     @staticmethod
     def create(**kwargs):
         pass
@@ -166,4 +167,5 @@ class BatchMiceFromBreedingCageFormFactory:
             "mother": MouseFactory(sex="F", strain=strain),
             "father": MouseFactory(sex="M", strain=strain),
             "dob": date.today(),
+            "stock_cage": StockCageFactory(),
         }

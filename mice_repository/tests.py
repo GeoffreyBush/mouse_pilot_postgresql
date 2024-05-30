@@ -99,7 +99,7 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertFalse(self.invalid_dob_form.is_valid())
         self.assertIn("dob", self.invalid_dob_form.errors)
 
-    # Can't alter mouse._global_id on form
+    # _global_id is not a field on the form
     def test_mice_form_global_id(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 

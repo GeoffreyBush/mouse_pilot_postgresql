@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.models import Mouse
-from stock_cage.forms import BatchMiceFromBreedingCageForm
+from stock_cage.forms import BatchFromBreedingCageForm
 from stock_cage.models import StockCage
-from test_factories.form_factories import BatchMiceFromBreedingCageFormFactory
+from test_factories.form_factories import BatchFromBreedingCageFormFactory
 from test_factories.model_factories import (
     BreedingCageFactory,
     MouseFactory,
@@ -28,11 +28,11 @@ class StockCageModelTestCase(TestCase):
     def test_stock_mice(self):
         self.assertEqual(self.cage.mice.count(), 2)
 
-class BatchMiceFromBreedingCageFormTestCase(TestCase):
+class BatchFromBreedingCageFormTestCase(TestCase):
     def setUp(self):
         self.strain = Strain.objects.create(strain_name="TestStrain")
-        self.data = BatchMiceFromBreedingCageFormFactory.valid_data(strain=self.strain)
-        self.form = BatchMiceFromBreedingCageForm(data=self.data)
+        self.data = BatchFromBreedingCageFormFactory.valid_data(strain=self.strain)
+        self.form = BatchFromBreedingCageForm(data=self.data)
 
     # Valid data
     def test_valid_data(self):
@@ -48,20 +48,26 @@ class BatchMiceFromBreedingCageFormTestCase(TestCase):
     # Missing tube number
     def test_missing_tube_number(self):
         self.data.pop("_tube")
-        form = BatchMiceFromBreedingCageForm(data=self.data)
+        form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(form.is_valid())
+
+    # _tube must be an integer
+    def test_tube_number_not_integer(self):
+        self.data["_tube"] = "str"
+        self.form = BatchFromBreedingCageForm(data=self.data)
+        self.assertFalse(self.form.is_valid())
 
     # Submitting a duplicate mouse._global_id is not valid
     def test_duplicate_global_id(self):
         self.mouse = MouseFactory(strain=self.strain)
         self.assertTrue(self.form.is_valid())
         self.data["_tube"] = self.mouse._tube
-        self.form = BatchMiceFromBreedingCageForm(data=self.data)
+        self.form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 
-    # Can't alter mouse._global_id on form
-
-    # Can't transfer from the same breeding cage twice
+    # _global_id is not a field in the form
+    def test_altering_global_id(self):
+        self.assertFalse("_global_id" in BatchFromBreedingCageForm().fields)
 
 
 class TransferToStockCageViewTestCase(TestCase):
@@ -69,6 +75,7 @@ class TransferToStockCageViewTestCase(TestCase):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.cage = BreedingCageFactory()
+        self.valid_form = BatchFromBreedingCageFormFactory.valid_data(cage=self.cage)
 
     # Access Transfer to Stock Cage while logged in
     def test_transfer_to_stock_cage_authenticated_user(self):
@@ -79,6 +86,9 @@ class TransferToStockCageViewTestCase(TestCase):
         self.assertTemplateUsed(response, "transfer_to_stock_cage.html")
 
     # POST TransferToStockCageForm with valid data
+    def test_transfer_to_stock_cage_valid_data(self):
+        pass
+
 
     # POST TransferToStockCageForm with invalid data
 

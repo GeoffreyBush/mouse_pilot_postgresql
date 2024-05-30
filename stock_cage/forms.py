@@ -3,10 +3,11 @@ from django.core.exceptions import ValidationError
 
 from mice_repository.models import Mouse
 from website.models import Strain
+from stock_cage.models import StockCage
 
 
 # Need to create validation handling for readonly attributes here, add handling to view
-class BatchMiceFromBreedingCageForm(forms.ModelForm):
+class BatchFromBreedingCageForm(forms.ModelForm):
 
     _tube = forms.IntegerField(
         required=True,
@@ -23,7 +24,12 @@ class BatchMiceFromBreedingCageForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
 
-    # Hidden fields ????
+    stock_cage = forms.ModelChoiceField(
+        required=True,
+        queryset=StockCage.objects.all(),
+        widget=forms.TextInput(attrs={"class": "form-select"}),
+    )
+
     strain = forms.ModelChoiceField(
         required=True,
         queryset=Strain.objects.all(),
@@ -32,10 +38,16 @@ class BatchMiceFromBreedingCageForm(forms.ModelForm):
     mother = forms.ModelChoiceField(
         required=True,
         queryset=Mouse.objects.filter(sex="F"),
+        widget=forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}),
     )
     father = forms.ModelChoiceField(
         required=True,
         queryset=Mouse.objects.filter(sex="M"),
+        widget=forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}),
+    )
+    dob = forms.DateField(
+        required=True,
+        widget=forms.DateInput(attrs={"class": "form-control", "readonly": "readonly", "type": "date"}),
     )
 
     # Override clean() to hrow ValidationError if new _global_id is already in use
@@ -49,8 +61,7 @@ class BatchMiceFromBreedingCageForm(forms.ModelForm):
 
     class Meta:
         model = Mouse
-        fields = "__all__"
-        include = []
+        include = ["strain", "stock_cage", "_tube"]
         exclude = [
             "project",
             "earmark",

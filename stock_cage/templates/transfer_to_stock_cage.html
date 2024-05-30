@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Add Mouse to Repo{% endblock %}
 {% block content %}
-<div class="container">
+<div class="container-fluid">
 
 
 <!-- Add dob, strain, mother, and father information back in as information in the header-->
@@ -22,6 +22,7 @@
                 {% for form in formset %}
                     <tr>
                     {% for field in form %}
+                        <td>{{ field.label }}</td>
                         <td>{{ field }}</td>
                     {% endfor %}
                     </tr>
