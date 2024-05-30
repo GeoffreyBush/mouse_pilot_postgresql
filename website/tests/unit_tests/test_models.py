@@ -9,7 +9,7 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.models import Request, Strain, CustomUser
+from website.models import CustomUser, Request, Strain
 
 
 ##################
@@ -66,7 +66,7 @@ class CustomUserTest(TestCase):
     # Email too short
 
     # Email too long
-    
+
     # Incorrect email format
 
 

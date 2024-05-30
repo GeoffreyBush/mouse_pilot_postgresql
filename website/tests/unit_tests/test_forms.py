@@ -168,9 +168,8 @@ class CustomUserCreationFormTest(TestCase):
         self.assertIn("email", self.form.errors)
 
     # Email too short
-    
-    # Email too long
 
+    # Email too long
 
 
 ############################
