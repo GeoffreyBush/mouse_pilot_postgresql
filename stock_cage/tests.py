@@ -17,7 +17,9 @@ from website.models import Strain
 class StockCageModelTestCase(TestCase):
     def setUp(self):
         self.cage = StockCageFactory()
-        self.mouse1, self.mouse2 = MouseFactory(stock_cage=self.cage), MouseFactory(stock_cage=self.cage)
+        self.mouse1, self.mouse2 = MouseFactory(stock_cage=self.cage), MouseFactory(
+            stock_cage=self.cage
+        )
 
     # Check StockCageFactory works
     def test_stock_cage_factory(self):
