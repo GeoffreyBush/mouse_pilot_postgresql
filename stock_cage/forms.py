@@ -60,7 +60,7 @@ class BatchFromBreedingCageForm(forms.ModelForm):
         new_global_id = f"{strain.strain_name}-{tube}"
         if Mouse.objects.filter(_global_id=new_global_id).exists():
             raise ValidationError("Global ID already in use")
-        
+
     # Override save() method to convert tube field in form to _tube instance for Mouse model
     def save(self, commit=True):
         instance = super().save(commit=False)
