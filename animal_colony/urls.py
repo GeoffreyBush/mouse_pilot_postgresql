@@ -13,7 +13,6 @@ urlpatterns = [
     path(
         "mice_repository/", include("mice_repository.urls", namespace="mice_repository")
     ),
-    
     path("", RedirectView.as_view(url="website/", permanent=True)),
     path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

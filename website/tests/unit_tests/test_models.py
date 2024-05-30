@@ -9,10 +9,6 @@ from test_factories.model_factories import (
 )
 from website.models import Request, Strain
 
-
-
-
-
 ###############
 ### REQUEST ###
 ###############

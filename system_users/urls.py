@@ -1,4 +1,5 @@
 from django.urls import path
+
 from system_users.views import SignUpView
 
 app_name = "system_users"

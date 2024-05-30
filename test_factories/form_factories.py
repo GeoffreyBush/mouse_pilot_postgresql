@@ -1,6 +1,7 @@
 from datetime import date
 
 from breeding_cage.forms import BreedingCageForm
+from system_users.forms import CustomUserCreationForm
 from test_factories.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -9,7 +10,6 @@ from test_factories.model_factories import (
     UserFactory,
 )
 from website.forms import RequestForm
-from system_users.forms import CustomUserCreationForm
 
 # Can rewrite these factories to make better use of kwargs, requiring less repeating code
 

@@ -1,5 +1,7 @@
 from django.db import models
+
 from system_users.models import CustomUser
+
 
 class Request(models.Model):
 

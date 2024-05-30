@@ -1,9 +1,8 @@
 from django import forms
+from django.contrib.auth import get_user_model
 
 from mice_repository.models import Mouse
 from website.models import Request
-from system_users.models import CustomUser
-from django.contrib.auth import get_user_model
 
 
 class RequestForm(forms.ModelForm):

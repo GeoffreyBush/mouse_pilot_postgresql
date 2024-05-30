@@ -1,14 +1,8 @@
 from django.test import TestCase
 
-from test_factories.form_factories import (
-    RequestFormFactory,
-)
+from test_factories.form_factories import RequestFormFactory
 from test_factories.model_factories import MouseFactory, ProjectFactory
-from website.forms import (
-    MouseSelectionForm,
-    RequestForm,
-)
-from system_users.forms import CustomUserChangeForm
+from website.forms import MouseSelectionForm, RequestForm
 
 # Rework ProjectMiceForm and show_project.html first before using this test
 """
@@ -72,12 +66,9 @@ class ProjectMiceFormTestCase(TestCase):
 """
 
 
-
-
 ############################
 ### CUSTOMUSER EDIT FORM ###
 ############################
-
 
 
 ####################

@@ -1,19 +1,15 @@
-
-from django.urls import reverse
-from system_users.views import SignUpView
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
+from django.urls import reverse
 
-
-from test_factories.form_factories import CustomUserCreationFormFactory
-from test_factories.model_factories import (
-    UserFactory,
-    
-)
-from system_users.forms import CustomUserCreationForm, CustomUserChangeForm
+from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from system_users.models import CustomUser
+from system_users.views import SignUpView
+from test_factories.form_factories import CustomUserCreationFormFactory
+from test_factories.model_factories import UserFactory
+
 
 class CustomUserTest(TestCase):
 
@@ -66,8 +62,9 @@ class CustomUserTest(TestCase):
     # Email too short
 
     # Email too long
-    
+
     # Incorrect email format
+
 
 class CustomUserCreationFormTest(TestCase):
 
@@ -160,8 +157,9 @@ class CustomUserCreationFormTest(TestCase):
         self.assertIn("email", self.form.errors)
 
     # Email too short
-    
+
     # Email too long
+
 
 class CustomUserChangeFormTestCase(TestCase):
     def setUp(self):
@@ -205,6 +203,7 @@ class CustomUserChangeFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("email", form.errors)
 
+
 class SignUpViewTest(TestCase):
 
     def setUp(self):
@@ -230,10 +229,12 @@ class SignUpViewTest(TestCase):
     # POST invalid data
     def test_signup_view_post_invalid_data(self):
         response = self.client.post(
-            reverse("system_users:signup"), CustomUserCreationFormFactory.valid_data(username="")
+            reverse("system_users:signup"),
+            CustomUserCreationFormFactory.valid_data(username=""),
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "registration/signup.html")
         self.assertTrue(response.context["form"].errors)
+
 
 # Tests for each view associated with CustomUser: logout, password_reset, etc
