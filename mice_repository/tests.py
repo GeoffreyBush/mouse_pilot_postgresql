@@ -92,7 +92,9 @@ class RepositoryMiceFormTestCase(TestCase):
     # Set a specific strain.mice_count and check that the tube is set to that value
     def test_save_without_custom_tube_different_strain_mice_count(self):
         self.strain.mice_count = 11
-        self.form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(strain=self.strain))
+        self.form = RepositoryMiceForm(
+            data=RepositoryMiceFormFactory.valid_data(strain=self.strain)
+        )
         self.mouse2 = self.form.save()
         self.assertEqual(self.mouse2._tube, 11)
 
