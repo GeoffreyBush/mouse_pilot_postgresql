@@ -1,14 +1,17 @@
+from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
 
-from test_factories.form_factories import RequestFormFactory
-from test_factories.model_factories import MouseFactory, ProjectFactory, StrainFactory, UserFactory
-from website.forms import MouseSelectionForm, RequestForm
-
-from django.db import IntegrityError
 from mice_repository.models import Mouse
+from test_factories.form_factories import RequestFormFactory
+from test_factories.model_factories import (
+    MouseFactory,
+    ProjectFactory,
+    StrainFactory,
+    UserFactory,
+)
+from website.forms import MouseSelectionForm, RequestForm
 from website.models import Request, Strain
-
 
 # Rework ProjectMiceForm and show_project.html first before using this test
 """
@@ -248,6 +251,7 @@ class ProjectModelTestCase(TestCase):
         self.assertEqual(self.project.mice_count, 0)
         self.project.mice_count += 1
         self.assertEqual(self.project.mice_count, 1)
+
 
 """
 class AddMouseViewTest(TestCase):
