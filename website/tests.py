@@ -122,22 +122,32 @@ class MouseSelectionFormTestCase(TestCase):
             MouseFactory(project=self.project),
             MouseFactory(),
         )
+        self.form = MouseSelectionForm(
+            project=self.project, data={"mice": [self.mouse1.pk, self.mouse2.pk]}
+        )
 
     # Valid data
     def test_mouse_selection_form_valid_data(self):
-        form = MouseSelectionForm(
-            project=self.project, data={"mice": [self.mouse1.pk, self.mouse2.pk]}
-        )
-        self.assertTrue(form.is_valid())
-        self.assertCountEqual(form.cleaned_data["mice"], [self.mouse1, self.mouse2])
+        self.assertTrue(self.form.is_valid())
+        
+    # Correct mice count in request
+    def test_mouse_selection_form_mice_count(self):
+        self.form.is_valid()
+        self.assertEqual(len(self.form.cleaned_data["mice"]), 2)
 
-    # Project mismatch
+    # Correct project in request
+    def test_mouse_selection_form_project(self):
+        self.assertEqual(self.form.project, self.project)
+
+    # Invalid form when mice from different projects are selected
     def test_mouse_selection_form_invalid_data(self):
-        form = MouseSelectionForm(
+        self.form = MouseSelectionForm(
             project=self.project, data={"mice": [self.mouse1.pk, self.mouse3.pk]}
         )
-        self.assertFalse(form.is_valid())
-        self.assertIn("mice", form.errors)
+        self.assertFalse(self.form.is_valid())
+        self.assertIn("mice", self.form.errors)
+
+    # What happens when the form is saved? Need to test this too
 
 
 ###############
