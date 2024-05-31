@@ -42,11 +42,7 @@ jobs:
         #EOF
 
     - name: Test main website app
-      run: | 
-        python manage.py test website.tests.unit_tests.test_models
-        python manage.py test website.tests.unit_tests.test_forms
-        python manage.py test website/tests/unit_tests/view_tests/
-        python manage.py test website/tests/integration_tests
+      run: python manage.py test website
                
     - name: Test system_users app
       run: python manage.py test system_users    

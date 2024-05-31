@@ -59,6 +59,16 @@ class MouseModelTestCase(TestCase):
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
 
+    # Mother must be female
+
+    # Father must be male
+
+    # Parents cannot be born after child
+
+    # clipped_date must be after dob
+
+    # If the mouse is genotyped, the genotyper must be set
+
 
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
@@ -109,6 +119,8 @@ class RepositoryMiceFormTestCase(TestCase):
     # _global_id is not a field on the form
     def test_mice_form_global_id(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
+
+    # clipped_date must be after dob
 
 
 class MiceRepositoryViewTestCase(TestCase):
