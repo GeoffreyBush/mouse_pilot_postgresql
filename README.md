@@ -65,27 +65,18 @@ This command is customisable by altering ```/website/management/commands/createf
 
 There are a comprehensive set of unit and component tests that cover models, views, and forms. This is supplemented with a handful of integration tests that target key functionality, such as login and navigation to certain pages.
 
-Tests are located in ```/mouse_pilot_postgresql/website/tests/```. 
-
 These tests will run whenever code is pushed to GitHub. This GitHub workflow can be found in ```./github/workflows/django.yml```
 
 While in the root directory you can use the following commands to run tests manually:
 
 ```
 # Run all tests
-python manage.py test website/tests/*
-
-# Run all unit tests
-python manage.py test website/tests/unit_tests/*
-
-# Run all integration tests
-python manage.py test website/tests/integration_tests/*
-
+python manage.py test
 ```
 
 And if you want to generate a coverage report of what code is executed while running all tests, use the Python tool Coverage.
 ```
-coverage run manage.py test website/tests/*
+coverage run manage.py test
 coverage html
 ```
  The Coverage report will be generated in ```/mouse_pilot_postgresql/htmlcov/```. To alter which files are tracked with Coverage, edit ```/mouse_pilot_postgresql/setup.cfg```:
@@ -95,7 +86,8 @@ coverage html
 ### Changelog
 
 - 0.5
-  - Can add a breeding pair to a breeding cage
+  - Can create mice instances by transferring from breeding cage to stock cage
+  - Split "website" Django app into multiple Django apps
   - Converted the application to Bootstrap CSS
 - 0.4
   - Breeding cage view
