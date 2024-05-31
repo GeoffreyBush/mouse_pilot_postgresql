@@ -129,7 +129,7 @@ class MouseSelectionFormTestCase(TestCase):
     # Valid data
     def test_mouse_selection_form_valid_data(self):
         self.assertTrue(self.form.is_valid())
-        
+
     # Correct mice count in request
     def test_mouse_selection_form_mice_count(self):
         self.form.is_valid()
