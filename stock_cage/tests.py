@@ -80,6 +80,10 @@ class TransferToStockCageViewTestCase(TestCase):
         self.cage = BreedingCageFactory()
         self.valid_form = BatchFromBreedingCageFormFactory.valid_data(cage=self.cage)
 
+    # Correct form used
+    #def test_signup_view_attributes(self):
+        #self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
+
     def test_get_request_authenticated(self):
         response = self.client.get(
             reverse("stock_cage:transfer_to_stock_cage", args=[self.cage])
