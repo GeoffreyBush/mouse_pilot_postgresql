@@ -34,7 +34,7 @@ class MouseModelTestCase(TestCase):
 
     def test_mouse_manual_tube_correct_value(self):
         self.assertEqual(self.manual_tube_mouse._tube, 123)
-    
+
     def test_mouse_manual_tube_correct_pk(self):
         self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
@@ -95,7 +95,7 @@ class RepositoryMiceFormTestCase(TestCase):
         self.mouse2 = form.save()
         self.assertEqual(self.mouse2._tube, 123)
 
-    # If no tube is provided on form, tube value is set to strain.mice_count 
+    # If no tube is provided on form, tube value is set to strain.mice_count
     # Would prefer to have an assert before as well as after
     def test_save_without_manual_tube(self):
         self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
@@ -116,7 +116,6 @@ class RepositoryMiceFormTestCase(TestCase):
 
     def test_mice_form_has_no_global_id_field(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
-
 
 
 class MiceRepositoryViewTestCase(TestCase):
