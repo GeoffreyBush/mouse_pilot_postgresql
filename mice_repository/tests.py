@@ -125,8 +125,8 @@ class MiceRepositoryViewTestCase(TestCase):
         self.mouse = MouseFactory()
 
     # Correct form used
-    #def test_signup_view_attributes(self):
-        #self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
+    # def test_signup_view_attributes(self):
+    # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
 
     def test_mice_repository_view_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:mice_repository"))
@@ -142,8 +142,8 @@ class AddMouseToRepositoryViewTestCase(TestCase):
         self.client.login(username="testuser", password="testpassword")
 
     # Correct form used
-    #def test_signup_view_attributes(self):
-        #self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
+    # def test_signup_view_attributes(self):
+    # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
 
     def test_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:add_mouse_to_repository"))
