@@ -1,10 +1,9 @@
 # MousePilot
 ## Animal Colony Management System
-This is a fork of a project that was initially developed as a 3rd year undergraduate software engineering project at the University of Aberdeen in collaboration with the Institute of Medical Sciences at Foresterhill Health Campus. 
 
-It is an open-source web application that provides a centralised repository for tracking mice used in experimentation, and aims to create consistent, real-time data transfer between the site where mice are bred and the site where research is planned and carried out.
+MousePilot is an open-source web application that provides a centralised repository for tracking mice used in experimentation, and aims to create consistent, real-time data transfer between the site where mice are bred and the site where research is planned and carried out. It is designed to be used by small or medium-sized research facilities that have an in-house breeding facility.
 
-It was forked to replace an SQLite database with PostgreSQL and incorporate Alpine.js and HTMX into the front-end.
+This is a fork of a project that was initially developed as a 3rd year undergraduate software engineering project at the University of Aberdeen in collaboration with the Institute of Medical Sciences at Foresterhill Health Campus. It was forked to replace an SQLite database with PostgreSQL and incorporate Alpine.js and HTMX into the front-end.
 
 ---
 
@@ -12,7 +11,7 @@ It was forked to replace an SQLite database with PostgreSQL and incorporate Alpi
 
 #### Run on localhost
 
-1. Clone this repository. In a terminal, navigate to the root directory ```/animal_colony/``` that contains ```requirements.txt```
+1. Clone this repository. In a terminal, navigate to the root directory ```/mouse_pilot_postgresql/``` that contains ```requirements.txt```
 
 2. Then input the following into your terminal:
 ```pip -r requirements.txt```
@@ -39,11 +38,11 @@ You will need to combine this Django project with a web server such as Apache or
 
 ### Database Management
 
-If running the source code, you will find the database ```db.sqlite3```  in the ```/animal_colony/``` root directory. Django gives you options to apply migrations to the database while in this root directory, which is how Django builds database tables and attributes.
+If running the source code, you will find the database ```db.sqlite3```  in the ```/mouse_pilot_postgresql/``` root directory. Django gives you options to apply migrations to the database while in this root directory, which is how Django builds database tables and attributes.
 
 #### Migrations
 
-When making modifications to models.py, the migrations will then need to be applied to the database. You may wish to remove existing migrations and start fresh by deleting all files in ```/website/migrations/``` except ```__init.py__```. If you want to fully reset the database, losing all existing data, also delete ```/animal_colony/db.sqlite3```. Then run the following commands:
+When making modifications to models.py, the migrations will then need to be applied to the database. You may wish to remove existing migrations and start fresh by deleting all files in ```/website/migrations/``` except ```__init.py__```. If you want to fully reset the database, losing all existing data, also delete ```/mouse_pilot_postgresql/db.sqlite3```. Then run the following commands:
 ```
 # Generate a new migration script
 python manage.py makemigrations
@@ -66,7 +65,7 @@ This command is customisable by altering ```/website/management/commands/createf
 
 There are a comprehensive set of unit and component tests that cover models, views, and forms. This is supplemented with a handful of integration tests that target key functionality, such as login and navigation to certain pages.
 
-Tests are located in ```/animal_colony/website/tests/```. 
+Tests are located in ```/mouse_pilot_postgresql/website/tests/```. 
 
 These tests will run whenever code is pushed to GitHub. This GitHub workflow can be found in ```./github/workflows/django.yml```
 
@@ -89,7 +88,7 @@ And if you want to generate a coverage report of what code is executed while run
 coverage run manage.py test website/tests/*
 coverage html
 ```
- The Coverage report will be generated in ```/animal_colony/htmlcov/```. To alter which files are tracked with Coverage, edit ```/animal_colony/setup.cfg```:
+ The Coverage report will be generated in ```/mouse_pilot_postgresql/htmlcov/```. To alter which files are tracked with Coverage, edit ```/mouse_pilot_postgresql/setup.cfg```:
 
 ---
 

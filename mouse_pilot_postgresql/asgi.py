@@ -1,5 +1,5 @@
 """
-ASGI config for animal_colony project.
+ASGI config for mouse_pilot_postgresql project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "animal_colony.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mouse_pilot_postgresql.settings")
 
 application = get_asgi_application()
