@@ -14,45 +14,46 @@ class MouseModelTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
         self.mouse = MouseFactory(strain=self.strain)
+        self.auto_tube_mouse = MouseFactory(strain=self.strain)
+        self.manual_tube_mouse = MouseFactory(strain=self.strain, _tube=123)
 
-    # Check MouseFactory works
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
+
+    def test_mouse_correct_strain(self):
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
+
+    def test_mouse_correct_pk(self):
         self.assertEqual(self.mouse.pk, "teststrain-1")
 
-    # _tube field increments automatically from strain.mice_count and sets correct _global_id
-    def test_mouse_without_custom_tube(self):
-        self.mouse2 = MouseFactory(strain=self.strain)
-        self.assertEqual(self.mouse2._tube, 2)
-        self.assertEqual(self.mouse2.pk, "teststrain-2")
+    def test_mouse_auto_tube_increments_correctly(self):
+        self.assertEqual(self.auto_tube_mouse._tube, 2)
 
-    # _tube can be manually set and correct _global_id created from it
-    def test_mouse_custom_tube(self):
-        self.mouse2 = MouseFactory(strain=self.strain, _tube=123)
-        self.assertEqual(self.mouse2._tube, 123)
-        self.assertEqual(self.mouse2.pk, "teststrain-123")
+    def test_mouse_auto_tube_increments_pk_correctly(self):
+        self.assertEqual(self.auto_tube_mouse.pk, "teststrain-2")
 
-    # Regression test to prevent a mouse being overwritten by another
-    def test_mouse_duplicate(self):
+    def test_mouse_manual_tube_correct_value(self):
+        self.assertEqual(self.manual_tube_mouse._tube, 123)
+    
+    def test_mouse_manual_tube_correct_pk(self):
+        self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
+
+    def test_mouse_cannot_be_overwritten_by_duplicate_tube(self):
         with self.assertRaises(ValidationError):
-            self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+            self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
 
-    # mouse.save() method increments strain.mice.count if validate_unique() passes
-    def test_mouse_count_increment_good_save(self):
-        self.assertEqual(self.strain.mice_count, 1)
-        self.mouse2 = MouseFactory(strain=self.strain, _tube=123)
-        self.assertEqual(self.strain.mice_count, 2)
+    def test_mouse_count_increment_validate_unique_passes(self):
+        self.assertEqual(self.strain.mice_count, 3)
+        self.mouse4 = MouseFactory(strain=self.strain, _tube=5)
+        self.assertEqual(self.strain.mice_count, 4)
 
-    # mouse.save() method doesn't increment strain.mice.count if validate_unique() fails
-    def test_mouse_count_no_increment_bad_save(self):
-        self.assertEqual(self.strain.mice_count, 1)
+    def test_mouse_count_no_increment_validate_unique_fails(self):
+        self.assertEqual(self.strain.mice_count, 3)
         with self.assertRaises(ValidationError):
-            self.mouse2 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
-        self.assertEqual(self.strain.mice_count, 1)
+            self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+        self.assertEqual(self.strain.mice_count, 3)
 
-    # is_genotyped method
-    def test_mouse_genotyped(self):
+    def test_mouse_adding_earmark_auto_genotypes_mouse(self):
         self.assertFalse(self.mouse.is_genotyped())
         self.mouse.earmark = "TR"
         self.mouse.save()
@@ -79,48 +80,43 @@ class RepositoryMiceFormTestCase(TestCase):
         self.mouse = self.form.save()
         self.strain.refresh_from_db()
 
-    # Valid data
+    # Would prefer these tests to have an assert == 0 before counting the mice
     def test_mice_form_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
-    # Correct mice count
-    def test_mice_form_mice_count(self):
+    def test_mouse_model_count(self):
         self.assertEqual(Mouse.objects.all().count(), 1)
+
+    def test_strain_mice_count_increment(self):
         self.assertEqual(self.strain.mice_count, 1)
 
-    # If tube is provided on form, tube value is set to that value
-    def test_save_custom_tube(self):
+    def test_save_manual_tube_correct_value(self):
         form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
-        self.assertTrue(form.is_valid())
         self.mouse2 = form.save()
         self.assertEqual(self.mouse2._tube, 123)
 
-    # If no tube is provided on form, tube value is set to strain.mice_count
-    def test_save_without_custom_tube(self):
+    # If no tube is provided on form, tube value is set to strain.mice_count 
+    # Would prefer to have an assert before as well as after
+    def test_save_without_manual_tube(self):
         self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
 
-    # Set a specific strain.mice_count and check that the tube is set to that value
-    def test_save_without_custom_tube_different_strain_mice_count(self):
-        self.strain.mice_count = 11
+    def test_save_auto_tube_correct_strain_mice_count(self):
+        self.strain.mice_count = 999
         self.form = RepositoryMiceForm(
             data=RepositoryMiceFormFactory.valid_data(strain=self.strain)
         )
         self.mouse2 = self.form.save()
-        self.assertEqual(self.mouse2._tube, 11)
+        self.assertEqual(self.mouse2._tube, 999)
 
-    # Invalid dob
     def test_mice_form_invalid_dob(self):
         self.invalid_dob_form = RepositoryMiceForm(
             data=RepositoryMiceFormFactory.invalid_dob()
         )
-        self.assertFalse(self.invalid_dob_form.is_valid())
         self.assertIn("dob", self.invalid_dob_form.errors)
 
-    # _global_id is not a field on the form
-    def test_mice_form_global_id(self):
+    def test_mice_form_has_no_global_id_field(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
-    # clipped_date must be after dob
 
 
 class MiceRepositoryViewTestCase(TestCase):
@@ -129,8 +125,7 @@ class MiceRepositoryViewTestCase(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.mouse = MouseFactory()
 
-    # GET mice_repository while logged in
-    def test_mice_repository_view_get_request(self):
+    def test_mice_repository_view_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:mice_repository"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "mice_repository.html")
@@ -142,21 +137,21 @@ class AddMouseToRepositoryViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
-        self.mouse = MouseFactory()
 
-    # GET add_mouse_to_repository while logged in
-    def test_add_mouse_to_repository_view_get_request(self):
+    def test_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:add_mouse_to_repository"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_mouse_to_repository.html")
         self.assertIsInstance(response.context["mice_form"], RepositoryMiceForm)
 
-    # POST RequestForm with valid data
-    def test_add_mouse_to_repository_post_valid(self):
+    def test_post_valid_form_data(self):
+        self.assertEqual(Mouse.objects.all().count(), 0)
         data = RepositoryMiceFormFactory.valid_data()
         response = self.client.post(
             reverse("mice_repository:add_mouse_to_repository"), data
         )
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("mice_repository:mice_repository"))
-        self.assertEqual(Mouse.objects.all().count(), 2)
+        self.assertEqual(Mouse.objects.all().count(), 1)
+
+    # Test invalid form data

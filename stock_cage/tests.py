@@ -21,12 +21,12 @@ class StockCageModelTestCase(TestCase):
             stock_cage=self.cage
         )
 
-    # Check StockCageFactory works
-    def test_stock_cage_factory(self):
+    def test_stock_cage_factory_count(self):
         self.assertEqual(StockCage.objects.count(), 1)
-        self.assertEqual(self.cage.cage_id, 1)
 
-    # one-to-many relationship between StockCage and Mouse works with mouse.related_name attribute
+    def test_stock_cage_pk(self):
+        self.assertEqual(self.cage.pk, 1)
+
     def test_stock_mice(self):
         self.assertEqual(self.cage.mice.count(), 2)
 
@@ -37,30 +37,31 @@ class BatchFromBreedingCageFormTestCase(TestCase):
         self.data = BatchFromBreedingCageFormFactory.valid_data(strain=self.strain)
         self.form = BatchFromBreedingCageForm(data=self.data)
 
-    # Valid data
     def test_valid_data(self):
-        self.assertEqual(self.form.data["strain"].strain_name, "TestStrain")
         self.assertTrue(self.form.is_valid())
 
-    # Mouse is created with valid data
+    def test_correct_strain(self):
+        self.assertEqual(self.form.data["strain"].strain_name, "TestStrain")
+
+    def test_correct_pk(self):
+        self.mouse = self.form.save()
+        self.assertEqual(self.mouse.pk, "TestStrain-123")
+
     def test_mouse_created(self):
         self.assertEqual(Mouse.objects.count(), 2)
         self.form.save()
         self.assertEqual(Mouse.objects.count(), 3)
 
-    # Missing tube number
     def test_missing_tube_number(self):
         self.data.pop("tube")
         form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(form.is_valid())
 
-    # tube must be an integer
     def test_tube_number_not_integer(self):
         self.data["tube"] = "str"
         self.form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 
-    # Submitting a duplicate mouse._global_id is not valid
     def test_duplicate_global_id(self):
         self.mouse = MouseFactory(strain=self.strain)
         self.assertTrue(self.form.is_valid())
@@ -68,8 +69,7 @@ class BatchFromBreedingCageFormTestCase(TestCase):
         self.form = BatchFromBreedingCageForm(data=self.data)
         self.assertFalse(self.form.is_valid())
 
-    # _global_id is not a field in the form
-    def test_altering_global_id(self):
+    def test_global_id_input_field_not_visible(self):
         self.assertFalse("_global_id" in BatchFromBreedingCageForm().fields)
 
 
@@ -80,8 +80,7 @@ class TransferToStockCageViewTestCase(TestCase):
         self.cage = BreedingCageFactory()
         self.valid_form = BatchFromBreedingCageFormFactory.valid_data(cage=self.cage)
 
-    # Access Transfer to Stock Cage while logged in
-    def test_transfer_to_stock_cage_authenticated_user(self):
+    def test_get_request_authenticated(self):
         response = self.client.get(
             reverse("stock_cage:transfer_to_stock_cage", args=[self.cage])
         )
