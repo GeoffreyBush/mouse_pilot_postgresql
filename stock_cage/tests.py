@@ -34,8 +34,7 @@ class StockCageModelTestCase(TestCase):
 class BatchFromBreedingCageFormTestCase(TestCase):
     def setUp(self):
         self.strain = Strain.objects.create(strain_name="TestStrain")
-        self.data = BatchFromBreedingCageFormFactory.valid_data(strain=self.strain)
-        self.form = BatchFromBreedingCageForm(data=self.data)
+        self.form = BatchFromBreedingCageFormFactory.create(strain=self.strain)
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
@@ -52,21 +51,23 @@ class BatchFromBreedingCageFormTestCase(TestCase):
         self.form.save()
         self.assertEqual(Mouse.objects.count(), 3)
 
+    #
     def test_missing_tube_number(self):
-        self.data.pop("tube")
-        form = BatchFromBreedingCageForm(data=self.data)
+        #self.data.pop("tube")
+        form = BatchFromBreedingCageFormFactory.create(_tube=None)
         self.assertFalse(form.is_valid())
 
     def test_tube_number_not_integer(self):
-        self.data["tube"] = "str"
-        self.form = BatchFromBreedingCageForm(data=self.data)
+
+        #self.data["tube"] = "str"
+        self.form = BatchFromBreedingCageFormFactory.create(_tube="str")
         self.assertFalse(self.form.is_valid())
 
     def test_duplicate_global_id(self):
         self.mouse = MouseFactory(strain=self.strain)
         self.assertTrue(self.form.is_valid())
-        self.data["tube"] = self.mouse._tube
-        self.form = BatchFromBreedingCageForm(data=self.data)
+        self.data.pop("tube")
+        self.form = BatchFromBreedingCageFormFactory.create(_tube=self.mouse._tube)
         self.assertFalse(self.form.is_valid())
 
     def test_global_id_input_field_not_visible(self):

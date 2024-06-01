@@ -74,9 +74,7 @@ class MouseModelTestCase(TestCase):
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
-        self.form = RepositoryMiceForm(
-            data=RepositoryMiceFormFactory.valid_data(strain=self.strain, _tube=1)
-        )
+        self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=1)
         self.mouse = self.form.save()
         self.strain.refresh_from_db()
 
@@ -91,8 +89,8 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertEqual(self.strain.mice_count, 1)
 
     def test_save_manual_tube_correct_value(self):
-        form = RepositoryMiceForm(data=RepositoryMiceFormFactory.valid_data(_tube=123))
-        self.mouse2 = form.save()
+        self.form = RepositoryMiceFormFactory.create(_tube=123)
+        self.mouse2 = self.form.save()
         self.assertEqual(self.mouse2._tube, 123)
 
     # If no tube is provided on form, tube value is set to strain.mice_count
@@ -102,16 +100,12 @@ class RepositoryMiceFormTestCase(TestCase):
 
     def test_save_auto_tube_correct_strain_mice_count(self):
         self.strain.mice_count = 999
-        self.form = RepositoryMiceForm(
-            data=RepositoryMiceFormFactory.valid_data(strain=self.strain)
-        )
+        self.form = RepositoryMiceFormFactory.create(strain=self.strain)
         self.mouse2 = self.form.save()
         self.assertEqual(self.mouse2._tube, 999)
 
     def test_mice_form_invalid_dob(self):
-        self.invalid_dob_form = RepositoryMiceForm(
-            data=RepositoryMiceFormFactory.invalid_dob()
-        )
+        self.invalid_dob_form = RepositoryMiceFormFactory.create(dob=None)
         self.assertIn("dob", self.invalid_dob_form.errors)
 
     def test_mice_form_has_no_global_id_field(self):
