@@ -38,7 +38,7 @@ class Provider(faker.providers.BaseProvider):
 
 class Command(BaseCommand):
 
-    help = "Command information"
+    help = "Populates an empty database with fake data."
     fake = Faker()
     fake.add_provider(Provider)
 
@@ -46,7 +46,7 @@ class Command(BaseCommand):
     ### Add all strains from STRAINS list to DB ###
     ###############################################
     def create_strains(self):
-        print("Creating strains...", end=" ")
+        print("  Creating strains...", end=" ")
         for i in range(len(STRAINS)):
             Strain.objects.get_or_create(strain_name=STRAINS[i])
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
@@ -56,7 +56,7 @@ class Command(BaseCommand):
     ######################################
     def create_users(self, x):
 
-        print("Creating users...", end=" ")
+        print("  Creating users...", end=" ")
         for _ in range(x):
             CustomUser.objects.create(
                 password=make_password(self.fake.password()),
@@ -75,7 +75,7 @@ class Command(BaseCommand):
     #########################################
     def create_projects(self, x):
 
-        print("Creating projects...", end=" ")
+        print("  Creating projects...", end=" ")
         existing_strains = Strain.objects.all()
         # CustomUser should differentiate between researchers and breeding wing staff, but doesn't currently.
         existing_researchers = CustomUser.objects.all()
@@ -109,7 +109,7 @@ class Command(BaseCommand):
     ### Create x number of stock cages in DB ###
     ############################################
     def create_stock_cages(self, x):
-        print("Creating stock cages...", end=" ")
+        print("  Creating stock cages...", end=" ")
         for _ in range(x):
             StockCage.objects.create()
 
@@ -126,7 +126,7 @@ class Command(BaseCommand):
         existing_researchers = CustomUser.objects.all()
         existing_strains = Strain.objects.all()
 
-        print("Creating mice...", end=" ")
+        print("  Creating mice...", end=" ")
 
         # Create all the mice first
         for _ in range(x):
@@ -171,7 +171,7 @@ class Command(BaseCommand):
         female_mice = existing_mice.filter(sex="F")
         male_mice = existing_mice.filter(sex="M")
 
-        print("Creating breeding cages...", end=" ")
+        print("  Creating breeding cages...", end=" ")
         for _ in range(x):
             variable_number_born = random.randint(1, 21)
             variable_number_wean = random.randint(1, variable_number_born)
@@ -197,7 +197,7 @@ class Command(BaseCommand):
     #########################################
     def create_comments(self, x):
 
-        print("Creating comments...", end=" ")
+        print("  Creating comments...", end=" ")
         existing_mice = Mouse.objects.all()
 
         for index in range(len(existing_mice)):
@@ -212,7 +212,7 @@ class Command(BaseCommand):
     ### Create x number of requests in DB ###
     #########################################
     def create_requests(self):
-        print("Creating requests", end=" ")
+        print("  Creating requests", end=" ")
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
     #######################################################################
@@ -220,7 +220,7 @@ class Command(BaseCommand):
     #######################################################################
     def create_super_user(self):
 
-        print("Creating 'SuperUser' account...", end=" ")
+        print("  Creating 'SuperUser' account...", end=" ")
         CustomUser.objects.create(
             password=make_password("samplepassword"),
             is_superuser=True,
