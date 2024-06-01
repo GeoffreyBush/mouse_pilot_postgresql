@@ -43,8 +43,6 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomUserChangeForm(UserChangeForm):
 
-    # Minimum and maximum lengths for username and password
-
     class Meta:
         model = CustomUser
         fields = ("username", "email")

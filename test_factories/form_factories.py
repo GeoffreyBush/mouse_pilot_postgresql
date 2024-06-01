@@ -1,7 +1,7 @@
 from datetime import date
 
 from breeding_cage.forms import BreedingCageForm
-from system_users.forms import CustomUserCreationForm
+from system_users.forms import CustomUserCreationForm, CustomUserChangeForm
 from test_factories.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -12,7 +12,8 @@ from test_factories.model_factories import (
 from website.forms import RequestForm
 
 # Can rewrite these factories to make better use of kwargs, requiring less repeating code
-
+# The rewrite can remove the need to return data, can return the form object instead
+# Less factory methods, more flexibility
 
 class BreedingCageFormFactory:
 
@@ -49,20 +50,30 @@ class BreedingCageFormFactory:
 class CustomUserCreationFormFactory:
     @staticmethod
     def create(**kwargs):
-        return CustomUserCreationForm(data=kwargs)
+        data = CustomUserCreationFormFactory.valid_data(**kwargs)
+        return CustomUserCreationForm(data=data)
 
     @staticmethod
     def valid_data(**kwargs):
-        username = kwargs.get("username", "testuser")
-        email = kwargs.get("email", "test@example.com")
-        password1 = kwargs.get("password1", "testpassword")
-        password2 = kwargs.get("password2", "testpassword")
-
         return {
-            "username": username,
-            "email": email,
-            "password1": password1,
-            "password2": password2,
+            "username": kwargs.get("username", "testuser"),
+            "email": kwargs.get("email", "test@example.com"),
+            "password1": kwargs.get("password1", "testpassword"),
+            "password2": kwargs.get("password2", "testpassword")
+        }
+    
+class CustomUserChangeFormFactory:
+    @staticmethod
+    def create(**kwargs):
+        data = CustomUserChangeFormFactory.valid_data(**kwargs)
+        return CustomUserChangeForm(data=data)
+
+    @staticmethod
+    def valid_data(**kwargs):
+        return {
+            "instance": kwargs.get("old_user", "olduser"),
+            "new_user": kwargs.get("new_user", "newuser"),
+            "email": kwargs.get("newuser@example.com")
         }
 
 
