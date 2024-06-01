@@ -102,7 +102,9 @@ class RepositoryMiceFormTestCase(TestCase):
 
     def test_save_auto_tube_correct_strain_mice_count(self):
         self.assertEqual(self.strain.mice_count, self.mouse._tube)
-        self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=self.strain.mice_count)
+        self.form = RepositoryMiceFormFactory.create(
+            strain=self.strain, _tube=self.strain.mice_count
+        )
         self.mouse2 = self.form.save()
         self.strain.refresh_from_db()
         self.assertEqual(self.strain.mice_count, self.mouse2._tube)
