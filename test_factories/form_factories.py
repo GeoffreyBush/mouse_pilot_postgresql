@@ -1,4 +1,5 @@
 from datetime import date
+import factory
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
@@ -136,9 +137,9 @@ class BatchFromBreedingCageFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
-        strain = (kwargs.get("strain", StrainFactory()),)
+        strain = (kwargs.get("strain", StrainFactory()))
         return {
-            "tube": kwargs.get("_tube", 1),
+            "tube": kwargs.get("_tube", 3),
             "sex": kwargs.get("sex", "M"),
             "coat": kwargs.get("coat", "Black"),
             "strain": strain,
