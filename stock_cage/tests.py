@@ -27,6 +27,8 @@ class StockCageModelTestCase(TestCase):
     def test_stock_cage_pk(self):
         self.assertEqual(self.cage.pk, 1)
 
+    # Test box_no equivalent when that information is provided by breeding wing
+
     def test_stock_mice(self):
         self.assertEqual(self.cage.mice.count(), 2)
 

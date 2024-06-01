@@ -42,12 +42,12 @@ class MouseModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
 
-    def test_mouse_count_increment_validate_unique_passes(self):
+    def test_increment_when_validate_unique__mouse_passes(self):
         self.assertEqual(self.strain.mice_count, 3)
         self.mouse4 = MouseFactory(strain=self.strain, _tube=5)
         self.assertEqual(self.strain.mice_count, 4)
 
-    def test_mouse_count_no_increment_validate_unique_fails(self):
+    def test_no_increment_when_validate_unique_mouse_fails(self):
         self.assertEqual(self.strain.mice_count, 3)
         with self.assertRaises(ValidationError):
             self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
@@ -74,31 +74,40 @@ class MouseModelTestCase(TestCase):
 class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
+        self.assertEqual(self.strain.mice_count, 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=1)
         self.mouse = self.form.save()
         self.strain.refresh_from_db()
 
-    # Would prefer these tests to have an assert == 0 before counting the mice
     def test_mice_form_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
     def test_mouse_model_count(self):
         self.assertEqual(Mouse.objects.all().count(), 1)
+        self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=2)
+        self.form.save()
+        self.assertEqual(Mouse.objects.all().count(), 2)
 
     def test_strain_mice_count_increment(self):
         self.assertEqual(self.strain.mice_count, 1)
+        self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=2)
+        self.form.save()
+        self.strain.refresh_from_db()
+        self.assertEqual(self.strain.mice_count, 2)
 
     def test_save_manual_tube_correct_value(self):
         self.form = RepositoryMiceFormFactory.create(_tube=123)
         self.mouse2 = self.form.save()
         self.assertEqual(self.mouse2._tube, 123)
 
-    # If no tube is provided on form, tube value is set to strain.mice_count
-    # Would prefer to have an assert before as well as after
-    def test_save_without_manual_tube(self):
-        self.assertEqual(self.mouse._tube, self.mouse.strain.mice_count)
-
     def test_save_auto_tube_correct_strain_mice_count(self):
+        self.assertEqual(self.strain.mice_count, self.mouse._tube)
+        self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=self.strain.mice_count)
+        self.mouse2 = self.form.save()
+        self.strain.refresh_from_db()
+        self.assertEqual(self.strain.mice_count, self.mouse2._tube)
+
+    def test_save_manual_tube_correct_strain_mice_count(self):
         self.strain.mice_count = 999
         self.form = RepositoryMiceFormFactory.create(strain=self.strain)
         self.mouse2 = self.form.save()

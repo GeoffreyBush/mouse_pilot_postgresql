@@ -1,5 +1,5 @@
 from datetime import date
-
+import factory
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
@@ -108,11 +108,19 @@ class RepositoryMiceFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
-        strain = kwargs.get("strain", StrainFactory())
+
+        strain = kwargs.get("strain")
         if strain is not None and kwargs.get("_tube") is None:
             _tube = strain.mice_count
+        elif strain is not None and kwargs.get("_tube") is not None:
+            _tube = strain.mice_count+1 # Shouldn't strain auto increment?
+        elif strain is None and kwargs.get("_tube") is not None:
+            strain = StrainFactory()
+            _tube = kwargs.get("_tube")
         else:
-            _tube = kwargs.get("_tube", 1)
+            strain = StrainFactory()
+            _tube = strain.mice_count
+
         data = {
             "_tube": _tube,
             "sex": kwargs.get("sex", "M"),
