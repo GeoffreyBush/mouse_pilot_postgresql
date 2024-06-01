@@ -24,27 +24,24 @@ class BreedingCageFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
-        father, mother = MouseFactory(sex="M"), MouseFactory(sex="F")
         return {
             "box_no": "1",
-            "mother": mother,
-            "father": father,
+            "mother": MouseFactory(sex="F"),
+            "father": MouseFactory(sex="M"),
         }
 
     @staticmethod
     def invalid_mother(**kwargs):
-        father = MouseFactory(sex="M")
         return {
             "box_no": "1",
-            "father": father,
+            "father": MouseFactory(sex="M"),
         }
 
     @staticmethod
     def invalid_father(**kwargs):
-        mother = MouseFactory(sex="F")
         return {
             "box_no": "1",
-            "mother": mother,
+            "mother": MouseFactory(sex="F"),
         }
 
 
