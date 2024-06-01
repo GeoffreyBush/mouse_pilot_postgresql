@@ -111,8 +111,10 @@ class RepositoryMiceFormFactory:
         # This conditional block should be more tightly tied to actual methods used?
         strain = kwargs.get("strain")
         if strain is not None:
-            _tube = strain.mice_count + 1 # Need to +1 here instead of strain.increment_mice_count() because of mouse.save() ordering
-        else:
+            _tube = (
+                strain.mice_count + 1
+            )  # Need to +1 here instead of strain.increment_mice_count() because of mouse.save() ordering
+        elif kwargs.get("_tube") is not None:
             strain = StrainFactory()
             _tube = kwargs.get("_tube", strain.mice_count)
 
