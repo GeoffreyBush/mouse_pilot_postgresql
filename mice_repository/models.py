@@ -58,7 +58,7 @@ class Mouse(models.Model):
     )
 
     project = models.ForeignKey(
-        "website.Project",
+        "projects.Project",
         on_delete=models.PROTECT,
         null=True,
         blank=True,
