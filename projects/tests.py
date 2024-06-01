@@ -9,6 +9,7 @@ from test_factories.model_factories import (
 )
 from website.models import Request
 
+
 class ProjectModelTestCase(TestCase):
 
     @classmethod
@@ -33,6 +34,7 @@ class ProjectModelTestCase(TestCase):
         self.assertEqual(self.project.mice.count(), 0)
         MouseFactory(project=self.project)
         self.assertEqual(self.project.mice.count(), 1)
+
 
 class ListProjectsTest(TestCase):
 

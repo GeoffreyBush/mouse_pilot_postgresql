@@ -8,6 +8,7 @@ from faker import Faker
 
 from breeding_cage.models import BreedingCage
 from mice_repository.models import Mouse
+from projects.models import Project
 from stock_cage.models import StockCage
 from system_users.models import CustomUser
 from test_factories.constants import (
@@ -17,7 +18,6 @@ from test_factories.constants import (
     STRAINS,
 )
 from website.models import Comment, Strain
-from projects.models import Project
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 

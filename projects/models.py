@@ -1,5 +1,7 @@
 from django.db import models
+
 from system_users.models import CustomUser
+
 
 class Project(models.Model):
     project_name = models.CharField(db_column="Name", primary_key=True, max_length=30)

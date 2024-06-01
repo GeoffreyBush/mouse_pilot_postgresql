@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
+from projects.models import Project
 from website.forms import RequestForm
 from website.models import Request
-from projects.models import Project
 
 
 @login_required

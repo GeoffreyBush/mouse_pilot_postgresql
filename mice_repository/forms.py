@@ -1,10 +1,10 @@
 from django import forms
 
 from mice_repository.models import Mouse
+from projects.models import Project
 from stock_cage.models import StockCage
 from test_factories.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from website.models import CustomUser, Strain
-from projects.models import Project
 
 
 # Add validation handling for duplicate _global_id here

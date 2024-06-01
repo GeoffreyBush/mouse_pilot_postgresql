@@ -1,7 +1,7 @@
+
 from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
-from datetime import date
 
 from mice_repository.models import Mouse
 from test_factories.form_factories import RequestFormFactory
@@ -11,13 +11,11 @@ from test_factories.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from website.models import Request
 from website.forms import MouseSelectionForm, RequestForm
 from website.models import Request, Strain
-from system_users.models import CustomUser
-
 
 # Need to test where home page, logout page redirect to
+
 
 ####################
 ### REQUEST FORM ###
@@ -186,7 +184,9 @@ class DeleteMouseViewTest(TestCase):
     # Delete mouse while logged in
     def test_delete_mouse_view_authenticated_user(self):
         response = self.client.get(
-            reverse("website:delete_mouse", args=[self.project.project_name, self.mouse.pk])
+            reverse(
+                "website:delete_mouse", args=[self.project.project_name, self.mouse.pk]
+            )
         )
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
@@ -197,7 +197,9 @@ class DeleteMouseViewTest(TestCase):
     # Delete mouse while not logged in
     def test_delete_mouse_view_unauthenticated_user(self):
         self.client.logout()
-        url = reverse("website:delete_mouse", args=[self.project.project_name, self.mouse.pk])
+        url = reverse(
+            "website:delete_mouse", args=[self.project.project_name, self.mouse.pk]
+        )
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
@@ -248,9 +250,6 @@ class EditHistoryViewTest(TestCase):
 
     # Should test an actual edit of the mice here too
 """
-
-
-
 
 
 class ShowRequestsViewTest(TestCase):
