@@ -19,14 +19,14 @@ class BreedingCage(models.Model):
         on_delete=models.PROTECT,
         null=False,
         blank=False,
-        related_name="mother_breeding_cage",
+        related_name="cage_mother",
     )
     father = models.ForeignKey(
         "mice_repository.Mouse",
         on_delete=models.PROTECT,
         null=False,
         blank=False,
-        related_name="father_breeding_cage",
+        related_name="cage_father",
     )
     date_born = models.DateField(db_column="DBorn", null=True, blank=True, default=None)
     number_born = models.IntegerField(

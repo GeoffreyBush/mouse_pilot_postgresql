@@ -108,10 +108,6 @@ class Project(models.Model):
     strains = models.ManyToManyField("Strain", db_column="Strain")
     researchers = models.ManyToManyField(CustomUser)
 
-    # Rework how mice_count is calculated. Currently done in views.py.
-    # Should be whenever a mouse is added to a project.
-    mice_count = 0
-
     def __str__(self):
         return f"{self.project_name}"
 

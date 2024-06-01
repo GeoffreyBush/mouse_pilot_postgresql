@@ -89,8 +89,10 @@ class TransferToStockCageViewTestCase(TestCase):
         self.assertTemplateUsed(response, "transfer_to_stock_cage.html")
 
     # POST TransferToStockCageForm with valid data
+    # If tube numbers given, correct assignment
     def test_transfer_to_stock_cage_valid_data(self):
         pass
+    
 
     # POST TransferToStockCageForm with invalid data
 
@@ -98,6 +100,8 @@ class TransferToStockCageViewTestCase(TestCase):
 
     # None of the tube numbers in the formset can be identical
 
-    # All tube numbers must exist and be integers
+    # If no tube numbers given, correct default assignment when formset is loaded
+
+    # All tube numbers must exist in the formset
 
     # Can't transfer from the same breeding cage twice

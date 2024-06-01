@@ -14,15 +14,6 @@ from website.models import Project, Request
 @login_required
 def list_projects(request):
     myprojects = Project.objects.all()
-    mymice = Mouse.objects.all()
-
-    # Update mice counts of each project - inefficient n^m time
-    # Should be made a Project or Mouse object method instead
-    for project in myprojects:
-        for mouse in mymice:
-            if project.project_name == mouse.project.project_name:
-                project.mice_count += 1
-
     template = loader.get_template("researcher/list_projects.html")
     context = {
         # Could add researcher/user variable here

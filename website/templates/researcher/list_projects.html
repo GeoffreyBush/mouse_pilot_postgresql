@@ -27,20 +27,20 @@
                 </thead>
                 <tbody>
                     {% for project in myprojects %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'show_project' project.project_name %}">
-                                <h3 class="t-op-nextlvl">{{ project.project_name }}</h3>
-                                <h3 class="t-op-nextlvl label-tag"></h3> <!-- Fancy button class -->
-                            </a>
-                        </td>
-                        <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
-                        <td>{{ project.research_area }}</td>
-                        <td>placeholder</td>
-                        <td>{{ project.mice_count }}</td>
-                        
-                    </tr>
-                {% endfor %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'show_project' project.project_name %}">
+                                    <h3 class="t-op-nextlvl">{{ project.project_name }}</h3>
+                                    <h3 class="t-op-nextlvl label-tag"></h3> <!-- Fancy button class -->
+                                </a>
+                            </td>
+                            <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
+                            <td>{{ project.research_area }}</td>
+                            <td>placeholder</td>
+                            <td>{{ project.mice.count }}</td>
+                            
+                        </tr>
+                    {% endfor %}
             </tbody>
             
         </div>

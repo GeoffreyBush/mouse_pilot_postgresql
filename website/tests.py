@@ -258,9 +258,9 @@ class ProjectModelTestCase(TestCase):
     """ Replace this test to use the future class method, Project.mice_count() instead """
 
     def test_project_mice_count(self):
-        self.assertEqual(self.project.mice_count, 0)
-        self.project.mice_count += 1
-        self.assertEqual(self.project.mice_count, 1)
+        self.assertEqual(self.project.mice.count(), 0)
+        MouseFactory(project=self.project)
+        self.assertEqual(self.project.mice.count(), 1)
 
 
 """
@@ -495,7 +495,7 @@ class ListProjectsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.project1, response.context["myprojects"])
         self.assertIn(self.project2, response.context["myprojects"])
-        self.assertEqual(self.project1.mice_count, 0)
+        # correct number of total mice in project
 
     # Access the project listview without logging in
     def test_list_projects_view_login_required(self):
