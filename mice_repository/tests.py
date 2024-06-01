@@ -131,7 +131,6 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertEqual(self.strain.mice_count, 1)
 
 
-
 class MiceRepositoryViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
