@@ -1,5 +1,5 @@
 from datetime import date
-import factory
+
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
