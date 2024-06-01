@@ -75,19 +75,21 @@ class RepositoryMiceFormTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory()
 
-    def test_mice_form_valid_data(self):
+    def test_valid_data(self):
         self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=1)
         self.assertTrue(self.form.is_valid())
 
-    def test_mice_form_invalid_dob(self):
+    def test_invalid_dob(self):
         self.invalid_dob_form = RepositoryMiceFormFactory.create(dob=None)
         self.assertIn("dob", self.invalid_dob_form.errors)
+
+    def test_initial_strain_mice_count(self):
+        self.assertEqual(self.strain.mice_count, 0)
 
     def test_mice_form_has_no_global_id_field(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
     def test_mouse_model_count(self):
-        self.assertEqual(Mouse.objects.all().count(), 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain)
         self.form.save()
         self.assertEqual(Mouse.objects.all().count(), 1)
@@ -98,33 +100,28 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertEqual(self.mouse._tube, 123)
 
     def test_manual_tube_correct_mice_count(self):
-        self.assertEqual(self.strain.mice_count, 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=123)
         self.mouse = self.form.save()
         self.strain.refresh_from_db()
         self.assertEqual(self.strain.mice_count, 1)
 
     def test_auto_tube_correct_tube_value(self):
-        self.assertEqual(self.strain.mice_count, 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain)
         self.mouse = self.form.save()
         self.assertEqual(self.mouse._tube, 1)
 
     def test_auto_tube_correct_mice_count(self):
-        self.assertEqual(self.strain.mice_count, 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain)
         self.form.save()
         self.strain.refresh_from_db()
         self.assertEqual(self.strain.mice_count, 1)
 
     def test_tube_is_none_correct_tube_value(self):
-        self.assertEqual(self.strain.mice_count, 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=None)
         self.mouse = self.form.save()
         self.assertEqual(self.mouse._tube, 1)
 
     def test_tube_is_none_correct_mice_count(self):
-        self.assertEqual(self.strain.mice_count, 0)
         self.form = RepositoryMiceFormFactory.create(strain=self.strain, _tube=None)
         self.form.save()
         self.strain.refresh_from_db()
