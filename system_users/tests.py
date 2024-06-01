@@ -135,20 +135,20 @@ class CustomUserCreationFormTest(TestCase):
     # Email too long
 
 
-""" Broken tests for CustomUserChangeForm. Not sure why. Not urgent to fix """
+
 
 
 class CustomUserChangeFormTestCase(TestCase):
     def setUp(self):
-        self.user = UserFactory(username="olduser")
+        self.user = UserFactory(username="old_user")
+        self.form = CustomUserChangeFormFactory.create(self.user)
 
     def test_valid_data(self):
-        self.form = CustomUserChangeFormFactory.create(instance=self.user.pk)
-        for field in self.form:
-            print(field)
+
+        self.assertTrue(self.form.is_valid())
 
     #  self.assertIn("username", self.form.errors)
-    # self.assertTrue(self.form.is_valid())
+    # 
 
     # def test_empty_username(self):
     #   form = CustomUserChangeFormFactory.create(new_user=None, email=None)
@@ -182,6 +182,7 @@ class CustomUserPasswordResetFormTest(TestCase):
     def setUp(self):
         pass
 
+# Additional tests for other CustomUser forms
 
 class SignUpViewTest(TestCase):
 
@@ -217,4 +218,4 @@ class SignUpViewTest(TestCase):
     # What if user is already logged in?
 
 
-# Tests for each view associated with CustomUser: logout, password_reset, etc
+# Additional tests for each view associated with CustomUser: logout, password_reset, etc

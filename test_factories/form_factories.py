@@ -66,16 +66,15 @@ class CustomUserCreationFormFactory:
 
 class CustomUserChangeFormFactory:
     @staticmethod
-    def create(**kwargs):
+    def create(old_user, **kwargs):
         data = CustomUserChangeFormFactory.valid_data(**kwargs)
-        return CustomUserChangeForm(data=data)
+        return CustomUserChangeForm(instance=old_user, data=data)
 
     @staticmethod
     def valid_data(**kwargs):
         return {
-            "instance": kwargs.get("old_user", "olduser"),
-            "new_user": kwargs.get("new_user", "newuser"),
-            "email": kwargs.get("newuser@example.com"),
+            "username": kwargs.get("username", "new_user"),
+            "email": kwargs.get("email", "newuser@example.com"),
         }
 
 
