@@ -1,6 +1,5 @@
 from datetime import date
 
-
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
 from stock_cage.forms import BatchFromBreedingCageForm
@@ -113,7 +112,7 @@ class RepositoryMiceFormFactory:
         if strain is not None and kwargs.get("_tube") is None:
             _tube = strain.mice_count
         elif strain is not None and kwargs.get("_tube") is not None:
-            _tube = strain.mice_count+1
+            _tube = strain.mice_count + 1
         elif strain is None and kwargs.get("_tube") is not None:
             strain = StrainFactory()
             _tube = kwargs.get("_tube")
