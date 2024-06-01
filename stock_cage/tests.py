@@ -53,13 +53,13 @@ class BatchFromBreedingCageFormTestCase(TestCase):
 
     #
     def test_missing_tube_number(self):
-        #self.data.pop("tube")
+        # self.data.pop("tube")
         form = BatchFromBreedingCageFormFactory.create(_tube=None)
         self.assertFalse(form.is_valid())
 
     def test_tube_number_not_integer(self):
 
-        #self.data["tube"] = "str"
+        # self.data["tube"] = "str"
         self.form = BatchFromBreedingCageFormFactory.create(_tube="str")
         self.assertFalse(self.form.is_valid())
 
