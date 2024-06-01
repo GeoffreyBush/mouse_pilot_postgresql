@@ -35,7 +35,7 @@
 
             <!-- Confirm request. Could be expanded to flag system -->
             <td>
-                {% if not request.confirmed %}<a href="{% url 'confirm_request' request.request_id %}">Confirm Request</a>
+                {% if not request.confirmed %}<a href="{% url 'website:confirm_request' request.request_id %}">Confirm Request</a>
                 {% else %}Confirmed
                 {% endif %}
             </td>

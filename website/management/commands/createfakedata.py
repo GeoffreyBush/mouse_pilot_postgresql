@@ -16,7 +16,8 @@ from test_factories.constants import (
     RESEARCH_AREAS,
     STRAINS,
 )
-from website.models import Comment, Project, Strain
+from website.models import Comment, Strain
+from projects.models import Project
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
 

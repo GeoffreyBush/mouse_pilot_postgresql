@@ -6,7 +6,8 @@ from stock_cage.models import StockCage
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from system_users.models import CustomUser
 
-from .models import Comment, Project, Strain
+from website.models import Comment, Strain
+from projects.models import Project
 
 
 # Changes what attributes are displayed and which attributes you can filter by in admin page

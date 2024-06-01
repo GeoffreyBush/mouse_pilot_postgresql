@@ -41,7 +41,7 @@ class MouseFactory(factory.django.DjangoModelFactory):
 
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "website.Project"
+        model = "projects.Project"
 
     project_name = factory.Sequence(lambda n: f"project{n}")
     research_area = random.choice(RESEARCH_AREAS)

@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from website.forms import RequestForm
-from website.models import Project, Request
+from website.models import Request
+from projects.models import Project
 
 
 @login_required
@@ -25,7 +26,7 @@ def add_request(http_request, project_name):
             task = form.save(commit=False)
             task.save()
             task.mice.set(form.cleaned_data["mice"])
-            return redirect("show_project", project_name=project_name)
+            return redirect("projects:show_project", project_name=project_name)
     else:
         form = RequestForm(project=project)
     return render(
@@ -37,7 +38,7 @@ def add_request(http_request, project_name):
 def confirm_request(http_request, request_id):
     req = Request.objects.get(pk=request_id)
     req.confirm()
-    return redirect("show_requests")
+    return redirect("website:show_requests")
 
 
 # This show_message view doesn't work currently - no popup renders on show_request.html

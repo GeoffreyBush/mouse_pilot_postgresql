@@ -8,13 +8,14 @@ from django.template import loader
 from mice_repository.models import Mouse
 from website.filters import ProjectFilter
 from website.forms import MouseSelectionForm
-from website.models import Project, Request
+from website.models import Request
+from projects.models import Project
 
 
 @login_required
 def list_projects(request):
     myprojects = Project.objects.all()
-    template = loader.get_template("researcher/list_projects.html")
+    template = loader.get_template("list_projects.html")
     context = {
         # Could add researcher/user variable here
         "myprojects": myprojects,
@@ -50,7 +51,7 @@ def show_project(http_request, project_name):
         elif "cancel" in http_request.GET:
             filter = ProjectFilter(queryset=mymice)
 
-        template = loader.get_template("researcher/show_project.html")
+        template = loader.get_template("show_project.html")
         context = {
             "myproject": myproject,
             "mymice": mymice,
@@ -66,11 +67,11 @@ def show_project(http_request, project_name):
         if form.is_valid():
             form.save()
             form.mice.set(form.cleaned_data["mice"])
-            return redirect("add_request")
+            return redirect("website:add_request")
         else:
             return render(
                 http_request,
-                "researcher/show_project.html",
+                "show_project.html",
                 {"form": form, "project_name": project_name},
             )
     return render(http_request, "add_request.html", {"project_name": project_name})

@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     "website",
     "breeding_cage",
     "mice_repository",
-    "test_factories",
+    "projects",
     "stock_cage",
+    "test_factories",
 ]
 
 MIDDLEWARE = [
@@ -145,7 +146,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Which HTML page to go to after login or logout
-LOGIN_REDIRECT_URL = "/website/list_projects"
+LOGIN_REDIRECT_URL = "/projects/list_projects"
 LOGOUT_REDIRECT_URL = "/"
 
 # This line enables testing of password recovery without having to send emails

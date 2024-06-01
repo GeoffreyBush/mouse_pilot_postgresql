@@ -1,46 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 
 from mice_repository.models import Mouse
-from website.forms import ProjectMiceForm
-
-
-@login_required
-def edit_mouse(request, project_name, tube):
-    mouse = Mouse.objects.get(pk=tube)
-    if request.method == "POST":
-        form = ProjectMiceForm(request.POST, instance=mouse)
-        if form.is_valid():
-            form.save()
-            return redirect("show_project", project_name=project_name)
-    else:
-        form = ProjectMiceForm(instance=mouse)
-    return render(
-        request, "edit_mouse.html", {"form": form, "project_name": project_name}
-    )
-
-
-@login_required
-def add_preexisting_mouse_to_project(request, project_name):
-    if request.method == "POST":
-        form = ProjectMiceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("show_project", project_name=project_name)
-    else:
-        form = ProjectMiceForm()
-    return render(
-        request,
-        "researcher/add_preexisting_mouse_to_project.html",
-        {"mice_form": form, "project_name": project_name},
-    )
 
 
 @login_required
 def delete_mouse(request, project_name, tube):
     mouse = Mouse.objects.get(pk=tube)
     mouse.delete()
-    return redirect("show_project", project_name=project_name)
+    return redirect("projects:show_project", project_name=project_name)
 
 
 # Edit history is broken by missing tube attribute in mice
