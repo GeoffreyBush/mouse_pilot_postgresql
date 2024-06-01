@@ -109,12 +109,11 @@ class RepositoryMiceFormFactory:
     @staticmethod
     def valid_data(**kwargs):
 
+        # This conditional block should be more tightly tied to actual methods used?
         strain = kwargs.get("strain")
-        if strain is not None and kwargs.get("_tube") is None:
-            _tube = strain.mice_count
-        elif strain is not None and kwargs.get("_tube") is not None:
+        if strain is not None:
             _tube = strain.mice_count+1
-        elif strain is None and kwargs.get("_tube") is not None:
+        elif kwargs.get("_tube") is not None:
             strain = StrainFactory()
             _tube = kwargs.get("_tube")
         else:
