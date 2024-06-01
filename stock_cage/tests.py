@@ -36,7 +36,7 @@ class BatchFromBreedingCageFormTestCase(TestCase):
         self.strain = Strain.objects.create(strain_name="TestStrain")
         self.form = BatchFromBreedingCageFormFactory.create(strain=self.strain)
 
-    def test_valid_data(self):  
+    def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
     def test_correct_strain(self):
