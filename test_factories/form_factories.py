@@ -1,6 +1,5 @@
 from datetime import date
 
-
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
 from stock_cage.forms import BatchFromBreedingCageForm
