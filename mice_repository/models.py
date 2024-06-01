@@ -58,7 +58,11 @@ class Mouse(models.Model):
     )
 
     project = models.ForeignKey(
-        "projects.Project", on_delete=models.PROTECT, null=True, blank=True, related_name="mice"
+        "website.Project",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="mice",
     )
 
     clipped_date = models.DateField(db_column="Clipped Date", null=True, blank=True)

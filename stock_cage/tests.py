@@ -92,7 +92,6 @@ class TransferToStockCageViewTestCase(TestCase):
     # If tube numbers given, correct assignment
     def test_transfer_to_stock_cage_valid_data(self):
         pass
-    
 
     # POST TransferToStockCageForm with invalid data
 
