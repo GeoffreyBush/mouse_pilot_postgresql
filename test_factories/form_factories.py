@@ -113,7 +113,7 @@ class RepositoryMiceFormFactory:
         if strain is not None and kwargs.get("_tube") is None:
             _tube = strain.mice_count
         elif strain is not None and kwargs.get("_tube") is not None:
-            _tube = strain.mice_count+1 # Shouldn't strain auto increment?
+            _tube = strain.mice_count+1
         elif strain is None and kwargs.get("_tube") is not None:
             strain = StrainFactory()
             _tube = kwargs.get("_tube")
