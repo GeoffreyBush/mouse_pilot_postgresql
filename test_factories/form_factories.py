@@ -1,7 +1,7 @@
 from datetime import date
 
 from breeding_cage.forms import BreedingCageForm
-from system_users.forms import CustomUserCreationForm, CustomUserChangeForm
+from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from test_factories.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -14,6 +14,7 @@ from website.forms import RequestForm
 # Can rewrite these factories to make better use of kwargs, requiring less repeating code
 # The rewrite can remove the need to return data, can return the form object instead
 # Less factory methods, more flexibility
+
 
 class BreedingCageFormFactory:
 
@@ -59,9 +60,10 @@ class CustomUserCreationFormFactory:
             "username": kwargs.get("username", "testuser"),
             "email": kwargs.get("email", "test@example.com"),
             "password1": kwargs.get("password1", "testpassword"),
-            "password2": kwargs.get("password2", "testpassword")
+            "password2": kwargs.get("password2", "testpassword"),
         }
-    
+
+
 class CustomUserChangeFormFactory:
     @staticmethod
     def create(**kwargs):
@@ -73,7 +75,7 @@ class CustomUserChangeFormFactory:
         return {
             "instance": kwargs.get("old_user", "olduser"),
             "new_user": kwargs.get("new_user", "newuser"),
-            "email": kwargs.get("newuser@example.com")
+            "email": kwargs.get("newuser@example.com"),
         }
 
 

@@ -4,10 +4,13 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
 
-from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
+from system_users.forms import CustomUserCreationForm
 from system_users.models import CustomUser
 from system_users.views import SignUpView
-from test_factories.form_factories import CustomUserCreationFormFactory, CustomUserChangeFormFactory
+from test_factories.form_factories import (
+    CustomUserChangeFormFactory,
+    CustomUserCreationFormFactory,
+)
 from test_factories.model_factories import UserFactory
 
 
@@ -55,7 +58,7 @@ class CustomUserTest(TestCase):
 
     # make sure this is not password complexity
     def test_password_similar_to_username(self):
-        #self.user = UserFactory(username="testuser")
+        # self.user = UserFactory(username="testuser")
         with self.assertRaises(ValidationError):
             validate_password("testuser", self.user)
 
@@ -131,7 +134,10 @@ class CustomUserCreationFormTest(TestCase):
 
     # Email too long
 
+
 """ Broken tests for CustomUserChangeForm. Not sure why. Not urgent to fix """
+
+
 class CustomUserChangeFormTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="olduser")
@@ -140,14 +146,13 @@ class CustomUserChangeFormTestCase(TestCase):
         self.form = CustomUserChangeFormFactory.create(instance=self.user.pk)
         for field in self.form:
             print(field)
-      #  self.assertIn("username", self.form.errors)
-       # self.assertTrue(self.form.is_valid())
 
-    #def test_empty_username(self):
-     #   form = CustomUserChangeFormFactory.create(new_user=None, email=None)
-      #  self.assertFalse(form.is_valid())
+    #  self.assertIn("username", self.form.errors)
+    # self.assertTrue(self.form.is_valid())
 
-    
+    # def test_empty_username(self):
+    #   form = CustomUserChangeFormFactory.create(new_user=None, email=None)
+    #  self.assertFalse(form.is_valid())
 
     # New username too short
 
@@ -157,25 +162,25 @@ class CustomUserChangeFormTestCase(TestCase):
 
     # New password too long
 
-    #def test_duplicate_username(self):
-     #   UserFactory(username="newuser", email="old@example.com")
-      #  form = CustomUserChangeFormFactory.create(newuser="newuser")
-       # self.assertIn("username", form.errors)
+    # def test_duplicate_username(self):
+    #   UserFactory(username="newuser", email="old@example.com")
+    #  form = CustomUserChangeFormFactory.create(newuser="newuser")
+    # self.assertIn("username", form.errors)
 
     def test_duplicate_email(self):
         pass
 
-    #def test_invalid_email(self):
-     #   form = CustomUserChangeForm(
-      #      instance=self.user, data={"username": "newuser", "email": "invalid_email"}
-       # )
-        #self.assertIn("email", form.errors)
+    # def test_invalid_email(self):
+    #   form = CustomUserChangeForm(
+    #      instance=self.user, data={"username": "newuser", "email": "invalid_email"}
+    # )
+    # self.assertIn("email", form.errors)
+
 
 class CustomUserPasswordResetFormTest(TestCase):
 
     def setUp(self):
         pass
-
 
 
 class SignUpViewTest(TestCase):
