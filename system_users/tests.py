@@ -135,9 +135,6 @@ class CustomUserCreationFormTest(TestCase):
     # Email too long
 
 
-
-
-
 class CustomUserChangeFormTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="old_user")
@@ -148,7 +145,7 @@ class CustomUserChangeFormTestCase(TestCase):
         self.assertTrue(self.form.is_valid())
 
     #  self.assertIn("username", self.form.errors)
-    # 
+    #
 
     # def test_empty_username(self):
     #   form = CustomUserChangeFormFactory.create(new_user=None, email=None)
@@ -182,7 +179,9 @@ class CustomUserPasswordResetFormTest(TestCase):
     def setUp(self):
         pass
 
+
 # Additional tests for other CustomUser forms
+
 
 class SignUpViewTest(TestCase):
 
