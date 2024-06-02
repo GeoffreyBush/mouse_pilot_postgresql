@@ -3,8 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.models import Mouse
-from test_factories.form_factories import RequestFormFactory
-from test_factories.model_factories import (
+from mouse_pilot_postgresql.form_factories import RequestFormFactory
+from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,

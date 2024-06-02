@@ -4,8 +4,8 @@ from django.urls import reverse
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
-from test_factories.form_factories import RepositoryMiceFormFactory
-from test_factories.model_factories import MouseFactory, StrainFactory, UserFactory
+from mouse_pilot_postgresql.form_factories import RepositoryMiceFormFactory
+from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory, UserFactory
 
 
 class MouseModelTestCase(TestCase):

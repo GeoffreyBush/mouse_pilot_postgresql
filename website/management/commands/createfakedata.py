@@ -11,7 +11,7 @@ from mice_repository.models import Mouse
 from projects.models import Project
 from stock_cage.models import StockCage
 from system_users.models import CustomUser
-from test_factories.constants import (
+from mouse_pilot_postgresql.constants import (
     EARMARK_CHOICES,
     PROJECT_NAMES,
     RESEARCH_AREAS,

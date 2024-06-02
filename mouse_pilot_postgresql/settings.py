@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "mice_repository",
     "projects",
     "stock_cage",
-    "test_factories",
 ]
 
 MIDDLEWARE = [

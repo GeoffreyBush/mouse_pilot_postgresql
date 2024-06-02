@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from test_factories.model_factories import (
+from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,

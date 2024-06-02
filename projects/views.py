@@ -7,7 +7,7 @@ from django.template import loader
 
 from mice_repository.models import Mouse
 from projects.models import Project
-from website.filters import ProjectFilter
+from projects.filters import ProjectFilter
 from website.forms import MouseSelectionForm
 from website.models import Request
 
@@ -17,7 +17,6 @@ def list_projects(request):
     myprojects = Project.objects.all()
     template = loader.get_template("list_projects.html")
     context = {
-        # Could add researcher/user variable here
         "myprojects": myprojects,
     }
     return HttpResponse(template.render(context, request))

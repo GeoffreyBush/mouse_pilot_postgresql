@@ -5,7 +5,7 @@ import factory
 from django.contrib.auth import get_user_model
 from faker import Faker
 
-from test_factories.constants import RESEARCH_AREAS
+from mouse_pilot_postgresql.constants import RESEARCH_AREAS
 
 fake = Faker()
 

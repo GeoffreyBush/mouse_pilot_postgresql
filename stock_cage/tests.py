@@ -4,8 +4,8 @@ from django.urls import reverse
 from mice_repository.models import Mouse
 from stock_cage.forms import BatchFromBreedingCageForm
 from stock_cage.models import StockCage
-from test_factories.form_factories import BatchFromBreedingCageFormFactory
-from test_factories.model_factories import (
+from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
+from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
     MouseFactory,
     StockCageFactory,

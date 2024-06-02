@@ -4,7 +4,7 @@ from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
 from stock_cage.forms import BatchFromBreedingCageForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
-from test_factories.model_factories import (
+from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     StockCageFactory,
