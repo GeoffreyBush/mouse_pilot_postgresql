@@ -3,6 +3,7 @@ from django import forms
 
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 
+
 class ProjectFilter(django_filters.FilterSet):
 
     id = django_filters.CharFilter(

@@ -1,9 +1,9 @@
 from django import forms
 
 from mice_repository.models import Mouse
+from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from projects.models import Project
 from stock_cage.models import StockCage
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from website.models import CustomUser, Strain
 
 

@@ -2,8 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.models import Mouse
-from stock_cage.forms import BatchFromBreedingCageForm
-from stock_cage.models import StockCage
 from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
@@ -11,6 +9,8 @@ from mouse_pilot_postgresql.model_factories import (
     StockCageFactory,
     UserFactory,
 )
+from stock_cage.forms import BatchFromBreedingCageForm
+from stock_cage.models import StockCage
 from website.models import Strain
 
 

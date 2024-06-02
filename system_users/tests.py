@@ -4,14 +4,14 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
 
-from system_users.forms import CustomUserCreationForm
-from system_users.models import CustomUser
-from system_users.views import SignUpView
 from mouse_pilot_postgresql.form_factories import (
     CustomUserChangeFormFactory,
     CustomUserCreationFormFactory,
 )
 from mouse_pilot_postgresql.model_factories import UserFactory
+from system_users.forms import CustomUserCreationForm
+from system_users.models import CustomUser
+from system_users.views import SignUpView
 
 
 class CustomUserTest(TestCase):

@@ -8,15 +8,15 @@ from faker import Faker
 
 from breeding_cage.models import BreedingCage
 from mice_repository.models import Mouse
-from projects.models import Project
-from stock_cage.models import StockCage
-from system_users.models import CustomUser
 from mouse_pilot_postgresql.constants import (
     EARMARK_CHOICES,
     PROJECT_NAMES,
     RESEARCH_AREAS,
     STRAINS,
 )
+from projects.models import Project
+from stock_cage.models import StockCage
+from system_users.models import CustomUser
 from website.models import Comment, Strain
 
 # Adapted from https://www.youtube.com/watch?v=8LHdbaV7Dvo
