@@ -43,15 +43,17 @@ class ShowProjectView(View):
         return HttpResponse(template.render(context, http_request))
 
     def post(self, http_request, project_name):
-        project = Project.objects.get(pk=project_name)
-        form = MouseSelectionForm(project=project)
-        if form.is_valid():
-            form.save()
-            form.mice.set(form.cleaned_data["mice"])
-            return redirect("website:add_request")
-        else:
-            return render(
-                http_request,
-                "show_project.html",
-                {"form": form, "project_name": project_name},
-            )
+
+        if "add_request" in http_request.POST:
+            project = Project.objects.get(pk=project_name)
+            form = MouseSelectionForm(project=project)
+            if form.is_valid():
+                form.save()
+                form.mice.set(form.cleaned_data["mice"])
+                return redirect("website:add_request")
+            else:
+                return render(
+                    http_request,
+                    "show_project.html",
+                    {"form": form, "project_name": project_name},
+                )
