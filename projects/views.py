@@ -24,11 +24,12 @@ def show_project(http_request, project_name):
     project = Project.objects.get(pk=project_name)
 
     if http_request.method == "GET":
-        project_mice = Mouse.objects.filter(project=project_name)
 
-        filter = ProjectFilter(http_request.GET, queryset=project_mice)
+        # Can unit test this form area separately if needed
+        project_mice = Mouse.objects.filter(project=project_name)
         if "search" in http_request.GET:
-            project_mice = filter.qs
+            filter = ProjectFilter(http_request.GET, queryset=project_mice)
+            project_mice = filter
         else:
             project_mice = ProjectFilter(queryset=project_mice)
 
