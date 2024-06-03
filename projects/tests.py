@@ -31,6 +31,7 @@ class ProjectModelTestCase(TestCase):
 
 # Filter form tests
 
+
 class ListProjectsViewTestCase(TestCase):
 
     def setUp(self):
@@ -91,68 +92,81 @@ class ShowProjectViewTest(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
+
 class ProjectMouseFilterViewTestCase(TestCase):
 
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2 = MouseFactory(sex="M", project=self.project, earmark="TL"), MouseFactory(sex="F", project=self.project, earmark="TL")
-        self.mouse3, self.mouse4 = MouseFactory(sex="M", project=self.project), MouseFactory(sex="F", project=self.project)
+        self.mouse1, self.mouse2 = MouseFactory(
+            sex="M", project=self.project, earmark="TL"
+        ), MouseFactory(sex="F", project=self.project, earmark="TL")
+        self.mouse3, self.mouse4 = MouseFactory(
+            sex="M", project=self.project
+        ), MouseFactory(sex="F", project=self.project)
 
     def test_empty_filter(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]) 
+            reverse("projects:show_project", args=[self.project.project_name])
         )
         self.assertEqual(len(response.context["project_mice"].qs), 4)
 
     def test_filter_cancelled(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"cancel": ""}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"cancel": ""},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 4)
 
     def test_sex_filter_applied(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "sex": "M"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "sex": "M"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 2)
 
     def test_earmark_filter(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "earmark": "TL"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "earmark": "TL"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 2)
 
     def test_earmark_and_sex_filter(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "earmark": "TL", "sex": "F"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "earmark": "TL", "sex": "F"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 1)
 
     def test_cancel_after_filter(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "earmark": "TL"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "earmark": "TL"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 2)
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"cancel": ""}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"cancel": ""},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 4)
 
     def test_no_matching_mice(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "earmark": "TR"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "earmark": "TR"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 0)
 
     def test_filter_replace_another_filter(self):
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "earmark": "TL"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "earmark": "TL"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 2)
         response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name]), {"search": "", "earmark": "TR"}
+            reverse("projects:show_project", args=[self.project.project_name]),
+            {"search": "", "earmark": "TR"},
         )
         self.assertEqual(len(response.context["project_mice"].qs), 0)
-

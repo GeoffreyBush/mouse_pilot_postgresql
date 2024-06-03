@@ -1,13 +1,13 @@
 import django_filters
 from django import forms
 
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from mice_repository.models import Mouse
+from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 
 
 class ProjectFilter(django_filters.FilterSet):
 
-    earmarks = (EARMARK_CHOICES_PAIRED[1:])
+    earmarks = EARMARK_CHOICES_PAIRED[1:]
 
     sex = django_filters.ChoiceFilter(
         choices=SEX_CHOICES,
