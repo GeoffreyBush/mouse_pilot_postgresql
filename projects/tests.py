@@ -72,7 +72,6 @@ class ShowProjectViewTest(TestCase):
         self.assertTemplateUsed(response, "show_project.html")
         self.assertIn("project", response.context)
         self.assertIn("project_mice", response.context)
-        
 
     def test_get_request_unauthenticated(self):
         self.client.logout()

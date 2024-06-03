@@ -174,4 +174,3 @@ class EditBreedingCageViewTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_breeding_cage.html")
-
