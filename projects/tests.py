@@ -99,11 +99,12 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2, self.mouse3, self.mouse4 = MouseFactory(
-        sex="M", project=self.project, earmark="TL"
-        ), MouseFactory(sex="F", project=self.project, earmark="TL"
-        ), MouseFactory(sex="M", project=self.project
-        ), MouseFactory(sex="F", project=self.project)
+        self.mouse1, self.mouse2, self.mouse3, self.mouse4 = (
+            MouseFactory(sex="M", project=self.project, earmark="TL"),
+            MouseFactory(sex="F", project=self.project, earmark="TL"),
+            MouseFactory(sex="M", project=self.project),
+            MouseFactory(sex="F", project=self.project),
+        )
 
     def test_empty_filter(self):
         response = self.client.get(
