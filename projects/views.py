@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
-from django.views import View
 from django.utils.decorators import method_decorator
+from django.views import View
 
 from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
@@ -21,7 +21,7 @@ def list_projects(request):
     return HttpResponse(template.render(context, request))
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name="dispatch")
 class ShowProjectView(View):
 
     # Could add form/template class variables here
@@ -55,4 +55,3 @@ class ShowProjectView(View):
                 "show_project.html",
                 {"form": form, "project_name": project_name},
             )
-    
