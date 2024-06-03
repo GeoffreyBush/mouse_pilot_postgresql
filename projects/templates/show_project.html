@@ -1,7 +1,7 @@
 {% extends 'base_template.html' %} {% load static %}
 {% block title %}View Project{% endblock %} {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid py-3">
 
 	<!-- Functionality buttons -->
 	<div class="d-flex justify-content-between align-items-center mb-3">
@@ -17,12 +17,12 @@
 			<div class="col-md-8">
 				{% for field in filter.form %}
 				<span>
-				<label for="id_{{ field.label }}">{{ field.label }}</label>
+				{{ field.label }}
 				{{ field }}
 				</span>
 				{% endfor %}
 			</div>
-			<div class="col-md-4 text-center">
+			<div class="d-flex align-items-center justify-content-around col-md-4">
 				<button type="submit" name="search" class="btn btn-primary">Search</button>
 				<button type="submit" name="cancel" class="btn btn-secondary">Cancel</button>
 			</div>
@@ -30,46 +30,46 @@
 	</form>
 
 	<!-- Table of mice -->
-	<div class="overflow-auto">
-		<form method="post" action="{% url 'website:add_request' project_name=project_name %}">
-			{% csrf_token %}
-			<table class="main-table" id="mice_table">
-				<thead>
-					<tr class="position-sticky" style="top: 0">
-						<th>Select</th>
-						<th>Mouse ID</th>
-						<th>Genotyped</th>
-						<th>Date of Birth</th>
-						<th>Sex</th>
-						<th>Earmark</th>
-						<th>Tree</th>
-						<th>Edit</th>
-						<th>Delete</th>
-					</tr>
-				</thead>
-				<tbody>
-				{% for mouse in filter.qs %}
-				<tr {% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}">
-					<td><input type="checkbox" name="mice" value='{{ mouse.id }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
-					<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.id }}</td>
-					<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.dob }}</td>
-					<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.sex }}</td>
-					<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.earmark }}</td>
-					
-					
-					<td>edit</td>
-					<td>
-						<a onclick="return confirm('Are you sure you want to delete this mouse?')" href="#">
-							del-nolink
-						</a>
-					</td>
+
+	<!--
+	<form method="post" action="{% url 'website:add_request' project_name=project_name %}">
+		{% csrf_token %}-->
+		<table class="table table-striped table-hover table-bordered">
+			<thead class="thead-light">
+				<tr class="sticky-top">
+					<th>Select</th>
+					<th>Mouse ID</th>
+					<th>Genotyped</th>
+					<th>Date of Birth</th>
+					<th>Sex</th>
+					<th>Earmark</th>
+					<th>Tree</th>
+					<th>Edit</th>
+					<th>Delete</th>
 				</tr>
-				{% endfor %}
-				</tbody>
-			</table>
-		</form>
+			</thead>
+			<tbody>
+			{% for mouse in filter.qs %}
+			<tr {% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}">
+				<td><input type="checkbox" name="mice" value='{{ mouse.id }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
+				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.id }}</td>
+				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.dob }}</td>
+				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.sex }}</td>
+				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.earmark }}</td>
+				
+				
+				<td>edit</td>
+				<td>
+					<a onclick="return confirm('Are you sure you want to delete this mouse?')" href="#">
+						del-nolink
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	<!--</form>-->
 		
-	</div>
 </div>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 {% endblock %}

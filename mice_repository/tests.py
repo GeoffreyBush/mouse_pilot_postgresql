@@ -90,7 +90,7 @@ class RepositoryMiceFormTestCase(TestCase):
     def test_initial_strain_mice_count(self):
         self.assertEqual(self.strain.mice_count, 0)
 
-    def test_mice_form_has_no_global_id_field(self):
+    def test_no_global_id_field(self):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
     def test_mouse_model_count(self):
@@ -142,7 +142,7 @@ class MiceRepositoryViewTestCase(TestCase):
     # def test_signup_view_attributes(self):
     # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
 
-    def test_mice_repository_view_get_request_authenticated(self):
+    def test_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:mice_repository"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "mice_repository.html")

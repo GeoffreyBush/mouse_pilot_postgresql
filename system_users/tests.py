@@ -51,16 +51,14 @@ class CustomUserTest(TestCase):
         with self.assertRaises(ValidationError):
             validate_password("58472842931")
 
-    # make sure this is not password complexity
     def test_password_common(self):
         with self.assertRaises(ValidationError):
-            validate_password("password")
+            validate_password("qwerty123")
 
-    # make sure this is not password complexity
     def test_password_similar_to_username(self):
-        # self.user = UserFactory(username="testuser")
+        self.user = UserFactory(username="w3-Fsw_rd1")
         with self.assertRaises(ValidationError):
-            validate_password("testuser", self.user)
+            validate_password("w3-Fsw_rd1", self.user)
 
     # Missing email
 

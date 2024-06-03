@@ -4,37 +4,41 @@
 {% block content %}
 
 <div class="container-fluid py-3">
+
+    <!-- Functionality buttons -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Projects</h1>
         <button class="btn btn-primary">New Project</button>
     </div>
-    <table class="table table-striped table-hover" id="projects_table">
-    <thead class="thead-light">
-        <tr>
-            <th>Name</th>
-            <th>Lines</th>
-            <th>Research area</th>
-            <th>Total cages</th>
-            <th>Total mice</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for project in myprojects %}
-            <tr>
-                <td>
-                    <a href="{% url 'projects:show_project' project.project_name %}" class="text-decoration-none text-dark">
-                        <h3>{{ project.project_name }}</h3>
-                        <h3 class="d-none"></h3>
-                    </a>
-                </td>
-                <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
-                <td>{{ project.research_area }}</td>
-                <td>placeholder</td>
-                <td>{{ project.mice.count }}</td>
-                
+
+    <!-- Table of projects -->
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="thead-light">
+            <tr class="sticky-top">
+                <th>Name</th>
+                <th>Lines</th>
+                <th>Research area</th>
+                <th>Total cages</th>
+                <th>Total mice</th>
             </tr>
-        {% endfor %}
-</tbody>
+        </thead>
+        <tbody>
+            {% for project in myprojects %}
+                <tr>
+                    <td>
+                        <a href="{% url 'projects:show_project' project.project_name %}" class="text-decoration-none text-dark">
+                            <h3>{{ project.project_name }}</h3>
+                            <h3 class="d-none"></h3>
+                        </a>
+                    </td>
+                    <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
+                    <td>{{ project.research_area }}</td>
+                    <td>placeholder</td>
+                    <td>{{ project.mice.count }}</td>
+                    
+                </tr>
+            {% endfor %}
+    </tbody>
 </table>
 
 </div>

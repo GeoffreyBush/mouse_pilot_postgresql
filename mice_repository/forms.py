@@ -7,7 +7,8 @@ from stock_cage.models import StockCage
 from website.models import CustomUser, Strain
 
 
-# Add validation handling for duplicate _global_id here
+# Add validation handling for duplicate _global_id here?
+# Needed for formset validation. Could do this in the view
 class RepositoryMiceForm(forms.ModelForm):
 
     _tube = forms.IntegerField(
