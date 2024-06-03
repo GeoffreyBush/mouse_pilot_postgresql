@@ -1,6 +1,6 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
-from django.core.exceptions import ObjectDoesNotExist
 
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
@@ -29,6 +29,7 @@ class ProjectModelTestCase(TestCase):
         MouseFactory(project=self.project)
         self.assertEqual(self.project.mice.count(), 1)
 
+
 class ProjectMouseFilterTestCase(TestCase):
 
     def setUp(self):
@@ -55,7 +56,6 @@ class ProjectMouseFilterTestCase(TestCase):
     # No mice match the applied filter
 
 
-
 class ListProjectsViewTestCase(TestCase):
 
     def setUp(self):
@@ -78,7 +78,9 @@ class ListProjectsViewTestCase(TestCase):
             response, f'/accounts/login/?next={reverse("projects:list_projects")}'
         )
 
+
 # Create new project
+
 
 class ShowProjectViewTest(TestCase):
     def setUp(self):
@@ -94,12 +96,12 @@ class ShowProjectViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "show_project.html")
-        #self.assertContains(response, self.project.project_name)
-        #self.assertIn("myproject", response.context)
-        #self.assertIn("mymice", response.context)
-        #self.assertIn("mice_ids_with_requests", response.context)
-        #self.assertIn("project_name", response.context)
-        #self.assertIn("filter", response.context)
+        # self.assertContains(response, self.project.project_name)
+        # self.assertIn("myproject", response.context)
+        # self.assertIn("mymice", response.context)
+        # self.assertIn("mice_ids_with_requests", response.context)
+        # self.assertIn("project_name", response.context)
+        # self.assertIn("filter", response.context)
 
     def test_get_request_unauthenticated(self):
         self.client.logout()
@@ -107,18 +109,16 @@ class ShowProjectViewTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
-    
+
     # POST MouseSelectionForm
-    #def test_show_project_post(self):
-     #   response = self.client.post(
-      #      reverse("add_request", args=[self.project.project_name])
-       # )
-        #self.assertEqual(response.status_code, 200)
-        #self.assertTemplateUsed(response, "add_request.html")
+    # def test_show_project_post(self):
+    #   response = self.client.post(
+    #      reverse("add_request", args=[self.project.project_name])
+    # )
+    # self.assertEqual(response.status_code, 200)
+    # self.assertTemplateUsed(response, "add_request.html")
 
     # Access non-existent project
     def test_show_non_existent_project(self):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
-
-
