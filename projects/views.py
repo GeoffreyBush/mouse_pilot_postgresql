@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
+from django.views import View
+from django.utils.decorators import method_decorator
 
 from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
@@ -19,13 +21,13 @@ def list_projects(request):
     return HttpResponse(template.render(context, request))
 
 
-@login_required
-def show_project(http_request, project_name):
-    project = Project.objects.get(pk=project_name)
+@method_decorator(login_required, name='dispatch')
+class ShowProjectView(View):
 
-    if http_request.method == "GET":
+    # Could add form/template class variables here
 
-        # Can unit test this form area separately if needed
+    def get(self, http_request, project_name):
+        project = Project.objects.get(pk=project_name)
         project_mice = Mouse.objects.filter(project=project_name)
         if "search" in http_request.GET:
             filter = ProjectFilter(http_request.GET, queryset=project_mice)
@@ -40,8 +42,8 @@ def show_project(http_request, project_name):
         }
         return HttpResponse(template.render(context, http_request))
 
-    # If "Add Request" button is pressed
-    if http_request.method == "POST":
+    def post(self, http_request, project_name):
+        project = Project.objects.get(pk=project_name)
         form = MouseSelectionForm(project=project)
         if form.is_valid():
             form.save()
@@ -53,4 +55,4 @@ def show_project(http_request, project_name):
                 "show_project.html",
                 {"form": form, "project_name": project_name},
             )
-    return render(http_request, "add_request.html", {"project_name": project_name})
+    
