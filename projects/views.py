@@ -1,5 +1,3 @@
-from itertools import chain
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -9,7 +7,6 @@ from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
 from projects.models import Project
 from website.forms import MouseSelectionForm
-from website.models import Request
 
 
 @login_required
@@ -24,45 +21,27 @@ def list_projects(request):
 
 @login_required
 def show_project(http_request, project_name):
-    myproject = Project.objects.get(pk=project_name)
+    project = Project.objects.get(pk=project_name)
 
-    # Load page with no "Add Request" form submission
     if http_request.method == "GET":
+        project_mice = Mouse.objects.filter(project=project_name)
 
-        # Select only those mice that belong to this project
-        mymice = Mouse.objects.filter(project=project_name)
-
-        # Select all mice that belong to this project that have a request
-        queryset_miceids = chain(
-            *[
-                mymice.filter(_tube__in=request.mice.all())
-                for request in Request.objects.all()
-            ]
-        )
-        mice_ids_with_requests = []
-        for mouse in queryset_miceids:
-            mice_ids_with_requests.append(mouse.pk)
-
-        # Was the search or cancel filter button pressed?
-        filter = ProjectFilter(http_request.GET, queryset=mymice)
+        filter = ProjectFilter(http_request.GET, queryset=project_mice)
         if "search" in http_request.GET:
-            mymice = filter.qs
-        elif "cancel" in http_request.GET:
-            filter = ProjectFilter(queryset=mymice)
+            project_mice = filter.qs
+        else:
+            project_mice = ProjectFilter(queryset=project_mice)
 
         template = loader.get_template("show_project.html")
         context = {
-            "myproject": myproject,
-            "mymice": mymice,
-            "mice_ids_with_requests": mice_ids_with_requests,
-            "project_name": project_name,
-            "filter": filter,
+            "project": project,
+            "project_mice": project_mice,
         }
         return HttpResponse(template.render(context, http_request))
 
     # If "Add Request" button is pressed
     if http_request.method == "POST":
-        form = MouseSelectionForm(project=myproject)
+        form = MouseSelectionForm(project=project)
         if form.is_valid():
             form.save()
             form.mice.set(form.cleaned_data["mice"])
