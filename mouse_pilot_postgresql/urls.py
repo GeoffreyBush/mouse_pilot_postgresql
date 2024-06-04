@@ -14,9 +14,7 @@ urlpatterns = [
     ),
     path("projects/", include("projects.urls", namespace="projects")),
     path("stock_cage/", include("stock_cage.urls", namespace="stock_cage")),
-    path(
-        "mice_requests/", include("mice_requests.urls", namespace="mice_requests")
-    ),
+    path("mice_requests/", include("mice_requests.urls", namespace="mice_requests")),
     path("", RedirectView.as_view(url="website/", permanent=True)),
     path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

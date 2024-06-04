@@ -1,4 +1,5 @@
 from django.urls import path
+
 from mice_requests import views
 
 app_name = "mice_requests"
@@ -11,7 +12,9 @@ urlpatterns = [
         name="confirm_request",
     ),
     path(
-        "mice_requests:add_request/<str:project_name>/", views.add_request, name="add_request"
+        "mice_requests:add_request/<str:project_name>/",
+        views.add_request,
+        name="add_request",
     ),
     # Request messaging is not implemented yet
     path("show_message/<int:request_id>/", views.show_message, name="show_message"),

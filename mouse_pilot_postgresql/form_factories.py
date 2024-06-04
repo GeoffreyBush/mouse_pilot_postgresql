@@ -2,6 +2,7 @@ from datetime import date
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
+from mice_requests.forms import RequestForm
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -11,7 +12,6 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from stock_cage.forms import BatchFromBreedingCageForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
-from mice_requests.forms import RequestForm
 
 
 class BreedingCageFormFactory:

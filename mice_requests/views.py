@@ -1,11 +1,9 @@
-from django.shortcuts import render
-
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
-from projects.models import Project
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
+from projects.models import Project
 
 
 @login_required

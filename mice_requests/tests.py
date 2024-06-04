@@ -1,10 +1,14 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.model_factories import MouseFactory, ProjectFactory, StrainFactory, UserFactory
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
-
+from mouse_pilot_postgresql.model_factories import (
+    MouseFactory,
+    ProjectFactory,
+    StrainFactory,
+    UserFactory,
+)
 
 ###############
 ### REQUEST ###
@@ -48,6 +52,7 @@ class RequestModelTestCase(TestCase):
     """
 
     # There must be at least one mouse present in a request
+
 
 class ShowRequestsViewTest(TestCase):
     def setUp(self):

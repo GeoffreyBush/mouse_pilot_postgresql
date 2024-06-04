@@ -3,7 +3,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -14,7 +13,6 @@ from website.forms import MouseSelectionForm
 from website.models import Strain
 
 # Need to test where home page, logout page redirect to
-
 
 
 ############################
@@ -175,6 +173,3 @@ class EditHistoryViewTest(TestCase):
 
     # Should test an actual edit of the mice here too
 """
-
-
-

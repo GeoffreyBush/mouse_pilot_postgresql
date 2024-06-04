@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Comment(models.Model):
 
     # Comment ID primary key is derived from Mouse ID primary key
