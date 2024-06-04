@@ -11,7 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from stock_cage.forms import BatchFromBreedingCageForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
-from website.forms import RequestForm
+from mice_requests.forms import RequestForm
 
 
 class BreedingCageFormFactory:

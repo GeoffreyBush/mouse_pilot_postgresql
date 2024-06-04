@@ -50,7 +50,7 @@ class ShowProjectView(View):
             if form.is_valid():
                 form.save()
                 form.mice.set(form.cleaned_data["mice"])
-                return redirect("website:add_request")
+                return redirect("mice_requests:add_request")
             else:
                 return render(
                     http_request,

@@ -50,6 +50,9 @@ jobs:
     - name: Test mice_repository app
       run: python manage.py test mice_repository
 
+    - name: Test mice_requests app
+      run: python manage.py test mice_requests
+
     - name: Test projects app
       run: python manage.py test projects
 

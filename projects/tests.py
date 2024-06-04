@@ -83,7 +83,7 @@ class ShowProjectViewTest(TestCase):
     # POST MouseSelectionForm
     def test_show_project_post(self):
         response = self.client.post(
-            reverse("website:add_request", args=[self.project.project_name])
+            reverse("mice_requests:add_request", args=[self.project.project_name])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")

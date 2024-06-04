@@ -1,9 +1,9 @@
 from django import forms
-
+from django.contrib.auth import get_user_model
 from mice_repository.models import Mouse
+from mice_requests.models import Request
 
-
-class MouseSelectionForm(forms.ModelForm):
+class RequestForm(forms.ModelForm):
 
     # Override __init__() to filter mice by project
     def __init__(self, *args, **kwargs):
@@ -15,11 +15,14 @@ class MouseSelectionForm(forms.ModelForm):
         else:
             self.fields["mice"].queryset = Mouse.objects.all()
 
+    # Add checkbox for mice selection
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
         widget=forms.CheckboxSelectMultiple,
     )
 
+    researcher = forms.ModelChoiceField(queryset=get_user_model().objects.all())
+
     class Meta:
-        model = Mouse
-        fields = ["mice"]
+        model = Request
+        fields = ["mice", "task_type", "researcher", "new_message"]
