@@ -9,13 +9,18 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
+
 
 class ProjectModelTestCase(TestCase):
 
     def setUp(self):
-        self.project = ProjectFactory()
+        self.project = ProjectFactory(project_name="testproject")
         self.project.strains.add(StrainFactory(), StrainFactory())
         self.project.researchers.add(UserFactory(), UserFactory())
+
+    def test_project_pk(self):
+        self.assertEqual(self.project.pk, "testproject")
 
     def test_many_to_many_strains(self):
         self.assertEqual(self.project.strains.count(), 2)
@@ -29,6 +34,16 @@ class ProjectModelTestCase(TestCase):
         self.assertEqual(self.project.mice.count(), 1)
 
 
+class NewProjectFormTestCase(TestCase):
+    def setUp(self):
+        self.form = NewProjectFormFactory.create()
+
+    def test_valid_form(self):
+        self.assertTrue(self.form.is_valid())
+
+    def test_no_project_name(self):
+        pass
+
 # Filter form tests
 
 
@@ -37,15 +52,15 @@ class ListProjectsViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.project1, self.project2 = ProjectFactory(), ProjectFactory()
-        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
-        self.project1.mice.add(self.mouse1, self.mouse2)
+        self.mouse1 = MouseFactory()
+        self.project1.mice.add(self.mouse1)
 
     def test_get_request_authenticated(self):
         self.client.login(username=self.user.username, password="testpassword")
         response = self.client.get(reverse("projects:list_projects"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["myprojects"].count(), 2)
-        self.assertEqual(response.context["myprojects"][0].mice.count(), 2)
+        self.assertEqual(response.context["myprojects"][0].mice.count(), 1)
 
     def test_get_request_unauthenticated(self):
         response = self.client.get(reverse("projects:list_projects"))
