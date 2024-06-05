@@ -1,10 +1,9 @@
 from datetime import date
-import factory
+
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
 from mice_requests.forms import RequestForm
-from projects.forms import NewProjectForm
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -12,6 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
     UserFactory,
 )
+from projects.forms import NewProjectForm
 from stock_cage.forms import BatchFromBreedingCageForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 
@@ -153,13 +153,14 @@ class BatchFromBreedingCageFormFactory:
             "dob": kwargs.get("dob", date.today()),
             "stock_cage": kwargs.get("stock_cage", StockCageFactory()),
         }
-    
+
+
 class NewProjectFormFactory:
     @staticmethod
     def create(**kwargs):
         data = NewProjectFormFactory.valid_data(**kwargs)
         return NewProjectForm(data=data)
-    
+
     @staticmethod
     def valid_data(**kwargs):
         return {

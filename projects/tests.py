@@ -2,14 +2,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
+from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
 )
-
-from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 
 
 class ProjectModelTestCase(TestCase):
@@ -43,6 +42,7 @@ class NewProjectFormTestCase(TestCase):
 
     def test_no_project_name(self):
         pass
+
 
 # Filter form tests
 
