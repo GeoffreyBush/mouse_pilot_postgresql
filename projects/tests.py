@@ -80,15 +80,14 @@ class ShowProjectViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
-    # POST MouseSelectionForm
-    def test_show_project_post(self):
+    # Need to test that correct number of selected mice are carried over to add_request view
+    def test_post_mice_add_request(self):
         response = self.client.post(
             reverse("mice_requests:add_request", args=[self.project.project_name])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")
 
-    # Access non-existent project
     def test_show_non_existent_project(self):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))

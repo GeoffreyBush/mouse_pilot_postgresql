@@ -67,3 +67,14 @@ class StockCageFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = "stock_cage.StockCage"
+
+class RequestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "mice_requests.Request"
+
+    project = factory.SubFactory(ProjectFactory)
+    task_type = random.choice(["Cl", "Cu", "Mo", "We"])
+    mice = factory.SubFactory(MouseFactory)
+    new_message = fake.text(200)
+    date_requested = date.today()
+    date_completed = date.today()

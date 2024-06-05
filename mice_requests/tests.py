@@ -10,10 +10,6 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
-###############
-### REQUEST ###
-###############
-
 
 class RequestModelTestCase(TestCase):
     def setUp(self):
@@ -28,12 +24,17 @@ class RequestModelTestCase(TestCase):
         )
         self.request.mice.add(self.mouse1, self.mouse2)
 
-    # Request creation
     def test_request_creation(self):
         self.assertIsInstance(self.request, Request)
 
-    # Test is broken until confirming clip adds an earmark
-    # Confirm method
+    def test_request_pk(self):
+        self.assertEqual(self.request.pk, 1)
+
+    def test_many_to_many_mice(self):
+        self.assertQuerySetEqual(
+            self.request.mice.all(), [self.mouse1, self.mouse2], ordered=False
+        )
+
     """
     def test_request_confirm(self):
         self.assertFalse(self.request.confirmed)
@@ -51,8 +52,13 @@ class RequestModelTestCase(TestCase):
             self.assertTrue(mouse.is_genotyped())
     """
 
-    # There must be at least one mouse present in a request
+   
 
+class RequestFormTestCase(TestCase):
+    def setUp(self):
+        pass
+
+     # There must be at least one mouse present in a request
 
 class ShowRequestsViewTest(TestCase):
     def setUp(self):
@@ -112,20 +118,18 @@ class AddRequestViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
-    # POST RequestForm with valid data
-    # mouse.tube has broken this test
     """
     def test_add_request_post_valid(self):
-        url = reverse("add_request", args=[self.project.project_name])
+        url = reverse("mice_requests:add_request", args=[self.project.project_name])
         data = {
             "task_type": "Cl",
-            "mice": [self.mice[0].tube, self.mice[1].tube],
+            "mice": [self.mice[0]._tube, self.mice[1]._tube],
             "new_message": "Test message",
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
-            response, reverse("show_project", args=[self.project.project_name])
+            response, reverse("projects:show_project", args=[self.project.project_name])
         )
         self.assertTrue(
             Request.objects.filter(task_type="Cl", mice__in=self.mice).exists()

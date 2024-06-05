@@ -1,5 +1,4 @@
 from django.db import models
-
 from system_users.models import CustomUser
 
 
@@ -17,13 +16,13 @@ class Request(models.Model):
         CustomUser, on_delete=models.SET_NULL, null=True, blank=True
     )
     task_type = models.CharField(max_length=2, choices=TASK_CHOICES, default="Cl")
-
-    # Should set constraints to have at least one mouse and delete if there are none
     mice = models.ManyToManyField("mice_repository.Mouse", db_column="Mouse")
 
     confirmed = models.BooleanField(
         default=False
     )  # confirmed attribute could be switched to flag with choices?
+
+    # Message system is not robust enough
     new_message = models.CharField(max_length=1000, null=True, blank=True)
     message_history = models.CharField(max_length=10000, null=True, blank=True)
 
@@ -43,6 +42,7 @@ class Request(models.Model):
 
     def __str__(self):
         return f"{self.request_id}"
+
 
     class Meta:
         managed = True
