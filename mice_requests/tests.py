@@ -52,13 +52,13 @@ class RequestModelTestCase(TestCase):
             self.assertTrue(mouse.is_genotyped())
     """
 
-   
 
 class RequestFormTestCase(TestCase):
     def setUp(self):
         pass
 
-     # There must be at least one mouse present in a request
+    # There must be at least one mouse present in a request
+
 
 class ShowRequestsViewTest(TestCase):
     def setUp(self):

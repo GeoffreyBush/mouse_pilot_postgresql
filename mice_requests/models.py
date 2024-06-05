@@ -1,4 +1,5 @@
 from django.db import models
+
 from system_users.models import CustomUser
 
 
@@ -42,7 +43,6 @@ class Request(models.Model):
 
     def __str__(self):
         return f"{self.request_id}"
-
 
     class Meta:
         managed = True
