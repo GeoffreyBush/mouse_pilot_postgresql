@@ -68,6 +68,7 @@ class StockCageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "stock_cage.StockCage"
 
+
 class RequestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "mice_requests.Request"
