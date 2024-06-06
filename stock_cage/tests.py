@@ -1,6 +1,5 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
-
 
 from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
