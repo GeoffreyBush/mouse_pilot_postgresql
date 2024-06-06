@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
 from django.test import Client, TestCase
 from django.urls import reverse
-from django.db.utils import IntegrityError
 
 from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 from mouse_pilot_postgresql.model_factories import (
@@ -36,7 +36,7 @@ class ProjectModelTestCase(TestCase):
         self.assertEqual(self.project.mice.count(), 0)
         MouseFactory(project=self.project)
         self.assertEqual(self.project.mice.count(), 1)
-    
+
     def test_uniqueness_of_project_name(self):
         with self.assertRaises(IntegrityError):
             ProjectFactory(project_name="testproject")

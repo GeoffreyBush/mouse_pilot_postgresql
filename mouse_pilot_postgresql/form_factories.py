@@ -5,7 +5,6 @@ from mice_repository.forms import RepositoryMiceForm
 from mice_requests.forms import RequestForm
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
-    ProjectFactory,
     StockCageFactory,
     StrainFactory,
     UserFactory,
