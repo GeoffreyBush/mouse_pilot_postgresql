@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 
 from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
@@ -50,14 +50,17 @@ class NewProjectFormTestCase(TestCase):
 
 class ListProjectsViewTestCase(TestCase):
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.project1, self.project2 = ProjectFactory(), ProjectFactory()
-        self.mouse1 = MouseFactory()
-        self.project1.mice.add(self.mouse1)
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory()
+        cls.client = Client()
+        cls.project1, cls.project2 = ProjectFactory(), ProjectFactory()
+        cls.mouse1 = MouseFactory()
+        cls.project1.mice.add(cls.mouse1)
 
     def test_get_request_authenticated(self):
-        self.client.login(username=self.user.username, password="testpassword")
+        self.client.force_login(self.user)
         response = self.client.get(reverse("projects:list_projects"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["myprojects"].count(), 2)
@@ -75,12 +78,15 @@ class ListProjectsViewTestCase(TestCase):
 
 
 class ShowProjectViewTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
-        self.project = ProjectFactory()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.user = UserFactory(username="testuser")
+        cls.project = ProjectFactory()
 
     def test_get_request_authenticated(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name])
         )
@@ -90,7 +96,6 @@ class ShowProjectViewTest(TestCase):
         self.assertIn("project_mice", response.context)
 
     def test_get_request_unauthenticated(self):
-        self.client.logout()
         url = reverse("projects:show_project", args=[self.project.project_name])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
@@ -98,6 +103,7 @@ class ShowProjectViewTest(TestCase):
 
     # Need to test that correct number of selected mice are carried over to add_request view
     def test_post_mice_add_request(self):
+        self.client.force_login(self.user)
         response = self.client.post(
             reverse("mice_requests:add_request", args=[self.project.project_name])
         )
@@ -105,30 +111,34 @@ class ShowProjectViewTest(TestCase):
         self.assertTemplateUsed(response, "add_request.html")
 
     def test_show_non_existent_project(self):
+        self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
 
 class ProjectMouseFilterViewTestCase(TestCase):
-
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
-        self.project = ProjectFactory()
-        self.mouse1, self.mouse2, self.mouse3, self.mouse4 = (
-            MouseFactory(sex="M", project=self.project, earmark="TL"),
-            MouseFactory(sex="F", project=self.project, earmark="TL"),
-            MouseFactory(sex="M", project=self.project),
-            MouseFactory(sex="F", project=self.project),
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory(username="testuser")
+        cls.client = Client()
+        cls.project = ProjectFactory()
+        cls.mouse1, cls.mouse2, cls.mouse3, cls.mouse4 = (
+            MouseFactory(sex="M", project=cls.project, earmark="TL"),
+            MouseFactory(sex="F", project=cls.project, earmark="TL"),
+            MouseFactory(sex="M", project=cls.project),
+            MouseFactory(sex="F", project=cls.project),
         )
 
     def test_empty_filter(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name])
         )
         self.assertEqual(len(response.context["project_mice"].qs), 4)
 
     def test_filter_cancelled(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"cancel": ""},
@@ -136,6 +146,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.assertEqual(len(response.context["project_mice"].qs), 4)
 
     def test_sex_filter_applied(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "sex": "M"},
@@ -143,6 +154,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.assertEqual(len(response.context["project_mice"].qs), 2)
 
     def test_earmark_filter(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "earmark": "TL"},
@@ -150,6 +162,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.assertEqual(len(response.context["project_mice"].qs), 2)
 
     def test_earmark_and_sex_filter(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "earmark": "TL", "sex": "F"},
@@ -157,6 +170,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.assertEqual(len(response.context["project_mice"].qs), 1)
 
     def test_cancel_after_filter(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "earmark": "TL"},
@@ -169,6 +183,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.assertEqual(len(response.context["project_mice"].qs), 4)
 
     def test_no_matching_mice(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "earmark": "TR"},
@@ -176,6 +191,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         self.assertEqual(len(response.context["project_mice"].qs), 0)
 
     def test_filter_replace_another_filter(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "earmark": "TL"},
