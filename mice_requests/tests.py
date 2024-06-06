@@ -102,6 +102,16 @@ class AddRequestViewTest(TestCase):
         self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
         self.mice = [self.mouse1, self.mouse2]
 
+    # Need to test that correct number of selected mice are carried over to add_request view
+    # This test was copied from projects.tests. It checks the MouseSelectionForm carried over to the add_request view
+    def test_post_mice_add_request(self):
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("mice_requests:add_request", args=[self.project.project_name])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "add_request.html")
+
     # GET RequestForm while logged in
     def test_add_request_get(self):
         url = reverse("mice_requests:add_request", args=[self.project.project_name])

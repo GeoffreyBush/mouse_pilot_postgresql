@@ -27,8 +27,8 @@ class ShowProjectView(View):
     # Could add form/template class variables here
 
     def get(self, http_request, project_name):
-        project = Project.objects.get(pk=project_name)
-        project_mice = Mouse.objects.filter(project=project_name)
+        project = Project.objects.get(project_name=project_name)
+        project_mice = Mouse.objects.filter(project=project.pk)
         if "search" in http_request.GET:
             filter = ProjectFilter(http_request.GET, queryset=project_mice)
             project_mice = filter

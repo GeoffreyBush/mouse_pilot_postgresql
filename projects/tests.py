@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
+from django.db.utils import IntegrityError
 
 from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 from mouse_pilot_postgresql.model_factories import (
@@ -19,8 +20,11 @@ class ProjectModelTestCase(TestCase):
         cls.project.strains.add(StrainFactory(), StrainFactory())
         cls.project.researchers.add(UserFactory(), UserFactory())
 
-    def test_project_pk(self):
-        self.assertEqual(self.project.pk, "testproject")
+    def test_project_pk_is_int(self):
+        self.assertIsInstance(self.project.pk, int)
+
+    def test_project_name(self):
+        self.assertEqual(self.project.project_name, "testproject")
 
     def test_many_to_many_strains(self):
         self.assertEqual(self.project.strains.count(), 2)
@@ -32,6 +36,10 @@ class ProjectModelTestCase(TestCase):
         self.assertEqual(self.project.mice.count(), 0)
         MouseFactory(project=self.project)
         self.assertEqual(self.project.mice.count(), 1)
+    
+    def test_uniqueness_of_project_name(self):
+        with self.assertRaises(IntegrityError):
+            ProjectFactory(project_name="testproject")
 
 
 class NewProjectFormTestCase(TestCase):
@@ -42,6 +50,12 @@ class NewProjectFormTestCase(TestCase):
         self.assertTrue(self.form.is_valid())
 
     def test_no_project_name(self):
+        pass
+
+    def test_uniqueness_of_project_name(self):
+        pass
+
+    def test_name_change_doesnt_create_duplicate(self):
         pass
 
 
@@ -100,15 +114,6 @@ class ShowProjectViewTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
-
-    # Need to test that correct number of selected mice are carried over to add_request view
-    def test_post_mice_add_request(self):
-        self.client.force_login(self.user)
-        response = self.client.post(
-            reverse("mice_requests:add_request", args=[self.project.project_name])
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_request.html")
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)

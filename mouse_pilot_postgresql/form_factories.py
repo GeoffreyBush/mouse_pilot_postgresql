@@ -122,7 +122,7 @@ class RepositoryMiceFormFactory:
             "sex": kwargs.get("sex", "M"),
             "dob": kwargs.get("dob", date.today()),
             "clipped_date": kwargs.get("clipped_date", date.today()),
-            "project": kwargs.get("project", ProjectFactory()),
+            "project": kwargs.get("project", ""),
             "earmark": kwargs.get("earmark", ""),
             "genotyper": kwargs.get("genotyper", UserFactory().id),
             "strain": strain,
@@ -163,6 +163,7 @@ class NewProjectFormFactory:
     @staticmethod
     def valid_data(**kwargs):
         return {
+            "project_id": kwargs.get("project_id", 1),
             "project_name": kwargs.get("project_name", "testproject"),
             "research_area": kwargs.get("research_area", "TestArea"),
             "strains": kwargs.get("strains", [StrainFactory()]),

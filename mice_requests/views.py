@@ -17,7 +17,7 @@ def add_request(http_request, project_name):
     # Find associated project, if it exists
     project = None
     if project_name is not None:
-        project = Project.objects.get(pk=project_name)
+        project = Project.objects.get(project_name=project_name)
 
     # Fetch RequestForm
     if http_request.method == "POST":

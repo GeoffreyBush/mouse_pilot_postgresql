@@ -9,7 +9,9 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     StrainFactory,
     UserFactory,
+    ProjectFactory,
 )
+from projects.models import Project
 
 
 class MouseModelTestCase(TestCase):
