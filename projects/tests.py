@@ -12,11 +12,12 @@ from mouse_pilot_postgresql.model_factories import (
 
 
 class ProjectModelTestCase(TestCase):
-
-    def setUp(self):
-        self.project = ProjectFactory(project_name="testproject")
-        self.project.strains.add(StrainFactory(), StrainFactory())
-        self.project.researchers.add(UserFactory(), UserFactory())
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = ProjectFactory(project_name="testproject")
+        cls.project.strains.add(StrainFactory(), StrainFactory())
+        cls.project.researchers.add(UserFactory(), UserFactory())
 
     def test_project_pk(self):
         self.assertEqual(self.project.pk, "testproject")
