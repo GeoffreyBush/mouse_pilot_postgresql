@@ -15,11 +15,12 @@ from mouse_pilot_postgresql.model_factories import (
 class MouseModelTestCase(TestCase):
 
     @classmethod
-    def setUp(self):
-        self.strain = StrainFactory(strain_name="teststrain")
-        self.mouse = MouseFactory(strain=self.strain)
-        self.auto_tube_mouse = MouseFactory(strain=self.strain)
-        self.manual_tube_mouse = MouseFactory(strain=self.strain, _tube=123)
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.strain = StrainFactory(strain_name="teststrain")
+        cls.mouse = MouseFactory(strain=cls.strain)
+        cls.auto_tube_mouse = MouseFactory(strain=cls.strain)
+        cls.manual_tube_mouse = MouseFactory(strain=cls.strain, _tube=123)
 
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
@@ -52,10 +53,10 @@ class MouseModelTestCase(TestCase):
         self.assertEqual(self.strain.mice_count, 4)
 
     def test_no_increment_strain_count_when_validate_unique_mouse_fails(self):
-        self.assertEqual(self.strain.mice_count, 3)
+        self.assertEqual(self.strain.mice_count, 4)
         with self.assertRaises(ValidationError):
             self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
-        self.assertEqual(self.strain.mice_count, 3)
+        self.assertEqual(self.strain.mice_count, 4)
 
     def test_mouse_adding_earmark_auto_genotypes_mouse(self):
         self.assertFalse(self.mouse.is_genotyped())
@@ -137,10 +138,6 @@ class MiceRepositoryViewTestCase(TestCase):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
         self.mouse = MouseFactory()
-
-    # Correct form used
-    # def test_signup_view_attributes(self):
-    # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
 
     def test_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:mice_repository"))

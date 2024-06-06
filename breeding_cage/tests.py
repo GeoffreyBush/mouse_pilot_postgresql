@@ -1,5 +1,5 @@
 from django.db.utils import IntegrityError
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 
 from breeding_cage.forms import BreedingCageForm
@@ -17,14 +17,15 @@ from mouse_pilot_postgresql.model_factories import (
 class BreedingCageModelTestCase(TestCase):
 
     @classmethod
-    def setUp(self):
-        self.strain = StrainFactory()
-        self.mother = MouseFactory(sex="F", strain=self.strain)
-        self.father = MouseFactory(sex="M", strain=self.strain)
-        self.breeding_cage = BreedingCageFactory(
-            mother=self.mother, father=self.father, male_pups=5, female_pups=3
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.strain = StrainFactory()
+        cls.mother = MouseFactory(sex="F", strain=cls.strain)
+        cls.father = MouseFactory(sex="M", strain=cls.strain)
+        cls.breeding_cage = BreedingCageFactory(
+            mother=cls.mother, father=cls.father, male_pups=5, female_pups=3
         )
-        self.new_mouse = Mouse.objects.all().last()
+        cls.new_mouse = Mouse.objects.all().last()
 
     def test_creation(self):
         self.assertIsInstance(self.breeding_cage, BreedingCage)
@@ -43,11 +44,8 @@ class BreedingCageModelTestCase(TestCase):
 
 class BreedingCageFormTestCase(TestCase):
 
-    def setUp(self):
-        self.form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
-        self.breeding_cage = self.form.save()
-
     def test_valid_form(self):
+        self.form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
         self.assertTrue(self.form.is_valid())
 
     def test_invalid_father(self):
@@ -60,14 +58,16 @@ class BreedingCageFormTestCase(TestCase):
 
 
 class ListBreedingCagesViewTestCase(TestCase):
-
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
-        self.strain = StrainFactory()
-        self.cage = BreedingCageFactory()
+    @classmethod
+    def setUp(cls):
+        super().setUpClass()
+        cls.user = UserFactory(username="testuser")
+        cls.client = Client()
+        cls.strain = StrainFactory()
+        cls.cage = BreedingCageFactory()
 
     def test_get_authenticated(self):
+        self.client.force_login(self.user)
         response = self.client.get(reverse("breeding_cage:list_breeding_cages"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "list_breeding_cages.html")
@@ -75,7 +75,6 @@ class ListBreedingCagesViewTestCase(TestCase):
         self.assertIn(self.cage, response.context["mycages"])
 
     def test_get_unauthenticated(self):
-        self.client.logout()
         url = reverse("breeding_cage:list_breeding_cages")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
@@ -83,12 +82,15 @@ class ListBreedingCagesViewTestCase(TestCase):
 
 
 class ViewBreedingCageViewTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.cage = BreedingCageFactory()
-        self.client.login(username="testuser", password="testpassword")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory(username="testuser")
+        cls.cage = BreedingCageFactory()
+        cls.client = Client()
 
     def test_get_authenticated(self):
+        self.client.force_login(self.user)
         response = self.client.get(
             reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
         )
@@ -98,7 +100,6 @@ class ViewBreedingCageViewTestCase(TestCase):
         self.assertEqual(response.context["mycage"], self.cage)
 
     def test_get_unauthenticated_user(self):
-        self.client.logout()
         url = reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
@@ -106,23 +107,26 @@ class ViewBreedingCageViewTestCase(TestCase):
 
 
 class AddBreedingCageViewTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory(username="testuser")
+        cls.client = Client()
 
     def test_get_authenticated(self):
+        self.client.force_login(self.user)
         response = self.client.get(reverse("breeding_cage:add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
 
     def test_get_unauthenticated(self):
-        self.client.logout()
         url = reverse("breeding_cage:add_breeding_cage")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     def test_create_breeding_cage_post_valid(self):
+        self.client.force_login(self.user)
         data = BreedingCageFormFactory.valid_data()
         response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
@@ -130,17 +134,19 @@ class AddBreedingCageViewTestCase(TestCase):
         self.assertEqual(BreedingCage.objects.count(), 1)
 
     def test_create_breeding_cage_post_invalid(self):
+        self.client.force_login(self.user)
         data = BreedingCageFormFactory.invalid_mother()
         response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
 
 
+# Cannot easily use setUpClass here. Test cages need to be isolated.
 class EditBreedingCageViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
         self.cage = BreedingCageFactory()
+        self.client.login(username="testuser", password="testpassword")
 
     def test_get_authenticated(self):
         response = self.client.get(
