@@ -17,8 +17,9 @@ from system_users.views import SignUpView
 class CustomUserTest(TestCase):
 
     @classmethod
-    def setUp(self):
-        self.user = UserFactory(username="testuser", email="testuser@example.com")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory(username="testuser", email="testuser@example.com")
 
     def test_user_creation(self):
         self.assertIsInstance(self.user, CustomUser)
@@ -29,7 +30,7 @@ class CustomUserTest(TestCase):
     def test_user_correct_username(self):
         self.assertEqual(self.user.username, "testuser")
 
-    # Username top short
+    # Username too short
 
     # Username too long
 
@@ -68,13 +69,15 @@ class CustomUserTest(TestCase):
 
     # Incorrect email format
 
+    def test_user_already_logged_in(self):
+        self.client.login(username="testuser", password="testpassword")
+        self.client.login(username="testuser", password="testpassword")
 
-class CustomUserCreationFormTest(TestCase):
 
-    def setUp(self):
-        self.form = CustomUserCreationFormFactory.create()
+class CustomUserCreationFormTest(TestCase):        
 
     def test_valid_data(self):
+        self.form = CustomUserCreationFormFactory.create()
         self.assertTrue(self.form.is_valid())
 
     def test_min_username_length_5(self):
@@ -115,10 +118,10 @@ class CustomUserCreationFormTest(TestCase):
         self.assertIn("password1", self.form.errors)
 
     def test_password_mismatch(self):
-        form = CustomUserCreationFormFactory.create(
+        self.form = CustomUserCreationFormFactory.create(
             password1="w3-Fsw_rd1", password2="w2-Xsw_rd1"
         )
-        self.assertIn("password2", form.errors)
+        self.assertIn("password2", self.form.errors)
 
     def test_empty_email(self):
         self.form = CustomUserCreationFormFactory.create(email=None)
@@ -183,8 +186,10 @@ class CustomUserPasswordResetFormTest(TestCase):
 
 class SignUpViewTest(TestCase):
 
-    def setUp(self):
-        self.valid_data = CustomUserCreationFormFactory.valid_data()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.valid_data = CustomUserCreationFormFactory.valid_data()
 
     def test_correct_form(self):
         self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
