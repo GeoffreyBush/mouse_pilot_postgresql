@@ -1,5 +1,5 @@
 from django.db.utils import IntegrityError
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from breeding_cage.forms import BreedingCageForm
