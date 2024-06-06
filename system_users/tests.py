@@ -74,7 +74,7 @@ class CustomUserTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
 
 
-class CustomUserCreationFormTest(TestCase):        
+class CustomUserCreationFormTest(TestCase):
 
     def test_valid_data(self):
         self.form = CustomUserCreationFormFactory.create()
