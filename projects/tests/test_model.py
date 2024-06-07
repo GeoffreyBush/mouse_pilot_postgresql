@@ -1,5 +1,5 @@
-from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from mouse_pilot_postgresql.model_factories import (
