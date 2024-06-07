@@ -5,7 +5,6 @@ from django.template import loader
 
 from breeding_cage.forms import BreedingCageForm
 from breeding_cage.models import BreedingCage
-from stock_cage.forms import BatchFromBreedingCageForm
 
 
 @login_required
@@ -50,5 +49,3 @@ def edit_breeding_cage(request, box_no):
     else:
         form = BreedingCageForm(instance=cage)
     return render(request, "edit_breeding_cage.html", {"form": form})
-
-

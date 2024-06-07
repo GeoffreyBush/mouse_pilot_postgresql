@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
 from django.forms import formset_factory
-
+from django.shortcuts import redirect, render
 
 from breeding_cage.models import BreedingCage
 from stock_cage.forms import BatchFromBreedingCageForm
+
 
 @login_required
 def pups_to_stock_cage(request, box_no):

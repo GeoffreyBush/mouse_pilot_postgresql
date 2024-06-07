@@ -9,19 +9,27 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('breeding_cage', '0001_initial'),
-        ('mice_repository', '0001_initial'),
+        ("breeding_cage", "0001_initial"),
+        ("mice_repository", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='breedingcage',
-            name='father',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='cage_father', to='mice_repository.mouse'),
+            model_name="breedingcage",
+            name="father",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="cage_father",
+                to="mice_repository.mouse",
+            ),
         ),
         migrations.AddField(
-            model_name='breedingcage',
-            name='mother',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='cage_mother', to='mice_repository.mouse'),
+            model_name="breedingcage",
+            name="mother",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="cage_mother",
+                to="mice_repository.mouse",
+            ),
         ),
     ]
