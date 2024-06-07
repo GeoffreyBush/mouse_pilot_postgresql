@@ -10,8 +10,8 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 from projects.forms import NewProjectForm
-from wean_pups.forms import BatchFromBreedingCageForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
+from wean_pups.forms import BatchFromBreedingCageForm
 
 
 class BreedingCageFormFactory:

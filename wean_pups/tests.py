@@ -1,14 +1,12 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
+from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
-from mouse_pilot_postgresql.model_factories import (
-    BreedingCageFactory,
-    UserFactory,
-)
+from mouse_pilot_postgresql.model_factories import BreedingCageFactory, UserFactory
 from wean_pups.forms import BatchFromBreedingCageForm
 from website.models import Strain
-from mice_repository.models import Mouse
+
 
 class BatchFromBreedingCageFormTestCase(TestCase):
     @classmethod
@@ -47,6 +45,7 @@ class BatchFromBreedingCageFormTestCase(TestCase):
 
     def test_global_id_input_field_not_visible(self):
         self.assertFalse("_global_id" in BatchFromBreedingCageForm().fields)
+
 
 class PupsToStockCageViewTestCase(TestCase):
     @classmethod

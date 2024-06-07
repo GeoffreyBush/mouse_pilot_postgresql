@@ -1,14 +1,7 @@
 from django.test import TestCase
 
-from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
-from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
-    StockCageFactory,
-)
-from wean_pups.forms import BatchFromBreedingCageForm
+from mouse_pilot_postgresql.model_factories import MouseFactory, StockCageFactory
 from stock_cage.models import StockCage
-from website.models import Strain
 
 
 class StockCageModelTestCase(TestCase):
@@ -30,6 +23,3 @@ class StockCageModelTestCase(TestCase):
 
     def test_stock_mice(self):
         self.assertEqual(self.cage.mice.count(), 2)
-
-
-
