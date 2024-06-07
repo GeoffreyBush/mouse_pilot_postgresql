@@ -7,13 +7,24 @@ from website.models import Strain
 
 class NewProjectForm(forms.ModelForm):
 
-    project_name = forms.CharField(max_length=30)
-    research_area = forms.CharField(max_length=50, required=False)
+    project_name = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        max_length=30,
+        required=True,
+    )
+    research_area = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        max_length=50, 
+        required=False
+    )
     strains = forms.ModelMultipleChoiceField(
-        queryset=Strain.objects.all(), widget=forms.CheckboxSelectMultiple
+        queryset=Strain.objects.all(), 
+        widget=forms.SelectMultiple(attrs={"class": "form-select"}),
+        required=False
     )
     researchers = forms.ModelMultipleChoiceField(
-        queryset=CustomUser.objects.all(), widget=forms.CheckboxSelectMultiple
+        queryset=CustomUser.objects.all(), 
+        widget=forms.SelectMultiple(attrs={"class": "form-select"}),
     )
 
     class Meta:

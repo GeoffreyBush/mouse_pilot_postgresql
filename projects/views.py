@@ -7,6 +7,7 @@ from django.views import View
 
 from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
+from projects.forms import NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
 
@@ -19,6 +20,18 @@ def list_projects(request):
         "myprojects": myprojects,
     }
     return HttpResponse(template.render(context, request))
+
+@login_required
+def add_new_project(request):
+    if request.method == "POST":
+        form = NewProjectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("projects:list_projects")
+    else:
+        form = NewProjectForm()
+    return render(request, "add_new_project.html", {"form": form})
+
 
 
 @method_decorator(login_required, name="dispatch")

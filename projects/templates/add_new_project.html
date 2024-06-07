@@ -1,26 +1,20 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% block title %}Create Breeding Pair{% endblock %}
+{% block title %}Add New Project{% endblock %}
 {% block content %}
 
 <div class="container p-3">
     <h2 class="my-3">
-        Add a Breeding Cage
+        Add a New Project
     </h2>
     <div class="col-10">
         <ul class="list-group">
             <li class="list-group-item">
-                This page is for adding a new breeding pair or an existing breeding cage that needs to be imported manually.
-            </li>
-            <li class="list-group-item">
-                It will make a new breeding cage labelled with Box Numbers.
-            </li>
-            <li class="list-group-item">
-                <b>Only Box Number, Mother, and Father are absolutely required</b> Remaining fields can be edited later.
+                Placeholder text
             </li>
         </ul>
         <button class="btn btn-secondary ml-auto mt-4">
-            <a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
+            <a href="{% url 'projects:list_projects' %}" class="text-decoration-none text-white">
                 Back to Breeding Cages
             </a>
         </button>
