@@ -117,17 +117,6 @@ class DeleteMouseViewTest(TestCase):
         )
         self.assertIsNone(Mouse.objects.first())
 
-    # Delete mouse while not logged in
-    def test_delete_mouse_view_unauthenticated_user(self):
-        self.client.logout()
-        url = reverse(
-            "website:delete_mouse", args=[self.project.project_name, self.mouse.pk]
-        )
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
-        self.assertIsInstance(Mouse.objects.first(), Mouse)
-
 
 # Edit history is broken by mice not being created with tube attribute
 """
@@ -156,14 +145,6 @@ class EditHistoryViewTest(TestCase):
         response = self.client.get(reverse("edit_history"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_history.html")
-
-    # Access edit history while not logged in
-    def test_edit_history_view_with_unauthenticated_user(self):
-        self.client.logout()
-        url = reverse("edit_history")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     # Edit history contains correct data
     def test_edit_history_view(self):

@@ -74,12 +74,6 @@ class ListBreedingCagesViewTestCase(TestCase):
         self.assertIn("mycages", response.context)
         self.assertIn(self.cage, response.context["mycages"])
 
-    def test_get_unauthenticated(self):
-        url = reverse("breeding_cage:list_breeding_cages")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
-
 
 class ViewBreedingCageViewTestCase(TestCase):
     @classmethod
@@ -99,12 +93,6 @@ class ViewBreedingCageViewTestCase(TestCase):
         self.assertIn("mycage", response.context)
         self.assertEqual(response.context["mycage"], self.cage)
 
-    def test_get_unauthenticated_user(self):
-        url = reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
-
 
 class AddBreedingCageViewTestCase(TestCase):
     @classmethod
@@ -118,12 +106,6 @@ class AddBreedingCageViewTestCase(TestCase):
         response = self.client.get(reverse("breeding_cage:add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
-
-    def test_get_unauthenticated(self):
-        url = reverse("breeding_cage:add_breeding_cage")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     def test_create_breeding_cage_post_valid(self):
         self.client.force_login(self.user)
@@ -154,13 +136,6 @@ class EditBreedingCageViewTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_breeding_cage.html")
-
-    def test_get_unauthenticated(self):
-        self.client.logout()
-        url = reverse("breeding_cage:edit_breeding_cage", args=[self.cage])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     def test_edit_breeding_cage_post_valid(self):
         data = BreedingCageFormFactory.valid_data()

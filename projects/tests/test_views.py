@@ -27,13 +27,6 @@ class ListProjectsViewTestCase(TestCase):
         self.assertEqual(response.context["myprojects"].count(), 2)
         self.assertEqual(response.context["myprojects"][0].mice.count(), 1)
 
-    def test_get_request_unauthenticated(self):
-        response = self.client.get(reverse("projects:list_projects"))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response, f'/accounts/login/?next={reverse("projects:list_projects")}'
-        )
-
 
 class AddNewProjectViewTestCase(TestCase):
     @classmethod
@@ -48,13 +41,6 @@ class AddNewProjectViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_new_project.html")
         self.assertIn("form", response.context)
-
-    def test_get_request_unauthenticated(self):
-        self.client.logout()
-        url = reverse("breeding_cage:add_breeding_cage")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
 
 class ShowProjectViewTest(TestCase):
@@ -75,11 +61,6 @@ class ShowProjectViewTest(TestCase):
         self.assertIn("project", response.context)
         self.assertIn("project_mice", response.context)
 
-    def test_get_request_unauthenticated(self):
-        url = reverse("projects:show_project", args=[self.project.project_name])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)

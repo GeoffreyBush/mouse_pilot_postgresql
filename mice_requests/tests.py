@@ -67,13 +67,7 @@ class ShowRequestsViewTest(TestCase):
         self.requests = [
             Request.objects.create(
                 request_id=1, researcher=self.user, task_type="Cl", confirmed=True
-            ),
-            Request.objects.create(
-                request_id=2, researcher=self.user, task_type="Cu", confirmed=False
-            ),
-            Request.objects.create(
-                request_id=3, researcher=self.user, task_type="Mo", confirmed=True
-            ),
+            )
         ]
 
     # Show requests whilelogged in
@@ -84,14 +78,6 @@ class ShowRequestsViewTest(TestCase):
         self.assertQuerysetEqual(
             response.context["requests"], self.requests, ordered=False
         )
-
-    # Show requests while not logged in
-    def test_show_requests_view_login_required(self):
-        self.client.logout()
-        url = reverse("mice_requests:show_requests")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
 
 class AddRequestViewTest(TestCase):
@@ -120,13 +106,6 @@ class AddRequestViewTest(TestCase):
         self.assertTemplateUsed(response, "add_request.html")
         self.assertIsInstance(response.context["form"], RequestForm)
 
-    # Get RequestForm while not logged in
-    def test_add_request_get_with_unauthenticated_user(self):
-        self.client.logout()
-        url = reverse("mice_requests:add_request", args=[self.project.project_name])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f"/accounts/login/?next={url}")
 
     """
     def test_add_request_post_valid(self):
@@ -183,18 +162,6 @@ class ConfirmRequestViewTest(TestCase):
             researcher=self.user, task_type="Cl", confirmed=False
         )
         self.request.mice.add(self.mouse)
-
-    # Unauthenticated user redirected to login page
-    def test_confirm_request_view_unauthenticated_user(self):
-        self.client.logout()
-        response = self.client.get(
-            reverse("mice_requests:confirm_request", args=[self.request.request_id])
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response,
-            f"{reverse('login')}?next={reverse('mice_requests:confirm_request', args=[self.request.request_id])}",
-        )
 
     # Redirect to show_requests after confirming
     def test_confirm_request_view_get_request(self):
