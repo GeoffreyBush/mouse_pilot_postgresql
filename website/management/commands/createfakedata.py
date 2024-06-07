@@ -5,10 +5,13 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.constants import (
-    EARMARK_CHOICES,
+from mouse_pilot_postgresql.constants import EARMARK_CHOICES
+from mouse_pilot_postgresql.model_factories import (
+    BreedingCageFactory,
+    ProjectFactory,
+    StrainFactory,
+    UserFactory,
 )
-from mouse_pilot_postgresql.model_factories import StrainFactory, UserFactory, BreedingCageFactory, ProjectFactory
 from projects.models import Project
 from stock_cage.models import StockCage
 from system_users.models import CustomUser
@@ -20,17 +23,18 @@ class Command(BaseCommand):
     help = "Populates an empty database with fake data."
     fake = Faker()
 
-
     def create_strains(self, n):
         for _ in range(n):
             StrainFactory.create()
-        
+
     def create_users(self, n):
         for _ in range(n):
             UserFactory.create()
 
     def create_super_user(self):
-        UserFactory.create(username="SuperUser", is_superuser=True, password="samplepassword")
+        UserFactory.create(
+            username="SuperUser", is_superuser=True, password="samplepassword"
+        )
 
     def create_projects(self, n):
         existing_strains = Strain.objects.all()
@@ -49,7 +53,7 @@ class Command(BaseCommand):
     def create_mice(self, n):
         existing_projects = Project.objects.all()
         existing_strains = Strain.objects.all()
-        for _ in range(n): 
+        for _ in range(n):
             Mouse.objects.create(
                 strain=random.choice(existing_strains),
                 sex=random.choice(["M", "F"]),
@@ -60,11 +64,10 @@ class Command(BaseCommand):
                 mother=None,
                 father=None,
             )
-            
+
     def create_breeding_cages(self, n):
         for _ in range(n):
             BreedingCageFactory.create()
-        
 
     # Convert this method to use a factory instead
     def create_comments(self, x):
@@ -106,10 +109,10 @@ class Command(BaseCommand):
         print("  Creating breeding cages...", end=" ")
         self.create_breeding_cages(5)
         print(Fore.GREEN + "OK" + Style.RESET_ALL)
-        
-        #print("  Creating comments...", end=" ")
-        #self.create_comments(50)
-        #print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
+        # print("  Creating comments...", end=" ")
+        # self.create_comments(50)
+        # print(Fore.GREEN + "OK" + Style.RESET_ALL)
 
         self.stdout.write(
             self.style.SUCCESS("Fake data successfully created in database")
