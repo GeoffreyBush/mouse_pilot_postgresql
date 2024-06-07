@@ -61,3 +61,6 @@ jobs:
 
     - name: Test system_users app
       run: python manage.py test system_users    
+
+    - name: Test wean_pups app
+      run: python manage.py test wean_pups

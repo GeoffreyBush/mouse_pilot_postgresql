@@ -84,31 +84,31 @@ class Command(BaseCommand):
 
         print("  Creating strains...", end=" ")
         self.create_strains(5)
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         print("  Creating users...", end=" ")
         self.create_users(5)
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         print("  Creating 'SuperUser' account...", end=" ")
         self.create_super_user()
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         print("  Creating projects...", end=" ")
         self.create_projects(5)
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         print("  Creating stock cages...", end=" ")
         self.create_stock_cages(5)
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         print("  Creating mice...", end=" ")
         self.create_mice(100)
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         print("  Creating breeding cages...", end=" ")
         self.create_breeding_cages(5)
-        print(Fore.GREEN + "OK" + Style.RESET_ALL)
+        print(Fore.GREEN + Style.BRIGHT + "OK" + Style.RESET_ALL)
 
         # print("  Creating comments...", end=" ")
         # self.create_comments(50)

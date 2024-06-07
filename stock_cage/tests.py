@@ -74,40 +74,4 @@ class BatchFromBreedingCageFormTestCase(TestCase):
         self.assertFalse("_global_id" in BatchFromBreedingCageForm().fields)
 
 
-class TransferToStockCageViewTestCase(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.client = Client()
-        cls.user = UserFactory(username="testuser")
-        cls.cage = BreedingCageFactory()
-        cls.valid_form = BatchFromBreedingCageFormFactory.valid_data(cage=cls.cage)
 
-    # Correct form used
-    # def test_signup_view_attributes(self):
-    # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
-
-    def test_get_request_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(
-            reverse("stock_cage:transfer_to_stock_cage", args=[self.cage])
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "transfer_to_stock_cage.html")
-
-    # POST TransferToStockCageForm with valid data
-    # If tube numbers given, correct assignment
-    def test_transfer_to_stock_cage_valid_data(self):
-        pass
-
-    # POST TransferToStockCageForm with invalid data
-
-    # Access Transfer to Stock Cage while not logged in
-
-    # None of the tube numbers in the formset can be identical
-
-    # If no tube numbers given, correct default assignment when formset is loaded
-
-    # All tube numbers must exist in the formset
-
-    # Can't transfer from the same breeding cage twice
