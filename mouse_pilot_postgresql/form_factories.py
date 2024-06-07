@@ -10,7 +10,7 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 from projects.forms import NewProjectForm
-from stock_cage.forms import BatchFromBreedingCageForm
+from wean_pups.forms import BatchFromBreedingCageForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 
 
