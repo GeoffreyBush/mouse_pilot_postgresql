@@ -106,7 +106,6 @@ class AddRequestViewTest(TestCase):
         self.assertTemplateUsed(response, "add_request.html")
         self.assertIsInstance(response.context["form"], RequestForm)
 
-
     """
     def test_add_request_post_valid(self):
         url = reverse("mice_requests:add_request", args=[self.project.project_name])

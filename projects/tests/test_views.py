@@ -61,7 +61,6 @@ class ShowProjectViewTest(TestCase):
         self.assertIn("project", response.context)
         self.assertIn("project_mice", response.context)
 
-
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
