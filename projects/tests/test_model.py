@@ -1,4 +1,5 @@
 from django.db.utils import IntegrityError
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from mouse_pilot_postgresql.model_factories import (
@@ -33,6 +34,15 @@ class ProjectModelTestCase(TestCase):
         self.assertEqual(self.project.mice.count(), 0)
         MouseFactory(project=self.project)
         self.assertEqual(self.project.mice.count(), 1)
+
+    def test_project_name_doesnt_exist(self):
+        with self.assertRaises(IntegrityError):
+            ProjectFactory(project_name=None)
+
+    def test_project_name_too_short(self):
+        self.short_name = ProjectFactory(project_name="ab")
+        with self.assertRaises(ValidationError):
+            self.short_name.full_clean()
 
     def test_uniqueness_of_project_name(self):
         with self.assertRaises(IntegrityError):

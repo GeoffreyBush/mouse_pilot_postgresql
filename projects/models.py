@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 
 from system_users.models import CustomUser
 
@@ -11,6 +12,7 @@ class Project(models.Model):
         null=False,
         default="My Project",
         unique=True,
+        validators=[MinLengthValidator(3)],
         max_length=30,
     )
     research_area = models.CharField(
