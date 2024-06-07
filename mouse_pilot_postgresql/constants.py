@@ -8,28 +8,6 @@ TRUE_OR_FALSE = [
     (True, "Yes"),
 ]
 
-STRAINS = [
-    "DDY",
-    "EL",
-    "HR",
-    "ICGN",
-    "MPS",
-    "YPC," "Yok:ddY",
-    "Yok:ICR",
-    "4C30",
-    "CD40L",
-    "CG",
-    "GalA",
-    "GalB",
-    "GalF",
-    "GM1sy",
-    "BKO",
-    "AK",
-    "BK",
-    "CK",
-    "GFP",
-]
-
 EARMARK_CHOICES_PAIRED = [
     ("", ""),
     ("TR", "TR"),
@@ -56,39 +34,6 @@ EARMARK_CHOICES = [
     "TLBR",
     "TLBL",
     "BRBL",
-]
-
-PROJECT_NAMES = [
-    "BioGenX",
-    "PharmaCare Initiative",
-    "GenoMed Solutions",
-    "BioTech Innovations",
-    "PharmaVision",
-    "GeneThera",
-    "BioWellness",
-    "PharmaNext",
-    "GeneGenie Project",
-    "BioFusion Labs",
-    "PharmaGenomics Initiative",
-    "EcoBio Pharma",
-    "BioSynth Research",
-    "PharmaQuest",
-    "BioHealth Solutions",
-    "PharmaTech Ventures",
-    "GeneWise Initiative",
-    "BioRx Innovations",
-    "PharmaPro Technologies",
-    "CellGenetics Project",
-    "BioVista Innovations",
-    "PharmaSynth Labs",
-    "GeneXcel Solutions",
-    "BioTech Nexus",
-    "PharmaPlus",
-    "GeneScape Project",
-    "BioMed Innovations",
-    "PharmaLogic Initiative",
-    "GeneHorizon",
-    "BioPath Solutions",
 ]
 
 RESEARCH_AREAS = [
