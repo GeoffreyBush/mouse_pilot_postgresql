@@ -7,6 +7,7 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+
 class ProjectMouseFilterViewTestCase(TestCase):
     @classmethod
     def setUpClass(cls):

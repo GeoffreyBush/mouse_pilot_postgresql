@@ -37,9 +37,3 @@ class ProjectModelTestCase(TestCase):
     def test_uniqueness_of_project_name(self):
         with self.assertRaises(IntegrityError):
             ProjectFactory(project_name="testproject")
-
-
-
-
-
-

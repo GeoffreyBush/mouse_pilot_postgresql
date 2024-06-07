@@ -8,6 +8,7 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+
 class ListProjectsViewTestCase(TestCase):
 
     @classmethod
@@ -47,13 +48,14 @@ class AddNewProjectViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_new_project.html")
         self.assertIn("form", response.context)
-    
+
     def test_get_request_unauthenticated(self):
         self.client.logout()
         url = reverse("breeding_cage:add_breeding_cage")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/accounts/login/?next={url}")
+
 
 class ShowProjectViewTest(TestCase):
     @classmethod

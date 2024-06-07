@@ -1,4 +1,3 @@
-
 from django.test import TestCase
 
 from mouse_pilot_postgresql.form_factories import NewProjectFormFactory

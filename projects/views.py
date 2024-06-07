@@ -21,6 +21,7 @@ def list_projects(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 @login_required
 def add_new_project(request):
     if request.method == "POST":
@@ -31,7 +32,6 @@ def add_new_project(request):
     else:
         form = NewProjectForm()
     return render(request, "add_new_project.html", {"form": form})
-
 
 
 @method_decorator(login_required, name="dispatch")

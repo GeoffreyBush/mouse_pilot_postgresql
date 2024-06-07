@@ -14,16 +14,16 @@ class NewProjectForm(forms.ModelForm):
     )
     research_area = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control"}),
-        max_length=50, 
-        required=False
+        max_length=50,
+        required=False,
     )
     strains = forms.ModelMultipleChoiceField(
-        queryset=Strain.objects.all(), 
+        queryset=Strain.objects.all(),
         widget=forms.SelectMultiple(attrs={"class": "form-select"}),
-        required=False
+        required=False,
     )
     researchers = forms.ModelMultipleChoiceField(
-        queryset=CustomUser.objects.all(), 
+        queryset=CustomUser.objects.all(),
         widget=forms.SelectMultiple(attrs={"class": "form-select"}),
     )
 
