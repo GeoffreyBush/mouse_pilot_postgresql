@@ -2,7 +2,6 @@ import random
 from datetime import date
 
 import factory
-from django.contrib.auth import get_user_model
 from faker import Faker
 
 from mouse_pilot_postgresql.constants import RESEARCH_AREAS
