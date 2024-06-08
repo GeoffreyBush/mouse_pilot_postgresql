@@ -2,16 +2,15 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 
+from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     UserFactory,
 )
-from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 from projects.filters import ProjectFilter
 from projects.forms import NewProjectForm
 from projects.models import Project
-from system_users.models import CustomUser
 
 
 class ListProjectsViewTestCase(TestCase):
@@ -51,13 +50,10 @@ class AddNewProjectViewTestCase(TestCase):
         self.client.force_login(self.user)
         data = NewProjectFormFactory.valid_data()
         self.assertEqual(Project.objects.all().count(), 0)
-        response = self.client.post(
-            reverse("projects:add_new_project"), data
-        )
+        response = self.client.post(reverse("projects:add_new_project"), data)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse("projects:list_projects"))
         self.assertEqual(Project.objects.all().count(), 1)
-
 
 
 class ShowProjectViewTest(TestCase):
