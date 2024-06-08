@@ -1,6 +1,7 @@
+import datetime
+
 from django.core.exceptions import ValidationError
 from django.db import models
-import datetime
 
 
 # Culled boolean attribute will be useful
@@ -97,7 +98,7 @@ class Mouse(models.Model):
     @property
     def tube(self):
         return self._tube
-    
+
     @property
     def age(self):
         return (datetime.date.today() - self.dob).days

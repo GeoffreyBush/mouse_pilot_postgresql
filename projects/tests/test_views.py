@@ -2,13 +2,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from projects.forms import NewProjectForm
-from projects.filters import ProjectFilter
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     UserFactory,
 )
+from projects.filters import ProjectFilter
+from projects.forms import NewProjectForm
 
 
 class ListProjectsViewTestCase(TestCase):
@@ -62,7 +62,7 @@ class ShowProjectViewTest(TestCase):
         self.assertTemplateUsed(response, "show_project.html")
         self.assertIn("project", response.context)
         self.assertIsInstance(response.context["project_mice"], ProjectFilter)
-        #self.assertIsInstance(response.context["form"], MouseSelectionForm)
+        # self.assertIsInstance(response.context["form"], MouseSelectionForm)
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)
