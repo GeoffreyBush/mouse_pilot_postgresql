@@ -7,19 +7,8 @@ from mice_requests.models import Request
 
 class RequestForm(forms.ModelForm):
 
-    # Override __init__() to filter mice by project
-    def __init__(self, *args, **kwargs):
-        self.project = kwargs.pop("project", None)
-        super().__init__(*args, **kwargs)
-
-        if self.project:
-            self.fields["mice"].queryset = Mouse.objects.filter(project=self.project)
-        else:
-            self.fields["mice"].queryset = Mouse.objects.all()
-
-    # Add checkbox for mice selection
     mice = forms.ModelMultipleChoiceField(
-        queryset=None,
+        queryset=Mouse.objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
 

@@ -14,21 +14,15 @@ def show_requests(http_request):
 
 @login_required
 def add_request(http_request, project_name):
-    # Find associated project, if it exists
-    project = None
-    if project_name is not None:
-        project = Project.objects.get(project_name=project_name)
-
-    # Fetch RequestForm
     if http_request.method == "POST":
-        form = RequestForm(http_request.POST, project=project)
+        form = RequestForm(http_request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             task.save()
             task.mice.set(form.cleaned_data["mice"])
             return redirect("projects:show_project", project_name=project_name)
     else:
-        form = RequestForm(project=project)
+        form = RequestForm()
     return render(
         http_request, "add_request.html", {"form": form, "project_name": project_name}
     )
@@ -36,8 +30,8 @@ def add_request(http_request, project_name):
 
 @login_required
 def confirm_request(http_request, request_id):
-    req = Request.objects.get(pk=request_id)
-    req.confirm()
+    mice_request = Request.objects.get(pk=request_id)
+    mice_request.confirm()
     return redirect("mice_requests:show_requests")
 
 

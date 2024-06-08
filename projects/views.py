@@ -56,7 +56,6 @@ class ShowProjectView(View):
         return HttpResponse(template.render(context, http_request))
 
     def post(self, http_request, project_name):
-
         if "add_request" in http_request.POST:
             project = Project.objects.get(pk=project_name)
             form = MouseSelectionForm(project=project)
