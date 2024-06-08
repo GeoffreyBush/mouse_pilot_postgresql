@@ -3,7 +3,6 @@ from django.shortcuts import redirect, render
 
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
-from projects.models import Project
 
 
 @login_required
