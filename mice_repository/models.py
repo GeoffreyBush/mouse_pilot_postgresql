@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+import datetime
 
 
 # Culled boolean attribute will be useful
@@ -96,6 +97,10 @@ class Mouse(models.Model):
     @property
     def tube(self):
         return self._tube
+    
+    @property
+    def age(self):
+        return (datetime.date.today() - self.dob).days
 
     # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):

@@ -56,10 +56,6 @@ class PupsToStockCageViewTestCase(TestCase):
         cls.cage = BreedingCageFactory()
         cls.valid_form = BatchFromBreedingCageFormFactory.valid_data(cage=cls.cage)
 
-    # Correct form used
-    # def test_signup_view_attributes(self):
-    # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
-
     def test_get_request_authenticated(self):
         self.client.force_login(self.user)
         response = self.client.get(
@@ -67,6 +63,8 @@ class PupsToStockCageViewTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "pups_to_stock_cage.html")
+        formset = response.context["formset"]
+        self.assertIsInstance(formset.forms[0], BatchFromBreedingCageForm)
 
     # POST TransferToStockCageForm with valid data
     # If tube numbers given, correct assignment

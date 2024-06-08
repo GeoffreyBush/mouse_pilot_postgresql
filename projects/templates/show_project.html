@@ -51,11 +51,12 @@
 			<tbody>
 			{% for mouse in project_mice.qs %}
 			<tr> <!--{% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}"-->
-				<td><input type="checkbox" name="checkbox-mice" value='{{ mouse.id }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
-				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.id }}</td>
-				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.dob }}</td>
-				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.sex }}</td>
-				<td class="clickable-mouse-td" data-mouse-id="{{ mouse.id }}">{{ mouse.earmark }}</td>
+				<td><input type="checkbox" name="checkbox-mice" value='{{ mouse.tube }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
+				<td>{{ mouse.tube }}</td>
+				<td>{{ mouse.dob }}</td>
+				<td>{{ mouse.age }}</td>
+				<td>{{ mouse.sex }}</td>
+				<td>{{ mouse.earmark }}</td>
 				
 				
 				<td>edit</td>

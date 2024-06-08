@@ -43,6 +43,9 @@ class MouseModelTestCase(TestCase):
     def test_mouse_manual_tube_correct_pk(self):
         self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
+    def test_correct_age(self):
+        self.assertEqual(self.mouse.age, 0)
+
     def test_mouse_cannot_be_overwritten_by_duplicate_tube(self):
         with self.assertRaises(ValidationError):
             self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
@@ -151,10 +154,6 @@ class AddMouseToRepositoryViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
         self.client.login(username="testuser", password="testpassword")
-
-    # Correct form used
-    # def test_signup_view_attributes(self):
-    # self.assertEqual(SignUpView.form_class, CustomUserCreationForm)
 
     def test_get_request_authenticated(self):
         response = self.client.get(reverse("mice_repository:add_mouse_to_repository"))

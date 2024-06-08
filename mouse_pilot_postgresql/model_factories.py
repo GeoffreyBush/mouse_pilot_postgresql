@@ -61,6 +61,8 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
     date_wean = date.today()
     number_wean = random.randint(1, 10)
     pwl = random.randint(1, 10)
+    male_pups = random.randint(1, 6)
+    female_pups = random.randint(1, 6)
 
 
 class StockCageFactory(factory.django.DjangoModelFactory):

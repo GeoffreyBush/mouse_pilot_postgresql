@@ -10,15 +10,13 @@ class NewProjectFormTestCase(TestCase):
     def test_valid_form(self):
         self.assertTrue(self.form.is_valid())
 
-    def test_no_project_name(self):
+    def test_empty_project_name(self):
         self.form = NewProjectFormFactory.create(project_name="")
         self.assertFalse(self.form.is_valid())
 
-    def test_uniqueness_of_project_name(self):
-        pass
-
-    def test_name_change_doesnt_create_duplicate(self):
-        pass
+    def test_none_project_name(self):
+        self.form = NewProjectFormFactory.create(project_name=None)
+        self.assertFalse(self.form.is_valid())
 
 
 # Filter form tests

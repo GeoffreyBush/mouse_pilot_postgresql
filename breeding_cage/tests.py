@@ -106,6 +106,7 @@ class AddBreedingCageViewTestCase(TestCase):
         response = self.client.get(reverse("breeding_cage:add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
+        self.assertIsInstance(response.context["form"], BreedingCageForm)
 
     def test_create_breeding_cage_post_valid(self):
         self.client.force_login(self.user)
@@ -136,6 +137,7 @@ class EditBreedingCageViewTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "edit_breeding_cage.html")
+        self.assertIsInstance(response.context["form"], BreedingCageForm)
 
     def test_edit_breeding_cage_post_valid(self):
         data = BreedingCageFormFactory.valid_data()
