@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
 from system_users.models import CustomUser
 
 
@@ -29,9 +29,9 @@ class Request(models.Model):
 
     def confirm_clip(self, earmark):
         if earmark is None:
-            raise ValueError("Earmark is required to confirm request")
-        if self.confirmed:
-            raise ValueError("Request is already confirmed")
+            raise ValidationError("Earmark is required to confirm request")
+        elif self.confirmed:
+            raise ValidationError("Request is already confirmed")
         else:
             self.confirmed = True
             self.save()

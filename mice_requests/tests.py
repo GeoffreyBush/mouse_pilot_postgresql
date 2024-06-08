@@ -1,6 +1,7 @@
 from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
@@ -14,12 +15,10 @@ from mouse_pilot_postgresql.model_factories import (
 
 
 class RequestModelTestCase(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.mouse1, cls.mouse2 = MouseFactory(), MouseFactory()
-        cls.request = RequestFactory()
-        cls.request.mice.add(cls.mouse1, cls.mouse2)
+    def setUp(self):
+        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
+        self.request = RequestFactory()
+        self.request.mice.add(self.mouse1, self.mouse2)
 
     def test_request_creation(self):
         self.assertIsInstance(self.request, Request)
@@ -36,15 +35,30 @@ class RequestModelTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             RequestFactory(requested_by=None)
 
-    # Test request message system
+    def test_request_is_confirmed(self):
+        assert self.request.confirmed is False
+        self.request.confirm_clip("TL")
+        assert self.request.confirmed
 
-    def test_confirm_clip_request(self):
+    def test_mice_genotyped_on_confirm_clip(self):
         assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
         self.request.confirm_clip("TL")
-        self.request.refresh_from_db()
-        [mouse.refresh_from_db() for mouse in self.request.mice.all()]
-        assert self.request.confirmed
         assert all(mouse.is_genotyped() for mouse in self.request.mice.all())
+
+    def test_confirm_clip_request_no_earmark(self):
+        with self.assertRaises(ValidationError):
+            self.request.confirm_clip(None)
+
+    def test_confirm_clip_request_already_confirmed(self):
+        self.request.confirm_clip("TL")
+        with self.assertRaises(ValidationError):
+            self.request.confirm_clip("TL")
+
+    # Test request messaging system
+
+    # Mice that already have an earmark cannot be clipped again
+
+    # Mice that are already culled cannot be culled again
 
 
 class RequestFormTestCase(TestCase):
