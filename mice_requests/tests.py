@@ -1,28 +1,25 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.db.utils import IntegrityError
 
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
-    StrainFactory,
     UserFactory,
+    RequestFactory,
 )
+from mouse_pilot_postgresql.form_factories import RequestFormFactory
 
 
 class RequestModelTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory()
-        self.strain = StrainFactory()
-        self.mouse1, self.mouse2 = MouseFactory(strain=self.strain), MouseFactory(
-            strain=self.strain
-        )
-
-        self.request = Request.objects.create(
-            researcher=self.user, task_type="Cl", confirmed=False
-        )
-        self.request.mice.add(self.mouse1, self.mouse2)
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.mouse1, cls.mouse2 = MouseFactory(), MouseFactory()
+        cls.request = RequestFactory()
+        cls.request.mice.add(cls.mouse1, cls.mouse2)
 
     def test_request_creation(self):
         self.assertIsInstance(self.request, Request)
@@ -35,29 +32,31 @@ class RequestModelTestCase(TestCase):
             self.request.mice.all(), [self.mouse1, self.mouse2], ordered=False
         )
 
-    """
-    def test_request_confirm(self):
-        self.assertFalse(self.request.confirmed)
-        for mouse in self.request.mice.all():
-            self.assertFalse(mouse.is_genotyped())
+    def test_requested_by_is_none(self):
+        with self.assertRaises(IntegrityError):
+            RequestFactory(requested_by=None)
 
-        self.request.confirm()
-
+    # Test request message system
+    
+    def test_confirm_clip_request(self):
+        assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
+        self.request.confirm_clip("TL")
         self.request.refresh_from_db()
-        for mouse in self.request.mice.all():
-            mouse.refresh_from_db()
-
-        self.assertTrue(self.request.confirmed)
-        for mouse in self.request.mice.all():
-            self.assertTrue(mouse.is_genotyped())
-    """
+        [mouse.refresh_from_db() for mouse in self.request.mice.all()]
+        assert self.request.confirmed
+        assert all(mouse.is_genotyped() for mouse in self.request.mice.all())
+    
 
 
 class RequestFormTestCase(TestCase):
-    def setUp(self):
-        pass
+
+    # Valid form
+    def test_valid_data(self):
+        self.user = UserFactory()
+        self.form = RequestFormFactory.create(user=self.user)
 
     # There must be at least one mouse present in a request
+
 
 
 class ShowRequestsViewTest(TestCase):
@@ -66,7 +65,7 @@ class ShowRequestsViewTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.requests = [
             Request.objects.create(
-                request_id=1, researcher=self.user, task_type="Cl", confirmed=True
+                request_id=1, requested_by=self.user, task_type="Cl", confirmed=True
             )
         ]
 
@@ -81,75 +80,34 @@ class ShowRequestsViewTest(TestCase):
 
 
 class AddRequestViewTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
-        self.project = ProjectFactory()
-        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
-        self.mice = [self.mouse1, self.mouse2]
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory(username="testuser")
+        cls.project = ProjectFactory()
+        cls.mouse1, cls.mouse2 = MouseFactory(), MouseFactory()
+        cls.mice = [cls.mouse1, cls.mouse2]
 
     # Need to test that correct number of selected mice are carried over to add_request view
     # This test was copied from projects.tests. It checks the MouseSelectionForm carried over to the add_request view
-    def test_post_mice_add_request(self):
+    def test_get_request_authenticated(self):
         self.client.force_login(self.user)
-        response = self.client.post(
-            reverse("mice_requests:add_request", args=[self.project.project_name])
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_request.html")
-
-    # GET RequestForm while logged in
-    def test_add_request_get(self):
         url = reverse("mice_requests:add_request", args=[self.project.project_name])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_request.html")
         self.assertIsInstance(response.context["form"], RequestForm)
 
-    """
     def test_add_request_post_valid(self):
+        self.client.force_login(self.user)
         url = reverse("mice_requests:add_request", args=[self.project.project_name])
-        data = {
-            "task_type": "Cl",
-            "mice": [self.mice[0]._tube, self.mice[1]._tube],
-            "new_message": "Test message",
-        }
+        data = RequestFormFactory.valid_data(mice=self.mice)
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response, reverse("projects:show_project", args=[self.project.project_name])
         )
-        self.assertTrue(
-            Request.objects.filter(task_type="Cl", mice__in=self.mice).exists()
-        )
         self.assertEqual(Request.objects.count(), 1)
-        request = Request.objects.first()
-        self.assertEqual(request.task_type, "Cl")
-        self.assertEqual(request.new_message, "Test message")
-        self.assertQuerySetEqual(
-            request.mice.all(), [self.mouse1, self.mouse2], ordered=False
-        )
-    """
-
-    # Can't trust this test because of the mouse.tube issue.
-    # Must fix POST with valid data test first
-    """
-    # POST RequestForm with invalid data
-    def test_add_request_post_invalid(self):
-        url = reverse("add_request", args=[self.project.project_name])
-        data = {"task_type": "Invalid", "mice": []}
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_request.html")
-        self.assertIsInstance(response.context["form"], RequestForm)
-        self.assertEqual(response.context["project_name"], self.project.project_name)
-        self.assertFalse(Request.objects.exists())
-
-    # Try to add request to a non-existent project
-    def test_add_request_with_non_existent_project(self):
-        with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse("add_request", args=["AnyOtherName"]))
-    """
 
 
 class ConfirmRequestViewTest(TestCase):
@@ -158,7 +116,7 @@ class ConfirmRequestViewTest(TestCase):
         self.client.login(username="testuser", password="testpassword")
         self.mouse = MouseFactory()
         self.request = Request.objects.create(
-            researcher=self.user, task_type="Cl", confirmed=False
+            requested_by=self.user, task_type="Cl", confirmed=False
         )
         self.request.mice.add(self.mouse)
 

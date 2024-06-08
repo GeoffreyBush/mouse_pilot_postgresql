@@ -16,9 +16,10 @@ def add_request(http_request, project_name):
     if http_request.method == "POST":
         form = RequestForm(http_request.POST)
         if form.is_valid():
-            task = form.save(commit=False)
-            task.save()
-            task.mice.set(form.cleaned_data["mice"])
+            request = form.save(commit=False)
+            request.requested_by = http_request.user
+            request.save()
+            request.mice.set(form.cleaned_data["mice"])
             return redirect("projects:show_project", project_name=project_name)
     else:
         form = RequestForm()
@@ -30,7 +31,8 @@ def add_request(http_request, project_name):
 @login_required
 def confirm_request(http_request, request_id):
     mice_request = Request.objects.get(pk=request_id)
-    mice_request.confirm()
+    # Add switch statement here to check task_type and call appropriate method
+    mice_request.confirm_clip("TL") # placeholder earmark
     return redirect("mice_requests:show_requests")
 
 

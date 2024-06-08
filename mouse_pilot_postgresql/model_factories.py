@@ -74,9 +74,9 @@ class RequestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "mice_requests.Request"
 
-    project = factory.SubFactory(ProjectFactory)
-    task_type = random.choice(["Cl", "Cu", "Mo", "We"])
-    mice = factory.SubFactory(MouseFactory)
-    new_message = fake.text(200)
-    date_requested = date.today()
-    date_completed = date.today()
+    requested_by = factory.SubFactory(UserFactory)
+    task_type = random.choice(["Clip", "Cull", "Move", "Wean"])
+    new_message = fake.text(30)
+    message_history = fake.text(100)
+    confirmed = False
+

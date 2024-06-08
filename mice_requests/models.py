@@ -6,17 +6,17 @@ from system_users.models import CustomUser
 class Request(models.Model):
 
     TASK_CHOICES = [
-        ("Cl", "Clip"),
-        ("Cu", "Cull"),
-        ("Mo", "Move"),
-        ("We", "Wean"),
+        ("Clip", "Clip"),
+        ("Cull", "Cull"),
+        ("Move", "Move"),
+        ("Wean", "Wean"),
     ]
 
     request_id = models.AutoField(db_column="ID", primary_key=True)
-    researcher = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    requested_by = models.ForeignKey(
+        CustomUser, on_delete=models.PROTECT, null=False, blank=False
     )
-    task_type = models.CharField(max_length=2, choices=TASK_CHOICES, default="Cl")
+    task_type = models.CharField(max_length=10, choices=TASK_CHOICES, default="Clip")
     mice = models.ManyToManyField("mice_repository.Mouse", db_column="Mouse")
 
     confirmed = models.BooleanField(
@@ -27,19 +27,20 @@ class Request(models.Model):
     new_message = models.CharField(max_length=1000, null=True, blank=True)
     message_history = models.CharField(max_length=10000, null=True, blank=True)
 
-    def confirm(self):
-        if not self.confirmed:
+    def confirm_clip(self, earmark):
+        if earmark is None:
+            raise ValueError("Earmark is required to confirm request")
+        if self.confirmed:
+            raise ValueError("Request is already confirmed")
+        else:
             self.confirmed = True
             self.save()
+            for mouse in self.mice.all():
+                mouse.earmark = earmark
+                mouse.save()
 
-            if self.task_type == "Cl":
-                for mouse in self.mice.all():
-                    ###################################
-                    """Need to update earmark here"""
-                    ###################################
-                    mouse.save()
+            
 
-            # Add other task types here
 
     def __str__(self):
         return f"{self.request_id}"

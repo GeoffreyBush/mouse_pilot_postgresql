@@ -7,13 +7,20 @@ from mice_requests.models import Request
 
 class RequestForm(forms.ModelForm):
 
-    mice = forms.ModelMultipleChoiceField(
-        queryset=Mouse.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+    task_type = forms.ChoiceField(
+        choices=Request.TASK_CHOICES,
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
 
-    researcher = forms.ModelChoiceField(queryset=get_user_model().objects.all())
+    mice = forms.ModelMultipleChoiceField(
+        queryset=Mouse.objects.all(),
+        widget=forms.SelectMultiple(attrs={"class": "form-select"}),
+    )
+
+    new_message = forms.CharField(
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+    )
 
     class Meta:
         model = Request
-        fields = ["mice", "task_type", "researcher", "new_message"]
+        fields = ["mice", "task_type", "new_message"]

@@ -1,4 +1,5 @@
 from datetime import date
+import random
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
@@ -78,24 +79,16 @@ class RequestFormFactory:
 
     @staticmethod
     def create(**kwargs):
-        return RequestForm(data=kwargs)
+        data = RequestFormFactory.valid_data(**kwargs)
+        return RequestForm(data=data)
 
     @staticmethod
-    def valid_data(mouse1, mouse2, **kwargs):
+    def valid_data(**kwargs):
         return {
-            "mice": [mouse1.pk, mouse2.pk],
-            "task_type": "Cl",
-            "researcher": UserFactory().id,
-            "new_message": "Test message",
-        }
-
-    @staticmethod
-    def missing_mice(**kwargs):
-        return {
-            "mice": [],
-            "task_type": "Cl",
-            "researcher": UserFactory().id,
-            "new_message": "Test message",
+            "mice": kwargs.get("mice", [MouseFactory().pk, MouseFactory().pk]),
+            "task_type": kwargs.get("task_type", random.choice(["Clip", "Cull", "Move", "Wean"])),
+            "new_message": kwargs.get("new_message", "Test message"),
+            "requested_by": kwargs.get("requested_by", UserFactory()),
         }
 
 
