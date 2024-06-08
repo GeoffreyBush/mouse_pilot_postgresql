@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth import get_user_model
 
 from mice_repository.models import Mouse
 from mice_requests.models import Request

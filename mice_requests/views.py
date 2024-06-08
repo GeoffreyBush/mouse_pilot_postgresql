@@ -32,7 +32,7 @@ def add_request(http_request, project_name):
 def confirm_request(http_request, request_id):
     mice_request = Request.objects.get(pk=request_id)
     # Add switch statement here to check task_type and call appropriate method
-    mice_request.confirm_clip("TL") # placeholder earmark
+    mice_request.confirm_clip("TL")  # placeholder earmark
     return redirect("mice_requests:show_requests")
 
 

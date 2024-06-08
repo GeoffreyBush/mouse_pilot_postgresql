@@ -39,9 +39,6 @@ class Request(models.Model):
                 mouse.earmark = earmark
                 mouse.save()
 
-            
-
-
     def __str__(self):
         return f"{self.request_id}"
 

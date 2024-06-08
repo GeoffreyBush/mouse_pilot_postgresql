@@ -1,16 +1,16 @@
+from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
-from django.db.utils import IntegrityError
 
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
+from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
-    UserFactory,
     RequestFactory,
+    UserFactory,
 )
-from mouse_pilot_postgresql.form_factories import RequestFormFactory
 
 
 class RequestModelTestCase(TestCase):
@@ -37,7 +37,7 @@ class RequestModelTestCase(TestCase):
             RequestFactory(requested_by=None)
 
     # Test request message system
-    
+
     def test_confirm_clip_request(self):
         assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
         self.request.confirm_clip("TL")
@@ -45,7 +45,6 @@ class RequestModelTestCase(TestCase):
         [mouse.refresh_from_db() for mouse in self.request.mice.all()]
         assert self.request.confirmed
         assert all(mouse.is_genotyped() for mouse in self.request.mice.all())
-    
 
 
 class RequestFormTestCase(TestCase):
@@ -56,7 +55,6 @@ class RequestFormTestCase(TestCase):
         self.form = RequestFormFactory.create(user=self.user)
 
     # There must be at least one mouse present in a request
-
 
 
 class ShowRequestsViewTest(TestCase):
