@@ -7,8 +7,11 @@ from mouse_pilot_postgresql.model_factories import (
     ProjectFactory,
     UserFactory,
 )
+from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
 from projects.filters import ProjectFilter
 from projects.forms import NewProjectForm
+from projects.models import Project
+from system_users.models import CustomUser
 
 
 class ListProjectsViewTestCase(TestCase):
@@ -43,6 +46,18 @@ class AddNewProjectViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_new_project.html")
         self.assertIsInstance(response.context["form"], NewProjectForm)
+
+    def test_post_request_valid_data(self):
+        self.client.force_login(self.user)
+        data = NewProjectFormFactory.valid_data()
+        self.assertEqual(Project.objects.all().count(), 0)
+        response = self.client.post(
+            reverse("projects:add_new_project"), data
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("projects:list_projects"))
+        self.assertEqual(Project.objects.all().count(), 1)
+
 
 
 class ShowProjectViewTest(TestCase):

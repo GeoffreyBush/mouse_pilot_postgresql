@@ -20,5 +20,3 @@ class NewProjectFormTestCase(TestCase):
 
 
 # Filter form tests
-
-# project_name required

@@ -12,6 +12,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import BatchFromBreedingCageForm
+from system_users.models import CustomUser
 
 
 class BreedingCageFormFactory:
@@ -166,5 +167,6 @@ class NewProjectFormFactory:
             "project_name": kwargs.get("project_name", "testproject"),
             "research_area": kwargs.get("research_area", "TestArea"),
             "strains": kwargs.get("strains", [StrainFactory()]),
-            "researchers": kwargs.get("researchers", [UserFactory()]),
+            # Not sure why this researchers line below breaks AddNewProjectViewTestCase but strains above doesnt
+            #"researchers": kwargs.get("researchers", CustomUser.objects.filter(username="testuser")), 
         }

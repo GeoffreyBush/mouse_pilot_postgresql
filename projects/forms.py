@@ -25,6 +25,7 @@ class NewProjectForm(forms.ModelForm):
     researchers = forms.ModelMultipleChoiceField(
         queryset=CustomUser.objects.all(),
         widget=forms.SelectMultiple(attrs={"class": "form-select"}),
+        required=False,
     )
 
     class Meta:

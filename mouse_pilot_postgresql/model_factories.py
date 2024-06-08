@@ -12,7 +12,7 @@ fake = Faker()
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = get_user_model()
+        model = "system_users.CustomUser"
 
     username = factory.Sequence(lambda n: f"testuser{n}")
     password = factory.PostGenerationMethodCall("set_password", "testpassword")
