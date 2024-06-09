@@ -11,6 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from website.forms import MouseSelectionForm
 from website.models import Strain
+from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
 
 # Need to test where home page, logout page redirect to
 
@@ -21,37 +22,25 @@ from website.models import Strain
 class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2, self.mouse3 = (
-            MouseFactory(project=self.project),
-            MouseFactory(project=self.project),
-            MouseFactory(),
-        )
-        self.form = MouseSelectionForm(
-            project=self.project, data={"mice": [self.mouse1.pk, self.mouse2.pk]}
-        )
+        self.mouse1, self.mouse2, = MouseFactory(project=self.project), MouseFactory()
+        self.form = MouseSelectionFormFactory.create(project=self.project, mice=[self.mouse1]) #mice=[self.mouse1, self.mouse2]
 
-    # Valid data
-    def test_mouse_selection_form_valid_data(self):
+    def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
-    # Correct mice count in request
-    def test_mouse_selection_form_mice_count(self):
-        self.form.is_valid()
-        self.assertEqual(len(self.form.cleaned_data["mice"]), 2)
-
-    # Correct project in request
-    def test_mouse_selection_form_project(self):
-        self.assertEqual(self.form.project, self.project)
-
-    # Invalid form when mice from different projects are selected
-    def test_mouse_selection_form_invalid_data(self):
-        self.form = MouseSelectionForm(
-            project=self.project, data={"mice": [self.mouse1.pk, self.mouse3.pk]}
+    def test_correct_queryset_without_project(self):
+        self.form = MouseSelectionFormFactory.create()
+        self.assertEqual(
+            self.form.fields["mice"].queryset.count(), 2
         )
-        self.assertFalse(self.form.is_valid())
-        self.assertIn("mice", self.form.errors)
 
-    # What happens when the form is saved? Need to test this too
+    def test_correct_queryset_with_project(self):
+        self.assertEqual(
+            self.form.fields["mice"].queryset.count(), 1
+        )
+
+    def test_save_is_disabled(self):
+        self.assertIsNone(self.form.save())
 
 
 ##############
@@ -62,6 +51,9 @@ class StrainModelTestCase(TestCase):
     @classmethod
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
+
+    def test_strain_creation(self):
+        self.assertIsInstance(self.strain, Strain)
 
     # Duplicate strain name
     def test_strain_duplicates(self):

@@ -10,6 +10,7 @@ from projects.filters import ProjectFilter
 from projects.forms import NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
+from mice_requests.forms import RequestForm
 
 
 @login_required
@@ -52,20 +53,22 @@ class ShowProjectView(View):
         context = {
             "project": project,
             "project_mice": project_mice,
+            "mouse_selection_form": MouseSelectionForm(project=project),
         }
         return HttpResponse(template.render(context, http_request))
 
     def post(self, http_request, project_name):
         if "add_request" in http_request.POST:
-            project = Project.objects.get(pk=project_name)
-            form = MouseSelectionForm(project=project)
-            if form.is_valid():
-                form.save()
-                form.mice.set(form.cleaned_data["mice"])
-                return redirect("mice_requests:add_request")
+            project = Project.objects.get(project_name=project_name)
+            mouse_selection_form = MouseSelectionForm(http_request.POST, project=project)
+            if mouse_selection_form.is_valid():
+                selected_mice = mouse_selection_form.cleaned_data["mice"]
+                http_request.session["selected_mice"] = [mouse.pk for mouse in selected_mice]
+                return redirect("mice_requests:add_request", project_name=project_name)
             else:
+                # This render causes NoReverseMatch error
                 return render(
                     http_request,
                     "show_project.html",
-                    {"form": form, "project_name": project_name},
+                    {"mouse_selection_form": mouse_selection_form, "project_name": project_name},
                 )

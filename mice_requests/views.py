@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-
+from mice_repository.models import Mouse
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
 
@@ -22,7 +22,9 @@ def add_request(http_request, project_name):
             request.mice.set(form.cleaned_data["mice"])
             return redirect("projects:show_project", project_name=project_name)
     else:
-        form = RequestForm()
+        selected_mice_pks = http_request.session.get("selected_mice", [])
+        selected_mice = Mouse.objects.filter(pk__in=selected_mice_pks)
+        form = RequestForm(initial={"mice": selected_mice})
     return render(
         http_request, "add_request.html", {"form": form, "project_name": project_name}
     )

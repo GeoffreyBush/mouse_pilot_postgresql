@@ -11,6 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.filters import ProjectFilter
 from projects.forms import NewProjectForm
 from projects.models import Project
+from website.forms import MouseSelectionForm
 
 
 class ListProjectsViewTestCase(TestCase):
@@ -73,9 +74,15 @@ class ShowProjectViewTest(TestCase):
         self.assertTemplateUsed(response, "show_project.html")
         self.assertIn("project", response.context)
         self.assertIsInstance(response.context["project_mice"], ProjectFilter)
-        # self.assertIsInstance(response.context["form"], MouseSelectionForm)
+        self.assertIsInstance(response.context["mouse_selection_form"], MouseSelectionForm)
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
+
+    # Test that MouseSelection form values are carried over to POST request
+    
+    # Test that the render in POST doesnt cause a NoReverseMatch error
+
+

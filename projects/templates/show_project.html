@@ -27,7 +27,7 @@
 	</form>
 
 	<!-- Table of mice -->
-	<form method="post" action="{% url 'mice_requests:add_request' project_name=project.project_name %}">
+	<form method="post" action="{% url 'projects:show_project' project_name=project.project_name %}">
 		{% csrf_token %}
 				<div class="d-flex justify-content-between align-items-center mb-3">
 			<div>
@@ -51,8 +51,8 @@
 			<tbody>
 			{% for mouse in project_mice.qs %}
 			<tr> <!--{% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}"-->
-				<td><input type="checkbox" name="checkbox-mice" value='{{ mouse.tube }}' onclick="highlightMouse('row{{ mouse.id }}')"></td>
-				<td>{{ mouse.tube }}</td>
+				<td><input type="checkbox" name="mice" value='{{ mouse.pk }}'></td>
+				<td>{{ mouse.pk }}</td>
 				<td>{{ mouse.dob }}</td>
 				<td>{{ mouse.age }}</td>
 				<td>{{ mouse.sex }}</td>
