@@ -74,7 +74,9 @@ class ShowProjectViewTest(TestCase):
         self.assertTemplateUsed(response, "show_project.html")
         self.assertIn("project", response.context)
         self.assertIsInstance(response.context["project_mice"], ProjectFilter)
-        self.assertIsInstance(response.context["mouse_selection_form"], MouseSelectionForm)
+        self.assertIsInstance(
+            response.context["mouse_selection_form"], MouseSelectionForm
+        )
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)
@@ -82,7 +84,5 @@ class ShowProjectViewTest(TestCase):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
     # Test that MouseSelection form values are carried over to POST request
-    
+
     # Test that the render in POST doesnt cause a NoReverseMatch error
-
-

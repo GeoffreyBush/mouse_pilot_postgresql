@@ -3,15 +3,14 @@ from django.test import TestCase
 from django.urls import reverse
 
 from mice_repository.models import Mouse
+from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
 )
-from website.forms import MouseSelectionForm
 from website.models import Strain
-from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
 
 # Need to test where home page, logout page redirect to
 
@@ -22,22 +21,26 @@ from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
 class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
         self.project = ProjectFactory()
-        self.mouse1, self.mouse2, = MouseFactory(project=self.project), MouseFactory()
-        self.form = MouseSelectionFormFactory.create(project=self.project, mice=[self.mouse1]) #mice=[self.mouse1, self.mouse2]
+        (
+            self.mouse1,
+            self.mouse2,
+        ) = (
+            MouseFactory(project=self.project),
+            MouseFactory(),
+        )
+        self.form = MouseSelectionFormFactory.create(
+            project=self.project, mice=[self.mouse1]
+        )  # mice=[self.mouse1, self.mouse2]
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
     def test_correct_queryset_without_project(self):
         self.form = MouseSelectionFormFactory.create()
-        self.assertEqual(
-            self.form.fields["mice"].queryset.count(), 2
-        )
+        self.assertEqual(self.form.fields["mice"].queryset.count(), 2)
 
     def test_correct_queryset_with_project(self):
-        self.assertEqual(
-            self.form.fields["mice"].queryset.count(), 1
-        )
+        self.assertEqual(self.form.fields["mice"].queryset.count(), 1)
 
     def test_save_is_disabled(self):
         self.assertIsNone(self.form.save())

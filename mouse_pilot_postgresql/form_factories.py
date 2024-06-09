@@ -9,7 +9,6 @@ from mouse_pilot_postgresql.model_factories import (
     StockCageFactory,
     StrainFactory,
     UserFactory,
-    ProjectFactory,
 )
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
@@ -166,7 +165,8 @@ class NewProjectFormFactory:
             # Not sure why this researchers line below breaks AddNewProjectViewTestCase but strains above doesnt
             # "researchers": kwargs.get("researchers", CustomUser.objects.filter(username="testuser")),
         }
-    
+
+
 class MouseSelectionFormFactory:
     @staticmethod
     def create(**kwargs):

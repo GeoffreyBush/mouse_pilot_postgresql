@@ -82,5 +82,5 @@ class ResearcherShowProjectTest(StaticLiveServerTestCase):
         # Assert that the request was created
 """
 
-# Need to test MouseSelectionForm carried over to the add_request view. 
+# Need to test MouseSelectionForm carried over to the add_request view.
 # Could do a complete sequence from MouseSelect to AddRequest to confirm request

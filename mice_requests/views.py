@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
 from mice_repository.models import Mouse
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
