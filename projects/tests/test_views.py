@@ -83,6 +83,7 @@ class ShowProjectViewTest(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
-    # Test that MouseSelection form values are carried over to POST request
+    # Test valid POST request
+    # Test that MouseSelection form values are saved in session data during valid POST request
 
     # Test that the render in POST doesnt cause a NoReverseMatch error

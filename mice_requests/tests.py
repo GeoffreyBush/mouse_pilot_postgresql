@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 
 from mice_requests.forms import RequestForm
@@ -70,75 +70,106 @@ class RequestFormTestCase(TestCase):
 
     # There must be at least one mouse present in a request
 
+    # Cannot try to clip or cull mice that are already genotyped or culled
+
 
 class ShowRequestsViewTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
-        self.requests = [
-            Request.objects.create(
-                request_id=1, requested_by=self.user, task_type="Cl", confirmed=True
-            )
-        ]
-
-    # Show requests whilelogged in
-    def test_show_requests_view(self):
-        response = self.client.get(reverse("mice_requests:show_requests"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "show_requests.html")
-        self.assertQuerysetEqual(
-            response.context["requests"], self.requests, ordered=False
-        )
-
-
-class AddRequestViewTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory(username="testuser")
-        cls.project = ProjectFactory()
-        cls.mouse1, cls.mouse2 = MouseFactory(), MouseFactory()
-        cls.mice = [cls.mouse1, cls.mouse2]
+        cls.client = Client()
+        cls.client.force_login(UserFactory())
+        cls.requests = [RequestFactory() for _ in range(3)]
+        cls.response = cls.client.get(reverse("mice_requests:show_requests"))
+        
+    def test_code_200(self):
+        self.assertEqual(self.response.status_code, 200)
 
-    # Need to test that correct number of selected mice are carried over to add_request view
-    # This test was copied from projects.tests. It checks the MouseSelectionForm carried over to the add_request view
-    def test_get_request_authenticated(self):
-        self.client.force_login(self.user)
-        url = reverse("mice_requests:add_request", args=[self.project.project_name])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_request.html")
-        self.assertIsInstance(response.context["form"], RequestForm)
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "show_requests.html")
 
-    def test_add_request_post_valid(self):
-        self.client.force_login(self.user)
-        url = reverse("mice_requests:add_request", args=[self.project.project_name])
-        data = RequestFormFactory.valid_data(mice=self.mice)
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response, reverse("projects:show_project", args=[self.project.project_name])
+    def test_requests_in_response(self):
+        self.assertQuerysetEqual(
+            self.response.context["requests"], self.requests, ordered=False
         )
+
+
+class AddRequestViewGetTestCase(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.mice = [MouseFactory(), MouseFactory()]
+        cls.client.force_login(UserFactory())
+        cls.client.session["selected_mice"] = [mouse.pk for mouse in cls.mice]
+        cls.client.session.save()
+        cls.url = reverse("mice_requests:add_request", args=[ProjectFactory().project_name])
+        cls.response = cls.client.get(cls.url)
+
+    def test_code_200(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "add_request.html")
+
+    def test_form_in_context(self):
+        self.assertIsInstance(self.response.context["form"], RequestForm)
+
+    def test_mice_in_form(self):
+        self.assertQuerysetEqual(
+            self.response.context["form"].fields["mice"].queryset, self.mice, ordered=False
+        )
+
+class AddRequestViewPostTestCase(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.project = ProjectFactory()
+        cls.mice = [MouseFactory(), MouseFactory()]
+        cls.client.force_login(UserFactory())
+        cls.url = reverse("mice_requests:add_request", args=[cls.project.project_name])  
+        cls.response = cls.client.post(cls.url, RequestFormFactory.valid_data(mice=cls.mice))
+
+    def test_code_302(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirects_to_project(self):
+        self.assertRedirects(
+            self.response, reverse("projects:show_project", args=[self.project.project_name])
+        )
+
+    def test_request_created(self):
         self.assertEqual(Request.objects.count(), 1)
 
+    def test_request_mice(self):
+        self.assertQuerysetEqual(
+            Request.objects.first().mice.all(), self.mice, ordered=False
+        )
 
 class ConfirmRequestViewTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
-        self.mouse = MouseFactory()
-        self.request = Request.objects.create(
-            requested_by=self.user, task_type="Cl", confirmed=False
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.user = UserFactory()
+        cls.client.force_login(cls.user)
+        cls.mouse = MouseFactory()
+        cls.request = Request.objects.create(
+            requested_by=cls.user, task_type="Cl", confirmed=False
         )
-        self.request.mice.add(self.mouse)
+        cls.request.mice.add(cls.mouse)
+        cls.response = cls.client.get(
+            reverse("mice_requests:confirm_request", args=[cls.request.request_id])
+        )
 
-    # Redirect to show_requests after confirming
-    def test_confirm_request_view_get_request(self):
-        response = self.client.get(
-            reverse("mice_requests:confirm_request", args=[self.request.request_id])
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("mice_requests:show_requests"))
+    # What additional tests can be added here?
+
+    def test_code_302(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirects_to_show_requests(self):
+        self.assertRedirects(self.response, reverse("mice_requests:show_requests"))
 
     # Need to get the clip request to ask for an earmark input for this test to work now
     # Confirm request changes mice.genotyped to True

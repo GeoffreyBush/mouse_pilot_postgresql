@@ -12,12 +12,7 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from website.models import Strain
 
-# Need to test where home page, logout page redirect to
 
-
-############################
-### MOUSE SELECTION FORM ###
-############################
 class MouseSelectionFormTestCase(TestCase):
     def setUp(self):
         self.project = ProjectFactory()
@@ -30,7 +25,7 @@ class MouseSelectionFormTestCase(TestCase):
         )
         self.form = MouseSelectionFormFactory.create(
             project=self.project, mice=[self.mouse1]
-        )  # mice=[self.mouse1, self.mouse2]
+        )
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
@@ -149,3 +144,4 @@ class EditHistoryViewTest(TestCase):
 
     # Should test an actual edit of the mice here too
 """
+# Need to test where home page, logout page redirect to

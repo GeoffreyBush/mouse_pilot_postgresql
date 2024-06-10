@@ -32,6 +32,8 @@ def add_request(http_request, project_name):
 
 
 @login_required
+# Need an intermediary view here that pops up on the template to offer selection (e.g. earmark is "TL") based on task type
+# Then the intermediary view will call the appropriate method to confirm the request or possible redirects here
 def confirm_request(http_request, request_id):
     mice_request = Request.objects.get(pk=request_id)
     # Add switch statement here to check task_type and call appropriate method
