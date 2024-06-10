@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from mice_requests.forms import RequestForm
@@ -81,7 +81,7 @@ class ShowRequestsViewTest(TestCase):
         cls.client.force_login(UserFactory())
         cls.requests = [RequestFactory() for _ in range(3)]
         cls.response = cls.client.get(reverse("mice_requests:show_requests"))
-        
+
     def test_code_200(self):
         self.assertEqual(self.response.status_code, 200)
 
@@ -103,7 +103,9 @@ class AddRequestViewGetTestCase(TestCase):
         cls.client.force_login(UserFactory())
         cls.client.session["selected_mice"] = [mouse.pk for mouse in cls.mice]
         cls.client.session.save()
-        cls.url = reverse("mice_requests:add_request", args=[ProjectFactory().project_name])
+        cls.url = reverse(
+            "mice_requests:add_request", args=[ProjectFactory().project_name]
+        )
         cls.response = cls.client.get(cls.url)
 
     def test_code_200(self):
@@ -117,8 +119,11 @@ class AddRequestViewGetTestCase(TestCase):
 
     def test_mice_in_form(self):
         self.assertQuerysetEqual(
-            self.response.context["form"].fields["mice"].queryset, self.mice, ordered=False
+            self.response.context["form"].fields["mice"].queryset,
+            self.mice,
+            ordered=False,
         )
+
 
 class AddRequestViewPostTestCase(TestCase):
     @classmethod
@@ -128,15 +133,18 @@ class AddRequestViewPostTestCase(TestCase):
         cls.project = ProjectFactory()
         cls.mice = [MouseFactory(), MouseFactory()]
         cls.client.force_login(UserFactory())
-        cls.url = reverse("mice_requests:add_request", args=[cls.project.project_name])  
-        cls.response = cls.client.post(cls.url, RequestFormFactory.valid_data(mice=cls.mice))
+        cls.url = reverse("mice_requests:add_request", args=[cls.project.project_name])
+        cls.response = cls.client.post(
+            cls.url, RequestFormFactory.valid_data(mice=cls.mice)
+        )
 
     def test_code_302(self):
         self.assertEqual(self.response.status_code, 302)
 
     def test_redirects_to_project(self):
         self.assertRedirects(
-            self.response, reverse("projects:show_project", args=[self.project.project_name])
+            self.response,
+            reverse("projects:show_project", args=[self.project.project_name]),
         )
 
     def test_request_created(self):
@@ -146,6 +154,7 @@ class AddRequestViewPostTestCase(TestCase):
         self.assertQuerysetEqual(
             Request.objects.first().mice.all(), self.mice, ordered=False
         )
+
 
 class ConfirmRequestViewTest(TestCase):
     @classmethod
