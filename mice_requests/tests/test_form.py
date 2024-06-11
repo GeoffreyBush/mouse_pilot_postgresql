@@ -22,7 +22,13 @@ class RequestFormTestCase(TestCase):
             task_type="Cull",
             mice=[self.culled_mouse1, self.culled_mouse2],
         )
-        self.assertEqual(self.form.errors["mice"], [f"Mouse {self.culled_mouse1} has already been culled.", f"Mouse {self.culled_mouse2} has already been culled."])
+        self.assertEqual(
+            self.form.errors["mice"],
+            [
+                f"Mouse {self.culled_mouse1} has already been culled.",
+                f"Mouse {self.culled_mouse2} has already been culled.",
+            ],
+        )
 
     def test_mice_already_clipped_in_clip_request(self):
         self.clipped_mouse1 = MouseFactory(earmark="TL")
@@ -31,7 +37,13 @@ class RequestFormTestCase(TestCase):
             task_type="Clip",
             mice=[self.clipped_mouse1, self.clipped_mouse2],
         )
-        self.assertEqual(self.form.errors["mice"], [f"Mouse {self.clipped_mouse1} has already been clipped.", f"Mouse {self.clipped_mouse2} has already been clipped."])
+        self.assertEqual(
+            self.form.errors["mice"],
+            [
+                f"Mouse {self.clipped_mouse1} has already been clipped.",
+                f"Mouse {self.clipped_mouse2} has already been clipped.",
+            ],
+        )
 
     def test_mice_field_hidden(self):
         self.form = RequestFormFactory.create()
