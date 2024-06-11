@@ -76,6 +76,4 @@ class RequestFactory(factory.django.DjangoModelFactory):
 
     requested_by = factory.SubFactory(UserFactory)
     task_type = random.choice(["Clip", "Cull", "Move", "Wean"])
-    new_message = fake.text(30)
-    message_history = fake.text(100)
     confirmed = False

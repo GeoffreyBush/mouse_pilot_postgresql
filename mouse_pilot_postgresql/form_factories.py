@@ -75,7 +75,6 @@ class CustomUserChangeFormFactory:
         }
 
 
-# Could refactor RequestFormFactory to use kwargs more
 class RequestFormFactory:
 
     @staticmethod

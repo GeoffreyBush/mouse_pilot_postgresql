@@ -24,10 +24,6 @@ class Request(models.Model):
         default=False
     )  # confirmed attribute could be switched to flag with choices?
 
-    # Message system is not robust enough
-    new_message = models.CharField(max_length=1000, null=True, blank=True)
-    message_history = models.CharField(max_length=10000, null=True, blank=True)
-
     def confirm_clip(self, earmark):
         if earmark is None:
             raise ValidationError("Earmark is required to confirm request")

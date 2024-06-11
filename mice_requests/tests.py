@@ -54,33 +54,26 @@ class RequestModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             self.request.confirm_clip("TL")
 
-    def test_confirm_clip_when_mice_already_clipped(self):
-        self.mouse1.earmark = "TL"
-        self.mouse1.save()
-        self.mouse1.refresh_from_db()
-        with self.assertRaises(ValidationError):
-            self.request.confirm_clip("TL")
-
-    def test_confirm_cull_when_mice_already_culled(self):
-        self.mouse1.cull()
-        self.mouse1.save()
-        self.mouse1.refresh_from_db()
-        with self.assertRaises(ValidationError):
-            self.request.confirm_cull()
-
     # Test request messaging system
 
 
 class RequestFormTestCase(TestCase):
 
-    # Valid form
     def test_valid_data(self):
-        self.user = UserFactory()
-        self.form = RequestFormFactory.create(user=self.user)
+        self.form = RequestFormFactory.create(user=UserFactory())
+        self.assertTrue(self.form.is_valid())
 
-    # There must be at least one mouse present in a request
+    def test_no_mice(self):
+        self.form = RequestFormFactory.create(mice=[])
+        self.assertFalse(self.form.is_valid())
 
-    # Cannot try to clip or cull mice that are already genotyped or culled
+    def test_mice_already_culled(self):
+        self.form = RequestFormFactory.create(task_type="Cull", mice=[MouseFactory(culled=True), MouseFactory(culled=False)])
+        self.assertFalse(self.form.is_valid())
+
+    def test_mice_already_clipped(self):
+        self.form = RequestFormFactory.create(task_type="Clip", mice=[MouseFactory(earmark="TL"), MouseFactory(earmark="")])
+        self.assertFalse(self.form.is_valid())
 
 
 class ShowRequestsViewTest(TestCase):
@@ -202,6 +195,10 @@ class ConfirmRequestViewTest(TestCase):
     """
 
     # Confirm clip view changes earmark of mice in request
+
+    # Cannot make a clip request if one mouse in the request has already been clipped
+
+    # Cannot make a cull request if one mouse in the request has already been culled
 
 
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping

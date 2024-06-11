@@ -59,7 +59,7 @@ class MouseModelTestCase(TestCase):
     def test_no_increment_strain_count_when_validate_unique_mouse_fails(self):
         self.assertEqual(self.strain.mice_count, 1)
         with self.assertRaises(ValidationError):
-            self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+            self.duplicate_mouse = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
         self.assertEqual(self.strain.mice_count, 1)
 
     def test_mouse_adding_earmark_auto_genotypes_mouse(self):
@@ -186,5 +186,3 @@ class AddMouseToRepositoryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("mice_repository:mice_repository"))
         self.assertEqual(Mouse.objects.all().count(), 1)
-
-    # Test invalid form data

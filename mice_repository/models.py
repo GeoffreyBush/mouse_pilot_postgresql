@@ -107,7 +107,7 @@ class Mouse(models.Model):
 
     def cull(self):
         if self.culled:
-            raise ValidationError("Mouse is already culled")
+            raise ValidationError("Mouse has already been culled")
         else:
             self.culled = True
             self.save()
