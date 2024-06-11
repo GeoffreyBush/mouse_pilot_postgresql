@@ -31,7 +31,7 @@ class RequestModelTestCase(TestCase):
             self.request.mice.all(), [self.mouse1, self.mouse2], ordered=False
         )
 
-    def test_requested_by_is_none(self):
+    def test_requested_by_cannot_be_none(self):
         with self.assertRaises(IntegrityError):
             RequestFactory(requested_by=None)
 
@@ -45,20 +45,30 @@ class RequestModelTestCase(TestCase):
         self.request.confirm_clip("TL")
         assert all(mouse.is_genotyped() for mouse in self.request.mice.all())
 
-    def test_confirm_clip_request_no_earmark(self):
+    def test_confirm_clip_request_must_pass_earmark(self):
         with self.assertRaises(ValidationError):
             self.request.confirm_clip(None)
 
-    def test_confirm_clip_request_already_confirmed(self):
+    def test_confirm_clip_when_already_confirmed(self):
         self.request.confirm_clip("TL")
         with self.assertRaises(ValidationError):
             self.request.confirm_clip("TL")
 
+    def test_confirm_clip_when_mice_already_clipped(self):
+        self.mouse1.earmark = "TL"
+        self.mouse1.save()
+        self.mouse1.refresh_from_db()
+        with self.assertRaises(ValidationError):
+            self.request.confirm_clip("TL")
+
+    def test_confirm_cull_when_mice_already_culled(self):
+        self.mouse1.cull()
+        self.mouse1.save()
+        self.mouse1.refresh_from_db()
+        with self.assertRaises(ValidationError):
+            self.request.confirm_cull()
+
     # Test request messaging system
-
-    # Mice that already have an earmark cannot be clipped again
-
-    # Mice that are already culled cannot be culled again
 
 
 class RequestFormTestCase(TestCase):
@@ -191,5 +201,6 @@ class ConfirmRequestViewTest(TestCase):
         self.assertTrue(self.mouse.is_genotyped())
     """
 
+    # Confirm clip view changes earmark of mice in request
 
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping

@@ -95,6 +95,8 @@ class Mouse(models.Model):
         db_column="Fate", max_length=40, null=True, blank=True, default=""
     )
 
+    culled = models.BooleanField(default=False)
+
     @property
     def tube(self):
         return self._tube
@@ -102,6 +104,13 @@ class Mouse(models.Model):
     @property
     def age(self):
         return (datetime.date.today() - self.dob).days
+
+    def cull(self):
+        if self.culled:
+            raise ValidationError("Mouse is already culled")
+        else:
+            self.culled = True
+            self.save()
 
     # Custom tube can be set or is set automatically. Tube value then used to set _global_id
     def save(self, *args, **kwargs):

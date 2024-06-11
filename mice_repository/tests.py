@@ -13,14 +13,10 @@ from mouse_pilot_postgresql.model_factories import (
 
 
 class MouseModelTestCase(TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.strain = StrainFactory(strain_name="teststrain")
-        cls.mouse = MouseFactory(strain=cls.strain)
-        cls.auto_tube_mouse = MouseFactory(strain=cls.strain)
-        cls.manual_tube_mouse = MouseFactory(strain=cls.strain, _tube=123)
+    def setUp(self):
+        self.strain = StrainFactory(strain_name="teststrain")
+        self.mouse = MouseFactory(strain=self.strain)
+        
 
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
@@ -32,15 +28,19 @@ class MouseModelTestCase(TestCase):
         self.assertEqual(self.mouse.pk, "teststrain-1")
 
     def test_mouse_auto_tube_increments_correctly(self):
+        self.auto_tube_mouse = MouseFactory(strain=self.strain)
         self.assertEqual(self.auto_tube_mouse._tube, 2)
 
     def test_mouse_auto_tube_increments_pk_correctly(self):
+        self.auto_tube_mouse = MouseFactory(strain=self.strain)
         self.assertEqual(self.auto_tube_mouse.pk, "teststrain-2")
 
     def test_mouse_manual_tube_correct_value(self):
+        self.manual_tube_mouse = MouseFactory(strain=self.strain, _tube=123)
         self.assertEqual(self.manual_tube_mouse._tube, 123)
 
     def test_mouse_manual_tube_correct_pk(self):
+        self.manual_tube_mouse = MouseFactory(strain=self.strain, _tube=123)
         self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
     def test_correct_age(self):
@@ -48,18 +48,18 @@ class MouseModelTestCase(TestCase):
 
     def test_mouse_cannot_be_overwritten_by_duplicate_tube(self):
         with self.assertRaises(ValidationError):
-            self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+            self.duplicate_mouse = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
 
     def test_increment_strain_count_when_validate_unique_mouse_passes(self):
-        self.assertEqual(self.strain.mice_count, 3)
-        self.mouse4 = MouseFactory(strain=self.strain, _tube=5)
-        self.assertEqual(self.strain.mice_count, 4)
+        self.assertEqual(self.strain.mice_count, 1)
+        self.extra_mouse = MouseFactory(strain=self.strain, _tube=5)
+        self.assertEqual(self.strain.mice_count, 2)
 
     def test_no_increment_strain_count_when_validate_unique_mouse_fails(self):
-        self.assertEqual(self.strain.mice_count, 4)
+        self.assertEqual(self.strain.mice_count, 1)
         with self.assertRaises(ValidationError):
             self.mouse4 = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
-        self.assertEqual(self.strain.mice_count, 4)
+        self.assertEqual(self.strain.mice_count, 1)
 
     def test_mouse_adding_earmark_auto_genotypes_mouse(self):
         self.assertFalse(self.mouse.is_genotyped())
@@ -67,6 +67,17 @@ class MouseModelTestCase(TestCase):
         self.mouse.save()
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_genotyped())
+
+    def test_mouse_cull_sets_culled(self):
+        self.assertFalse(self.mouse.culled)
+        self.mouse.cull()
+        self.assertTrue(self.mouse.culled)
+
+    def test_mouse_cull_raises_error_when_already_culled(self):
+        self.assertFalse(self.mouse.culled)
+        self.mouse.cull()
+        with self.assertRaises(ValidationError):
+            self.mouse.cull()
 
     # Mother must be female
 
@@ -98,7 +109,7 @@ class RepositoryMiceFormTestCase(TestCase):
         self.assertFalse("_global_id" in RepositoryMiceForm().fields)
 
     def test_mouse_model_count(self):
-        self.form = RepositoryMiceFormFactory.create(strain=self.strain)
+        self.form = RepositoryMiceFormFactory.create()
         self.form.save()
         self.assertEqual(Mouse.objects.all().count(), 1)
 
@@ -134,6 +145,10 @@ class RepositoryMiceFormTestCase(TestCase):
         self.form.save()
         self.strain.refresh_from_db()
         self.assertEqual(self.strain.mice_count, 1)
+
+    # Mother choices are female
+
+    # Father choices are male
 
 
 class MiceRepositoryViewTestCase(TestCase):

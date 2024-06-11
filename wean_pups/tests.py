@@ -71,10 +71,6 @@ class PupsToStockCageViewTestCase(TestCase):
     def test_pups_to_stock_cage_valid_data(self):
         pass
 
-    # POST TransferToStockCageForm with invalid data
-
-    # Access Transfer to Stock Cage while not logged in
-
     # None of the tube numbers in the formset can be identical
 
     # If no tube numbers given, correct default assignment when formset is loaded
@@ -82,3 +78,5 @@ class PupsToStockCageViewTestCase(TestCase):
     # All tube numbers must exist in the formset
 
     # Can't transfer from the same breeding cage twice
+
+    # If any form in the formset is invalid, the entire formset is invalid
