@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-# Culled boolean attribute will be useful
 class Mouse(models.Model):
 
     EARMARK_CHOICES_PAIRED = [

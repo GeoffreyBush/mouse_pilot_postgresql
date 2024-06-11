@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from system_users.models import CustomUser
+from mice_repository.models import Mouse
 
 
 class Request(models.Model):
@@ -25,8 +26,12 @@ class Request(models.Model):
     )  # confirmed attribute could be switched to flag with choices?
 
     def confirm_clip(self, earmark):
-        if earmark is None:
+        if self.task_type != "Clip":
+            raise ValidationError("Request is not a clip request")
+        elif earmark is None:
             raise ValidationError("Earmark is required to confirm request")
+        elif earmark not in [choice[0] for choice in Mouse.EARMARK_CHOICES_PAIRED]:
+            raise ValidationError("Earmark is not valid")
         elif self.confirmed:
             raise ValidationError("Request is already confirmed")
         else:
@@ -37,7 +42,15 @@ class Request(models.Model):
                 mouse.save()
 
     def confirm_cull(self):
-        pass
+        if self.task_type != "Cull":
+            raise ValidationError("Request is not a cull request")
+        elif self.confirmed:
+            raise ValidationError("Request is already confirmed")
+        else:
+            self.confirmed = True
+            self.save()
+            for mouse in self.mice.all():
+                mouse.cull()
 
     def __str__(self):
         return f"{self.request_id}"
