@@ -4,13 +4,17 @@
 <div class="container">
     <form method="post">
         {% csrf_token %}
+        {{ form.non_field_errors }}
         <div class="mb-3">
             {{ form.task_type.label_tag }}
             {{ form.task_type }}
+            {{ form.task_type.errors }}
         </div>
         <div class="mb-3">
-            {{ form.mice.label_tag }}
             {{ form.mice }}
+            {% for error in form.mice.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
         </div>
         <button type="submit" class="btn btn-primary">Add Task</button>
     </form>

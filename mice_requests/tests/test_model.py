@@ -60,4 +60,4 @@ class RequestModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             self.request.confirm_clip("TL")
 
-    # Test request messaging system
+    # If a request already exists for a mouse, a new request of the same type cannot be made for that mouse

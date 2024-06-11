@@ -23,22 +23,27 @@ class RequestForm(forms.ModelForm):
         task_type = cleaned_data.get("task_type")
         mice = cleaned_data.get("mice")
 
+        errors = {}
         if not mice or len(mice) == 0:
             raise forms.ValidationError("You must select at least one mouse.")
+        else:
+            mice_errors = []
+            if task_type == "Cull":
+                for mouse in mice:
+                    if mouse.culled:
+                        mice_errors.append(f"Mouse {mouse} has already been culled.")
 
-        if task_type == "Cull":
-            for mouse in mice:
-                if mouse.culled:
-                    raise forms.ValidationError(
-                        f"Mouse {mouse} has already been culled."
-                    )
+            elif task_type == "Clip":
+                for mouse in mice:
+                    if mouse.is_genotyped():
+                        mice_errors.append(f"Mouse {mouse} has already been clipped.")
 
-        elif task_type == "Clip":
-            for mouse in mice:
-                if mouse.is_genotyped():
-                    raise forms.ValidationError(
-                        f"Mouse {mouse} has already been clipped."
-                    )
+            if mice_errors:
+                errors["mice"] = mice_errors
+
+        
+        if errors:
+            raise forms.ValidationError(errors)
 
         return cleaned_data
 
