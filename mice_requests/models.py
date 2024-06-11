@@ -1,8 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from system_users.models import CustomUser
 from mice_repository.models import Mouse
+from system_users.models import CustomUser
 
 
 class Request(models.Model):

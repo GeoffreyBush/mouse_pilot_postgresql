@@ -1,10 +1,8 @@
 from django.test import TestCase
 
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
-from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
-    UserFactory,
-)
+from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
+
 
 class RequestFormTestCase(TestCase):
 

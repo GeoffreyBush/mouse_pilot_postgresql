@@ -12,9 +12,6 @@ from mouse_pilot_postgresql.model_factories import (
 )
 
 
-
-
-
 class ShowRequestsViewTest(TestCase):
     @classmethod
     def setUpClass(cls):

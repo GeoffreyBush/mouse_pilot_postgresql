@@ -3,10 +3,7 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from mice_requests.models import Request
-from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
-    RequestFactory,
-)
+from mouse_pilot_postgresql.model_factories import MouseFactory, RequestFactory
 
 
 class RequestModelTestCase(TestCase):
