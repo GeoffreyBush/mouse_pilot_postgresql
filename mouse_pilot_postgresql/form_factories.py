@@ -89,7 +89,6 @@ class RequestFormFactory:
             "task_type": kwargs.get(
                 "task_type", random.choice(["Clip", "Cull", "Move", "Wean"])
             ),
-            "new_message": kwargs.get("new_message", "Test message"),
             "requested_by": kwargs.get("requested_by", UserFactory()),
         }
 

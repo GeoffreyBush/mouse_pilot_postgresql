@@ -13,12 +13,10 @@ class RequestForm(forms.ModelForm):
 
     mice = forms.ModelMultipleChoiceField(
         queryset=Mouse.objects.all(),
-        widget=forms.SelectMultiple(attrs={"class": "form-select"}),
+        widget=forms.MultipleHiddenInput(),
     )
 
-    new_message = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "form-control", "rows": 3}),
-    )
+    # Should be able to initialise a form when no mice are selected from MouseSelectionForm
 
     def clean(self):
         cleaned_data = super().clean()
@@ -46,4 +44,4 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        fields = ["mice", "task_type", "new_message"]
+        fields = ["mice", "task_type"]

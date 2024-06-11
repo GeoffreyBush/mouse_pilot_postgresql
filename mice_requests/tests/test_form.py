@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.forms import MultipleHiddenInput
 
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
@@ -27,3 +28,8 @@ class RequestFormTestCase(TestCase):
             mice=[MouseFactory(earmark="TL"), MouseFactory(earmark="")],
         )
         self.assertFalse(self.form.is_valid())
+
+    def test_mice_field_hidden(self):
+        self.form = RequestFormFactory.create()
+        self.assertIsInstance(self.form.fields["mice"].widget, MultipleHiddenInput)
+
