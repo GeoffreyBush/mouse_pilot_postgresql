@@ -35,7 +35,7 @@ class RequestModelTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             RequestFactory(requested_by=None)
 
-    def test_request_is_confirmed(self):
+    def test_request_confirmed(self):
         assert self.request.confirmed is False
         self.request.confirm_clip("TL")
         assert self.request.confirmed
@@ -45,9 +45,15 @@ class RequestModelTestCase(TestCase):
         self.request.confirm_clip("TL")
         assert all(mouse.is_genotyped() for mouse in self.request.mice.all())
 
-    def test_confirm_clip_request_must_pass_earmark(self):
+    # confirm_clip can only be called if request.task_type is "Clip"
+
+    # confirm_cull can only be called if request.task_type is "Cull"
+
+    def test_confirm_clip_earmark_cannot_be_none(self):
         with self.assertRaises(ValidationError):
             self.request.confirm_clip(None)
+
+    # confirm_clip must pass a valid earmark from the list of valid earmarks
 
     def test_confirm_clip_when_already_confirmed(self):
         self.request.confirm_clip("TL")
@@ -63,18 +69,18 @@ class RequestFormTestCase(TestCase):
         self.form = RequestFormFactory.create(user=UserFactory())
         self.assertTrue(self.form.is_valid())
 
-    def test_no_mice(self):
+    def test_no_mice_in_request(self):
         self.form = RequestFormFactory.create(mice=[])
         self.assertFalse(self.form.is_valid())
 
-    def test_mice_already_culled(self):
+    def test_mice_already_culled_in_cull_request(self):
         self.form = RequestFormFactory.create(
             task_type="Cull",
             mice=[MouseFactory(culled=True), MouseFactory(culled=False)],
         )
         self.assertFalse(self.form.is_valid())
 
-    def test_mice_already_clipped(self):
+    def test_mice_already_clipped_in_clip_request(self):
         self.form = RequestFormFactory.create(
             task_type="Clip",
             mice=[MouseFactory(earmark="TL"), MouseFactory(earmark="")],
