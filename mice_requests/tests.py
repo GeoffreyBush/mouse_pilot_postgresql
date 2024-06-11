@@ -68,11 +68,17 @@ class RequestFormTestCase(TestCase):
         self.assertFalse(self.form.is_valid())
 
     def test_mice_already_culled(self):
-        self.form = RequestFormFactory.create(task_type="Cull", mice=[MouseFactory(culled=True), MouseFactory(culled=False)])
+        self.form = RequestFormFactory.create(
+            task_type="Cull",
+            mice=[MouseFactory(culled=True), MouseFactory(culled=False)],
+        )
         self.assertFalse(self.form.is_valid())
 
     def test_mice_already_clipped(self):
-        self.form = RequestFormFactory.create(task_type="Clip", mice=[MouseFactory(earmark="TL"), MouseFactory(earmark="")])
+        self.form = RequestFormFactory.create(
+            task_type="Clip",
+            mice=[MouseFactory(earmark="TL"), MouseFactory(earmark="")],
+        )
         self.assertFalse(self.form.is_valid())
 
 

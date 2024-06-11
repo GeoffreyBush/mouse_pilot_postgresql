@@ -59,7 +59,9 @@ class MouseModelTestCase(TestCase):
     def test_no_increment_strain_count_when_validate_unique_mouse_fails(self):
         self.assertEqual(self.strain.mice_count, 1)
         with self.assertRaises(ValidationError):
-            self.duplicate_mouse = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+            self.duplicate_mouse = MouseFactory(
+                strain=self.strain, _tube=self.mouse.tube
+            )
         self.assertEqual(self.strain.mice_count, 1)
 
     def test_mouse_adding_earmark_auto_genotypes_mouse(self):
