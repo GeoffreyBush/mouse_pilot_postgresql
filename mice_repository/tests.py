@@ -16,7 +16,6 @@ class MouseModelTestCase(TestCase):
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
         self.mouse = MouseFactory(strain=self.strain)
-        
 
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
@@ -48,7 +47,9 @@ class MouseModelTestCase(TestCase):
 
     def test_mouse_cannot_be_overwritten_by_duplicate_tube(self):
         with self.assertRaises(ValidationError):
-            self.duplicate_mouse = MouseFactory(strain=self.strain, _tube=self.mouse.tube)
+            self.duplicate_mouse = MouseFactory(
+                strain=self.strain, _tube=self.mouse.tube
+            )
 
     def test_increment_strain_count_when_validate_unique_mouse_passes(self):
         self.assertEqual(self.strain.mice_count, 1)

@@ -203,4 +203,5 @@ class ConfirmRequestViewTest(TestCase):
 
     # Confirm clip view changes earmark of mice in request
 
+
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
