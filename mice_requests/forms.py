@@ -41,7 +41,6 @@ class RequestForm(forms.ModelForm):
             if mice_errors:
                 errors["mice"] = mice_errors
 
-        
         if errors:
             raise forms.ValidationError(errors)
 
