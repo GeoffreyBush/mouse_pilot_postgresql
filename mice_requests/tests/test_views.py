@@ -96,4 +96,5 @@ class AddRequestViewPostTestCase(TestCase):
 
     # Need more add_request POST tests
 
+
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
