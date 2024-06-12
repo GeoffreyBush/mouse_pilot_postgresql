@@ -86,9 +86,7 @@ class RequestFormFactory:
     def valid_data(**kwargs):
         return {
             "mice": kwargs.get("mice", [MouseFactory().pk, MouseFactory().pk]),
-            "task_type": kwargs.get(
-                "task_type", random.choice(["Clip", "Cull"])
-            ),
+            "task_type": kwargs.get("task_type", random.choice(["Clip", "Cull"])),
             "requested_by": kwargs.get("requested_by", UserFactory()),
         }
 

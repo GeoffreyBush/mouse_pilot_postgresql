@@ -34,7 +34,7 @@ class RequestForm(forms.ModelForm):
                         mice_errors.append(f"Mouse {mouse} has already been culled.")
                     elif Request.objects.filter(task_type="Cull", mice=mouse).exists():
                         mice_errors.append(f"Mouse {mouse} already has a cull request.")
-                    
+
             elif task_type == "Clip":
                 for mouse in mice:
                     if mouse.is_genotyped():

@@ -1,10 +1,10 @@
 from django.forms import MultipleHiddenInput
 from django.test import TestCase
 
+from mice_requests.tests.test_model import RequestFactory
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
 
-from mice_requests.tests.test_model import RequestFactory
 
 class RequestFormTestCase(TestCase):
 
@@ -38,12 +38,22 @@ class RequestFormTestCase(TestCase):
         self.mouse = MouseFactory()
         self.existing_request = RequestFactory(task_type="Clip")
         self.existing_request.mice.add(self.mouse)
-        self.duplicate_form = RequestFormFactory.create(task_type="Clip", mice=[self.mouse])
-        self.assertEqual(self.duplicate_form.errors["mice"][0], f"Mouse {self.mouse} already has a clip request.")
+        self.duplicate_form = RequestFormFactory.create(
+            task_type="Clip", mice=[self.mouse]
+        )
+        self.assertEqual(
+            self.duplicate_form.errors["mice"][0],
+            f"Mouse {self.mouse} already has a clip request.",
+        )
 
     def test_cull_request_already_exists_for_mouse(self):
         self.mouse = MouseFactory()
         self.existing_request = RequestFactory(task_type="Cull")
         self.existing_request.mice.add(self.mouse)
-        self.duplicate_form = RequestFormFactory.create(task_type="Cull", mice=[self.mouse])
-        self.assertEqual(self.duplicate_form.errors["mice"][0], f"Mouse {self.mouse} already has a cull request.")
+        self.duplicate_form = RequestFormFactory.create(
+            task_type="Cull", mice=[self.mouse]
+        )
+        self.assertEqual(
+            self.duplicate_form.errors["mice"][0],
+            f"Mouse {self.mouse} already has a cull request.",
+        )
