@@ -4,8 +4,8 @@ from django.utils.safestring import mark_safe
 
 from mice_repository.models import Mouse
 from mice_requests.models import Request
-
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED
+
 
 class ReadOnlyMiceField(forms.Widget):
     def render(self, name, value, attrs=None, renderer=None):
@@ -81,11 +81,13 @@ class RequestForm(forms.ModelForm):
         model = Request
         fields = ["mice", "task_type"]
 
+
 class ClipForm(forms.Form):
     earmark = forms.ChoiceField(
         choices=EARMARK_CHOICES_PAIRED,
         widget=forms.Select(attrs={"class": "form-select"}),
     )
+
 
 class CullForm(forms.Form):
     pass

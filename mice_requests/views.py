@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
+
 from mice_repository.models import Mouse
-from mice_requests.forms import RequestForm, ClipForm, CullForm
+from mice_requests.forms import ClipForm, CullForm, RequestForm
 from mice_requests.models import Request
 
 
@@ -46,8 +47,12 @@ class ConfirmRequestView(View):
                 form = CullForm()
             case _:
                 pass
-        return render(http_request, "confirm_request.html", {"form": form, "request": mice_request})
-    
+        return render(
+            http_request,
+            "confirm_request.html",
+            {"form": form, "request": mice_request},
+        )
+
     def post(self, http_request, request_id):
         pass
 

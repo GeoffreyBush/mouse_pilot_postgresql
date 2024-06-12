@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mice_requests.forms import RequestForm
+from mice_requests.forms import ClipForm, CullForm, RequestForm
 from mice_requests.models import Request
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import (
@@ -10,9 +10,6 @@ from mouse_pilot_postgresql.model_factories import (
     RequestFactory,
     UserFactory,
 )
-
-from mice_requests.forms import ClipForm, CullForm
-
 
 
 class ShowRequestsViewTest(TestCase):
@@ -97,7 +94,7 @@ class AddRequestViewPostTestCase(TestCase):
             Request.objects.first().mice.all(), self.mice, ordered=False
         )
 
-    
+
 class ConfirmRequestViewTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -136,7 +133,6 @@ class ConfirmRequestViewTest(TestCase):
         )
         self.assertIsInstance(response.context["form"], CullForm)
 
-    
     # Need to get the clip request to ask for an earmark input for this test to work now
     # Confirm request changes mice.genotyped to True
     """
@@ -151,7 +147,6 @@ class ConfirmRequestViewTest(TestCase):
     # ConfirmRequestView gives the right form to the template
 
     # Confirm clip view changes earmark of mice in request
-
 
 
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
