@@ -24,7 +24,7 @@ class RequestModelTestCase(TestCase):
             self.request.mice.all(), [self.mouse1, self.mouse2], ordered=False
         )
 
-    def test_requested_by_cannot_be_none(self): # Could change to must be a CustomUser? 
+    def test_requested_by_cannot_be_none(self):  # Could change to must be a CustomUser?
         with self.assertRaises(IntegrityError):
             RequestFactory(requested_by=None)
 
