@@ -10,8 +10,6 @@ class Request(models.Model):
     TASK_CHOICES = [
         ("Clip", "Clip"),
         ("Cull", "Cull"),
-        ("Move", "Move"),
-        ("Wean", "Wean"),
     ]
 
     request_id = models.AutoField(db_column="ID", primary_key=True)

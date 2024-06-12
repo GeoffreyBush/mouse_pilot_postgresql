@@ -87,7 +87,7 @@ class RequestFormFactory:
         return {
             "mice": kwargs.get("mice", [MouseFactory().pk, MouseFactory().pk]),
             "task_type": kwargs.get(
-                "task_type", random.choice(["Clip", "Cull", "Move", "Wean"])
+                "task_type", random.choice(["Clip", "Cull"])
             ),
             "requested_by": kwargs.get("requested_by", UserFactory()),
         }

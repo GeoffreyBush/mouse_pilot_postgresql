@@ -12,9 +12,14 @@
         </div>
         <div class="mb-3">
             {{ form.mice }}
-            {% for error in form.mice.errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
+            <ul class="list-group">
+                {% if form.mice.errors %}
+                <li class="list-group-item list-group-item-warning"><b>Request is invalid for the following reasons:</b></li>
+                {% endif %}
+                {% for error in form.mice.errors %}
+                <li class="list-group-item list-group-item-warning">{{ error }}</li>
+                {% endfor %}
+            </ul>
         </div>
         <button type="submit" class="btn btn-primary">Add Task</button>
     </form>

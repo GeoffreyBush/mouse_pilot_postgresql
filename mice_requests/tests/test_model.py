@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from mice_requests.models import Request
 from mouse_pilot_postgresql.model_factories import MouseFactory, RequestFactory
+from system_users.models import CustomUser
 
 
 class RequestModelTestCase(TestCase):
@@ -26,6 +27,9 @@ class RequestModelTestCase(TestCase):
     def test_requested_by_cannot_be_none(self): # Could change to must be a CustomUser? 
         with self.assertRaises(IntegrityError):
             RequestFactory(requested_by=None)
+
+    def test_requested_by_is_user(self):
+        self.assertIsInstance(self.request.requested_by, CustomUser)
 
     def test_request_confirmed(self):
         assert self.request.confirmed is False
@@ -59,5 +63,3 @@ class RequestModelTestCase(TestCase):
         self.request.confirm_clip("TL")
         with self.assertRaises(ValidationError):
             self.request.confirm_clip("TL")
-
-    # If a request already exists for a mouse, a new request of the same type cannot be made for that mouse

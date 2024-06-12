@@ -75,5 +75,5 @@ class RequestFactory(factory.django.DjangoModelFactory):
         model = "mice_requests.Request"
 
     requested_by = factory.SubFactory(UserFactory)
-    task_type = random.choice(["Clip", "Cull", "Move", "Wean"])
+    task_type = random.choice(["Clip", "Cull"])
     confirmed = False
