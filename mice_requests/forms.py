@@ -1,8 +1,10 @@
 from django import forms
+from django.utils.encoding import force_str
+from django.utils.safestring import mark_safe
+
 from mice_repository.models import Mouse
 from mice_requests.models import Request
-from django.utils.safestring import mark_safe
-from django.utils.encoding import force_str
+
 
 class ReadOnlyMiceField(forms.Widget):
     def render(self, name, value, attrs=None, renderer=None):
@@ -11,9 +13,11 @@ class ReadOnlyMiceField(forms.Widget):
         rendered_inputs = []
         for i, val in enumerate(value):
             input_id = f"id_{name}_{i}"
-            rendered_inputs.append(f'<input type="text" name="{name}" value="{val}" id="{input_id}">')
+            rendered_inputs.append(
+                f'<input type="text" name="{name}" value="{val}" id="{input_id}">'
+            )
         return mark_safe("\n".join(rendered_inputs))
-    
+
     def value_from_datadict(self, data, files, name):
         if hasattr(data, "getlist"):
             return data.getlist(name)
@@ -23,6 +27,7 @@ class ReadOnlyMiceField(forms.Widget):
                 return [value]
             else:
                 return [force_str(value) for value in data.get(name, [])]
+
 
 class RequestForm(forms.ModelForm):
 
