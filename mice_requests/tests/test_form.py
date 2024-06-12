@@ -33,4 +33,5 @@ class RequestFormTestCase(TestCase):
         self.form = RequestFormFactory.create()
         self.assertIsInstance(self.form.fields["mice"].widget, MultipleHiddenInput)
 
+
 # If a request already exists for a mouse, a new request of the same type cannot be made for that mouse
