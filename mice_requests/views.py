@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-
+from django.utils.decorators import method_decorator
+from django.views import View
 from mice_repository.models import Mouse
-from mice_requests.forms import RequestForm
+from mice_requests.forms import RequestForm, ClipForm, CullForm
 from mice_requests.models import Request
 
 
@@ -31,14 +32,24 @@ def add_request(http_request, project_name):
     )
 
 
-@login_required
+@method_decorator(login_required, name="dispatch")
 # Need an intermediary view here that pops up on the template to offer selection (e.g. earmark is "TL") based on task type
 # Then the intermediary view will call the appropriate method to confirm the request or possible redirects here
-def confirm_request(http_request, request_id):
-    mice_request = Request.objects.get(pk=request_id)
-    # Add switch statement here to check task_type and call appropriate method
-    mice_request.confirm_clip("TL")  # placeholder earmark
-    return redirect("mice_requests:show_requests")
+class ConfirmRequestView(View):
+
+    def get(self, http_request, request_id):
+        mice_request = Request.objects.get(pk=request_id)
+        match mice_request.task_type:
+            case "Clip":
+                form = ClipForm()
+            case "Cull":
+                form = CullForm()
+            case _:
+                pass
+        return render(http_request, "confirm_request.html", {"form": form, "request": mice_request})
+    
+    def post(self, http_request, request_id):
+        pass
 
 
 # This show_message view doesn't work currently - no popup renders on show_request.html

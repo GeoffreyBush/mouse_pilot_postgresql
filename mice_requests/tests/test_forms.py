@@ -3,6 +3,7 @@ from django.test import TestCase
 from mice_requests.tests.test_model import RequestFactory
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
+from mice_requests.forms import ClipForm
 
 
 class RequestFormTestCase(TestCase):
@@ -48,3 +49,20 @@ class RequestFormTestCase(TestCase):
             duplicate_form.errors["mice"][0],
             f"Mouse {mouse} already has a cull request.",
         )
+
+class ClipFormTestCase(TestCase):
+
+    def test_valid_data(self):
+        form = ClipForm(data={"earmark": "TL"})
+        self.assertTrue(form.is_valid())
+
+    def test_no_earmark(self):
+        form = ClipForm(data={"earmark": ""})
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_earmark(self):
+        form = ClipForm(data={"earmark": "XX"})
+        self.assertFalse(form.is_valid())
+
+class CullFormTestCase(TestCase):
+    pass

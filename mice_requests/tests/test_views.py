@@ -11,6 +11,9 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+from mice_requests.forms import ClipForm, CullForm
+
+
 
 class ShowRequestsViewTest(TestCase):
     @classmethod
@@ -94,7 +97,7 @@ class AddRequestViewPostTestCase(TestCase):
             Request.objects.first().mice.all(), self.mice, ordered=False
         )
 
-
+    
 class ConfirmRequestViewTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -103,22 +106,37 @@ class ConfirmRequestViewTest(TestCase):
         cls.user = UserFactory()
         cls.client.force_login(cls.user)
         cls.mouse = MouseFactory()
-        cls.request = Request.objects.create(
-            requested_by=cls.user, task_type="Clip", confirmed=False
-        )
+        cls.request = RequestFactory(task_type="Clip")
         cls.request.mice.add(cls.mouse)
         cls.response = cls.client.get(
             reverse("mice_requests:confirm_request", args=[cls.request.request_id])
         )
 
-    # What additional tests can be added here?
+    def test_code_200(self):
+        self.assertEqual(self.response.status_code, 200)
 
-    def test_code_302(self):
-        self.assertEqual(self.response.status_code, 302)
+    def test_correct_template_used(self):
+        self.assertTemplateUsed(self.response, "confirm_request.html")
 
-    def test_redirects_to_show_requests(self):
-        self.assertRedirects(self.response, reverse("mice_requests:show_requests"))
+    def test_correct_clip_form_in_context(self):
+        self.client.force_login(self.user)
+        request = RequestFactory(task_type="Clip")
+        request.mice.add(MouseFactory())
+        response = self.client.get(
+            reverse("mice_requests:confirm_request", args=[request.request_id])
+        )
+        self.assertIsInstance(response.context["form"], ClipForm)
 
+    def test_correct_cull_form_in_context(self):
+        self.client.force_login(self.user)
+        request = RequestFactory(task_type="Cull")
+        request.mice.add(MouseFactory())
+        response = self.client.get(
+            reverse("mice_requests:confirm_request", args=[request.request_id])
+        )
+        self.assertIsInstance(response.context["form"], CullForm)
+
+    
     # Need to get the clip request to ask for an earmark input for this test to work now
     # Confirm request changes mice.genotyped to True
     """
@@ -130,11 +148,10 @@ class ConfirmRequestViewTest(TestCase):
         self.assertTrue(self.mouse.is_genotyped())
     """
 
+    # ConfirmRequestView gives the right form to the template
+
     # Confirm clip view changes earmark of mice in request
 
-    # Cannot make a clip request if one mouse in the request has already been clipped
-
-    # Cannot make a cull request if one mouse in the request has already been culled
 
 
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping
