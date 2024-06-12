@@ -1,8 +1,28 @@
 from django import forms
-
 from mice_repository.models import Mouse
 from mice_requests.models import Request
+from django.utils.safestring import mark_safe
+from django.utils.encoding import force_str
 
+class ReadOnlyMiceField(forms.Widget):
+    def render(self, name, value, attrs=None, renderer=None):
+        if value is None:
+            value = []
+        rendered_inputs = []
+        for i, val in enumerate(value):
+            input_id = f"id_{name}_{i}"
+            rendered_inputs.append(f'<input type="text" name="{name}" value="{val}" id="{input_id}">')
+        return mark_safe("\n".join(rendered_inputs))
+    
+    def value_from_datadict(self, data, files, name):
+        if hasattr(data, "getlist"):
+            return data.getlist(name)
+        else:
+            value = data.get(name, [])
+            if isinstance(value, str):
+                return [value]
+            else:
+                return [force_str(value) for value in data.get(name, [])]
 
 class RequestForm(forms.ModelForm):
 
@@ -13,7 +33,7 @@ class RequestForm(forms.ModelForm):
 
     mice = forms.ModelMultipleChoiceField(
         queryset=Mouse.objects.all(),
-        widget=forms.MultipleHiddenInput(),
+        widget=ReadOnlyMiceField,
     )
 
     # Should be able to initialise a form when no mice are selected from MouseSelectionForm
