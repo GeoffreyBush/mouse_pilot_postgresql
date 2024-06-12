@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mice_requests.forms import ClipForm, CullForm, RequestForm
+from mice_requests.forms import RequestForm
 from mice_requests.models import Request
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import (
@@ -93,5 +93,6 @@ class AddRequestViewPostTestCase(TestCase):
         self.assertQuerysetEqual(
             Request.objects.first().mice.all(), self.mice, ordered=False
         )
+
 
 # Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping

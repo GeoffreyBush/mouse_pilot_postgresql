@@ -1,16 +1,13 @@
-
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mice_requests.forms import ClipForm, CullForm, RequestForm
-from mice_requests.models import Request
-from mouse_pilot_postgresql.form_factories import RequestFormFactory
+from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
-    ProjectFactory,
     RequestFactory,
     UserFactory,
 )
+
 
 class ConfirmRequestViewTest(TestCase):
     @classmethod
