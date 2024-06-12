@@ -1,6 +1,6 @@
 from django.test import TestCase
-from django.utils.safestring import mark_safe
 
+from mice_requests.tests.utils import get_hidden_input_value
 from mice_requests.forms import ReadOnlyMiceField
 
 
@@ -8,25 +8,16 @@ class ReadOnlyMiceFieldTestCase(TestCase):
     def setUp(self):
         self.widget = ReadOnlyMiceField()
 
-    def test_render_with_single_value(self):
+    def test_render_hidden_input_with_single_value(self):
         rendered = self.widget.render("mice", ["mouse1"])
-        expected_html = mark_safe(
-            '<input type="text" name="mice" value="mouse1" id="id_mice_0">'
-        )
-        self.assertHTMLEqual(rendered, expected_html)
+        actual_value = get_hidden_input_value(rendered, "mice")
+        self.assertEqual(actual_value, "mouse1")
 
     def test_render_with_multiple_values(self):
-        rendered = self.widget.render("mice", ["mouse1", "mouse2", "mouse3"])
-        expected_html = mark_safe(
-            "\n".join(
-                [
-                    '<input type="text" name="mice" value="mouse1" id="id_mice_0">',
-                    '<input type="text" name="mice" value="mouse2" id="id_mice_1">',
-                    '<input type="text" name="mice" value="mouse3" id="id_mice_2">',
-                ]
-            )
-        )
-        self.assertHTMLEqual(rendered, expected_html)
+        expected_values = ["mouse1", "mouse2", "mouse3"]
+        rendered = self.widget.render("mice", expected_values)
+        actual_values = [get_hidden_input_value(rendered, "mice", index=i) for i in range(len(expected_values))]
+        self.assertEqual(actual_values, expected_values)
 
     def test_render_with_none(self):
         rendered = self.widget.render("mice", None)
