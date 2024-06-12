@@ -16,7 +16,7 @@ class ReadOnlyMiceField(forms.Widget):
             rendered_inputs.append(
                 f'<input type="hidden" name="{name}" value="{val}" id="{input_id}">'
             )
-            rendered_inputs.append(f'<p>{val}</p>')
+            rendered_inputs.append(f"<p>{val}</p>")
         return mark_safe("\n".join(rendered_inputs))
 
     def value_from_datadict(self, data, files, name):

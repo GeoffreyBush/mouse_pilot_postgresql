@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from mice_requests.tests.utils import get_hidden_input_value
 from mice_requests.forms import ReadOnlyMiceField
+from mice_requests.tests.utils import get_hidden_input_value
 
 
 class ReadOnlyMiceFieldTestCase(TestCase):
@@ -16,7 +16,10 @@ class ReadOnlyMiceFieldTestCase(TestCase):
     def test_render_with_multiple_values(self):
         expected_values = ["mouse1", "mouse2", "mouse3"]
         rendered = self.widget.render("mice", expected_values)
-        actual_values = [get_hidden_input_value(rendered, "mice", index=i) for i in range(len(expected_values))]
+        actual_values = [
+            get_hidden_input_value(rendered, "mice", index=i)
+            for i in range(len(expected_values))
+        ]
         self.assertEqual(actual_values, expected_values)
 
     def test_render_with_none(self):
