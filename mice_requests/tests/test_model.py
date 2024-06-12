@@ -63,3 +63,6 @@ class RequestModelTestCase(TestCase):
         self.request.confirm_clip("TL")
         with self.assertRaises(ValidationError):
             self.request.confirm_clip("TL")
+
+    # More cull tests
+    # The confirm_cull and confirm_clip methods are very similar, could be refactored

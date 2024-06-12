@@ -71,6 +71,8 @@ class PupsToStockCageViewTestCase(TestCase):
     def test_pups_to_stock_cage_valid_data(self):
         pass
 
+    # REALLY NEED TO TEST THE FORMSET
+
     # None of the tube numbers in the formset can be identical
 
     # If no tube numbers given, correct default assignment when formset is loaded
