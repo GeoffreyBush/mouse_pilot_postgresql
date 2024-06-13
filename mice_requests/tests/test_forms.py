@@ -6,7 +6,7 @@ from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
 
 
-class RequestFormTestCase(TestCase):
+class RequestFormTest(TestCase):
 
     def test_valid_data(self):
         form = RequestFormFactory.create(user=UserFactory())
@@ -47,9 +47,11 @@ class RequestFormTestCase(TestCase):
             duplicate_form.errors["mice"][0],
             f"Mouse {mouse} already has a cull request.",
         )
+    
+    # Mouse can be in multiple types of requests, but they have to be different task_types
 
 
-class ClipFormTestCase(TestCase):
+class ClipFormTest(TestCase):
 
     def test_valid_data(self):
         form = ClipForm(data={"earmark": "TL"})
@@ -64,7 +66,7 @@ class ClipFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
 
-class CullFormTestCase(TestCase):
+class CullFormTest(TestCase):
 
     def test_valid_data(self):
         form = CullForm(data={"culled": True})
