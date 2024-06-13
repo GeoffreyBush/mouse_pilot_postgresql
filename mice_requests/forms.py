@@ -84,6 +84,7 @@ class RequestForm(forms.ModelForm):
 
 class ClipForm(forms.Form):
     earmark = forms.ChoiceField(
+        label="Earmark results",
         choices=EARMARK_CHOICES_PAIRED[1:],
         widget=forms.Select(attrs={"class": "form-select"}),
     )
