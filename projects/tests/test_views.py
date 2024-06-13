@@ -121,7 +121,7 @@ class ShowProjectViewPostTest(TestCase):
         cls.user = UserFactory()
         cls.project = ProjectFactory()
         cls.client.force_login(cls.user)
-        data = MouseSelectionFormFactory.valid_data(project=cls.project)
+        data = MouseSelectionFormFactory.data(project=cls.project)
         cls.response = cls.client.post(
             reverse("projects:show_project", args=[cls.project.project_name]), data
         )
@@ -141,5 +141,35 @@ class ShowProjectViewPostTest(TestCase):
             self.session["selected_mice"],
             [mouse.pk for mouse in self.project.mice.all()],
         )
+        
 
-    # Invalid post data
+class ShowProjectViewInvalidPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.user = UserFactory()
+        cls.project = ProjectFactory()
+        cls.client.force_login(cls.user)
+        data = MouseSelectionFormFactory.data(mice=[])
+        cls.response = cls.client.post(
+            reverse("projects:show_project", args=[cls.project.project_name]), data
+        )
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "show_project.html")
+
+    def test_project_in_context(self):
+        self.assertIn("project", self.response.context)
+
+    def test_filter_in_context(self):
+        self.assertIsInstance(self.response.context["project_mice"], ProjectFilter)
+
+    def test_mouse_selection_form_in_context(self):
+        self.assertIsInstance(self.response.context["form"], MouseSelectionForm)
+
+    def test_error_message_displayed_to_user(self):
+        self.assertIn("At least one mouse must be selected", self.response.content.decode())

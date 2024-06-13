@@ -167,13 +167,13 @@ class NewProjectFormFactory:
 class MouseSelectionFormFactory:
     @staticmethod
     def create(**kwargs):
-        data = MouseSelectionFormFactory.valid_data(**kwargs)
+        data = MouseSelectionFormFactory.data(**kwargs)
         return MouseSelectionForm(
             data=data, project=kwargs.get("project", ProjectFactory())
         )
 
     @staticmethod
-    def valid_data(**kwargs):
+    def data(**kwargs):
         if kwargs.get("mice") is None:
             mouse1, mouse2 = MouseFactory(), MouseFactory()
             if kwargs.get("project") is not None:

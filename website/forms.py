@@ -17,7 +17,7 @@ class MouseSelectionForm(forms.ModelForm):
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
-        error_messages={"required": "At least once mouse must be selected"},
+        error_messages={"required": "At least one mouse must be selected"},
     )
 
     class Meta:
