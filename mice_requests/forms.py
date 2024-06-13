@@ -90,4 +90,7 @@ class ClipForm(forms.Form):
 
 
 class CullForm(forms.Form):
-    pass
+    culled = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        required=True,
+    )

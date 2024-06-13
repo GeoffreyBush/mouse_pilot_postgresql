@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from mice_requests.forms import ClipForm
+from mice_requests.forms import ClipForm, CullForm
 from mice_requests.tests.test_model import RequestFactory
 from mouse_pilot_postgresql.form_factories import RequestFormFactory
 from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
@@ -67,4 +67,11 @@ class ClipFormTestCase(TestCase):
 
 
 class CullFormTestCase(TestCase):
-    pass
+    
+    def test_valid_data(self):
+        form = CullForm(data={"culled": True})
+        self.assertTrue(form.is_valid())
+
+    def test_no_culled(self):
+        form = CullForm(data={"culled": False})
+        self.assertFalse(form.is_valid())
