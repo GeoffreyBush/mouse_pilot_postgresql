@@ -142,8 +142,4 @@ class ShowProjectViewPostTest(TestCase):
             [mouse.pk for mouse in self.project.mice.all()],
         )
 
-
-# Test valid POST request
-# Test that MouseSelection form values are saved in session data during valid POST request
-
-# Test that the render in POST doesnt cause a NoReverseMatch error
+    # Invalid post data

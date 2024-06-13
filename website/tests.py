@@ -8,7 +8,7 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
 )
 from website.models import Strain
-
+from website.forms import MouseSelectionForm
 
 class MouseSelectionFormTest(TestCase):
     def setUp(self):
@@ -31,6 +31,12 @@ class MouseSelectionFormTest(TestCase):
 
     def test_save_is_disabled(self):
         self.assertIsNone(self.form.save())
+
+    def test_clean_mice_no_selection(self):
+        form_data = {}
+        form = MouseSelectionForm(form_data, project=self.project)
+        self.assertFalse(form.is_valid())
+        self.assertIn("At least one mouse must be selected.", form.non_field_errors())
 
 
 ##############

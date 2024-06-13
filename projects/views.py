@@ -75,7 +75,7 @@ class ShowProjectView(View):
                 "form": form,
                 "project_mice": project_mice,
             }
-            return render(http_request, "show_project.html", context)
+            return render(http_request, self.template_name, context)
 
 
 def htmx_test(request):

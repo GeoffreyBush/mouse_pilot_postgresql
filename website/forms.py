@@ -17,11 +17,20 @@ class MouseSelectionForm(forms.ModelForm):
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
+        error_messages={"required": "At least once mouse must be selected"},
     )
 
     class Meta:
         model = Mouse
         fields = ["mice"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        mice = cleaned_data.get("mice")
+
+        if not mice or len(mice) == 0:
+            raise forms.ValidationError("At least one mouse must be selected.")
+        return cleaned_data
 
     def save(self, commit=True):
         pass
