@@ -141,7 +141,7 @@ class ShowProjectViewPostTest(TestCase):
             self.session["selected_mice"],
             [mouse.pk for mouse in self.project.mice.all()],
         )
-        
+
 
 class ShowProjectViewInvalidPostTest(TestCase):
     @classmethod
@@ -172,4 +172,6 @@ class ShowProjectViewInvalidPostTest(TestCase):
         self.assertIsInstance(self.response.context["form"], MouseSelectionForm)
 
     def test_error_message_displayed_to_user(self):
-        self.assertIn("At least one mouse must be selected", self.response.content.decode())
+        self.assertIn(
+            "At least one mouse must be selected", self.response.content.decode()
+        )
