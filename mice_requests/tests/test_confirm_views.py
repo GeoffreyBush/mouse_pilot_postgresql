@@ -1,6 +1,5 @@
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
-from django.test import Client
 
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.model_factories import (

@@ -38,7 +38,7 @@ class RequestConfirmClipTest(TestCase):
     def setUp(self):
         self.mice = [MouseFactory() for _ in range(2)]
         self.request = RequestFactory(mice=self.mice, task_type="Clip")
-    
+
     def test_mice_genotyped_on_confirm_clip(self):
         assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
         self.request.confirm_clip("TL")
@@ -61,8 +61,9 @@ class RequestConfirmClipTest(TestCase):
         self.request.confirm_clip("TL")
         with self.assertRaises(ValidationError):
             self.request.confirm_clip("TL")
-    
+
     # The confirm_cull and confirm_clip methods are very similar, could be refactored
+
 
 class RequestConfirmCullTest(TestCase):
 

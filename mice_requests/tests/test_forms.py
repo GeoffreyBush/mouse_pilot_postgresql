@@ -47,7 +47,7 @@ class RequestFormTest(TestCase):
             duplicate_form.errors["mice"][0],
             f"Mouse {mouse} already has a cull request.",
         )
-    
+
     # Mouse can be in multiple types of requests, but they have to be different task_types
 
 
