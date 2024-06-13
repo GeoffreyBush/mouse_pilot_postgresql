@@ -13,7 +13,7 @@
                         <th scope="col">Mouse IDs</th> 
                         <th scope="col">Requested by</th>
                         <th scope="col">Messaging</th>    
-                        <th scope="col">Confirm</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,9 +26,18 @@
                         <td>message</td>
 
                         <!-- Confirm request. Could be expanded to flag system -->
-                        <td>
-                            {% if not request.confirmed %}<a href="{% url 'mice_requests:confirm_request' request.request_id %}">Confirm Request</a>
-                            {% else %}Confirmed
+                        <td class="text-center">
+                            {% if not request.confirmed %}
+                                <button
+                                hx-get="{% url 'mice_requests:confirm_request' request.pk %}"
+                                hx-target="#modals-here" 
+                                hx-trigger="click" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modals-here"
+                                class="btn btn-primary">
+                                Confirm Request
+                                </button>
+                            {% else %}<b class="text-success">Completed</b>
                             {% endif %}
                         </td>
 
@@ -41,4 +50,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

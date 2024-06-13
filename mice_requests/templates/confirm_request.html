@@ -1,6 +1,33 @@
-{% extends 'base_template.html' %}
 {% load static %}
 {% block title %}Confirm Request{% endblock %}
-{% block content %}
-{{ form.as_p }}
-{% endblock %}
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Confirm {{ request.task_type }} </h5>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group">
+                {% for mouse in request.mice.all %}
+                <li class="list-group-item">{{ mouse.pk }}</li>
+                {% endfor %}
+            </ul>
+            <div class="mt-2 p-1">
+            <form method="post" action="{% url 'mice_requests:confirm_request' request.request_id %}" class="form">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                <div class="mt-2">
+                    {{ field.label_tag }}
+                    <span class="p-1">{{ field }}</span>
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+            <div class="d-flex justify-content-around">
+            <button type="submit" name="confirm_request" class="btn btn-primary">Confirm</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>

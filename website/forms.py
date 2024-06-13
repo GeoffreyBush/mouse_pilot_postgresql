@@ -16,7 +16,7 @@ class MouseSelectionForm(forms.ModelForm):
 
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
     )
 
     class Meta:
