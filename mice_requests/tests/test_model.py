@@ -45,7 +45,7 @@ class RequestModelTest(TestCase):
 
 
 class RequestConfirmClipTest(TestCase):
-    
+
     def setUp(self):
         self.mice = [MouseFactory() for _ in range(2)]
         self.request = RequestFactory(mice=self.mice, task_type="Clip")

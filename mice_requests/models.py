@@ -26,7 +26,7 @@ class Request(models.Model):
     def confirm(self, earmark=None):
         if self.confirmed:
             raise ValidationError("Request is already confirmed")
-        
+
         if self.task_type == "Clip":
             if earmark is None:
                 raise ValidationError("Earmark is required to confirm request")
