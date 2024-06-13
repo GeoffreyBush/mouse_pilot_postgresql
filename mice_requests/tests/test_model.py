@@ -67,9 +67,21 @@ class RequestConfirmClipTest(TestCase):
 
 class RequestConfirmCullTest(TestCase):
 
+    def setUp(self):
+        self.mice = [MouseFactory(culled="False") for _ in range(2)]
+        self.request = RequestFactory(mice=self.mice, task_type="Cull")
+
+    def test_mice_culled_on_confirm_cull(self):
+        assert all(not mouse.culled for mouse in self.request.mice.all())
+        self.request.confirm_cull()
+        assert all(mouse.culled for mouse in self.request.mice.all())
+
     def test_confirm_cull_can_only_be_called_on_cull_request(self):
         request = RequestFactory(task_type="Clip")
         with self.assertRaises(ValidationError):
             request.confirm_cull()
 
-    # More cull tests
+    def test_confirm_cull_when_already_confirmed(self):
+        self.request.confirm_cull()
+        with self.assertRaises(ValidationError):
+            self.request.confirm_cull()
