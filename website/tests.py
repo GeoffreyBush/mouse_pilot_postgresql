@@ -7,8 +7,9 @@ from mouse_pilot_postgresql.model_factories import (
     ProjectFactory,
     StrainFactory,
 )
-from website.models import Strain
 from website.forms import MouseSelectionForm
+from website.models import Strain
+
 
 class MouseSelectionFormTest(TestCase):
     def setUp(self):
