@@ -60,11 +60,11 @@ class ConfirmRequestView(View):
                 form = ClipForm(http_request.POST)
                 if form.is_valid():
                     earmark = form.cleaned_data["earmark"]
-                    mice_request.confirm_clip(earmark)
+                    mice_request.confirm(earmark)
             case "Cull":
                 form = CullForm(http_request.POST)
                 if form.is_valid():
-                    mice_request.confirm_cull()
+                    mice_request.confirm()
             case _:
                 pass
 

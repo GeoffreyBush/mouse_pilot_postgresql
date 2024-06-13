@@ -23,32 +23,30 @@ class Request(models.Model):
         default=False
     )  # confirmed attribute could be switched to flag with choices?
 
-    def confirm_clip(self, earmark):
-        if self.task_type != "Clip":
-            raise ValidationError("Request is not a clip request")
-        elif earmark is None:
-            raise ValidationError("Earmark is required to confirm request")
-        elif earmark not in [choice[0] for choice in Mouse.EARMARK_CHOICES_PAIRED]:
-            raise ValidationError("Earmark is not valid")
-        elif self.confirmed:
+    def confirm(self, earmark=None):
+        if self.confirmed:
             raise ValidationError("Request is already confirmed")
-        else:
-            self.confirmed = True
-            self.save()
-            for mouse in self.mice.all():
-                mouse.earmark = earmark
-                mouse.save()
+        
+        if self.task_type == "Clip":
+            if earmark is None:
+                raise ValidationError("Earmark is required to confirm request")
+            elif earmark not in [choice[0] for choice in Mouse.EARMARK_CHOICES_PAIRED]:
+                raise ValidationError("Earmark is not valid")
+            else:
+                self.confirmed = True
+                self.save()
+                for mouse in self.mice.all():
+                    mouse.earmark = earmark
+                    mouse.save()
 
-    def confirm_cull(self):
-        if self.task_type != "Cull":
-            raise ValidationError("Request is not a cull request")
-        elif self.confirmed:
-            raise ValidationError("Request is already confirmed")
-        else:
+        elif self.task_type == "Cull":
             self.confirmed = True
             self.save()
             for mouse in self.mice.all():
                 mouse.cull()
+
+        else:
+            raise ValidationError("Request type is not valid")
 
     def __str__(self):
         return f"{self.request_id}"
