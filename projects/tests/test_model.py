@@ -8,7 +8,7 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
     UserFactory,
 )
-
+from projects.models import Project
 
 class ProjectModelTestCase(TestCase):
     @classmethod
@@ -17,6 +17,9 @@ class ProjectModelTestCase(TestCase):
         cls.project = ProjectFactory(project_name="testproject")
         cls.project.strains.add(StrainFactory(), StrainFactory())
         cls.project.researchers.add(UserFactory(), UserFactory())
+
+    def test_project_created(self):
+        self.assertIsInstance(self.project, Project)
 
     def test_project_pk_is_int(self):
         self.assertIsInstance(self.project.pk, int)
@@ -47,3 +50,5 @@ class ProjectModelTestCase(TestCase):
     def test_uniqueness_of_project_name(self):
         with self.assertRaises(IntegrityError):
             ProjectFactory(project_name="testproject")
+
+    # Is it possible to require a researcher to be assigned to a project?

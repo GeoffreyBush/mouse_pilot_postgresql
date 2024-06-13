@@ -9,6 +9,7 @@ from mouse_pilot_postgresql.model_factories import (
     StockCageFactory,
     StrainFactory,
     UserFactory,
+    ProjectFactory
 )
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
@@ -167,10 +168,10 @@ class MouseSelectionFormFactory:
     @staticmethod
     def create(**kwargs):
         data = MouseSelectionFormFactory.valid_data(**kwargs)
-        return MouseSelectionForm(data=data, project=kwargs.get("project", None))
+        return MouseSelectionForm(data=data, project=kwargs.get("project", ProjectFactory()))
 
     @staticmethod
     def valid_data(**kwargs):
         return {
-            "mice": kwargs.get("mice"),
+            "mice": kwargs.get("mice", [MouseFactory(), MouseFactory()]),
         }

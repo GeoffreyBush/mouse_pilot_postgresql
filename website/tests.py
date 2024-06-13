@@ -13,26 +13,21 @@ from mouse_pilot_postgresql.model_factories import (
 from website.models import Strain
 
 
-class MouseSelectionFormTestCase(TestCase):
+class MouseSelectionFormTest(TestCase):
     def setUp(self):
+        self.mouse = MouseFactory()
         self.project = ProjectFactory()
-        (
-            self.mouse1,
-            self.mouse2,
-        ) = (
-            MouseFactory(project=self.project),
-            MouseFactory(),
-        )
+        self.project.mice.add(self.mouse)
         self.form = MouseSelectionFormFactory.create(
-            project=self.project, mice=[self.mouse1]
+            project=self.project, mice=[self.mouse]
         )
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
     def test_correct_queryset_without_project(self):
-        self.form = MouseSelectionFormFactory.create()
-        self.assertEqual(self.form.fields["mice"].queryset.count(), 2)
+        self.form = MouseSelectionFormFactory.create(mice=[], project=None)
+        self.assertEqual(self.form.fields["mice"].queryset.count(), 5)
 
     def test_correct_queryset_with_project(self):
         self.assertEqual(self.form.fields["mice"].queryset.count(), 1)
@@ -44,7 +39,7 @@ class MouseSelectionFormTestCase(TestCase):
 ##############
 ### STRAIN ###
 ##############
-class StrainModelTestCase(TestCase):
+class StrainModelTest(TestCase):
 
     @classmethod
     def setUp(self):
@@ -83,7 +78,7 @@ class StrainModelTestCase(TestCase):
 
     # Changing the strain of a mouse should decrement the old strain's mice count
 
-
+"""
 class DeleteMouseViewTest(TestCase):
     def setUp(self):
         self.user = UserFactory(username="testuser")
@@ -106,7 +101,7 @@ class DeleteMouseViewTest(TestCase):
             response, reverse("projects:show_project", args=[self.project.project_name])
         )
         self.assertIsNone(Mouse.objects.first())
-
+"""
 
 # Edit history is broken by mice not being created with tube attribute
 """

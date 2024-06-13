@@ -93,8 +93,3 @@ class AddRequestViewPostTest(TestCase):
         self.assertQuerysetEqual(
             Request.objects.first().mice.all(), self.mice, ordered=False
         )
-
-    # Need more add_request POST tests
-
-
-# Test additional behaviour added in the future to requests, such as earmark addition, moving, or clipping

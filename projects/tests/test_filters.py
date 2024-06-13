@@ -15,12 +15,7 @@ class ProjectMouseFilterViewTestCase(TestCase):
         cls.user = UserFactory(username="testuser")
         cls.client = Client()
         cls.project = ProjectFactory()
-        cls.mouse1, cls.mouse2, cls.mouse3, cls.mouse4 = (
-            MouseFactory(sex="M", project=cls.project, earmark="TL"),
-            MouseFactory(sex="F", project=cls.project, earmark="TL"),
-            MouseFactory(sex="M", project=cls.project),
-            MouseFactory(sex="F", project=cls.project),
-        )
+        cls.project.mice.add(MouseFactory(sex="M", earmark="TL"), MouseFactory(sex="F", earmark="TL"), MouseFactory(sex="M"), MouseFactory(sex="F"))
 
     def test_empty_filter(self):
         self.client.force_login(self.user)

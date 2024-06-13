@@ -48,6 +48,8 @@ class RequestFormTest(TestCase):
             f"Mouse {mouse} already has a cull request.",
         )
 
+    # Cull is possibly a bad example to have here - if you were going to kill a mouse, why would you want it clipped?
+    # Should ask clients which task_types possible conflict in similar ways.
     def test_different_task_types_for_same_mouse_is_allowed(self):
         mouse = MouseFactory()
         RequestFactory(mice=[mouse], task_type="Clip")

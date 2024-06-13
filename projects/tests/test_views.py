@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
+from mouse_pilot_postgresql.form_factories import NewProjectFormFactory, MouseSelectionFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -14,74 +14,120 @@ from projects.models import Project
 from website.forms import MouseSelectionForm
 
 
-class ListProjectsViewTestCase(TestCase):
-
+class ListProjectsViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.user = UserFactory()
         cls.client = Client()
-        cls.project1, cls.project2 = ProjectFactory(), ProjectFactory()
-        cls.mouse1 = MouseFactory()
-        cls.project1.mice.add(cls.mouse1)
+        cls.project = ProjectFactory()
+        cls.project.mice.add(MouseFactory())
+        cls.client.force_login(cls.user)
+        cls.response = cls.client.get(reverse("projects:list_projects"))
 
-    def test_get_request_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(reverse("projects:list_projects"))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["myprojects"].count(), 2)
-        self.assertEqual(response.context["myprojects"][0].mice.count(), 1)
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "list_projects.html")
+
+    def test_project_count(self):
+        self.assertEqual(self.response.context["myprojects"].count(), 1)
+
+    def test_project_mice_count(self):
+        self.assertEqual(self.response.context["myprojects"][0].mice.count(), 1)
 
 
-class AddNewProjectViewTestCase(TestCase):
+class AddNewProjectViewGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = UserFactory()
+        cls.client = Client()
+        cls.client.force_login(cls.user)
+        cls.response = cls.client.get(reverse("projects:add_new_project"))
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "add_new_project.html")
+
+    def test_new_project_form(self):
+        self.assertIsInstance(self.response.context["form"], NewProjectForm)
+
+
+class AddNewProjectViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.user = UserFactory(username="testuser")
         cls.client = Client()
+        cls.client.force_login(cls.user)
+        cls.response = cls.client.post(reverse("projects:add_new_project"), NewProjectFormFactory.valid_data())
 
-    def test_get_request_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(reverse("projects:add_new_project"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_new_project.html")
-        self.assertIsInstance(response.context["form"], NewProjectForm)
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
+        
+    def test_redirect_url(self):
+        self.assertEqual(self.response.url, reverse("projects:list_projects"))
 
-    def test_post_request_valid_data(self):
-        self.client.force_login(self.user)
-        data = NewProjectFormFactory.valid_data()
-        self.assertEqual(Project.objects.all().count(), 0)
-        response = self.client.post(reverse("projects:add_new_project"), data)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse("projects:list_projects"))
+    def test_project_created(self):
         self.assertEqual(Project.objects.all().count(), 1)
 
 
-class ShowProjectViewTest(TestCase):
+class ShowProjectViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.client = Client()
         cls.user = UserFactory(username="testuser")
-        cls.project = ProjectFactory()
-
-    def test_get_request_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(
-            reverse("projects:show_project", args=[self.project.project_name])
+        cls.client.force_login(cls.user)
+        cls.response = cls.client.get(
+            reverse("projects:show_project", args=[ProjectFactory().project_name])
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "show_project.html")
-        self.assertIn("project", response.context)
-        self.assertIsInstance(response.context["project_mice"], ProjectFilter)
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "show_project.html")
+
+    def test_project_in_context(self):
+        self.assertIn("project", self.response.context)
+
+    def test_filter_in_context(self):
+        self.assertIsInstance(self.response.context["project_mice"], ProjectFilter)
+        
+    def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(
-            response.context["mouse_selection_form"], MouseSelectionForm
+            self.response.context["mouse_selection_form"], MouseSelectionForm
         )
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
+
+"""
+class ShowProjectViewPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.user = UserFactory()
+        cls.project = ProjectFactory()
+        cls.client.force_login(cls.user)
+        form_data=MouseSelectionFormFactory.valid_data(project=cls.project)
+        cls.response = cls.client.post(
+            reverse("projects:show_project", args=[cls.project.project_name]),
+            data=form_data
+        )
+
+    def test_http_code(self):
+        pass
+        #self.assertEqual(self.response.status_code, 302)
+   """     
 
     # Test valid POST request
     # Test that MouseSelection form values are saved in session data during valid POST request
