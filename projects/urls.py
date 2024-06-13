@@ -13,4 +13,6 @@ urlpatterns = [
         ShowProjectView.as_view(),
         name="show_project",
     ),
+    path("lazy_project_list", views.lazy_project_list, name="lazy_project_list"),
+    path("htmx_test", views.htmx_test, name="htmx_test"),
 ]

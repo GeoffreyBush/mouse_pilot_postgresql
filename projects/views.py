@@ -78,3 +78,9 @@ class ShowProjectView(View):
                         "project_name": project_name,
                     },
                 )
+
+def htmx_test(request):
+    return render(request, "htmx_test.html")
+
+def lazy_project_list(request):
+    return render(request, "lazy_project_list.html")
