@@ -2,7 +2,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.form_factories import NewProjectFormFactory, MouseSelectionFormFactory
+from mouse_pilot_postgresql.form_factories import (
+    NewProjectFormFactory,
+)
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -64,11 +66,13 @@ class AddNewProjectViewPostTest(TestCase):
         cls.user = UserFactory(username="testuser")
         cls.client = Client()
         cls.client.force_login(cls.user)
-        cls.response = cls.client.post(reverse("projects:add_new_project"), NewProjectFormFactory.valid_data())
+        cls.response = cls.client.post(
+            reverse("projects:add_new_project"), NewProjectFormFactory.valid_data()
+        )
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
-        
+
     def test_redirect_url(self):
         self.assertEqual(self.response.url, reverse("projects:list_projects"))
 
@@ -98,7 +102,7 @@ class ShowProjectViewGetTest(TestCase):
 
     def test_filter_in_context(self):
         self.assertIsInstance(self.response.context["project_mice"], ProjectFilter)
-        
+
     def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(
             self.response.context["mouse_selection_form"], MouseSelectionForm
@@ -108,6 +112,7 @@ class ShowProjectViewGetTest(TestCase):
         self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
+
 
 """
 class ShowProjectViewPostTest(TestCase):
@@ -127,9 +132,9 @@ class ShowProjectViewPostTest(TestCase):
     def test_http_code(self):
         pass
         #self.assertEqual(self.response.status_code, 302)
-   """     
+   """
 
-    # Test valid POST request
-    # Test that MouseSelection form values are saved in session data during valid POST request
+# Test valid POST request
+# Test that MouseSelection form values are saved in session data during valid POST request
 
-    # Test that the render in POST doesnt cause a NoReverseMatch error
+# Test that the render in POST doesnt cause a NoReverseMatch error

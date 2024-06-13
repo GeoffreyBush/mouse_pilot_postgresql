@@ -1,14 +1,11 @@
 from django.db import IntegrityError
 from django.test import TestCase
-from django.urls import reverse
 
-from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,
-    UserFactory,
 )
 from website.models import Strain
 
@@ -77,6 +74,7 @@ class StrainModelTest(TestCase):
     # Changing the strain of a mouse should increment the new strain's mice count
 
     # Changing the strain of a mouse should decrement the old strain's mice count
+
 
 """
 class DeleteMouseViewTest(TestCase):

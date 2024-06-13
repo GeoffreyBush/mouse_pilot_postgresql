@@ -10,6 +10,7 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from projects.models import Project
 
+
 class ProjectModelTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
