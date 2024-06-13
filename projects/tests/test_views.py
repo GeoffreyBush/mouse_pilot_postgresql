@@ -3,8 +3,8 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from mouse_pilot_postgresql.form_factories import (
-    NewProjectFormFactory,
     MouseSelectionFormFactory,
+    NewProjectFormFactory,
 )
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
@@ -105,15 +105,12 @@ class ShowProjectViewGetTest(TestCase):
         self.assertIsInstance(self.response.context["project_mice"], ProjectFilter)
 
     def test_mouse_selection_form_in_context(self):
-        self.assertIsInstance(
-            self.response.context["form"], MouseSelectionForm
-        )
+        self.assertIsInstance(self.response.context["form"], MouseSelectionForm)
 
     def test_show_non_existent_project(self):
         self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
-
 
 
 class ShowProjectViewPostTest(TestCase):
@@ -138,7 +135,7 @@ class ShowProjectViewPostTest(TestCase):
             self.response.url,
             reverse("mice_requests:add_request", args=[self.project.project_name]),
         )
-    
+
     def test_selected_mice_in_session(self):
         self.assertEqual(
             self.session["selected_mice"],

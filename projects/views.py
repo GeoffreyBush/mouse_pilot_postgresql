@@ -47,15 +47,15 @@ class ShowProjectView(View):
         else:
             project_mice = ProjectFilter(queryset=project_mice)
         return project_mice
-    
+
     def get(self, http_request, project_name):
         project = Project.objects.get(project_name=project_name)
         project_mice = self.get_project_mice(project, http_request)
         form = self.form_class(project=project)
         context = {
-            'project': project,
-            'project_mice': project_mice,
-            'form': form,
+            "project": project,
+            "project_mice": project_mice,
+            "form": form,
         }
         return render(http_request, self.template_name, context)
 
@@ -76,6 +76,7 @@ class ShowProjectView(View):
                 "project_mice": project_mice,
             }
             return render(http_request, "show_project.html", context)
+
 
 def htmx_test(request):
     return render(request, "htmx_test.html")
