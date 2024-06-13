@@ -54,7 +54,21 @@ class ConfirmRequestView(View):
         )
 
     def post(self, http_request, request_id):
-        pass
+        mice_request = Request.objects.get(pk=request_id)
+        match mice_request.task_type:
+            case "Clip":
+                form = ClipForm(http_request.POST)
+                if form.is_valid():
+                    earmark = form.cleaned_data["earmark"]
+                    mice_request.confirm_clip(earmark)
+            case "Cull":
+                form = CullForm(http_request.POST)
+                if form.is_valid():
+                    mice_request.confirm_cull()
+            case _:
+                pass
+        
+        return redirect("mice_requests:show_requests")
 
 
 # This show_message view doesn't work currently - no popup renders on show_request.html

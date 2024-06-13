@@ -77,3 +77,14 @@ class RequestFactory(factory.django.DjangoModelFactory):
     requested_by = factory.SubFactory(UserFactory)
     task_type = random.choice(["Clip", "Cull"])
     confirmed = False
+
+    @factory.post_generation
+    def mice(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for mouse in extracted:
+                self.mice.add(mouse)
+        else:
+            self.mice.add(MouseFactory())

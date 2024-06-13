@@ -9,9 +9,8 @@ from system_users.models import CustomUser
 
 class RequestModelTestCase(TestCase):
     def setUp(self):
-        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
-        self.request = RequestFactory(task_type="Clip")
-        self.request.mice.add(self.mouse1, self.mouse2)
+        self.mice = [MouseFactory() for _ in range(2)]
+        self.request = RequestFactory(mice=self.mice, task_type="Clip")
 
     def test_request_creation(self):
         self.assertIsInstance(self.request, Request)
@@ -21,7 +20,7 @@ class RequestModelTestCase(TestCase):
 
     def test_many_to_many_mice(self):
         self.assertQuerySetEqual(
-            self.request.mice.all(), [self.mouse1, self.mouse2], ordered=False
+            self.request.mice.all(), self.mice, ordered=False
         )
 
     def test_requested_by_cannot_be_none(self):  # Could change to must be a CustomUser?

@@ -19,7 +19,7 @@ class RequestFormTestCase(TestCase):
     def test_mice_already_culled_in_cull_request(self):
         form = RequestFormFactory.create(
             task_type="Cull",
-            mice=[MouseFactory(culled=True), MouseFactory(culled=True)],
+            mice=[MouseFactory(culled=True) for _ in range(2)],
         )
         self.assertEqual(len(form.errors["mice"]), 2)
 
@@ -32,8 +32,7 @@ class RequestFormTestCase(TestCase):
 
     def test_clip_request_already_exists_for_mouse(self):
         mouse = MouseFactory()
-        existing_request = RequestFactory(task_type="Clip")
-        existing_request.mice.add(mouse)
+        RequestFactory(mice=[mouse], task_type="Clip")
         duplicate_form = RequestFormFactory.create(task_type="Clip", mice=[mouse])
         self.assertEqual(
             duplicate_form.errors["mice"][0],
@@ -42,8 +41,7 @@ class RequestFormTestCase(TestCase):
 
     def test_cull_request_already_exists_for_mouse(self):
         mouse = MouseFactory()
-        existing_request = RequestFactory(task_type="Cull")
-        existing_request.mice.add(mouse)
+        RequestFactory(mice=[mouse], task_type="Cull")
         duplicate_form = RequestFormFactory.create(task_type="Cull", mice=[mouse])
         self.assertEqual(
             duplicate_form.errors["mice"][0],

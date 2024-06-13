@@ -33,7 +33,7 @@ class ShowRequestsViewTest(TestCase):
         )
 
 
-class AddRequestViewGetTestCase(TestCase):
+class AddRequestViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -64,7 +64,7 @@ class AddRequestViewGetTestCase(TestCase):
         )
 
 
-class AddRequestViewPostTestCase(TestCase):
+class AddRequestViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
