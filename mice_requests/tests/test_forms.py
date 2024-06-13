@@ -67,7 +67,7 @@ class ClipFormTestCase(TestCase):
 
 
 class CullFormTestCase(TestCase):
-    
+
     def test_valid_data(self):
         form = CullForm(data={"culled": True})
         self.assertTrue(form.is_valid())
