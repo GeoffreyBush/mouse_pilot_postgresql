@@ -33,22 +33,26 @@ class RequestFormTest(TestCase):
     def test_clip_request_already_exists_for_mouse(self):
         mouse = MouseFactory()
         RequestFactory(mice=[mouse], task_type="Clip")
-        duplicate_form = RequestFormFactory.create(task_type="Clip", mice=[mouse])
+        form = RequestFormFactory.create(task_type="Clip", mice=[mouse])
         self.assertEqual(
-            duplicate_form.errors["mice"][0],
+            form.errors["mice"][0],
             f"Mouse {mouse} already has a clip request.",
         )
 
     def test_cull_request_already_exists_for_mouse(self):
         mouse = MouseFactory()
         RequestFactory(mice=[mouse], task_type="Cull")
-        duplicate_form = RequestFormFactory.create(task_type="Cull", mice=[mouse])
+        form = RequestFormFactory.create(task_type="Cull", mice=[mouse])
         self.assertEqual(
-            duplicate_form.errors["mice"][0],
+            form.errors["mice"][0],
             f"Mouse {mouse} already has a cull request.",
         )
 
-    # Mouse can be in multiple types of requests, but they have to be different task_types
+    def test_different_task_types_for_same_mouse_is_allowed(self):
+        mouse = MouseFactory()
+        RequestFactory(mice=[mouse], task_type="Clip")
+        form = RequestFormFactory.create(task_type="Cull", mice=[mouse])
+        self.assertTrue(form.is_valid())
 
 
 class ClipFormTest(TestCase):
