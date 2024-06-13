@@ -9,7 +9,7 @@ TRUE_OR_FALSE = [
 ]
 
 EARMARK_CHOICES_PAIRED = [
-    ("", ""),
+    ("", "Not Clipped"),
     ("TR", "TR"),
     ("TL", "TL"),
     ("BR", "BR"),
