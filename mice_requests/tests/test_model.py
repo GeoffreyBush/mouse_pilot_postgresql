@@ -19,9 +19,7 @@ class RequestModelTestCase(TestCase):
         self.assertEqual(self.request.pk, 1)
 
     def test_many_to_many_mice(self):
-        self.assertQuerySetEqual(
-            self.request.mice.all(), self.mice, ordered=False
-        )
+        self.assertQuerySetEqual(self.request.mice.all(), self.mice, ordered=False)
 
     def test_requested_by_cannot_be_none(self):  # Could change to must be a CustomUser?
         with self.assertRaises(IntegrityError):

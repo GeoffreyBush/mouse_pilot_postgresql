@@ -67,7 +67,7 @@ class ConfirmRequestView(View):
                     mice_request.confirm_cull()
             case _:
                 pass
-        
+
         return redirect("mice_requests:show_requests")
 
 

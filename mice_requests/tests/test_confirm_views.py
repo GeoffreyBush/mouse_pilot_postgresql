@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import TestCase
 from django.urls import reverse
 
 from mice_requests.forms import ClipForm, CullForm
@@ -43,8 +43,9 @@ class ConfirmRequestViewTest(TestCase):
         )
         self.assertIsInstance(response.context["form"], CullForm)
 
-   
     # Confirm request changes mice.genotyped to True
+
+
 class ConfirmRequestPostTest(TestCase):
 
     def setUp(self):
@@ -59,7 +60,7 @@ class ConfirmRequestPostTest(TestCase):
             data={"earmark": "TL"},
         )
         self.assertEqual(response.status_code, 302)
-    
+
     def test_correct_redirect(self):
         response = self.client.post(
             reverse("mice_requests:confirm_request", args=[self.request.request_id]),
