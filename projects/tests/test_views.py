@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from mouse_pilot_postgresql.form_factories import (
     NewProjectFormFactory,
+    MouseSelectionFormFactory,
 )
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
@@ -105,7 +106,7 @@ class ShowProjectViewGetTest(TestCase):
 
     def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(
-            self.response.context["mouse_selection_form"], MouseSelectionForm
+            self.response.context["form"], MouseSelectionForm
         )
 
     def test_show_non_existent_project(self):
@@ -114,7 +115,7 @@ class ShowProjectViewGetTest(TestCase):
             self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
 
-"""
+
 class ShowProjectViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -123,16 +124,27 @@ class ShowProjectViewPostTest(TestCase):
         cls.user = UserFactory()
         cls.project = ProjectFactory()
         cls.client.force_login(cls.user)
-        form_data=MouseSelectionFormFactory.valid_data(project=cls.project)
+        data = MouseSelectionFormFactory.valid_data(project=cls.project)
         cls.response = cls.client.post(
-            reverse("projects:show_project", args=[cls.project.project_name]),
-            data=form_data
+            reverse("projects:show_project", args=[cls.project.project_name]), data
         )
+        cls.session = cls.client.session
 
     def test_http_code(self):
-        pass
-        #self.assertEqual(self.response.status_code, 302)
-   """
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect_url(self):
+        self.assertEqual(
+            self.response.url,
+            reverse("mice_requests:add_request", args=[self.project.project_name]),
+        )
+    
+    def test_selected_mice_in_session(self):
+        self.assertEqual(
+            self.session["selected_mice"],
+            [mouse.pk for mouse in self.project.mice.all()],
+        )
+
 
 # Test valid POST request
 # Test that MouseSelection form values are saved in session data during valid POST request

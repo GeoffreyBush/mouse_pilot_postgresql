@@ -174,6 +174,15 @@ class MouseSelectionFormFactory:
 
     @staticmethod
     def valid_data(**kwargs):
+        if kwargs.get("mice") is None:
+            mouse1, mouse2 = MouseFactory(), MouseFactory()
+            if kwargs.get("project") is not None:
+                kwargs["project"].mice.add(mouse1, mouse2)
+                return {"mice": [mouse1, mouse2]}
+            else:
+                project = ProjectFactory()
+                project.mice.add(mouse1, mouse2)
+                return {"mice": [mouse1, mouse2]}
         return {
             "mice": kwargs.get("mice", [MouseFactory(), MouseFactory()]),
         }
