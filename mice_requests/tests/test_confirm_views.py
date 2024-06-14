@@ -74,6 +74,7 @@ class ConfirmRequestViewPostTest(TestCase):
 
     def test_mouse_genotyped(self):
         self.client.force_login(self.user)
+        self.assertFalse(self.mouse.is_genotyped())
         self.client.post(
             reverse("mice_requests:confirm_request", args=[self.request.request_id]),
             data={"earmark": "TL"},
@@ -85,6 +86,7 @@ class ConfirmRequestViewPostTest(TestCase):
         self.client.force_login(self.user)
         self.request.task_type = "Cull"
         self.request.save()
+        self.assertFalse(self.mouse.culled)
         self.client.post(
             reverse("mice_requests:confirm_request", args=[self.request.request_id]),
             data={"culled": "True"},
