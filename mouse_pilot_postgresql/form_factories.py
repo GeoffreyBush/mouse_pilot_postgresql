@@ -153,11 +153,13 @@ class BatchFromBreedingCageFormFactory:
 class PupsToStockCageFormSetFactory:
     @staticmethod
     def create(num_forms=2, **kwargs):
-        BatchFromBreedingCageFormSet = formset_factory(BatchFromBreedingCageForm, extra=0)
+        BatchFromBreedingCageFormSet = formset_factory(
+            BatchFromBreedingCageForm, extra=0
+        )
         data = {
-            'form-TOTAL_FORMS': str(num_forms),
-            'form-INITIAL_FORMS': '0',
-            'form-MAX_NUM_FORMS': '',
+            "form-TOTAL_FORMS": str(num_forms),
+            "form-INITIAL_FORMS": "0",
+            "form-MAX_NUM_FORMS": "",
         }
 
         strain = kwargs.get("strain", StrainFactory())
@@ -176,10 +178,10 @@ class PupsToStockCageFormSetFactory:
                 dob=dob,
                 stock_cage=stock_cage,
                 _tube=next(tube_counter),
-                sex='M' if i % 2 == 0 else 'F',  # alternate sex
+                sex="M" if i % 2 == 0 else "F",  # alternate sex
             )
             for field, value in form_data.items():
-                data[f'form-{i}-{field}'] = str(value)
+                data[f"form-{i}-{field}"] = str(value)
 
         return BatchFromBreedingCageFormSet(data)
 

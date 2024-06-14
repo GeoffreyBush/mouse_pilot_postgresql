@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
 from mouse_pilot_postgresql.form_factories import (
-    BatchFromBreedingCageFormFactory,
     PupsToStockCageFormSetFactory,
 )
 from mouse_pilot_postgresql.model_factories import (
