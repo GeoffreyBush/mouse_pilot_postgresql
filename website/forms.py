@@ -29,7 +29,7 @@ class MouseSelectionForm(forms.ModelForm):
         mice = cleaned_data.get("mice")
 
         if not mice or len(mice) == 0:
-            raise forms.ValidationError("At least one mouse must be selected.")
+            raise forms.ValidationError("At least one mouse must be selected")
         return cleaned_data
 
     def save(self, commit=True):

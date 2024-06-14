@@ -1,13 +1,14 @@
 from django.urls import path
 
 from wean_pups import views
+from wean_pups.views import PupsToStockCageView
 
 app_name = "wean_pups"
 
 urlpatterns = [
     path(
         "pups_to_stock_cage/<str:box_no>",
-        views.pups_to_stock_cage,
+        PupsToStockCageView.as_view(),
         name="pups_to_stock_cage",
     ),
 ]

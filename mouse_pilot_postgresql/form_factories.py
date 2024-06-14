@@ -1,5 +1,6 @@
 import random
 from datetime import date
+import itertools
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
@@ -15,6 +16,7 @@ from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import BatchFromBreedingCageForm
 from website.forms import MouseSelectionForm
+from django.forms import formset_factory
 
 
 class BreedingCageFormFactory:
@@ -134,8 +136,9 @@ class BatchFromBreedingCageFormFactory:
     @staticmethod
     def valid_data(**kwargs):
         strain = kwargs.get("strain", StrainFactory())
+        tube_counter = itertools.count(100)
         return {
-            "tube": kwargs.get("_tube", 3),
+            "tube": kwargs.get("_tube", next(tube_counter)),
             "sex": kwargs.get("sex", "M"),
             "coat": kwargs.get("coat", "Black"),
             "strain": strain,
@@ -145,6 +148,14 @@ class BatchFromBreedingCageFormFactory:
             "stock_cage": kwargs.get("stock_cage", StockCageFactory()),
         }
 
+class WeanPupsFormsetFactory:
+    @staticmethod
+    def create(cage, **kwargs):
+        strain = kwargs.get("strain", StrainFactory())
+        formset = formset_factory(BatchFromBreedingCageForm, extra=0)
+
+        # loop through all male and female pups in cage to populate formset with data
+        return formset
 
 class NewProjectFormFactory:
     @staticmethod
@@ -164,6 +175,7 @@ class NewProjectFormFactory:
         }
 
 
+# This factory causes phantom mice to be created in tests
 class MouseSelectionFormFactory:
     @staticmethod
     def create(**kwargs):

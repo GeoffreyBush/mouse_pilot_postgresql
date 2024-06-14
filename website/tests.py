@@ -37,7 +37,7 @@ class MouseSelectionFormTest(TestCase):
         form_data = {}
         form = MouseSelectionForm(form_data, project=self.project)
         self.assertFalse(form.is_valid())
-        self.assertIn("At least one mouse must be selected.", form.non_field_errors())
+        self.assertIn("At least one mouse must be selected", form.non_field_errors())
 
 
 ##############
