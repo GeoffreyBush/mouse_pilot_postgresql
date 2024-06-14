@@ -3,8 +3,8 @@ from django.urls import reverse
 
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
     MiceRequestFactory,
+    MouseFactory,
     UserFactory,
 )
 

@@ -2,7 +2,11 @@ from django.test import TestCase
 
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.form_factories import MiceRequestFormFactory
-from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory, MiceRequestFactory
+from mouse_pilot_postgresql.model_factories import (
+    MiceRequestFactory,
+    MouseFactory,
+    UserFactory,
+)
 
 
 class RequestFormTest(TestCase):
