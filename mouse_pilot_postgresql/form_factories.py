@@ -150,14 +150,38 @@ class BatchFromBreedingCageFormFactory:
         }
 
 
-class WeanPupsFormsetFactory:
+class PupsToStockCageFormSetFactory:
     @staticmethod
-    def create(cage, **kwargs):
-        # strain = kwargs.get("strain", StrainFactory())
-        formset = formset_factory(BatchFromBreedingCageForm, extra=0)
+    def create(num_forms=2, **kwargs):
+        BatchFromBreedingCageFormSet = formset_factory(BatchFromBreedingCageForm, extra=0)
+        data = {
+            'form-TOTAL_FORMS': str(num_forms),
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '',
+        }
 
-        # loop through all male and female pups in cage to populate formset with data
-        return formset
+        strain = kwargs.get("strain", StrainFactory())
+        mother = kwargs.get("mother", MouseFactory(sex="F", strain=strain))
+        father = kwargs.get("father", MouseFactory(sex="M", strain=strain))
+        dob = kwargs.get("dob", date.today())
+        stock_cage = kwargs.get("stock_cage", StockCageFactory())
+
+        tube_counter = itertools.count(100)
+
+        for i in range(num_forms):
+            form_data = BatchFromBreedingCageFormFactory.valid_data(
+                strain=strain,
+                mother=mother,
+                father=father,
+                dob=dob,
+                stock_cage=stock_cage,
+                _tube=next(tube_counter),
+                sex='M' if i % 2 == 0 else 'F',  # alternate sex
+            )
+            for field, value in form_data.items():
+                data[f'form-{i}-{field}'] = str(value)
+
+        return BatchFromBreedingCageFormSet(data)
 
 
 class NewProjectFormFactory:

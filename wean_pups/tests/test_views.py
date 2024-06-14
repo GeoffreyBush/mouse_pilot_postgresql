@@ -5,7 +5,7 @@ from django.urls.exceptions import NoReverseMatch
 from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import (
     BatchFromBreedingCageFormFactory,
-    WeanPupsFormsetFactory,
+    PupsToStockCageFormSetFactory,
 )
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
@@ -71,7 +71,7 @@ class PupsToStockCageViewValidPostTest(TestCase):
             mother=MouseFactory(strain=cls.strain, sex="F"),
             father=MouseFactory(strain=cls.strain, sex="M"),
         )
-        cls.formset = WeanPupsFormsetFactory.create(cls.cage, strain=cls.strain)
+        cls.formset = PupsToStockCageFormSetFactory.create(strain=cls.strain)
 
     # If tube numbers given, correct assignment
     def test_pups_to_stock_cage_valid_data(self):
