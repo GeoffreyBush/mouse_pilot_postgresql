@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 
 from mice_repository.forms import RepositoryMiceForm
@@ -11,6 +11,15 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+def setUpModule():
+    global test_user, test_client
+    test_user = UserFactory(username="testuser")
+    test_client = Client()
+    test_client.force_login(test_user)
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
 
 class MouseModelTestCase(TestCase):
     def setUp(self):
@@ -156,12 +165,10 @@ class RepositoryMiceFormTestCase(TestCase):
 
 class MiceRepositoryViewTestCase(TestCase):
     def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
         self.mouse = MouseFactory()
 
     def test_get_request_authenticated(self):
-        response = self.client.get(reverse("mice_repository:mice_repository"))
+        response = test_client.get(reverse("mice_repository:mice_repository"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "mice_repository.html")
         self.assertIn("mymice", response.context)
@@ -169,12 +176,9 @@ class MiceRepositoryViewTestCase(TestCase):
 
 
 class AddMouseToRepositoryViewTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="testuser")
-        self.client.login(username="testuser", password="testpassword")
 
     def test_get_request_authenticated(self):
-        response = self.client.get(reverse("mice_repository:add_mouse_to_repository"))
+        response = test_client.get(reverse("mice_repository:add_mouse_to_repository"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_mouse_to_repository.html")
         self.assertIsInstance(response.context["mice_form"], RepositoryMiceForm)
@@ -182,7 +186,7 @@ class AddMouseToRepositoryViewTestCase(TestCase):
     def test_post_valid_form_data(self):
         self.assertEqual(Mouse.objects.all().count(), 0)
         data = RepositoryMiceFormFactory.valid_data()
-        response = self.client.post(
+        response = test_client.post(
             reverse("mice_repository:add_mouse_to_repository"), data
         )
         self.assertEqual(response.status_code, 302)

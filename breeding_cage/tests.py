@@ -13,6 +13,15 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+def setUpModule():
+    global test_user, test_client
+    test_user = UserFactory(username="testuser")
+    test_client = Client()
+    test_client.force_login(test_user)
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
 
 class BreedingCageModelTestCase(TestCase):
 
@@ -61,14 +70,11 @@ class ListBreedingCagesViewTestCase(TestCase):
     @classmethod
     def setUp(cls):
         super().setUpClass()
-        cls.user = UserFactory(username="testuser")
-        cls.client = Client()
         cls.strain = StrainFactory()
         cls.cage = BreedingCageFactory()
 
     def test_get_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(reverse("breeding_cage:list_breeding_cages"))
+        response = test_client.get(reverse("breeding_cage:list_breeding_cages"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "list_breeding_cages.html")
         self.assertIn("mycages", response.context)
@@ -79,13 +85,10 @@ class ViewBreedingCageViewTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory(username="testuser")
         cls.cage = BreedingCageFactory()
-        cls.client = Client()
 
     def test_get_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(
+        response = test_client.get(
             reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
         )
         self.assertEqual(response.status_code, 200)
@@ -95,31 +98,23 @@ class ViewBreedingCageViewTestCase(TestCase):
 
 
 class AddBreedingCageViewTestCase(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.user = UserFactory(username="testuser")
-        cls.client = Client()
 
     def test_get_authenticated(self):
-        self.client.force_login(self.user)
-        response = self.client.get(reverse("breeding_cage:add_breeding_cage"))
+        response = test_client.get(reverse("breeding_cage:add_breeding_cage"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
         self.assertIsInstance(response.context["form"], BreedingCageForm)
 
     def test_create_breeding_cage_post_valid(self):
-        self.client.force_login(self.user)
         data = BreedingCageFormFactory.valid_data()
-        response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
+        response = test_client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
         self.assertEqual(BreedingCage.objects.count(), 1)
 
     def test_create_breeding_cage_post_invalid(self):
-        self.client.force_login(self.user)
         data = BreedingCageFormFactory.invalid_mother()
-        response = self.client.post(reverse("breeding_cage:add_breeding_cage"), data)
+        response = test_client.post(reverse("breeding_cage:add_breeding_cage"), data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_breeding_cage.html")
 
@@ -127,12 +122,10 @@ class AddBreedingCageViewTestCase(TestCase):
 # Cannot easily use setUpClass here. Test cages need to be isolated.
 class EditBreedingCageViewTestCase(TestCase):
     def setUp(self):
-        self.user = UserFactory(username="testuser")
         self.cage = BreedingCageFactory()
-        self.client.login(username="testuser", password="testpassword")
 
     def test_get_authenticated(self):
-        response = self.client.get(
+        response = test_client.get(
             reverse("breeding_cage:edit_breeding_cage", args=[self.cage])
         )
         self.assertEqual(response.status_code, 200)
@@ -142,7 +135,7 @@ class EditBreedingCageViewTestCase(TestCase):
     def test_edit_breeding_cage_post_valid(self):
         data = BreedingCageFormFactory.valid_data()
         data["box_no"] = "new"
-        response = self.client.post(
+        response = test_client.post(
             reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
         )
         self.cage.refresh_from_db()
@@ -152,7 +145,7 @@ class EditBreedingCageViewTestCase(TestCase):
 
     def test_edit_breeding_cage_post_invalid(self):
         data = BreedingCageFormFactory.invalid_mother()
-        response = self.client.post(
+        response = test_client.post(
             reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
         )
         self.assertEqual(response.status_code, 200)

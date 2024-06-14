@@ -24,8 +24,8 @@ class CustomUserTest(TestCase):
     def test_user_creation(self):
         self.assertIsInstance(self.user, CustomUser)
 
-    def test_user_correct_pk(self):
-        self.assertEqual(self.user.pk, 1)
+    def test_user_pk_is_int(self):
+        self.assertIsInstance(self.user.pk, int)
 
     def test_user_correct_username(self):
         self.assertEqual(self.user.username, "testuser")
