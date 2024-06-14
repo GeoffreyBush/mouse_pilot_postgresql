@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from mice_repository.forms import RepositoryMiceForm
@@ -11,15 +11,18 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+
 def setUpModule():
     global test_user, test_client
     test_user = UserFactory(username="testuser")
     test_client = Client()
     test_client.force_login(test_user)
 
+
 def tearDownModule():
     global test_user
     test_user.delete()
+
 
 class MouseModelTestCase(TestCase):
     def setUp(self):

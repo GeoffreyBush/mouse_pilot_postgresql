@@ -13,15 +13,18 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+
 def setUpModule():
     global test_user, test_client
     test_user = UserFactory(username="testuser")
     test_client = Client()
     test_client.force_login(test_user)
 
+
 def tearDownModule():
     global test_user
     test_user.delete()
+
 
 class BreedingCageModelTestCase(TestCase):
 
