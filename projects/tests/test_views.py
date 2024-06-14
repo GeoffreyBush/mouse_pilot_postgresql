@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.test import Client, TestCase
+from django.test import Client, TestCase, RequestFactory
 from django.urls import reverse
 
 from mouse_pilot_postgresql.form_factories import (
@@ -14,6 +14,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.filters import ProjectFilter
 from projects.forms import NewProjectForm
 from projects.models import Project
+from projects.views import add_new_project
 from website.forms import MouseSelectionForm
 
 
@@ -64,12 +65,13 @@ class AddNewProjectViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory(username="testuser")
-        cls.client = Client()
-        cls.client.force_login(cls.user)
-        cls.response = cls.client.post(
+        cls.user = UserFactory()
+        cls.factory = RequestFactory()
+        cls.request = cls.factory.post(
             reverse("projects:add_new_project"), NewProjectFormFactory.valid_data()
         )
+        cls.request.user = cls.user
+        cls.response = add_new_project(cls.request)
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
@@ -86,7 +88,7 @@ class ShowProjectViewGetTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.client = Client()
-        cls.user = UserFactory(username="testuser")
+        cls.user = UserFactory()
         cls.client.force_login(cls.user)
         cls.response = cls.client.get(
             reverse("projects:show_project", args=[ProjectFactory().project_name])
