@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from mice_requests.models import Request
-from mouse_pilot_postgresql.model_factories import MouseFactory, MiceRequestFactory
+from mouse_pilot_postgresql.model_factories import MiceRequestFactory, MouseFactory
 from system_users.models import CustomUser
 
 

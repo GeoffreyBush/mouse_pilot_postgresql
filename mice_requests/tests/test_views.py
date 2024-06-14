@@ -5,9 +5,9 @@ from mice_requests.forms import RequestForm
 from mice_requests.models import Request
 from mouse_pilot_postgresql.form_factories import MiceRequestFormFactory
 from mouse_pilot_postgresql.model_factories import (
+    MiceRequestFactory,
     MouseFactory,
     ProjectFactory,
-    MiceRequestFactory,
     UserFactory,
 )
 
