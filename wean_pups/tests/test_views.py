@@ -2,9 +2,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
-from mouse_pilot_postgresql.form_factories import (
-    PupsToStockCageFormSetFactory,
-)
+from mouse_pilot_postgresql.form_factories import PupsToStockCageFormSetFactory
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
     MouseFactory,
@@ -64,18 +62,20 @@ class PupsToStockCageViewValidPostTest(TestCase):
         cls.client = Client()
         cls.user = UserFactory()
         cls.strain = StrainFactory()
-        cls.mother=MouseFactory(strain=cls.strain, sex="F")
-        cls.father=MouseFactory(strain=cls.strain, sex="M")
-        cls.cage = BreedingCageFactory(
-            male_pups=3, female_pups=5
-        )
+        cls.mother = MouseFactory(strain=cls.strain, sex="F")
+        cls.father = MouseFactory(strain=cls.strain, sex="M")
+        cls.cage = BreedingCageFactory(male_pups=3, female_pups=5)
         cls.formset = PupsToStockCageFormSetFactory.create(
-            strain=cls.strain, mother=cls.mother.pk, father=cls.father.pk,
-            num_males=cls.cage.male_pups, num_females=cls.cage.female_pups
+            strain=cls.strain,
+            mother=cls.mother.pk,
+            father=cls.father.pk,
+            num_males=cls.cage.male_pups,
+            num_females=cls.cage.female_pups,
         )
         cls.client.force_login(cls.user)
         cls.response = cls.client.post(
-            reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no]), cls.formset.data
+            reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no]),
+            cls.formset.data,
         )
 
     def test_each_form_in_formset_is_valid(self):
