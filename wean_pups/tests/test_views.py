@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import Client, TestCase, RequestFactory
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
@@ -10,6 +10,8 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 from wean_pups.forms import PupsToStockCageForm
+from wean_pups.views import PupsToStockCageView
+from mice_repository.models import Mouse
 
 
 class PupsToStockCageViewGetTest(TestCase):
@@ -59,8 +61,8 @@ class PupsToStockCageViewValidPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
         cls.user = UserFactory()
+        cls.factory = RequestFactory()
         cls.strain = StrainFactory()
         cls.mother = MouseFactory(strain=cls.strain, sex="F")
         cls.father = MouseFactory(strain=cls.strain, sex="M")
@@ -72,14 +74,24 @@ class PupsToStockCageViewValidPostTest(TestCase):
             num_males=cls.cage.male_pups,
             num_females=cls.cage.female_pups,
         )
-        cls.client.force_login(cls.user)
-        cls.response = cls.client.post(
+        cls.mouse_count = Mouse.objects.count()
+        cls.request = cls.factory.post(
             reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no]),
             cls.formset.data,
         )
+        cls.request.user = cls.user
+        cls.response = PupsToStockCageView.as_view()(cls.request, box_no=cls.cage.box_no)
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect_url(self):
+        self.assertEqual(
+            self.response.url, reverse("breeding_cage:list_breeding_cages")
+        )
+
+    def test_mice_created(self):
+        self.assertEqual(Mouse.objects.count(), self.mouse_count + 8)
 
     # If tube numbers given, correct assignment
     def test_pups_to_stock_cage_valid_data(self):

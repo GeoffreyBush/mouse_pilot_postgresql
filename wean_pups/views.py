@@ -46,7 +46,6 @@ class PupsToStockCageView(View):
 
     def post(self, request):
         formset = self.MouseFormSet(request.POST, prefix="mouse")
-        print("FORMSET.ERRORS", formset.errors)
         if formset.is_valid():
             for form in formset:
                 mouse_instance = form.save(commit=False)
