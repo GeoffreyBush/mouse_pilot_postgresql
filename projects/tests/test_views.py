@@ -24,9 +24,11 @@ def setUpModule():
     test_client = Client()
     test_client.force_login(test_user)
 
+
 def tearDownModule():
     global test_user
     test_user.delete()
+
 
 class ListProjectsViewGetTest(TestCase):
     @classmethod
