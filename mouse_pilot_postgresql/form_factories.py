@@ -154,9 +154,7 @@ class PupsToStockCageFormSetFactory:
     @staticmethod
     def create(num_males=0, num_females=0, prefix="mouse", **kwargs):
         num_forms = num_males + num_females
-        PupsToStockCageFormSet = formset_factory(
-            PupsToStockCageForm, extra=0
-        )
+        PupsToStockCageFormSet = formset_factory(PupsToStockCageForm, extra=0)
         data = {
             f"{prefix}-TOTAL_FORMS": str(num_forms),
             f"{prefix}-INITIAL_FORMS": "0",

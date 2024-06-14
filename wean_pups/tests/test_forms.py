@@ -78,5 +78,6 @@ class PupsToStockCageValidFormSetTest(TestCase):
     def test_no_formset_non_form_errors(self):
         self.assertEqual(len(self.formset.non_form_errors()), 0)
 
+
 class PupsToStockCageInvalidFormSetTest:
     pass
