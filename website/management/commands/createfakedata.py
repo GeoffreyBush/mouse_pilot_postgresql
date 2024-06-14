@@ -69,7 +69,9 @@ class Command(BaseCommand):
         female_mice = Mouse.objects.filter(sex="F")
         male_mice = Mouse.objects.filter(sex="M")
         for _ in range(n):
-            BreedingCageFactory.create(mother=random.choice(female_mice), father=random.choice(male_mice))
+            BreedingCageFactory.create(
+                mother=random.choice(female_mice), father=random.choice(male_mice)
+            )
 
     # Convert this method to use a factory instead
     def create_comments(self, x):

@@ -155,9 +155,7 @@ class PupsToStockCageFormSetFactory:
     def create(num_males=0, num_females=0, prefix="mouse", **kwargs):
         num_forms = num_males + num_females
         MouseFormSet = formset_factory(
-            PupsToStockCageForm, 
-            formset=PupsToStockCageFormSet,
-            extra=0
+            PupsToStockCageForm, formset=PupsToStockCageFormSet, extra=0
         )
 
         # formset management data
@@ -203,9 +201,10 @@ class PupsToStockCageFormSetFactory:
     def alter_tube_numbers(formset, new_tube_numbers):
         data = formset.data.copy()
         for i, tube in enumerate(new_tube_numbers):
-            data[f'mouse-{i}-tube'] = tube 
+            data[f"mouse-{i}-tube"] = tube
         formset.data = data
         return formset
+
 
 class NewProjectFormFactory:
     @staticmethod

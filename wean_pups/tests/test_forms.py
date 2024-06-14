@@ -70,14 +70,14 @@ class PupsToStockCageValidFormSetTest(TestCase):
         )
 
     def test_each_form_in_formset_is_valid(self):
-        #print("Test formset data:")
-        #print()
-        #for form in self.formset:
-         #   for new_form in form:
-          #      print(new_form)
-           #     print()
-            #print(form.data)
-        #print()
+        # print("Test formset data:")
+        # print()
+        # for form in self.formset:
+        #   for new_form in form:
+        #      print(new_form)
+        #     print()
+        # print(form.data)
+        # print()
         assert all(len(error) == 0 for error in self.formset.errors)
 
     def test_formset_is_valid(self):
@@ -85,6 +85,7 @@ class PupsToStockCageValidFormSetTest(TestCase):
 
     def test_no_formset_non_form_errors(self):
         self.assertEqual(len(self.formset.non_form_errors()), 0)
+
 
 class PupsToStockCageInvalidFormSetTest(TestCase):
     @classmethod
@@ -106,7 +107,9 @@ class PupsToStockCageInvalidFormSetTest(TestCase):
 
     # None of the tube numbers in the formset can be identical
     def test_duplicate_tube_numbers_in_formset_are_invalid(self):
-        self.formset = PupsToStockCageFormSetFactory.alter_tube_numbers(self.formset, [20, 20, 21, 22])
+        self.formset = PupsToStockCageFormSetFactory.alter_tube_numbers(
+            self.formset, [20, 20, 21, 22]
+        )
         self.assertFalse(self.formset.is_valid())
 
     # If no tube numbers given, correct default assignment when formset is loaded

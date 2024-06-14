@@ -5,18 +5,20 @@ from mice_repository.models import Mouse
 from stock_cage.models import StockCage
 from website.models import Strain
 
+
 class PupsToStockCageFormSet(forms.BaseFormSet):
 
     # Override clean method to invalidate formset if any tube numbers are duplicated
     def clean(self):
         tube_numbers = []
         for i, form in enumerate(self.forms):
-            tube = self.data.get(f'mouse-{i}-tube')
-            #print("tube", tube)
-            #print("tube_numbers", tube_numbers)
+            tube = self.data.get(f"mouse-{i}-tube")
+            # print("tube", tube)
+            # print("tube_numbers", tube_numbers)
             if tube in tube_numbers:
-                raise ValidationError('Duplicate tube number')
+                raise ValidationError("Duplicate tube number")
             tube_numbers.append(tube)
+
 
 # Need to create validation handling for readonly attributes here, add handling to view
 class PupsToStockCageForm(forms.ModelForm):

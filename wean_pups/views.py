@@ -17,7 +17,9 @@ class PupsToStockCageView(View):
         try:
             self.box_no = box_no
             self.cage = BreedingCage.objects.get(box_no=self.box_no)
-            self.MouseFormSet = formset_factory(PupsToStockCageForm, formset=PupsToStockCageFormSet, extra=0)
+            self.MouseFormSet = formset_factory(
+                PupsToStockCageForm, formset=PupsToStockCageFormSet, extra=0
+            )
         except BreedingCage.DoesNotExist:
             raise Http404("Breeding cage does not exist")
         return super().dispatch(request, *args, **kwargs)
