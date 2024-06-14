@@ -11,15 +11,23 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+def setUpModule():
+    global test_user, test_client
+    test_user = UserFactory(username="testuser")
+    test_client = Client()
+    test_client.force_login(test_user)
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
+
 
 class ShowRequestsViewTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
-        cls.client.force_login(UserFactory())
         cls.requests = [MiceRequestFactory() for _ in range(3)]
-        cls.response = cls.client.get(reverse("mice_requests:show_requests"))
+        cls.response = test_client.get(reverse("mice_requests:show_requests"))
 
     def test_code_200(self):
         self.assertEqual(self.response.status_code, 200)
@@ -37,15 +45,13 @@ class AddRequestViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
         cls.mice = [MouseFactory(), MouseFactory()]
-        cls.client.force_login(UserFactory())
-        cls.client.session["selected_mice"] = [mouse.pk for mouse in cls.mice]
-        cls.client.session.save()
+        test_client.session["selected_mice"] = [mouse.pk for mouse in cls.mice]
+        test_client.session.save()
         cls.url = reverse(
             "mice_requests:add_request", args=[ProjectFactory().project_name]
         )
-        cls.response = cls.client.get(cls.url)
+        cls.response = test_client.get(cls.url)
 
     def test_code_200(self):
         self.assertEqual(self.response.status_code, 200)
@@ -68,12 +74,10 @@ class AddRequestViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
         cls.project = ProjectFactory()
         cls.mice = [MouseFactory(), MouseFactory()]
-        cls.client.force_login(UserFactory())
         cls.url = reverse("mice_requests:add_request", args=[cls.project.project_name])
-        cls.response = cls.client.post(
+        cls.response = test_client.post(
             cls.url, MiceRequestFormFactory.valid_data(mice=cls.mice)
         )
 

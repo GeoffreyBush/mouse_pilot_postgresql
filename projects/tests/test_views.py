@@ -18,16 +18,23 @@ from projects.views import add_new_project
 from website.forms import MouseSelectionForm
 
 
+def setUpModule():
+    global test_user, test_client
+    test_user = UserFactory(username="testuser")
+    test_client = Client()
+    test_client.force_login(test_user)
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
+
 class ListProjectsViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory()
-        cls.client = Client()
         cls.project = ProjectFactory()
         cls.project.mice.add(MouseFactory())
-        cls.client.force_login(cls.user)
-        cls.response = cls.client.get(reverse("projects:list_projects"))
+        cls.response = test_client.get(reverse("projects:list_projects"))
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
@@ -46,10 +53,7 @@ class AddNewProjectViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory()
-        cls.client = Client()
-        cls.client.force_login(cls.user)
-        cls.response = cls.client.get(reverse("projects:add_new_project"))
+        cls.response = test_client.get(reverse("projects:add_new_project"))
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
@@ -65,12 +69,11 @@ class AddNewProjectViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory()
         cls.factory = RequestFactory()
         cls.request = cls.factory.post(
             reverse("projects:add_new_project"), NewProjectFormFactory.valid_data()
         )
-        cls.request.user = cls.user
+        cls.request.user = test_user
         cls.response = add_new_project(cls.request)
 
     def test_http_code(self):
@@ -87,10 +90,7 @@ class ShowProjectViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
-        cls.user = UserFactory()
-        cls.client.force_login(cls.user)
-        cls.response = cls.client.get(
+        cls.response = test_client.get(
             reverse("projects:show_project", args=[ProjectFactory().project_name])
         )
 
@@ -110,24 +110,20 @@ class ShowProjectViewGetTest(TestCase):
         self.assertIsInstance(self.response.context["form"], MouseSelectionForm)
 
     def test_show_non_existent_project(self):
-        self.client.force_login(self.user)
         with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse("projects:show_project", args=["AnyOtherName"]))
+            test_client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
 
 class ShowProjectViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
-        cls.user = UserFactory()
         cls.project = ProjectFactory()
-        cls.client.force_login(cls.user)
         data = MouseSelectionFormFactory.data(project=cls.project)
-        cls.response = cls.client.post(
+        cls.response = test_client.post(
             reverse("projects:show_project", args=[cls.project.project_name]), data
         )
-        cls.session = cls.client.session
+        cls.session = test_client.session
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
@@ -149,12 +145,9 @@ class ShowProjectViewInvalidPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
-        cls.user = UserFactory()
         cls.project = ProjectFactory()
-        cls.client.force_login(cls.user)
         data = MouseSelectionFormFactory.data(mice=[])
-        cls.response = cls.client.post(
+        cls.response = test_client.post(
             reverse("projects:show_project", args=[cls.project.project_name]), data
         )
 

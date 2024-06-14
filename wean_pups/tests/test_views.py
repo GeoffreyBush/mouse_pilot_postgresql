@@ -14,15 +14,22 @@ from wean_pups.forms import PupsToStockCageForm
 from wean_pups.views import PupsToStockCageView
 
 
+def setUpModule():
+    global test_user, test_client
+    test_user = UserFactory(username="testuser")
+    test_client = Client()
+    test_client.force_login(test_user)
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
+
 class PupsToStockCageViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.client = Client()
-        cls.user = UserFactory()
         cls.cage = BreedingCageFactory()
-        cls.client.force_login(cls.user)
-        cls.response = cls.client.get(
+        cls.response = test_client.get(
             reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no])
         )
         cls.formset = cls.response.context["formset"]
@@ -45,23 +52,20 @@ class PupsToStockCageViewGetTest(TestCase):
         )
 
     def test_invalid_box_no_in_url(self):
-        self.client.force_login(self.user)
-        response = self.client.get(
+        response = test_client.get(
             reverse("wean_pups:pups_to_stock_cage", args=["invalid"])
         )
         self.assertEqual(response.status_code, 404)
 
     def test_not_passing_box_no_in_url(self):
-        self.client.force_login(self.user)
         with self.assertRaises(NoReverseMatch):
-            self.client.get(reverse("wean_pups:pups_to_stock_cage"))
+            test_client.get(reverse("wean_pups:pups_to_stock_cage"))
 
 
 class PupsToStockCageViewValidPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory()
         cls.factory = RequestFactory()
         cls.strain = StrainFactory()
         cls.mother = MouseFactory(strain=cls.strain, sex="F")
@@ -79,7 +83,7 @@ class PupsToStockCageViewValidPostTest(TestCase):
             reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no]),
             cls.formset.data,
         )
-        cls.request.user = cls.user
+        cls.request.user = test_user
         cls.response = PupsToStockCageView.as_view()(
             cls.request, box_no=cls.cage.box_no
         )

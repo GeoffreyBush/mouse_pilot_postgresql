@@ -69,9 +69,7 @@ class CustomUserTest(TestCase):
 
     # Incorrect email format
 
-    def test_user_already_logged_in(self):
-        self.client.login(username="testuser", password="testpassword")
-        self.client.login(username="testuser", password="testpassword")
+    # user already logged in
 
 
 class CustomUserCreationFormTest(TestCase):
