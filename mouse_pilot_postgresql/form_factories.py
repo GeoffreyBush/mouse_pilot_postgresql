@@ -91,7 +91,7 @@ class MiceRequestFormFactory:
         return {
             "mice": kwargs.get("mice", [MouseFactory().pk, MouseFactory().pk]),
             "task_type": kwargs.get("task_type", random.choice(["Clip", "Cull"])),
-            "requested_by": kwargs.get("requested_by", UserFactory()),
+            "requested_by": kwargs.get("requested_by", ""),
         }
 
 
@@ -119,7 +119,7 @@ class RepositoryMiceFormFactory:
             "clipped_date": kwargs.get("clipped_date", date.today()),
             "project": kwargs.get("project", ""),
             "earmark": kwargs.get("earmark", ""),
-            "genotyper": kwargs.get("genotyper", UserFactory().id),
+            "genotyper": kwargs.get("genotyper", ""),
             "strain": strain,
             "coat": kwargs.get("coat", "Black"),
             "result": kwargs.get("result", "Positive"),

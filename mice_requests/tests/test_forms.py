@@ -8,11 +8,18 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+def setUpModule():
+    global test_user
+    test_user = UserFactory(username="testuser")
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
 
 class RequestFormTest(TestCase):
 
     def test_valid_data(self):
-        form = MiceRequestFormFactory.create(user=UserFactory())
+        form = MiceRequestFormFactory.create()
         self.assertTrue(form.is_valid())
 
     def test_no_mice_in_request(self):
@@ -35,7 +42,7 @@ class RequestFormTest(TestCase):
 
     def test_clip_request_already_exists_for_mouse(self):
         mouse = MouseFactory()
-        MiceRequestFactory(mice=[mouse], task_type="Clip")
+        MiceRequestFactory(mice=[mouse], task_type="Clip", requested_by=test_user)
         form = MiceRequestFormFactory.create(task_type="Clip", mice=[mouse])
         self.assertEqual(
             form.errors["mice"][0],
@@ -44,7 +51,7 @@ class RequestFormTest(TestCase):
 
     def test_cull_request_already_exists_for_mouse(self):
         mouse = MouseFactory()
-        MiceRequestFactory(mice=[mouse], task_type="Cull")
+        MiceRequestFactory(mice=[mouse], task_type="Cull", requested_by=test_user)
         form = MiceRequestFormFactory.create(task_type="Cull", mice=[mouse])
         self.assertEqual(
             form.errors["mice"][0],
@@ -55,7 +62,7 @@ class RequestFormTest(TestCase):
     # Should ask clients which task_types possible conflict in similar ways.
     def test_different_task_types_for_same_mouse_is_allowed(self):
         mouse = MouseFactory()
-        MiceRequestFactory(mice=[mouse], task_type="Clip")
+        MiceRequestFactory(mice=[mouse], task_type="Clip", requested_by=test_user)
         form = MiceRequestFormFactory.create(task_type="Cull", mice=[mouse])
         self.assertTrue(form.is_valid())
 

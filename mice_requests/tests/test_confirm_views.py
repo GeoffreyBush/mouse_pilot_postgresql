@@ -25,7 +25,7 @@ class ConfirmRequestViewGetTest(TestCase):
     @classmethod
     def setUpClass(self):
         super().setUpClass()
-        self.request = MiceRequestFactory(task_type="Clip")
+        self.request = MiceRequestFactory(task_type="Clip", requested_by=test_user)
 
     def test_code_200(self):
         self.response = test_client.get(
@@ -46,7 +46,7 @@ class ConfirmRequestViewGetTest(TestCase):
         self.assertIsInstance(response.context["form"], ClipForm)
 
     def test_correct_cull_form_in_context(self):
-        request = MiceRequestFactory(task_type="Cull")
+        request = MiceRequestFactory(task_type="Cull", requested_by=test_user)
         response = test_client.get(
             reverse("mice_requests:confirm_request", args=[request.request_id])
         )
@@ -58,7 +58,7 @@ class ConfirmRequestViewPostTest(TestCase):
     def setUpClass(self):
         super().setUpClass()
         self.mouse = MouseFactory(earmark="", culled=False)
-        self.request = MiceRequestFactory(mice=[self.mouse], task_type="Clip")
+        self.request = MiceRequestFactory(mice=[self.mouse], task_type="Clip", requested_by=test_user)
 
     def test_code_302(self):
         response = test_client.post(
