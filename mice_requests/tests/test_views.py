@@ -3,11 +3,11 @@ from django.urls import reverse
 
 from mice_requests.forms import RequestForm
 from mice_requests.models import Request
-from mouse_pilot_postgresql.form_factories import RequestFormFactory
+from mouse_pilot_postgresql.form_factories import MiceRequestFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
-    RequestFactory,
+    MiceRequestFactory,
     UserFactory,
 )
 
@@ -18,7 +18,7 @@ class ShowRequestsViewTest(TestCase):
         super().setUpClass()
         cls.client = Client()
         cls.client.force_login(UserFactory())
-        cls.requests = [RequestFactory() for _ in range(3)]
+        cls.requests = [MiceRequestFactory() for _ in range(3)]
         cls.response = cls.client.get(reverse("mice_requests:show_requests"))
 
     def test_code_200(self):
@@ -74,7 +74,7 @@ class AddRequestViewPostTest(TestCase):
         cls.client.force_login(UserFactory())
         cls.url = reverse("mice_requests:add_request", args=[cls.project.project_name])
         cls.response = cls.client.post(
-            cls.url, RequestFormFactory.valid_data(mice=cls.mice)
+            cls.url, MiceRequestFormFactory.valid_data(mice=cls.mice)
         )
 
     def test_code_302(self):

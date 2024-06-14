@@ -70,7 +70,7 @@ class StockCageFactory(factory.django.DjangoModelFactory):
         model = "stock_cage.StockCage"
 
 
-class RequestFactory(factory.django.DjangoModelFactory):
+class MiceRequestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "mice_requests.Request"
 

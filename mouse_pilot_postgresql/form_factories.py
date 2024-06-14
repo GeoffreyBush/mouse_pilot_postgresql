@@ -79,11 +79,11 @@ class CustomUserChangeFormFactory:
         }
 
 
-class RequestFormFactory:
+class MiceRequestFormFactory:
 
     @staticmethod
     def create(**kwargs):
-        data = RequestFormFactory.valid_data(**kwargs)
+        data = MiceRequestFormFactory.valid_data(**kwargs)
         return RequestForm(data=data)
 
     @staticmethod

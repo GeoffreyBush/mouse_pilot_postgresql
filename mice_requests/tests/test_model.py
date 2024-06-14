@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from mice_requests.models import Request
-from mouse_pilot_postgresql.model_factories import MouseFactory, RequestFactory
+from mouse_pilot_postgresql.model_factories import MouseFactory, MiceRequestFactory
 from system_users.models import CustomUser
 
 
@@ -15,7 +15,7 @@ class RequestModelTest(TestCase):
         cls.mice = [MouseFactory() for _ in range(2)]
 
     def setUp(self):
-        self.request = RequestFactory(mice=self.mice, task_type="Clip")
+        self.request = MiceRequestFactory(mice=self.mice, task_type="Clip")
 
     def test_request_creation(self):
         self.assertIsInstance(self.request, Request)
@@ -28,7 +28,7 @@ class RequestModelTest(TestCase):
 
     def test_requested_by_cannot_be_none(self):  # Could change to must be a CustomUser?
         with self.assertRaises(IntegrityError):
-            RequestFactory(requested_by=None)
+            MiceRequestFactory(requested_by=None)
 
     def test_requested_by_is_user(self):
         self.assertIsInstance(self.request.requested_by, CustomUser)
@@ -48,7 +48,7 @@ class RequestConfirmClipTest(TestCase):
 
     def setUp(self):
         self.mice = [MouseFactory() for _ in range(2)]
-        self.request = RequestFactory(mice=self.mice, task_type="Clip")
+        self.request = MiceRequestFactory(mice=self.mice, task_type="Clip")
 
     def test_mice_genotyped_on_confirm(self):
         assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
@@ -73,7 +73,7 @@ class RequestConfirmCullTest(TestCase):
 
     def setUp(self):
         self.mice = [MouseFactory(culled="False") for _ in range(2)]
-        self.request = RequestFactory(mice=self.mice, task_type="Cull")
+        self.request = MiceRequestFactory(mice=self.mice, task_type="Cull")
 
     def test_mice_culled_on_confirm(self):
         assert all(not mouse.culled for mouse in self.request.mice.all())

@@ -4,7 +4,7 @@ from django.urls import reverse
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
-    RequestFactory,
+    MiceRequestFactory,
     UserFactory,
 )
 
@@ -15,7 +15,7 @@ class ConfirmRequestViewGetTest(TestCase):
         super().setUpClass()
         self.client = Client()
         self.user = UserFactory()
-        self.request = RequestFactory(task_type="Clip")
+        self.request = MiceRequestFactory(task_type="Clip")
 
     def test_code_200(self):
         self.client.force_login(self.user)
@@ -40,7 +40,7 @@ class ConfirmRequestViewGetTest(TestCase):
 
     def test_correct_cull_form_in_context(self):
         self.client.force_login(self.user)
-        request = RequestFactory(task_type="Cull")
+        request = MiceRequestFactory(task_type="Cull")
         response = self.client.get(
             reverse("mice_requests:confirm_request", args=[request.request_id])
         )
@@ -54,7 +54,7 @@ class ConfirmRequestViewPostTest(TestCase):
         self.client = Client()
         self.user = UserFactory()
         self.mouse = MouseFactory(earmark="", culled=False)
-        self.request = RequestFactory(mice=[self.mouse], task_type="Clip")
+        self.request = MiceRequestFactory(mice=[self.mouse], task_type="Clip")
 
     def test_code_302(self):
         self.client.force_login(self.user)
