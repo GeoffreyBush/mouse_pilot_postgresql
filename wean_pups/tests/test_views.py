@@ -78,15 +78,6 @@ class PupsToStockCageViewValidPostTest(TestCase):
             cls.formset.data,
         )
 
-    def test_each_form_in_formset_is_valid(self):
-        assert all(len(error) == 0 for error in self.formset.errors)
-
-    def test_formset_is_valid(self):
-        self.assertTrue(self.formset.is_valid())
-
-    def test_no_formset_non_form_errors(self):
-        self.assertEqual(len(self.formset.non_form_errors()), 0)
-
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
 

@@ -52,7 +52,7 @@ class BatchFromBreedingCageForm(forms.ModelForm):
         ),
     )
 
-    # Override clean() to throw ValidationError if new _global_id is already in use
+    # Override clean() to throw ValidationError if proposed _global_id for new mouse is already in use by another mouse
     def clean(self):
         cleaned_data = super().clean()
         tube = cleaned_data.get("tube")
