@@ -16,7 +16,7 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
-from wean_pups.forms import BatchFromBreedingCageForm
+from wean_pups.forms import PupsToStockCageForm
 from website.forms import MouseSelectionForm
 
 
@@ -128,11 +128,11 @@ class RepositoryMiceFormFactory:
         return data
 
 
-class BatchFromBreedingCageFormFactory:
+class PupsToStockCageFormFactory:
     @staticmethod
     def create(**kwargs):
-        data = BatchFromBreedingCageFormFactory.valid_data(**kwargs)
-        return BatchFromBreedingCageForm(data=data)
+        data = PupsToStockCageFormFactory.valid_data(**kwargs)
+        return PupsToStockCageForm(data=data)
 
     @staticmethod
     def valid_data(**kwargs):
@@ -154,8 +154,8 @@ class PupsToStockCageFormSetFactory:
     @staticmethod
     def create(num_males=0, num_females=0, prefix="mouse", **kwargs):
         num_forms = num_males + num_females
-        BatchFromBreedingCageFormSet = formset_factory(
-            BatchFromBreedingCageForm, extra=0
+        PupsToStockCageFormSet = formset_factory(
+            PupsToStockCageForm, extra=0
         )
         data = {
             f"{prefix}-TOTAL_FORMS": str(num_forms),
@@ -175,7 +175,7 @@ class PupsToStockCageFormSetFactory:
 
         for i in range(num_forms):
             sex = "M" if i < num_males else "F"
-            form_data = BatchFromBreedingCageFormFactory.valid_data(
+            form_data = PupsToStockCageFormFactory.valid_data(
                 strain=strain,
                 mother=mother,
                 father=father,
@@ -187,7 +187,7 @@ class PupsToStockCageFormSetFactory:
             for field, value in form_data.items():
                 data[f"{prefix}-{i}-{field}"] = str(value)
 
-        return BatchFromBreedingCageFormSet(data)
+        return PupsToStockCageFormSet(data)
 
 
 class NewProjectFormFactory:

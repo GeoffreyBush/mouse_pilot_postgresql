@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import (
-    BatchFromBreedingCageFormFactory,
+    PupsToStockCageFormFactory,
     PupsToStockCageFormSetFactory,
 )
 from mouse_pilot_postgresql.model_factories import (
@@ -10,16 +10,16 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     StrainFactory,
 )
-from wean_pups.forms import BatchFromBreedingCageForm
+from wean_pups.forms import PupsToStockCageForm
 from website.models import Strain
 
 
-class BatchFromBreedingCageFormTest(TestCase):
+class PupsToStockCageFormTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.strain = Strain.objects.create(strain_name="TestStrain")
-        cls.form = BatchFromBreedingCageFormFactory.create(strain=cls.strain)
+        cls.form = PupsToStockCageFormFactory.create(strain=cls.strain)
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
@@ -37,23 +37,23 @@ class BatchFromBreedingCageFormTest(TestCase):
         self.assertEqual(Mouse.objects.count(), 3)
 
     def test_missing_tube_number(self):
-        self.form = BatchFromBreedingCageFormFactory.create(_tube=None)
+        self.form = PupsToStockCageFormFactory.create(_tube=None)
         self.assertFalse(self.form.is_valid())
 
     def test_tube_number_not_integer(self):
-        self.form = BatchFromBreedingCageFormFactory.create(_tube="str")
+        self.form = PupsToStockCageFormFactory.create(_tube="str")
         self.assertFalse(self.form.is_valid())
 
     def test_duplicate_global_id(self):
         self.assertTrue(self.form.is_valid())
-        self.form = BatchFromBreedingCageFormFactory.create(_tube=2)
+        self.form = PupsToStockCageFormFactory.create(_tube=2)
         self.assertFalse(self.form.is_valid())
 
     def test_global_id_input_field_not_visible(self):
-        self.assertFalse("_global_id" in BatchFromBreedingCageForm().fields)
+        self.assertFalse("_global_id" in PupsToStockCageForm().fields)
 
 
-class PupsToStockCageFormSetTest(TestCase):
+class PupsToStockCageValidFormSetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -78,4 +78,5 @@ class PupsToStockCageFormSetTest(TestCase):
     def test_no_formset_non_form_errors(self):
         self.assertEqual(len(self.formset.non_form_errors()), 0)
 
-    # test invalid cases
+class PupsToStockCageInvalidFormSetTest:
+    pass

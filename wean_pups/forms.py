@@ -7,7 +7,7 @@ from website.models import Strain
 
 
 # Need to create validation handling for readonly attributes here, add handling to view
-class BatchFromBreedingCageForm(forms.ModelForm):
+class PupsToStockCageForm(forms.ModelForm):
 
     tube = forms.IntegerField(
         required=True,

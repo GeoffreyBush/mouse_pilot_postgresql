@@ -84,7 +84,7 @@ class BreedingCageForm(forms.ModelForm):
         exclude = ["transferred_to_stock", "id"]
 
 
-class BatchFromBreedingCageForm(forms.ModelForm):
+class PupsToStockCageForm(forms.ModelForm):
     transferred_to_stock = forms.BooleanField(
         required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
     )

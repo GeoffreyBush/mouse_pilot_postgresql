@@ -9,7 +9,7 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from wean_pups.forms import BatchFromBreedingCageForm
+from wean_pups.forms import PupsToStockCageForm
 
 
 class PupsToStockCageViewGetTest(TestCase):
@@ -35,7 +35,7 @@ class PupsToStockCageViewGetTest(TestCase):
         self.assertIsNotNone(self.formset)
 
     def test_all_forms_in_formset_are_correct_type(self):
-        assert all(isinstance(form, BatchFromBreedingCageForm) for form in self.formset)
+        assert all(isinstance(form, PupsToStockCageForm) for form in self.formset)
 
     def test_formset_contains_correct_number_of_forms(self):
         self.assertEqual(
