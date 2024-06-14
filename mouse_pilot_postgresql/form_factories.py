@@ -16,7 +16,7 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
-from wean_pups.forms import PupsToStockCageForm
+from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet
 from website.forms import MouseSelectionForm
 
 
@@ -154,9 +154,13 @@ class PupsToStockCageFormSetFactory:
     @staticmethod
     def create(num_males=0, num_females=0, prefix="mouse", **kwargs):
         num_forms = num_males + num_females
-        PupsToStockCageFormSet = formset_factory(
-            PupsToStockCageForm, extra=0
+        MouseFormSet = formset_factory(
+            PupsToStockCageForm, 
+            formset=PupsToStockCageFormSet,
+            extra=0
         )
+
+        # formset management data
         data = {
             f"{prefix}-TOTAL_FORMS": str(num_forms),
             f"{prefix}-INITIAL_FORMS": "0",
@@ -165,30 +169,43 @@ class PupsToStockCageFormSetFactory:
             "form-INITIAL_FORMS": "0",
         }
 
+        # mice form data
         strain = kwargs.get("strain", StrainFactory())
         mother = kwargs.get("mother", MouseFactory(sex="F", strain=strain))
         father = kwargs.get("father", MouseFactory(sex="M", strain=strain))
         dob = kwargs.get("dob", date.today())
         stock_cage = kwargs.get("stock_cage", StockCageFactory())
 
-        tube_counter = itertools.count(100)
+        default_tube_counter = itertools.count(100)
+        passed_tubes = kwargs.get("passed_tubes", [])
 
+        # Create a form for each mouse
         for i in range(num_forms):
             sex = "M" if i < num_males else "F"
+            if len(passed_tubes) > 0:
+                next_tube = passed_tubes.pop(0)
+            else:
+                next_tube = next(default_tube_counter)
             form_data = PupsToStockCageFormFactory.valid_data(
                 strain=strain,
                 mother=mother,
                 father=father,
                 dob=dob,
                 stock_cage=stock_cage,
-                _tube=next(tube_counter),
+                _tube=next_tube,
                 sex=sex,
             )
             for field, value in form_data.items():
                 data[f"{prefix}-{i}-{field}"] = str(value)
+        return MouseFormSet(data)
 
-        return PupsToStockCageFormSet(data)
-
+    @staticmethod
+    def alter_tube_numbers(formset, new_tube_numbers):
+        data = formset.data.copy()
+        for i, tube in enumerate(new_tube_numbers):
+            data[f'mouse-{i}-tube'] = tube 
+        formset.data = data
+        return formset
 
 class NewProjectFormFactory:
     @staticmethod

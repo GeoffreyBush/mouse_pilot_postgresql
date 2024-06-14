@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from breeding_cage.models import BreedingCage
-from wean_pups.forms import PupsToStockCageForm
+from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet
 
 
 @method_decorator(login_required, name="dispatch")
@@ -17,7 +17,7 @@ class PupsToStockCageView(View):
         try:
             self.box_no = box_no
             self.cage = BreedingCage.objects.get(box_no=self.box_no)
-            self.MouseFormSet = formset_factory(PupsToStockCageForm, extra=0)
+            self.MouseFormSet = formset_factory(PupsToStockCageForm, formset=PupsToStockCageFormSet, extra=0)
         except BreedingCage.DoesNotExist:
             raise Http404("Breeding cage does not exist")
         return super().dispatch(request, *args, **kwargs)
@@ -44,6 +44,7 @@ class PupsToStockCageView(View):
 
     def post(self, request):
         formset = self.MouseFormSet(request.POST, prefix="mouse")
+        print("FORMSET.ERRORS", formset.errors)
         if formset.is_valid():
             for form in formset:
                 mouse_instance = form.save(commit=False)
