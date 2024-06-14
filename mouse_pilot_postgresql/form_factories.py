@@ -151,7 +151,7 @@ class BatchFromBreedingCageFormFactory:
 class WeanPupsFormsetFactory:
     @staticmethod
     def create(cage, **kwargs):
-        strain = kwargs.get("strain", StrainFactory())
+        #strain = kwargs.get("strain", StrainFactory())
         formset = formset_factory(BatchFromBreedingCageForm, extra=0)
 
         # loop through all male and female pups in cage to populate formset with data
