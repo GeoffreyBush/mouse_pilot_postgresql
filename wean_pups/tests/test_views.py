@@ -1,7 +1,8 @@
-from django.test import Client, TestCase, RequestFactory
+from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
+from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import PupsToStockCageFormSetFactory
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
@@ -11,7 +12,6 @@ from mouse_pilot_postgresql.model_factories import (
 )
 from wean_pups.forms import PupsToStockCageForm
 from wean_pups.views import PupsToStockCageView
-from mice_repository.models import Mouse
 
 
 class PupsToStockCageViewGetTest(TestCase):
@@ -80,7 +80,9 @@ class PupsToStockCageViewValidPostTest(TestCase):
             cls.formset.data,
         )
         cls.request.user = cls.user
-        cls.response = PupsToStockCageView.as_view()(cls.request, box_no=cls.cage.box_no)
+        cls.response = PupsToStockCageView.as_view()(
+            cls.request, box_no=cls.cage.box_no
+        )
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
