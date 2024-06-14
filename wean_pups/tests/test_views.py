@@ -2,9 +2,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
-from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import (
-    BatchFromBreedingCageFormFactory,
     WeanPupsFormsetFactory,
 )
 from mouse_pilot_postgresql.model_factories import (
@@ -14,7 +12,6 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 from wean_pups.forms import BatchFromBreedingCageForm
-from website.models import Strain
 
 
 class PupsToStockCageViewGetTest(TestCase):
