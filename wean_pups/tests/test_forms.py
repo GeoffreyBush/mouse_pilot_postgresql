@@ -1,9 +1,7 @@
 from django.test import TestCase
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import (
-    BatchFromBreedingCageFormFactory,
-)
+from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
 from wean_pups.forms import BatchFromBreedingCageForm
 from website.models import Strain
 
