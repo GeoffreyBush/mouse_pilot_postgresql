@@ -65,11 +65,31 @@ class PupsToStockCageViewValidPostTest(TestCase):
         cls.client = Client()
         cls.user = UserFactory()
         cls.strain = StrainFactory()
+        cls.mother=MouseFactory(strain=cls.strain, sex="F")
+        cls.father=MouseFactory(strain=cls.strain, sex="M")
         cls.cage = BreedingCageFactory(
-            mother=MouseFactory(strain=cls.strain, sex="F"),
-            father=MouseFactory(strain=cls.strain, sex="M"),
+            male_pups=3, female_pups=5
         )
-        cls.formset = PupsToStockCageFormSetFactory.create(strain=cls.strain)
+        cls.formset = PupsToStockCageFormSetFactory.create(
+            strain=cls.strain, mother=cls.mother.pk, father=cls.father.pk,
+            num_males=cls.cage.male_pups, num_females=cls.cage.female_pups
+        )
+        cls.client.force_login(cls.user)
+        cls.response = cls.client.post(
+            reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no]), cls.formset.data
+        )
+
+    def test_each_form_in_formset_is_valid(self):
+        assert all(len(error) == 0 for error in self.formset.errors)
+
+    def test_formset_is_valid(self):
+        self.assertTrue(self.formset.is_valid())
+
+    def test_no_formset_non_form_errors(self):
+        self.assertEqual(len(self.formset.non_form_errors()), 0)
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
 
     # If tube numbers given, correct assignment
     def test_pups_to_stock_cage_valid_data(self):
