@@ -12,7 +12,6 @@ from mouse_pilot_postgresql.model_factories import (
     ProjectFactory,
     StockCageFactory,
     StrainFactory,
-    UserFactory,
 )
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm

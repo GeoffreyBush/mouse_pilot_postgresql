@@ -3,8 +3,13 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from mice_requests.models import Request
-from mouse_pilot_postgresql.model_factories import MiceRequestFactory, MouseFactory, UserFactory
+from mouse_pilot_postgresql.model_factories import (
+    MiceRequestFactory,
+    MouseFactory,
+    UserFactory,
+)
 from system_users.models import CustomUser
+
 
 def setUpModule():
     global test_user, test_client
@@ -15,6 +20,7 @@ def tearDownModule():
     global test_user
     test_user.delete()
 
+
 class RequestModelTest(TestCase):
 
     @classmethod
@@ -23,7 +29,9 @@ class RequestModelTest(TestCase):
         cls.mice = [MouseFactory() for _ in range(2)]
 
     def setUp(self):
-        self.request = MiceRequestFactory(mice=self.mice, task_type="Clip", requested_by=test_user)
+        self.request = MiceRequestFactory(
+            mice=self.mice, task_type="Clip", requested_by=test_user
+        )
 
     def test_request_creation(self):
         self.assertIsInstance(self.request, Request)
@@ -56,7 +64,9 @@ class RequestConfirmClipTest(TestCase):
 
     def setUp(self):
         self.mice = [MouseFactory() for _ in range(2)]
-        self.request = MiceRequestFactory(mice=self.mice, task_type="Clip", requested_by=test_user)
+        self.request = MiceRequestFactory(
+            mice=self.mice, task_type="Clip", requested_by=test_user
+        )
 
     def test_mice_genotyped_on_confirm(self):
         assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
@@ -81,7 +91,9 @@ class RequestConfirmCullTest(TestCase):
 
     def setUp(self):
         self.mice = [MouseFactory(culled="False") for _ in range(2)]
-        self.request = MiceRequestFactory(mice=self.mice, task_type="Cull", requested_by=test_user)
+        self.request = MiceRequestFactory(
+            mice=self.mice, task_type="Cull", requested_by=test_user
+        )
 
     def test_mice_culled_on_confirm(self):
         assert all(not mouse.culled for mouse in self.request.mice.all())

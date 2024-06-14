@@ -8,13 +8,16 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 
+
 def setUpModule():
     global test_user
     test_user = UserFactory(username="testuser")
 
+
 def tearDownModule():
     global test_user
     test_user.delete()
+
 
 class RequestFormTest(TestCase):
 

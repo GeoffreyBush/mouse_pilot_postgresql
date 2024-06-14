@@ -58,7 +58,9 @@ class ConfirmRequestViewPostTest(TestCase):
     def setUpClass(self):
         super().setUpClass()
         self.mouse = MouseFactory(earmark="", culled=False)
-        self.request = MiceRequestFactory(mice=[self.mouse], task_type="Clip", requested_by=test_user)
+        self.request = MiceRequestFactory(
+            mice=[self.mouse], task_type="Clip", requested_by=test_user
+        )
 
     def test_code_302(self):
         response = test_client.post(
