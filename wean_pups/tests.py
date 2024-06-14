@@ -1,16 +1,20 @@
 from django.test import Client, TestCase
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
-from mouse_pilot_postgresql.model_factories import BreedingCageFactory, UserFactory
+from mouse_pilot_postgresql.form_factories import (
+    BatchFromBreedingCageFormFactory,
+    WeanPupsFormsetFactory,
+)
+from mouse_pilot_postgresql.model_factories import (
+    BreedingCageFactory,
+    MouseFactory,
+    StrainFactory,
+    UserFactory,
+)
 from wean_pups.forms import BatchFromBreedingCageForm
 from website.models import Strain
-
-from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory
-from mouse_pilot_postgresql.form_factories import WeanPupsFormsetFactory
-
-from django.urls.exceptions import NoReverseMatch
 
 
 class BatchFromBreedingCageFormTest(TestCase):
@@ -73,23 +77,26 @@ class PupsToStockCageViewGetTest(TestCase):
 
     def test_formset_in_context(self):
         self.assertIsNotNone(self.formset)
-    
+
     def test_all_forms_in_formset_are_correct_type(self):
         assert all(isinstance(form, BatchFromBreedingCageForm) for form in self.formset)
 
     def test_formset_contains_correct_number_of_forms(self):
-        self.assertEqual(len(self.formset.forms), self.cage.male_pups + self.cage.female_pups)
+        self.assertEqual(
+            len(self.formset.forms), self.cage.male_pups + self.cage.female_pups
+        )
 
     def test_invalid_box_no_in_url(self):
         self.client.force_login(self.user)
-        response = self.client.get(reverse("wean_pups:pups_to_stock_cage", args=["invalid"]))
+        response = self.client.get(
+            reverse("wean_pups:pups_to_stock_cage", args=["invalid"])
+        )
         self.assertEqual(response.status_code, 404)
 
     def test_not_passing_box_no_in_url(self):
         self.client.force_login(self.user)
         with self.assertRaises(NoReverseMatch):
             self.client.get(reverse("wean_pups:pups_to_stock_cage"))
-
 
 
 class PupsToStockCageViewValidPostTest(TestCase):
@@ -99,13 +106,16 @@ class PupsToStockCageViewValidPostTest(TestCase):
         cls.client = Client()
         cls.user = UserFactory()
         cls.strain = StrainFactory()
-        cls.cage = BreedingCageFactory(mother=MouseFactory(strain=cls.strain, sex="F"), father=MouseFactory(strain=cls.strain, sex="M"))
+        cls.cage = BreedingCageFactory(
+            mother=MouseFactory(strain=cls.strain, sex="F"),
+            father=MouseFactory(strain=cls.strain, sex="M"),
+        )
         cls.formset = WeanPupsFormsetFactory.create(cls.cage, strain=cls.strain)
-
 
     # If tube numbers given, correct assignment
     def test_pups_to_stock_cage_valid_data(self):
         pass
+
 
 class PupsToStockCageViewInvalidPostTest(TestCase):
     def x(self):

@@ -1,6 +1,8 @@
+import itertools
 import random
 from datetime import date
-import itertools
+
+from django.forms import formset_factory
 
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
@@ -16,7 +18,6 @@ from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import BatchFromBreedingCageForm
 from website.forms import MouseSelectionForm
-from django.forms import formset_factory
 
 
 class BreedingCageFormFactory:
@@ -148,14 +149,16 @@ class BatchFromBreedingCageFormFactory:
             "stock_cage": kwargs.get("stock_cage", StockCageFactory()),
         }
 
+
 class WeanPupsFormsetFactory:
     @staticmethod
     def create(cage, **kwargs):
-        #strain = kwargs.get("strain", StrainFactory())
+        # strain = kwargs.get("strain", StrainFactory())
         formset = formset_factory(BatchFromBreedingCageForm, extra=0)
 
         # loop through all male and female pups in cage to populate formset with data
         return formset
+
 
 class NewProjectFormFactory:
     @staticmethod

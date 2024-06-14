@@ -1,6 +1,5 @@
 from django.urls import path
 
-from wean_pups import views
 from wean_pups.views import PupsToStockCageView
 
 app_name = "wean_pups"

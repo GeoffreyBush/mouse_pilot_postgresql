@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
+from django.http import Http404
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
+from django.views import View
 
 from breeding_cage.models import BreedingCage
 from wean_pups.forms import BatchFromBreedingCageForm
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.http import Http404
+
 
 @method_decorator(login_required, name="dispatch")
 class PupsToStockCageView(View):
@@ -35,12 +36,12 @@ class PupsToStockCageView(View):
                 for _ in range(count)
             ]
         return initial_data
-    
+
     def get(self, request):
         initial_data = self.get_initial_data()
         formset = self.MouseFormSet(initial=initial_data, prefix="mouse")
         return render(request, self.template_name, {"formset": formset})
-    
+
     def post(self, request):
         formset = self.MouseFormSet(request.POST, prefix="mouse")
         if formset.is_valid():
@@ -55,6 +56,7 @@ class PupsToStockCageView(View):
             self.cage.save()
             return redirect("breeding_cage:list_breeding_cages")
         return render(request, self.template_name, {"formset": formset})
+
 
 """
 @login_required
