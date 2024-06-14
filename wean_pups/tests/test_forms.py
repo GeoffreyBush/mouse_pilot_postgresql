@@ -1,11 +1,18 @@
 from django.test import TestCase
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import BatchFromBreedingCageFormFactory
+from mouse_pilot_postgresql.form_factories import (
+    BatchFromBreedingCageFormFactory,
+    PupsToStockCageFormSetFactory,
+)
+from mouse_pilot_postgresql.model_factories import (
+    BreedingCageFactory,
+    MouseFactory,
+    StrainFactory,
+)
 from wean_pups.forms import BatchFromBreedingCageForm
 from website.models import Strain
-from mouse_pilot_postgresql.model_factories import StrainFactory, MouseFactory, BreedingCageFactory
-from mouse_pilot_postgresql.form_factories import PupsToStockCageFormSetFactory
+
 
 class BatchFromBreedingCageFormTest(TestCase):
     @classmethod
@@ -44,6 +51,7 @@ class BatchFromBreedingCageFormTest(TestCase):
 
     def test_global_id_input_field_not_visible(self):
         self.assertFalse("_global_id" in BatchFromBreedingCageForm().fields)
+
 
 class PupsToStockCageFormSetTest(TestCase):
     @classmethod
