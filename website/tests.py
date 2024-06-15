@@ -24,7 +24,9 @@ class MouseSelectionFormTest(TestCase):
         self.assertTrue(self.form.is_valid())
 
     def test_correct_queryset_without_project(self):
-        self.form = MouseSelectionFormFactory.create(project=None, mice=[self.mouse1, self.mouse2])
+        self.form = MouseSelectionFormFactory.create(
+            project=None, mice=[self.mouse1, self.mouse2]
+        )
         self.assertEqual(self.form.fields["mice"].queryset.count(), 2)
 
     def test_correct_queryset_with_project(self):
