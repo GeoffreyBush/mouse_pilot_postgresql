@@ -24,7 +24,7 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
                 raise ValidationError("Tube must be convertible to an integer")
             if tube in tube_numbers:
                 raise ValidationError("Duplicate tube number")
-        
+
             tube_numbers.append(tube)
 
 
