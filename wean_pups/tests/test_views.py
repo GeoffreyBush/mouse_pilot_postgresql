@@ -111,3 +111,5 @@ class PupsToStockCageViewInvalidPostTest(TestCase):
         pass
 
     # Can't transfer from the same breeding cage twice
+
+    # Error message displayed to user
