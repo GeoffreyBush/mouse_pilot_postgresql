@@ -13,19 +13,19 @@ from website.models import Strain
 
 class MouseSelectionFormTest(TestCase):
     def setUp(self):
-        self.mouse = MouseFactory()
+        self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
         self.project = ProjectFactory()
-        self.project.mice.add(self.mouse)
+        self.project.mice.add(self.mouse1)
         self.form = MouseSelectionFormFactory.create(
-            project=self.project, mice=[self.mouse]
+            project=self.project, mice=[self.mouse1]
         )
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
 
     def test_correct_queryset_without_project(self):
-        self.form = MouseSelectionFormFactory.create(project=None)
-        self.assertEqual(self.form.fields["mice"].queryset.count(), 5)
+        self.form = MouseSelectionFormFactory.create(project=None, mice=[self.mouse1, self.mouse2])
+        self.assertEqual(self.form.fields["mice"].queryset.count(), 2)
 
     def test_correct_queryset_with_project(self):
         self.assertEqual(self.form.fields["mice"].queryset.count(), 1)

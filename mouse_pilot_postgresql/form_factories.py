@@ -244,5 +244,5 @@ class MouseSelectionFormFactory:
                 project.mice.add(mouse1, mouse2)
                 return {"mice": [mouse1, mouse2]}
         return {
-            "mice": kwargs.get("mice", [MouseFactory(), MouseFactory()]),
+            "mice": kwargs.get("mice"),
         }
