@@ -57,4 +57,5 @@ class PupsToStockCageView(View):
             self.cage.transferred_to_stock = True
             self.cage.save()
             return redirect("breeding_cage:list_breeding_cages")
-        return render(request, self.template_name, {"formset": formset})
+        else:
+            return render(request, self.template_name, {"formset": formset})

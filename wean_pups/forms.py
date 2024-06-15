@@ -50,6 +50,7 @@ class PupsToStockCageForm(forms.ModelForm):
         required=True,
         queryset=StockCage.objects.all(),
         widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Stock cage is required"},
     )
 
     strain = forms.ModelChoiceField(

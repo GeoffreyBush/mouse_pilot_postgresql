@@ -10,6 +10,16 @@
     <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
+        {{ formset.non_form_errors }}
+        <!--
+        {% for form in formset %}
+            <div>
+                {{ form.non_field_errors }}
+                {{ form.tube.errors }}
+                {{ form.stock_cage.errors}}
+            </div>
+        {% endfor %}
+        -->
         <table class="table">
             <thead>
                 <tr>
