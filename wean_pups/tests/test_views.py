@@ -110,12 +110,6 @@ class PupsToStockCageViewInvalidPostTest(TestCase):
     def x(self):
         pass
 
-    # None of the tube numbers in the formset can be identical
-
-    # If no tube numbers given, correct default assignment when formset is loaded
-
-    # All tube numbers must exist in the formset
-
     # Can't transfer from the same breeding cage twice
 
-    # If any form in the formset is invalid, the entire formset is invalid
+

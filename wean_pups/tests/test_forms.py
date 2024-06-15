@@ -53,7 +53,7 @@ class PupsToStockCageFormTest(TestCase):
         self.assertFalse("_global_id" in PupsToStockCageForm().fields)
 
 
-class PupsToStockCageValidFormSetTest(TestCase):
+class PupsToStockCageFormSetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -80,16 +80,28 @@ class PupsToStockCageValidFormSetTest(TestCase):
     def test_no_formset_non_form_errors(self):
         self.assertEqual(len(self.formset.non_form_errors()), 0)
 
+    def test_correct_altered_tubes(self):
+        self.formset = PupsToStockCageFormSetFactory.alter_tube_numbers(
+            self.formset, [20, 21, 22, 23, 24]
+        )
+        self.assertTrue(self.formset.is_valid())
+
     def test_duplicate_tube_numbers_in_formset_are_invalid(self):
         self.formset = PupsToStockCageFormSetFactory.alter_tube_numbers(
-            self.formset, [20, 20, 21, 22]
+            self.formset, [20, 20, 21, 22, 23]
         )
         self.assertFalse(self.formset.is_valid())
 
-    # default tube assignment when formset is loaded
+    def test_missing_tube_numbers_are_invalid(self):
+        self.formset = PupsToStockCageFormSetFactory.alter_tube_numbers(
+            self.formset, [20, 21, 22, None, 23]
+        )
+        self.assertFalse(self.formset.is_valid())
 
-    # All tube numbers must exist in the formset
+    def test_all_tube_numbers_must_be_integers(self):
+        self.formset = PupsToStockCageFormSetFactory.alter_tube_numbers(
+            self.formset, [20, 21, "st1", 23, 24]
+        )
+        self.assertFalse(self.formset.is_valid())
 
     # Can't transfer from the same breeding cage twice
-
-    # If any form in the formset is invalid, the entire formset is invalid

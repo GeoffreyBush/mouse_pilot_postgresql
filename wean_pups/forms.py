@@ -8,15 +8,23 @@ from website.models import Strain
 
 class PupsToStockCageFormSet(forms.BaseFormSet):
 
-    # Override clean method to invalidate formset if any tube numbers are duplicated
+    # Override clean method to enforce that:
+    # 1. No tube can be null
+    # 2. All tubes must be convertible to integers
+    # 3. No duplicate tube numbers are allowed
     def clean(self):
         tube_numbers = []
         for i, form in enumerate(self.forms):
             tube = self.data.get(f"mouse-{i}-tube")
-            # print("tube", tube)
-            # print("tube_numbers", tube_numbers)
+            if tube is None:
+                raise ValidationError("Tube number is required")
+            try:
+                int(tube)
+            except ValueError:
+                raise ValidationError("Tube must be convertible to an integer")
             if tube in tube_numbers:
                 raise ValidationError("Duplicate tube number")
+        
             tube_numbers.append(tube)
 
 
