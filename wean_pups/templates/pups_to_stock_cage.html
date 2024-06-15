@@ -9,23 +9,32 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ formset.management_form }}
-        {{ formset.non_form_errors }}
-        <!--
-        {% for form in formset %}
-            <div>
-                {{ form.non_field_errors }}
-                {{ form.tube.errors }}
-                {{ form.stock_cage.errors}}
-            </div>
-        {% endfor %}
-        -->
+
+        <!-- Error messages -->
+        <div class="d-inline-block m-3">
+            <ul class="list-group">
+            {% if form.mice.errors or formset.errors %}
+                <li class="list-group-item list-group-item-warning"><b>Transfer is invalid for the following reasons:</b></li>
+            {% endif %}
+            {{ formset.management_form }}
+                <li class="list-group-item list-group-item-warning">{{ formset.non_form_errors }}</li>
+                {% for form in formset %}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li class="list-group-item list-group-item-warning">{{ field.errors }}</li>
+                        {% endif %}
+                    {% endfor %}    
+                {% endfor %}
+            </ul>
+        </div>    
+
+        <!-- Pup transfer form -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Tube</th>
                     <th>Sex</th>
-                    <th>Box</th>
+                    <th>Stock Cage</th>
                     <th>DoB</th>
                     <th>Coat</th>
                     <th>Strain</th>

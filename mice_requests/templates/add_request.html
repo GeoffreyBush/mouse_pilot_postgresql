@@ -14,10 +14,10 @@
             {{ form.mice }}
             <ul class="list-group">
                 {% if form.mice.errors %}
-                <li class="list-group-item list-group-item-warning"><b>Request is invalid for the following reasons:</b></li>
+                    <li class="list-group-item list-group-item-warning"><b>Request is invalid for the following reasons:</b></li>
                 {% endif %}
                 {% for error in form.mice.errors %}
-                <li class="list-group-item list-group-item-warning">{{ error }}</li>
+                    <li class="list-group-item list-group-item-warning">{{ error }}</li>
                 {% endfor %}
             </ul>
         </div>
