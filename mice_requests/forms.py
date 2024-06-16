@@ -7,6 +7,7 @@ from mice_requests.models import Request
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED
 
 
+# Custom widget will allow displaying graphical representation of selected mice in the future
 class ReadOnlyMiceField(forms.Widget):
     def render(self, name, value, attrs=None, renderer=None):
         if value is None:

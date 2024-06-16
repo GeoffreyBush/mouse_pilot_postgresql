@@ -33,4 +33,4 @@ class MiceRequestIntegrationTest(StaticLiveServerTestCase):
 
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.url_contains(reverse("projects:list_projects")))
-        assert "Projects List" == self.driver.title
+        self.assertEqual(self.driver.title, "Projects List")
