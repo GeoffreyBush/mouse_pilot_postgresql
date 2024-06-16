@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from mouse_pilot_postgresql.model_factories import UserFactory
-from website.integration_tests.utils import options
+from website.selenium_tests.utils import options
 
 chromedriver_autoinstaller.install()
 

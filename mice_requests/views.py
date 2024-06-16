@@ -34,8 +34,6 @@ def add_request(http_request, project_name):
 
 
 @method_decorator(login_required, name="dispatch")
-# Need an intermediary view here that pops up on the template to offer selection (e.g. earmark is "TL") based on task type
-# Then the intermediary view will call the appropriate method to confirm the request or possible redirects here
 class ConfirmRequestView(View):
 
     def get(self, http_request, request_id):

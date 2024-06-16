@@ -96,7 +96,7 @@ class MiceRequestFormFactory:
 
 class RepositoryMiceFormFactory:
     @staticmethod
-    def create(**kwargs):
+    def build(**kwargs):
         data = RepositoryMiceFormFactory.valid_data(**kwargs)
         return RepositoryMiceForm(data=data)
 
@@ -106,10 +106,10 @@ class RepositoryMiceFormFactory:
         # Need to strain.mice_count + 1 here to mock increment_mice_count()
         strain = kwargs.get("strain")
         if strain is not None:
-            _tube = strain.mice_count + 1
+            _tube = strain.increment_mice_count()
         else:
             strain = StrainFactory()
-            _tube = kwargs.get("_tube", strain.mice_count + 1)
+            _tube = kwargs.get("_tube", strain.increment_mice_count())
 
         data = {
             "_tube": _tube,
