@@ -18,7 +18,7 @@ class Project(models.Model):
     research_area = models.CharField(
         db_column="Research Area", max_length=50, null=True, blank=True
     )
-    strains = models.ManyToManyField("website.Strain", db_column="Strain")
+    strains = models.ManyToManyField("strain.Strain", db_column="Strain")
     researchers = models.ManyToManyField(CustomUser)
 
     def __str__(self):

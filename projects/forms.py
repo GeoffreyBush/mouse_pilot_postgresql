@@ -2,7 +2,7 @@ from django import forms
 
 from projects.models import Project
 from system_users.models import CustomUser
-from website.models import Strain
+from strain.models import Strain
 
 
 class NewProjectForm(forms.ModelForm):

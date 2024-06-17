@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 from mice_repository.models import Mouse
 from stock_cage.models import StockCage
-from website.models import Strain
+from strain.models import Strain
 
 
 class PupsToStockCageFormSet(forms.BaseFormSet):

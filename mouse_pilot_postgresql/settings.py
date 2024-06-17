@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "simple_history",
     "django_filters",
     "system_users",
+    "strain",
     "website",
     "breeding_cage",
     "mice_repository",

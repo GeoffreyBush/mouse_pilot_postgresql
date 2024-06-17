@@ -12,12 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='StockCage',
+            name='Strain',
             fields=[
-                ('cage_id', models.AutoField(db_column='Cage ID', primary_key=True, serialize=False)),
+                ('strain_name', models.CharField(db_column='Strain', max_length=20, primary_key=True, serialize=False)),
+                ('mice_count', models.IntegerField(db_column='Mice Count', default=0)),
             ],
             options={
-                'db_table': 'stockcage',
+                'db_table': 'strain',
                 'managed': True,
             },
         ),

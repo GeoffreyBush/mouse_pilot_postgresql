@@ -6,7 +6,5 @@ django-filter
 django-simple-history
 selenium
 chromedriver-autoinstaller
-coverage
 factory_boy
 bs4
-kolo

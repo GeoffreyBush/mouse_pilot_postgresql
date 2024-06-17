@@ -20,7 +20,7 @@ class Mouse(models.Model):
         ("BRBL", "BRBL"),
     ]
     strain = models.ForeignKey(
-        "website.Strain", on_delete=models.PROTECT, blank=False, null=False
+        "strain.Strain", on_delete=models.PROTECT, blank=False, null=False
     )
     _tube = models.IntegerField(db_column="Tube", blank=True, null=True)
     _global_id = models.CharField(

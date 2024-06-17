@@ -15,7 +15,8 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.models import Project
 from stock_cage.models import StockCage
 from system_users.models import CustomUser
-from website.models import Comment, Strain
+from website.models import Comment
+from strain.models import Strain
 
 
 class Command(BaseCommand):

@@ -23,7 +23,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 class StrainFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "website.Strain"
+        model = "strain.Strain"
 
     strain_name = factory.Sequence(lambda n: f"strain{n}")
 

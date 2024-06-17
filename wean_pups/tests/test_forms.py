@@ -11,7 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
 )
 from wean_pups.forms import PupsToStockCageForm
-from website.models import Strain
+from strain.models import Strain
 
 
 class PupsToStockCageFormTest(TestCase):
