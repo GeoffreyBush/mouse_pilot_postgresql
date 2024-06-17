@@ -59,6 +59,9 @@ jobs:
     - name: Test stock_cage app
       run: python manage.py test stock_cage
 
+    - name: Test strain app
+      run: python manage.py test strain
+
     - name: Test system_users app
       run: python manage.py test system_users    
 
