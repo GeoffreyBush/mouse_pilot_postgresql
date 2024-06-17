@@ -1,7 +1,8 @@
+from datetime import date
+
 from django.core.exceptions import ValidationError
 from django.test import Client, TestCase
 from django.urls import reverse
-from datetime import date
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
@@ -24,6 +25,7 @@ def setUpModule():
 def tearDownModule():
     global test_user
     test_user.delete()
+
 
 class MouseModelNoDBTest(TestCase):
     def setUp(self):
@@ -63,6 +65,7 @@ class MouseModelNoDBTest(TestCase):
         self.mouse.cull()
         with self.assertRaises(ValidationError):
             self.mouse.cull()
+
 
 class MouseModelWithDBTest(TestCase):
     def setUp(self):
@@ -197,7 +200,9 @@ class AddMouseToRepositoryViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.response = test_client.get(reverse("mice_repository:add_mouse_to_repository"))
+        cls.response = test_client.get(
+            reverse("mice_repository:add_mouse_to_repository")
+        )
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
@@ -207,6 +212,7 @@ class AddMouseToRepositoryViewGetTest(TestCase):
 
     def test_correct_form(self):
         self.assertIsInstance(self.response.context["mice_form"], RepositoryMiceForm)
+
 
 """
 class AddMouseToRepositoryViewPostTest(TestCase):
@@ -222,13 +228,15 @@ class AddMouseToRepositoryViewPostTest(TestCase):
         self.assertEqual(Mouse.objects.all().count(), 1)
 """
 
+
 class AddMouseToRepositoryViewPostTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.response = test_client.post(
-            reverse("mice_repository:add_mouse_to_repository"), RepositoryMiceFormFactory.valid_data()
+            reverse("mice_repository:add_mouse_to_repository"),
+            RepositoryMiceFormFactory.valid_data(),
         )
 
     def test_http_code(self):
