@@ -111,7 +111,8 @@ class Mouse(models.Model):
             self.culled = True
             self.save()
 
-    # Custom tube can be set or is set automatically. Tube value then used to set _global_id
+    # Custom tube can be set or is set automatically using strain.mice_count. Tube value then used to set _global_id
+    # This logic cannot be placed in clean()
     def save(self, *args, **kwargs):
         self.strain.increment_mice_count()
         if self._tube is None:
@@ -119,15 +120,12 @@ class Mouse(models.Model):
         if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self._tube}"
 
-        # If the new _global_id is not unique, revert the strain mice count and raise ValidationError
         try:
             self.validate_unique()
         except ValidationError as e:
             self.strain.decrement_mice_count()
             raise ValidationError(e)
-
         super().save(*args, **kwargs)
-        self.refresh_from_db()
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
