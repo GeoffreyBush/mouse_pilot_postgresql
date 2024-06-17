@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Strain(models.Model):
     strain_name = models.CharField(db_column="Strain", primary_key=True, max_length=20)
     mice_count = models.IntegerField(

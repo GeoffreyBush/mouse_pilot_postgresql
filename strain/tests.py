@@ -1,10 +1,7 @@
 from django.db import IntegrityError
 from django.test import TestCase
 
-from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
-    StrainFactory,
-)
+from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory
 from strain.models import Strain
 
 

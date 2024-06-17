@@ -10,8 +10,8 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     StrainFactory,
 )
-from wean_pups.forms import PupsToStockCageForm
 from strain.models import Strain
+from wean_pups.forms import PupsToStockCageForm
 
 
 class PupsToStockCageFormTest(TestCase):
