@@ -1,4 +1,4 @@
-import datetime
+from datetime import date
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -102,7 +102,7 @@ class Mouse(models.Model):
 
     @property
     def age(self):
-        return (datetime.date.today() - self.dob).days
+        return (date.today() - self.dob).days
 
     def cull(self):
         if self.culled:

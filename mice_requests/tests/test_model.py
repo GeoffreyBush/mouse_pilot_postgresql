@@ -46,7 +46,7 @@ class RequestModelTest(TestCase):
         with self.assertRaises(IntegrityError):
             MiceRequestFactory(requested_by=None)
 
-    def test_requested_by_is_user(self):
+    def test_requested_by_value_is_user_instance(self):
         self.assertIsInstance(self.request.requested_by, CustomUser)
 
     def test_request_confirmed(self):
@@ -60,7 +60,7 @@ class RequestModelTest(TestCase):
             self.request.confirm()
 
 
-class RequestConfirmClipTest(TestCase):
+class RequestModelConfirmClipTest(TestCase):
 
     def setUp(self):
         self.mice = [MouseFactory() for _ in range(2)]
@@ -81,13 +81,13 @@ class RequestConfirmClipTest(TestCase):
         with self.assertRaises(ValidationError):
             self.request.confirm("Invalid")
 
-    def test_confirm_when_already_confirmed(self):
+    def test_cannot_confirm_when_already_confirmed(self):
         self.request.confirm("TL")
         with self.assertRaises(ValidationError):
             self.request.confirm("TL")
 
 
-class RequestConfirmCullTest(TestCase):
+class RequestModelConfirmCullTest(TestCase):
 
     def setUp(self):
         self.mice = [MouseFactory(culled="False") for _ in range(2)]
@@ -100,7 +100,7 @@ class RequestConfirmCullTest(TestCase):
         self.request.confirm()
         assert all(mouse.culled for mouse in self.request.mice.all())
 
-    def test_confirm_when_already_confirmed(self):
+    def test_cannot_confirm_when_already_confirmed(self):
         self.request.confirm()
         with self.assertRaises(ValidationError):
             self.request.confirm()

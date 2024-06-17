@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import Client, TestCase
 from django.urls import reverse
+from datetime import date
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
@@ -13,10 +14,11 @@ from mouse_pilot_postgresql.model_factories import (
 
 
 def setUpModule():
-    global test_user, test_client
+    global test_user, test_client, test_dob
     test_user = UserFactory(username="testuser")
     test_client = Client()
     test_client.force_login(test_user)
+    test_dob = date.fromisoformat("2020-01-01")
 
 
 def tearDownModule():
@@ -26,7 +28,7 @@ def tearDownModule():
 class MouseModelNoDBTest(TestCase):
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
-        self.mouse = MouseFactory.build(strain=self.strain)
+        self.mouse = MouseFactory.build(strain=self.strain, dob=test_dob)
 
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
@@ -43,7 +45,8 @@ class MouseModelNoDBTest(TestCase):
         self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
     def test_correct_age(self):
-        self.assertEqual(self.mouse.age, 0)
+        correct_age = (date.today() - self.mouse.dob).days
+        self.assertEqual(self.mouse.age, correct_age)
 
     def test_mouse_adding_earmark_auto_genotypes_mouse(self):
         self.assertFalse(self.mouse.is_genotyped())
@@ -61,7 +64,7 @@ class MouseModelNoDBTest(TestCase):
         with self.assertRaises(ValidationError):
             self.mouse.cull()
 
-class MouseModelDBTest(TestCase):
+class MouseModelWithDBTest(TestCase):
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
         self.mouse = MouseFactory.create(strain=self.strain)
