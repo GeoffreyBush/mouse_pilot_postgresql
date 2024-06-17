@@ -1,8 +1,8 @@
 from django import forms
 
 from projects.models import Project
-from system_users.models import CustomUser
 from strain.models import Strain
+from system_users.models import CustomUser
 
 
 class NewProjectForm(forms.ModelForm):

@@ -4,8 +4,8 @@ from mice_repository.models import Mouse
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from projects.models import Project
 from stock_cage.models import StockCage
-from system_users.models import CustomUser
 from strain.models import Strain
+from system_users.models import CustomUser
 
 
 # Add validation handling for duplicate _global_id here?

@@ -1,11 +1,9 @@
-from django.db import IntegrityError
 from django.test import TestCase
 
 from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
-    StrainFactory,
 )
 from website.forms import MouseSelectionForm
 
@@ -39,9 +37,6 @@ class MouseSelectionFormTest(TestCase):
         form = MouseSelectionForm(form_data, project=self.project)
         self.assertFalse(form.is_valid())
         self.assertIn("At least one mouse must be selected", form.non_field_errors())
-
-
-
 
 
 """
