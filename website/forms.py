@@ -3,7 +3,7 @@ from django import forms
 from mice_repository.models import Mouse
 
 
-class MouseSelectionForm(forms.ModelForm):
+class MouseSelectionForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.project = kwargs.pop("project", None)
@@ -21,7 +21,6 @@ class MouseSelectionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Mouse
         fields = ["mice"]
 
     def clean(self):

@@ -29,7 +29,7 @@ class PupsToStockCageFormTest(TestCase):
 
     def test_correct_pk(self):
         self.mouse = self.form.save()
-        self.assertEqual(self.mouse.pk, "TestStrain-100")
+        self.assertEqual(self.mouse.pk, "TestStrain-3")
 
     def test_mouse_created(self):
         self.assertEqual(Mouse.objects.count(), 2)

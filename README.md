@@ -21,15 +21,6 @@ This is a fork of a project that was initially developed as a 3rd year undergrad
 
 4. Login with username "**SuperUser**" and password "**samplepassword**".
 
-#### Access the deployed version
-As an alternative to installation, you can access the deployed version at this URL below. This deployed version is for demonstration purposes only and is not used in production. The database associated with this deployed version of MousePilot may periodically be wiped.:
-
-http://mousepilotabdn.pythonanywhere.com/ 
-
-Login with username "**SuperUser**" and password "**samplepassword**". 
-
-Please note, you will not be able to change the source code or run any Django commands if using this deployed version.  
-
 #### Deployment onto another server
 
 You will need to combine this Django project with a web server such as Apache or Nginx. We cannot currently offer any guidance on this, but there will be tutorials to follow available online.
