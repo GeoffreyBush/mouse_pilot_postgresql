@@ -129,7 +129,7 @@ class RepositoryMiceFormFactory:
 
 class PupsToStockCageFormFactory:
     @staticmethod
-    def create(**kwargs):
+    def build(**kwargs):
         data = PupsToStockCageFormFactory.valid_data(**kwargs)
         return PupsToStockCageForm(data=data)
 
@@ -151,7 +151,7 @@ class PupsToStockCageFormFactory:
 
 class PupsToStockCageFormSetFactory:
     @staticmethod
-    def create(num_males=0, num_females=0, prefix="mouse", **kwargs):
+    def build(num_males=0, num_females=0, prefix="mouse", **kwargs):
         num_forms = num_males + num_females
         MouseFormSet = formset_factory(
             PupsToStockCageForm, formset=PupsToStockCageFormSet, extra=0
@@ -226,7 +226,7 @@ class NewProjectFormFactory:
 # This factory causes phantom mice to be created in tests
 class MouseSelectionFormFactory:
     @staticmethod
-    def create(**kwargs):
+    def build(**kwargs):
         data = MouseSelectionFormFactory.data(**kwargs)
         return MouseSelectionForm(
             data=data, project=kwargs.get("project", ProjectFactory())

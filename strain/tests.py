@@ -14,29 +14,27 @@ class StrainModelTest(TestCase):
     def test_strain_creation(self):
         self.assertIsInstance(self.strain, Strain)
 
-    # Duplicate strain name
-    def test_strain_duplicates(self):
+    def test_strain_uniqueness(self):
         with self.assertRaises(IntegrityError):
             Strain.objects.create(strain_name="teststrain")
 
-    # Increment mice count of a strain by making a mouse
-    def test_strain_mice_count(self):
+    def test_strain_increment_mice_count(self):
         self.assertEqual(self.strain.mice_count, 0)
-        self.mouse = MouseFactory(strain=self.strain)
+        self.mouse = MouseFactory.create(strain=self.strain)
         self.assertEqual(self.strain.mice_count, 1)
 
-    # Decrement mice count from 1 to 0
     def test_strain_mice_count_decrement_from_one(self):
         self.strain.mice_count = 1
         self.assertEqual(self.strain.mice_count, 1)
         self.strain.decrement_mice_count()
         self.assertEqual(self.strain.mice_count, 0)
 
-    # Decrement mice count of a a strain should not go below 0
-    def test_strain_mice_count_decrement_from_zero(self):
+    def test_strain_mice_count_cannot_decrement_below_zero(self):
         self.assertEqual(self.strain.mice_count, 0)
         self.strain.decrement_mice_count()
         self.assertEqual(self.strain.mice_count, 0)
+
+    # Decrement mice count from zero should never be possible for a user to do
 
     # Deleting a mouse should decrement the mice count
 

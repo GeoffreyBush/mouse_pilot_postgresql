@@ -10,7 +10,7 @@ class MouseSelectionFormTest(TestCase):
         self.mouse1, self.mouse2 = MouseFactory(), MouseFactory()
         self.project = ProjectFactory()
         self.project.mice.add(self.mouse1)
-        self.form = MouseSelectionFormFactory.create(
+        self.form = MouseSelectionFormFactory.build(
             project=self.project, mice=[self.mouse1]
         )
 
@@ -18,7 +18,7 @@ class MouseSelectionFormTest(TestCase):
         self.assertTrue(self.form.is_valid())
 
     def test_correct_queryset_without_project(self):
-        self.form = MouseSelectionFormFactory.create(
+        self.form = MouseSelectionFormFactory.build(
             project=None, mice=[self.mouse1, self.mouse2]
         )
         self.assertEqual(self.form.fields["mice"].queryset.count(), 2)
@@ -32,7 +32,6 @@ class MouseSelectionFormTest(TestCase):
     def test_clean_mice_no_selection(self):
         form_data = {}
         form = MouseSelectionForm(form_data, project=self.project)
-        self.assertFalse(form.is_valid())
         self.assertIn("At least one mouse must be selected", form.non_field_errors())
 
 

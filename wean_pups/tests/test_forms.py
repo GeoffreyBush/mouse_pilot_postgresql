@@ -19,7 +19,7 @@ class PupsToStockCageFormTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.strain = Strain.objects.create(strain_name="TestStrain")
-        cls.form = PupsToStockCageFormFactory.create(strain=cls.strain)
+        cls.form = PupsToStockCageFormFactory.build(strain=cls.strain)
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
@@ -37,16 +37,16 @@ class PupsToStockCageFormTest(TestCase):
         self.assertEqual(Mouse.objects.count(), 3)
 
     def test_missing_tube_number(self):
-        self.form = PupsToStockCageFormFactory.create(_tube=None)
+        self.form = PupsToStockCageFormFactory.build(_tube=None)
         self.assertFalse(self.form.is_valid())
 
     def test_tube_number_not_integer(self):
-        self.form = PupsToStockCageFormFactory.create(_tube="str")
+        self.form = PupsToStockCageFormFactory.build(_tube="str")
         self.assertFalse(self.form.is_valid())
 
     def test_duplicate_global_id(self):
         self.assertTrue(self.form.is_valid())
-        self.form = PupsToStockCageFormFactory.create(_tube=2)
+        self.form = PupsToStockCageFormFactory.build(_tube=2)
         self.assertFalse(self.form.is_valid())
 
     def test_global_id_input_field_not_visible(self):
@@ -63,7 +63,7 @@ class PupsToStockCageFormSetTest(TestCase):
         cls.cage = BreedingCageFactory(male_pups=2, female_pups=3)
 
     def setUp(self):
-        self.formset = PupsToStockCageFormSetFactory.create(
+        self.formset = PupsToStockCageFormSetFactory.build(
             strain=self.strain,
             mother=self.mother.pk,
             father=self.father.pk,

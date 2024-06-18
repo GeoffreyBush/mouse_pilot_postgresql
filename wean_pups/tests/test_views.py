@@ -73,7 +73,7 @@ class PupsToStockCageViewValidPostTest(TestCase):
         cls.mother = MouseFactory(strain=cls.strain, sex="F")
         cls.father = MouseFactory(strain=cls.strain, sex="M")
         cls.cage = BreedingCageFactory(male_pups=3, female_pups=5)
-        cls.formset = PupsToStockCageFormSetFactory.create(
+        cls.formset = PupsToStockCageFormSetFactory.build(
             strain=cls.strain,
             mother=cls.mother.pk,
             father=cls.father.pk,

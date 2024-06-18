@@ -19,7 +19,7 @@ class CustomUserTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = UserFactory(username="testuser", email="testuser@example.com")
+        cls.user = UserFactory.create(username="testuser", email="testuser@example.com")
 
     def test_user_creation(self):
         self.assertIsInstance(self.user, CustomUser)
@@ -57,7 +57,7 @@ class CustomUserTest(TestCase):
             validate_password("qwerty123")
 
     def test_password_similar_to_username(self):
-        self.user = UserFactory(username="w3-Fsw_rd1")
+        self.user = UserFactory.build(username="w3-Fsw_rd1")
         with self.assertRaises(ValidationError):
             validate_password("w3-Fsw_rd1", self.user)
 

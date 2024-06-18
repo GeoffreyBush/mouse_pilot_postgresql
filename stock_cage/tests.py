@@ -13,7 +13,7 @@ class StockCageModelTestCase(TestCase):
             stock_cage=cls.cage
         )
 
-    def test_stock_cage_factory_count(self):
+    def test_stock_cage_created(self):
         self.assertEqual(StockCage.objects.count(), 1)
 
     def test_stock_cage_pk(self):
