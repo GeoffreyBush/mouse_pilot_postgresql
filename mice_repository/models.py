@@ -125,12 +125,10 @@ class Mouse(models.Model):
         except ValidationError as e:
             self.strain.decrement_mice_count()
             raise ValidationError(e)
-        
+
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
-
-
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
