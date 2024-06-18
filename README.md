@@ -76,7 +76,11 @@ coverage html
 
 ### Changelog
 
+- 0.6
+
 - 0.5
+  - Can create new researcher projects
+  - Modal confirmation of requests
   - Can create mice instances by transferring from breeding cage to stock cage
   - Split "website" Django app into multiple Django apps
   - Converted the application to Bootstrap CSS
@@ -108,23 +112,9 @@ coverage html
 - Group permissions
 - Internal messaging system between users
 - Mouse schedule calendar
-- "Add Project" functionality
-- Transfer mice from breeding cage into stock cage
 - Export data for paper printing
 - GUI design
 
----
-### Dependencies
-- Django v4.2.6
-- django-extensions v3.2.3
-- Faker v23.2.1
-- colorama v0.4.4
-- django-filter v24.1
-- django-simple-history v3.5.0
-- selenium v4.17.2
-- chromedriver-autoinstaller v0.6.4
-- coverage v7.4.4
-- factory_boy v3.3.0
 ---
 
 ### Django Learning Resources
