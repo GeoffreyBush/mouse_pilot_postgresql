@@ -7,19 +7,26 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Strain',
+            name="Strain",
             fields=[
-                ('strain_name', models.CharField(db_column='Strain', max_length=20, primary_key=True, serialize=False)),
-                ('mice_count', models.IntegerField(db_column='Mice Count', default=0)),
+                (
+                    "strain_name",
+                    models.CharField(
+                        db_column="Strain",
+                        max_length=20,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("mice_count", models.IntegerField(db_column="Mice Count", default=0)),
             ],
             options={
-                'db_table': 'strain',
-                'managed': True,
+                "db_table": "strain",
+                "managed": True,
             },
         ),
     ]
