@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -9,7 +11,6 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 from system_users.models import CustomUser
-from datetime import date
 
 
 def setUpModule():

@@ -91,7 +91,9 @@ class ConfirmRequestViewPostTest(TestCase):
         self.assertFalse(self.mouse.is_culled())
         test_client.post(
             reverse("mice_requests:confirm_request", args=[self.request.request_id]),
-            data={"culled": "True"}, # This test should fail because it doesn't include a date in the data
+            data={
+                "culled": "True"
+            },  # This test should fail because it doesn't include a date in the data
         )
         self.mouse.refresh_from_db()
         self.assertTrue(self.mouse.is_culled)

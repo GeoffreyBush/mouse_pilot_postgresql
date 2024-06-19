@@ -72,8 +72,6 @@ class MouseModelNoDBTest(TestCase):
         self.mouse.cull(date.today())
         self.assertTrue(self.mouse.is_culled())
 
-
-
     def test_cull_method_raises_error_when_already_culled(self):
         self.assertFalse(self.mouse.is_culled())
         self.mouse.cull(date.today())
