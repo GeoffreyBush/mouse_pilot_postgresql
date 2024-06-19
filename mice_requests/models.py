@@ -20,7 +20,7 @@ class Request(models.Model):
     mice = models.ManyToManyField("mice_repository.Mouse", db_column="Mouse")
 
     confirmed = models.BooleanField(
-        default=False
+        default=False,
     )  # confirmed attribute could be switched to flag with choices?
 
     def confirm(self, earmark=None):
