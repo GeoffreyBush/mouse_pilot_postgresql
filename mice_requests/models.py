@@ -47,7 +47,9 @@ class Request(models.Model):
                     mouse.save()
 
         elif self.task_type == "Cull":
-            if any([mouse.is_culled() for mouse in self.mice.all()]):
+            if date is None:
+                raise ValidationError("Date is required to confirm request")
+            elif any([mouse.is_culled() for mouse in self.mice.all()]):
                 raise ValidationError(
                     "A mouse in this cull request has already been culled"
                 )

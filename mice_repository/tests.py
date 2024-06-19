@@ -49,9 +49,9 @@ class MouseModelNoDBTest(TestCase):
         self.manual_tube_mouse = MouseFactory(strain=self.strain, tube=123)
         self.assertEqual(self.manual_tube_mouse.tube, 123)
 
-    # def test_manual_tube_correct_pk(self):
-    #   self.manual_tube_mouse = MouseFactory(strain=self.strain, tube=123)
-    #  self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
+    def test_manual_tube_correct_pk(self):
+        self.manual_tube_mouse = MouseFactory(strain=self.strain, tube=123)
+        self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
     def test_correct_age(self):
         correct_age = (date.today() - self.mouse.dob).days

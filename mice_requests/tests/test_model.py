@@ -90,12 +90,14 @@ class RequestModelConfirmClipTest(TestCase):
         with self.assertRaises(ValidationError):
             self.request.confirm(earmark="Invalid")
 
-    def test_unsuccessful_clip_request_confirm_if_any_mouse_already_clipped(self):
+    def test_unsuccessful_confirm_of_clip_request_if_any_mouse_already_clipped(self):
         self.mice[0].earmark = "TL"
         self.mice[0].save()
         with self.assertRaises(ValidationError):
             self.request.confirm(earmark="TL")
         self.assertFalse(self.request.confirmed)
+
+    # test no mice were recorded as clipped in an unsuccessful confirm
 
 
 class RequestModelConfirmCullTest(TestCase):
@@ -121,6 +123,8 @@ class RequestModelConfirmCullTest(TestCase):
         with self.assertRaises(ValidationError):
             self.request.confirm(date=date.today())
         self.assertFalse(self.request.confirmed)
+
+    # test no mice were recorded as culled in an unsuccessful confirm
 
     def test_date_required_to_confirm(self):
         with self.assertRaises(ValidationError):

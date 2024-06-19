@@ -1,5 +1,6 @@
 from django.test import Client, TestCase
 from django.urls import reverse
+from datetime import date
 
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.model_factories import (
@@ -92,8 +93,9 @@ class ConfirmRequestViewPostTest(TestCase):
         test_client.post(
             reverse("mice_requests:confirm_request", args=[self.request.request_id]),
             data={
-                "culled": "True"
-            },  # This test should fail because it doesn't include a date in the data
+                "culled": "True",
+                "culled_date": date.today(),
+            },
         )
         self.mouse.refresh_from_db()
-        self.assertTrue(self.mouse.is_culled)
+        self.assertTrue(self.mouse.is_culled())
