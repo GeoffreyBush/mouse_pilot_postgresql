@@ -135,6 +135,10 @@ class RepositoryMiceFormTest(TestCase):
         form = RepositoryMiceFormFactory.build()
         self.assertTrue(form.is_valid())
 
+    def test_invalid_sex(self):
+        form = RepositoryMiceFormFactory.build(sex="X")
+        self.assertFalse(form.is_valid())
+
     def test_form_creates_mouse(self):
         self.form = RepositoryMiceFormFactory.build()
         self.assertEqual(Mouse.objects.all().count(), 0)

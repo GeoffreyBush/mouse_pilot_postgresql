@@ -27,6 +27,10 @@ class RequestFormTest(TestCase):
         form = MiceRequestFormFactory.create()
         self.assertTrue(form.is_valid())
 
+    def test_invalid_request_type(self):
+        form = MiceRequestFormFactory.create(task_type="Invalid")
+        self.assertFalse(form.is_valid())
+
     def test_no_mice_in_request(self):
         form = MiceRequestFormFactory.create(mice=[])
         self.assertFalse(form.is_valid())
