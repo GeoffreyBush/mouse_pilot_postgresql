@@ -100,11 +100,13 @@ class Mouse(models.Model):
     def age(self):
         return (date.today() - self.dob).days
 
-    def cull(self):
+    def cull(self, culled_date):
         if self.is_culled():
             raise ValidationError("Mouse has already been culled")
+        elif not culled_date:
+            raise ValidationError("Culled date is required to cull mouse")
         else:
-            self.culled_date = date.today()
+            self.culled_date = culled_date
             self.save()
 
     # tube can be set manually or is set automatically using strain.mice_count. tube value then used to set _global_id

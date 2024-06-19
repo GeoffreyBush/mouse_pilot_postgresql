@@ -25,10 +25,11 @@ class Request(models.Model):
 
     # Need confirmed_by attribute. Could replace confirmed attribute with is_confirmed method
 
-    def confirm(self, earmark=None):
+    def confirm(self, earmark=None, date=None):
         if self.confirmed:
             raise ValidationError("Request is already confirmed")
 
+        # This clip logic can be moved to a mouse method. Or a request method?
         if self.task_type == "Clip":
             if earmark is None:
                 raise ValidationError("Earmark is required to confirm request")
@@ -38,14 +39,18 @@ class Request(models.Model):
                 self.confirmed = True
                 self.save()
                 for mouse in self.mice.all():
+                    # Add clipped_date
+                    # Add genotyper
                     mouse.earmark = earmark
                     mouse.save()
 
         elif self.task_type == "Cull":
+            # This logic is wrong
+            # It means that the request is confirmed before any validation of the cull is performed
             self.confirmed = True
             self.save()
             for mouse in self.mice.all():
-                mouse.cull()
+                mouse.cull(date)
 
         else:
             raise ValidationError("Request type is not valid")

@@ -9,6 +9,7 @@ from mouse_pilot_postgresql.model_factories import (
     UserFactory,
 )
 from system_users.models import CustomUser
+from datetime import date
 
 
 def setUpModule():
@@ -51,13 +52,20 @@ class RequestModelTest(TestCase):
 
     def test_request_confirmed(self):
         assert self.request.confirmed is False
-        self.request.confirm("TL")
+        self.request.confirm(earmark="TL")
         assert self.request.confirmed
 
     def test_invalid_task_type(self):
         self.request.task_type = "Invalid"
         with self.assertRaises(ValidationError):
             self.request.confirm()
+
+    def test_cannot_confirm_when_already_confirmed(self):
+        self.request.confirm(earmark="TL")
+        with self.assertRaises(ValidationError):
+            self.request.confirm(earmark="TL")
+
+    # Request is only confirmed if all mice are successfully clipped, culled, etc.
 
 
 class RequestModelConfirmClipTest(TestCase):
@@ -70,21 +78,18 @@ class RequestModelConfirmClipTest(TestCase):
 
     def test_mice_genotyped_on_confirm(self):
         assert all(not mouse.is_genotyped() for mouse in self.request.mice.all())
-        self.request.confirm("TL")
+        self.request.confirm(earmark="TL")
         assert all(mouse.is_genotyped() for mouse in self.request.mice.all())
 
     def test_confirm_earmark_cannot_be_none(self):
         with self.assertRaises(ValidationError):
-            self.request.confirm(None)
+            self.request.confirm(earmark=None)
 
     def test_confirm_invalid_earmark(self):
         with self.assertRaises(ValidationError):
-            self.request.confirm("Invalid")
+            self.request.confirm(earmark="Invalid")
 
-    def test_cannot_confirm_when_already_confirmed(self):
-        self.request.confirm("TL")
-        with self.assertRaises(ValidationError):
-            self.request.confirm("TL")
+    # Cannot confirm if mouse is already clipped
 
 
 class RequestModelConfirmCullTest(TestCase):
@@ -97,10 +102,11 @@ class RequestModelConfirmCullTest(TestCase):
 
     def test_mice_culled_on_confirm(self):
         assert all(not mouse.is_culled() for mouse in self.request.mice.all())
-        self.request.confirm()
+        self.request.confirm(date=date.today())
         assert all(mouse.is_culled() for mouse in self.request.mice.all())
 
-    def test_cannot_confirm_when_already_confirmed(self):
-        self.request.confirm()
+    # Cannot confirm if mouse is already called
+
+    def test_date_required_to_confirm(self):
         with self.assertRaises(ValidationError):
             self.request.confirm()

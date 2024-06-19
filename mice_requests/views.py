@@ -62,7 +62,8 @@ class ConfirmRequestView(View):
             case "Cull":
                 form = CullForm(http_request.POST)
                 if form.is_valid():
-                    mice_request.confirm()
+                    culled_date = form.cleaned_data["culled_date"]
+                    mice_request.confirm(date=culled_date)
             case _:
                 pass
 

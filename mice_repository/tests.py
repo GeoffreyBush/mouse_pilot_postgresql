@@ -62,21 +62,23 @@ class MouseModelNoDBTest(TestCase):
         self.mouse.earmark = "TR"
         self.assertTrue(self.mouse.is_genotyped())
 
+    def test_cull_method_sets_culled_date(self):
+        self.assertEqual(self.mouse.culled_date, None)
+        self.mouse.cull(date.today())
+        self.assertEqual(self.mouse.culled_date, date.today())
+
     def test_is_culled_method(self):
         self.assertFalse(self.mouse.is_culled())
-        self.mouse.culled_date = date.today()
+        self.mouse.cull(date.today())
         self.assertTrue(self.mouse.is_culled())
 
-    def test_cull_method_sets_culled(self):
-        self.assertFalse(self.mouse.is_culled())
-        self.mouse.cull()
-        self.assertTrue(self.mouse.is_culled())
+
 
     def test_cull_method_raises_error_when_already_culled(self):
         self.assertFalse(self.mouse.is_culled())
-        self.mouse.cull()
+        self.mouse.cull(date.today())
         with self.assertRaises(ValidationError):
-            self.mouse.cull()
+            self.mouse.cull(date.today())
 
 
 class MouseModelWithDBTest(TestCase):
