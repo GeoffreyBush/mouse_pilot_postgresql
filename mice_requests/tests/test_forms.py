@@ -1,5 +1,6 @@
-from django.test import TestCase
 from datetime import date
+
+from django.test import TestCase
 
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.form_factories import MiceRequestFormFactory

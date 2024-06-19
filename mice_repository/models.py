@@ -132,7 +132,7 @@ class Mouse(models.Model):
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
-    
+
     def is_culled(self):
         return True if self.culled_date is not None else False
 
