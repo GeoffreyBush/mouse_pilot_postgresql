@@ -58,7 +58,7 @@ class RequestForm(forms.ModelForm):
             mice_errors = []
             if task_type == "Cull":
                 for mouse in mice:
-                    if mouse.culled:
+                    if mouse.is_culled():
                         mice_errors.append(f"Mouse {mouse} has already been culled.")
                     elif Request.objects.filter(task_type="Cull", mice=mouse).exists():
                         mice_errors.append(f"Mouse {mouse} already has a cull request.")

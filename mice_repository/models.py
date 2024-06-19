@@ -78,6 +78,8 @@ class Mouse(models.Model):
         "system_users.CustomUser", on_delete=models.SET_NULL, null=True, blank=True
     )
 
+    culled_date = models.DateField(db_column="Culled Date", null=True, blank=True)
+
     """ Add history back in the future. Error across multiple areas """
     # history = HistoricalRecords()
 
@@ -94,8 +96,6 @@ class Mouse(models.Model):
         db_column="Fate", max_length=40, null=True, blank=True, default=""
     )
 
-    culled = models.BooleanField(default=False)
-
     @property
     def tube(self):
         return self._tube
@@ -105,10 +105,10 @@ class Mouse(models.Model):
         return (date.today() - self.dob).days
 
     def cull(self):
-        if self.culled:
+        if self.is_culled():
             raise ValidationError("Mouse has already been culled")
         else:
-            self.culled = True
+            self.culled_date = date.today()
             self.save()
 
     # _tube can be set manually or is set automatically using strain.mice_count. _tube value then used to set _global_id
@@ -132,6 +132,9 @@ class Mouse(models.Model):
 
     def is_genotyped(self):
         return True if self.earmark != "" else False
+    
+    def is_culled(self):
+        return True if self.culled_date is not None else False
 
     def __str__(self):
         return f"{self._global_id}"

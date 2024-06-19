@@ -35,14 +35,14 @@ class MouseModelNoDBTest(TestCase):
     def test_mouse_creation(self):
         self.assertIsInstance(self.mouse, Mouse)
 
-    def test_mouse_correct_strain(self):
+    def test_correct_strain(self):
         self.assertEqual(self.mouse.strain.strain_name, "teststrain")
 
-    def test_mouse_manual_tube_correct_value(self):
+    def test_manual_tube_correct_value(self):
         self.manual_tube_mouse = MouseFactory(strain=self.strain, _tube=123)
         self.assertEqual(self.manual_tube_mouse._tube, 123)
 
-    def test_mouse_manual_tube_correct_pk(self):
+    def test_manual_tube_correct_pk(self):
         self.manual_tube_mouse = MouseFactory(strain=self.strain, _tube=123)
         self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
@@ -50,18 +50,23 @@ class MouseModelNoDBTest(TestCase):
         correct_age = (date.today() - self.mouse.dob).days
         self.assertEqual(self.mouse.age, correct_age)
 
-    def test_mouse_adding_earmark_auto_genotypes_mouse(self):
+    def test_adding_earmark_auto_genotypes_mouse(self):
         self.assertFalse(self.mouse.is_genotyped())
         self.mouse.earmark = "TR"
         self.assertTrue(self.mouse.is_genotyped())
 
-    def test_mouse_cull_sets_culled(self):
-        self.assertFalse(self.mouse.culled)
-        self.mouse.cull()
-        self.assertTrue(self.mouse.culled)
+    def test_is_culled_method(self):
+        self.assertFalse(self.mouse.is_culled())
+        self.mouse.culled_date = date.today()
+        self.assertTrue(self.mouse.is_culled())
 
-    def test_mouse_cull_raises_error_when_already_culled(self):
-        self.assertFalse(self.mouse.culled)
+    def test_cull_method_sets_culled(self):
+        self.assertFalse(self.mouse.is_culled())
+        self.mouse.cull()
+        self.assertTrue(self.mouse.is_culled())
+
+    def test_cull_method_raises_error_when_already_culled(self):
+        self.assertFalse(self.mouse.is_culled())
         self.mouse.cull()
         with self.assertRaises(ValidationError):
             self.mouse.cull()

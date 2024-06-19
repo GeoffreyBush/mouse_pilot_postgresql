@@ -119,6 +119,7 @@ class RepositoryMiceFormFactory:
             "project": kwargs.get("project", ""),
             "earmark": kwargs.get("earmark", ""),
             "genotyper": kwargs.get("genotyper", ""),
+            "culled_date": kwargs.get("culled_date", ""),
             "strain": strain,
             "coat": kwargs.get("coat", "Black"),
             "result": kwargs.get("result", "Positive"),

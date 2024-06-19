@@ -4,8 +4,6 @@ from datetime import date
 import factory
 from faker import Faker
 
-from mouse_pilot_postgresql.constants import RESEARCH_AREAS
-
 fake = Faker()
 
 

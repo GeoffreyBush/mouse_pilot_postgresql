@@ -57,7 +57,7 @@ class ConfirmRequestViewPostTest(TestCase):
     @classmethod
     def setUpClass(self):
         super().setUpClass()
-        self.mouse = MouseFactory(earmark="", culled=False)
+        self.mouse = MouseFactory(earmark="", culled_date=None)
         self.request = MiceRequestFactory(
             mice=[self.mouse], task_type="Clip", requested_by=test_user
         )
@@ -88,10 +88,10 @@ class ConfirmRequestViewPostTest(TestCase):
     def test_mouse_culled(self):
         self.request.task_type = "Cull"
         self.request.save()
-        self.assertFalse(self.mouse.culled)
+        self.assertFalse(self.mouse.is_culled())
         test_client.post(
             reverse("mice_requests:confirm_request", args=[self.request.request_id]),
             data={"culled": "True"},
         )
         self.mouse.refresh_from_db()
-        self.assertTrue(self.mouse.culled)
+        self.assertTrue(self.mouse.is_culled)

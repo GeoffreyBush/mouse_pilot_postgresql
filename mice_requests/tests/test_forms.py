@@ -1,4 +1,5 @@
 from django.test import TestCase
+from datetime import date
 
 from mice_requests.forms import ClipForm, CullForm
 from mouse_pilot_postgresql.form_factories import MiceRequestFormFactory
@@ -32,7 +33,7 @@ class RequestFormTest(TestCase):
     def test_mice_already_culled_in_cull_request(self):
         form = MiceRequestFormFactory.create(
             task_type="Cull",
-            mice=[MouseFactory(culled=True) for _ in range(2)],
+            mice=[MouseFactory(culled_date=date.today()) for _ in range(2)],
         )
         self.assertEqual(len(form.errors["mice"]), 2)
 

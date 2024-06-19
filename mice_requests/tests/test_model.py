@@ -90,15 +90,15 @@ class RequestModelConfirmClipTest(TestCase):
 class RequestModelConfirmCullTest(TestCase):
 
     def setUp(self):
-        self.mice = [MouseFactory(culled="False") for _ in range(2)]
+        self.mice = [MouseFactory(culled_date=None) for _ in range(2)]
         self.request = MiceRequestFactory(
             mice=self.mice, task_type="Cull", requested_by=test_user
         )
 
     def test_mice_culled_on_confirm(self):
-        assert all(not mouse.culled for mouse in self.request.mice.all())
+        assert all(not mouse.is_culled() for mouse in self.request.mice.all())
         self.request.confirm()
-        assert all(mouse.culled for mouse in self.request.mice.all())
+        assert all(mouse.is_culled() for mouse in self.request.mice.all())
 
     def test_cannot_confirm_when_already_confirmed(self):
         self.request.confirm()
