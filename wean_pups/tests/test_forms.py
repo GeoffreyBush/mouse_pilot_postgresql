@@ -10,6 +10,7 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     StrainFactory,
 )
+from django import forms
 from strain.models import Strain
 from wean_pups.forms import PupsToStockCageForm
 
@@ -29,7 +30,7 @@ class PupsToStockCageFormTest(TestCase):
 
     def test_correct_pk(self):
         self.mouse = self.form.save()
-        self.assertEqual(self.mouse.pk, "TestStrain-3")
+        self.assertEqual(self.mouse.pk, "TestStrain-100")
 
     def test_mouse_created(self):
         self.assertEqual(Mouse.objects.count(), 2)
@@ -37,20 +38,20 @@ class PupsToStockCageFormTest(TestCase):
         self.assertEqual(Mouse.objects.count(), 3)
 
     def test_missing_tube_number(self):
-        self.form = PupsToStockCageFormFactory.build(_tube=None)
+        self.form = PupsToStockCageFormFactory.build(tube=None)
         self.assertFalse(self.form.is_valid())
 
     def test_tube_number_not_integer(self):
-        self.form = PupsToStockCageFormFactory.build(_tube="str")
+        self.form = PupsToStockCageFormFactory.build(tube="str")
         self.assertFalse(self.form.is_valid())
 
     def test_duplicate_global_id(self):
         self.assertTrue(self.form.is_valid())
-        self.form = PupsToStockCageFormFactory.build(_tube=2)
+        self.form = PupsToStockCageFormFactory.build(tube=2)
         self.assertFalse(self.form.is_valid())
 
     def test_global_id_input_field_not_visible(self):
-        self.assertFalse("_global_id" in PupsToStockCageForm().fields)
+        self.assertIsInstance(self.form.fields["_global_id"].widget, forms.HiddenInput)
 
 
 class PupsToStockCageFormSetTest(TestCase):

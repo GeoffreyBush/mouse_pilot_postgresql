@@ -23,6 +23,8 @@ class Request(models.Model):
         default=False,
     )  # confirmed attribute could be switched to flag with choices?
 
+    # Need confirmed_by attribute. Could replace confirmed attribute with is_confirmed method
+
     def confirm(self, earmark=None):
         if self.confirmed:
             raise ValidationError("Request is already confirmed")

@@ -106,13 +106,13 @@ class RepositoryMiceFormFactory:
         # Need to strain.mice_count + 1 here to mock increment_mice_count()
         strain = kwargs.get("strain")
         if strain is not None:
-            _tube = strain.increment_mice_count()
+            tube = strain.increment_mice_count()
         else:
             strain = StrainFactory()
-            _tube = kwargs.get("_tube", strain.increment_mice_count())
+            tube = kwargs.get("tube", strain.increment_mice_count())
 
         data = {
-            "_tube": _tube,
+            "tube": tube,
             "sex": kwargs.get("sex", "M"),
             "dob": kwargs.get("dob", date.today()),
             "clipped_date": kwargs.get("clipped_date", date.today()),
@@ -139,7 +139,7 @@ class PupsToStockCageFormFactory:
         strain = kwargs.get("strain", StrainFactory())
         tube_counter = itertools.count(100)
         return {
-            "tube": kwargs.get("_tube", next(tube_counter)),
+            "tube": kwargs.get("tube", next(tube_counter)),
             "sex": kwargs.get("sex", "M"),
             "coat": kwargs.get("coat", "Black"),
             "strain": strain,
@@ -190,7 +190,7 @@ class PupsToStockCageFormSetFactory:
                 father=father,
                 dob=dob,
                 stock_cage=stock_cage,
-                _tube=next_tube,
+                tube=next_tube,
                 sex=sex,
             )
             for field, value in form_data.items():

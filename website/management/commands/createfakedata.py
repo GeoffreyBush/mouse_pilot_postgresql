@@ -11,6 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
     ProjectFactory,
     StrainFactory,
     UserFactory,
+    MouseFactory,
 )
 from projects.models import Project
 from stock_cage.models import StockCage
@@ -55,23 +56,23 @@ class Command(BaseCommand):
         existing_projects = Project.objects.all()
         existing_strains = Strain.objects.all()
         for _ in range(n):
-            Mouse.objects.create(
+            MouseFactory.create(
                 strain=random.choice(existing_strains),
-                sex=random.choice(["M", "F"]),
                 dob=self.fake.date(),
-                clipped_date=self.fake.date(),
                 project=random.choice(existing_projects),
                 earmark=random.choice(EARMARK_CHOICES),
-                mother=None,
-                father=None,
+                sex=random.choice(["M", "F"]),
             )
 
     def create_breeding_cages(self, n):
         female_mice = Mouse.objects.filter(sex="F")
         male_mice = Mouse.objects.filter(sex="M")
+        
         for _ in range(n):
             BreedingCageFactory.create(
-                mother=random.choice(female_mice), father=random.choice(male_mice)
+                mother=random.choice(female_mice), father=random.choice(male_mice),
+                male_pups = random.randint(1, 4),
+                female_pups = random.randint(1, 4),
             )
 
     # Convert this method to use a factory instead

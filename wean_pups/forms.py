@@ -31,6 +31,11 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
 # Need to create validation handling for readonly attributes here, add handling to view
 class PupsToStockCageForm(forms.ModelForm):
 
+    _global_id = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+
     tube = forms.IntegerField(
         required=True,
         widget=forms.TextInput(attrs={"class": "form-control"}),
@@ -87,7 +92,7 @@ class PupsToStockCageForm(forms.ModelForm):
     # Override save() method to convert tube field in form to _tube instance for Mouse model
     def save(self, commit=True):
         instance = super().save(commit=False)
-        instance._tube = self.cleaned_data["tube"]
+        instance.tube = self.cleaned_data["tube"]
         if commit:
             instance.save()
         return instance
@@ -99,7 +104,7 @@ class PupsToStockCageForm(forms.ModelForm):
             "project",
             "earmark",
             "result",
-            "_global_id",
+            #"_global_id",
             "fate",
             "genotyper",
             "clipped_date",

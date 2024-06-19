@@ -34,16 +34,118 @@
     <form method="post">
         {% csrf_token %}
         <div class="mb-1">
-            {% for field in mice_form %}
             <div class="row mb-1">
                 <div class="col-3 d-flex align-items-center">
-                    {{ field.label_tag }}
+                    {{ mice_form.strain.label_tag }}
                 </div>
                 <div class="col-9">
-                    {{ field }}
+                    {{ mice_form.strain }}
                 </div>
             </div>
-            {% endfor %}
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.tube.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.tube }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.sex.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.sex }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.dob.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.dob }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.stock_cage.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.stock_cage }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.mother.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.father }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.project.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.project }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.clipped_date.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.clipped_date }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.earmark.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.earmark }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.genotyper.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.genotyper }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.coat.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.coat }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.result.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.result }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.fate.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.fate }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ mice_form.culled_date.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ mice_form.culled_date }}
+                </div>
+            </div>
         </div>
         <button class="btn btn-success mt-2" type="submit">
             Confirm Add Mouse

@@ -22,7 +22,7 @@ class Mouse(models.Model):
     strain = models.ForeignKey(
         "strain.Strain", on_delete=models.PROTECT, blank=False, null=False
     )
-    _tube = models.IntegerField(db_column="Tube", blank=True, null=True)
+    tube = models.IntegerField(db_column="Tube", blank=True, null=True)
     _global_id = models.CharField(
         db_column="Global ID", max_length=20, primary_key=True
     )
@@ -97,10 +97,6 @@ class Mouse(models.Model):
     )
 
     @property
-    def tube(self):
-        return self._tube
-
-    @property
     def age(self):
         return (date.today() - self.dob).days
 
@@ -111,15 +107,14 @@ class Mouse(models.Model):
             self.culled_date = date.today()
             self.save()
 
-    # _tube can be set manually or is set automatically using strain.mice_count. _tube value then used to set _global_id
+    # tube can be set manually or is set automatically using strain.mice_count. tube value then used to set _global_id
     def clean(self):
         super().clean()
         self.strain.increment_mice_count()
-        if self._tube is None:
-            self._tube = self.strain.mice_count
+        if self.tube is None:
+            self.tube = self.strain.mice_count
         if not self._global_id:
-            self._global_id = f"{self.strain.strain_name}-{self._tube}"
-
+            self._global_id = f"{self.strain.strain_name}-{self.tube}"
         try:
             self.validate_unique()
         except ValidationError as e:
@@ -127,7 +122,6 @@ class Mouse(models.Model):
             raise ValidationError(e)
 
     def save(self, *args, **kwargs):
-        self.clean()
         super().save(*args, **kwargs)
 
     def is_genotyped(self):

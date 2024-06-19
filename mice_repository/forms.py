@@ -12,7 +12,7 @@ from system_users.models import CustomUser
 # Needed for formset validation. Could do this in the view
 class RepositoryMiceForm(forms.ModelForm):
 
-    _tube = forms.IntegerField(
+    tube = forms.IntegerField(
         required=False, widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
@@ -92,6 +92,14 @@ class RepositoryMiceForm(forms.ModelForm):
         initial="",
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    culled_date = forms.DateField(
+        initial=None,
+        required=False,
+        input_formats=["%Y-%m-%d"],
+        widget=forms.DateInput(
+            format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}
+        ),
     )
 
     class Meta:

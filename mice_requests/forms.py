@@ -92,6 +92,10 @@ class ClipForm(forms.Form):
 
 
 class CullForm(forms.Form):
+    culled_date = forms.DateField(
+        label="Date culled on:",
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+    )
     culled = forms.BooleanField(
         label="These mice have been culled",
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),

@@ -31,7 +31,13 @@ class MouseFactory(factory.django.DjangoModelFactory):
     strain = factory.SubFactory(StrainFactory)
     sex = random.choice(["M", "F"])
     dob = date.today()
-    _tube = 1
+
+    @classmethod
+    def _create(cls, model_class, *args, **kwargs):
+        instance = model_class(*args, **kwargs)
+        instance.clean()
+        instance.save()
+        return instance
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
