@@ -96,7 +96,7 @@ class CullFormTest(TestCase):
     def test_no_culled(self):
         form = CullForm(data={"culled": False, "culled_date": date.today()})
         self.assertFalse(form.is_valid())
-                         
+
     def test_no_culled_date(self):
         form = CullForm(data={"culled": True, "culled_date": ""})
         self.assertFalse(form.is_valid())

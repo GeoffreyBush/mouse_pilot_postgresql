@@ -31,10 +31,7 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
 # Need to create validation handling for readonly attributes here, add handling to view
 class PupsToStockCageForm(forms.ModelForm):
 
-    _global_id = forms.CharField(
-        required=False,
-        widget=forms.HiddenInput()
-    )
+    _global_id = forms.CharField(required=False, widget=forms.HiddenInput())
 
     tube = forms.IntegerField(
         required=True,
@@ -104,7 +101,7 @@ class PupsToStockCageForm(forms.ModelForm):
             "project",
             "earmark",
             "result",
-            #"_global_id",
+            # "_global_id",
             "fate",
             "genotyper",
             "clipped_date",

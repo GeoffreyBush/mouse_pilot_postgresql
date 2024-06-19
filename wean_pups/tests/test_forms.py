@@ -1,3 +1,4 @@
+from django import forms
 from django.test import TestCase
 
 from mice_repository.models import Mouse
@@ -10,9 +11,7 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     StrainFactory,
 )
-from django import forms
 from strain.models import Strain
-from wean_pups.forms import PupsToStockCageForm
 
 
 class PupsToStockCageFormTest(TestCase):

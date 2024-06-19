@@ -8,10 +8,10 @@ from mice_repository.models import Mouse
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
+    MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
-    MouseFactory,
 )
 from projects.models import Project
 from stock_cage.models import StockCage
@@ -67,12 +67,13 @@ class Command(BaseCommand):
     def create_breeding_cages(self, n):
         female_mice = Mouse.objects.filter(sex="F")
         male_mice = Mouse.objects.filter(sex="M")
-        
+
         for _ in range(n):
             BreedingCageFactory.create(
-                mother=random.choice(female_mice), father=random.choice(male_mice),
-                male_pups = random.randint(1, 4),
-                female_pups = random.randint(1, 4),
+                mother=random.choice(female_mice),
+                father=random.choice(male_mice),
+                male_pups=random.randint(1, 4),
+                female_pups=random.randint(1, 4),
             )
 
     # Convert this method to use a factory instead
