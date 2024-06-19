@@ -51,8 +51,6 @@ class RequestModelTest(TestCase):
     def test_requested_by_value_is_user_instance(self):
         self.assertIsInstance(self.request.requested_by, CustomUser)
 
-
-
     def test_invalid_task_type(self):
         self.request.task_type = "Invalid"
         with self.assertRaises(ValidationError):
@@ -64,9 +62,6 @@ class RequestModelTest(TestCase):
             self.request.confirm(earmark="TL")
 
     # Request is not confirmed if any error occurs
-
-
-
 
 
 class RequestModelConfirmClipTest(TestCase):
@@ -100,8 +95,8 @@ class RequestModelConfirmClipTest(TestCase):
         self.mice[0].save()
         with self.assertRaises(ValidationError):
             self.request.confirm(earmark="TL")
-        self.assertFalse(self.request.confirmed)        
-        
+        self.assertFalse(self.request.confirmed)
+
 
 class RequestModelConfirmCullTest(TestCase):
 
@@ -125,10 +120,11 @@ class RequestModelConfirmCullTest(TestCase):
         self.mice[0].cull(date.today())
         with self.assertRaises(ValidationError):
             self.request.confirm(date=date.today())
-        self.assertFalse(self.request.confirmed)        
+        self.assertFalse(self.request.confirmed)
 
     def test_date_required_to_confirm(self):
         with self.assertRaises(ValidationError):
             self.request.confirm()
+
 
 # Request is only confirmed if all mice are successfully clipped, culled, etc.

@@ -36,7 +36,9 @@ class Request(models.Model):
             elif earmark not in [choice[0] for choice in Mouse.EARMARK_CHOICES_PAIRED]:
                 raise ValidationError("Earmark is not valid")
             elif any([mouse.is_genotyped() for mouse in self.mice.all()]):
-                raise ValidationError("A mouse in this clip request has already been clipped")
+                raise ValidationError(
+                    "A mouse in this clip request has already been clipped"
+                )
             else:
                 for mouse in self.mice.all():
                     # Add clipped_date
@@ -46,14 +48,16 @@ class Request(models.Model):
 
         elif self.task_type == "Cull":
             if any([mouse.is_culled() for mouse in self.mice.all()]):
-                raise ValidationError("A mouse in this cull request has already been culled")
+                raise ValidationError(
+                    "A mouse in this cull request has already been culled"
+                )
             else:
                 for mouse in self.mice.all():
                     mouse.cull(date)
 
         else:
             raise ValidationError("Request type is not valid")
-        
+
         self.confirmed = True
         self.save()
 
