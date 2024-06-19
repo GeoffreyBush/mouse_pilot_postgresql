@@ -120,7 +120,9 @@ class MouseModelWithDBTest(TestCase):
 
     # Parents cannot be born after child
 
-    # clipped_date must be after dob
+    # clipped_date must be after dob. All dates must be after dob
+
+    # dob must be in the past
 
     # If the mouse is genotyped, the genotyper must be set
 
