@@ -52,7 +52,7 @@ class PaginateProjectMiceTest(TestCase):
         self.assertEqual(result.paginator.num_pages, expected_pages)
 
 
-class ShowProjectViewFilterPaginationTest(TestCase):
+class PaginateCombinedWithFilterTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

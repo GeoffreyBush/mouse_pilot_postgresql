@@ -17,7 +17,7 @@ class ProjectFilter(django_filters.FilterSet):
     earmark = django_filters.ChoiceFilter(
         choices=earmarks,
         widget=forms.Select(attrs={"class": "form-select w-25 ml-3"}),
-        label="Earmark: ",
+        label="Earmark:",
     )
 
     class Meta:
