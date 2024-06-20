@@ -115,8 +115,6 @@ class ShowProjectViewGetTest(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             test_client.get(reverse("projects:show_project", args=["AnyOtherName"]))
 
-    # Test pagination
-
     # Add filter form in context
 
 

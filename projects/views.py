@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
@@ -68,7 +68,11 @@ class ShowProjectView(View):
         paginated_mice = self.paginate_project_mice(project_mice, http_request)
 
         filter_form = self.filter_class(http_request.GET, queryset=project_mice)
-        select_form = self.select_class(project=project)
+        
+        if form_data:
+            select_form = self.select_class(form_data, project=project)
+        else:
+            select_form = self.select_class(project=project)
 
         context = {
             "project": project,
@@ -87,14 +91,10 @@ class ShowProjectView(View):
         select_form = self.select_class(http_request.POST, project=project)
         if select_form.is_valid():
             selected_mice = select_form.cleaned_data["mice"]
-            http_request.session["selected_mice"] = [
-                mouse.pk for mouse in selected_mice
-            ]
+            http_request.session["selected_mice"] = [mouse.pk for mouse in selected_mice]
             return redirect("mice_requests:add_request", project_name=project_name)
         else:
-            context = self.get_context(
-                http_request, project_name, form_data=http_request.POST
-            )
+            context = self.get_context(http_request, project_name, form_data=http_request.POST)
             return render(http_request, self.template_name, context)
 
 
