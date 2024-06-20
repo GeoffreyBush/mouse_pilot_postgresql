@@ -12,12 +12,13 @@ from mouse_pilot_postgresql.model_factories import (
     ProjectFactory,
     StrainFactory,
     UserFactory,
+    MouseCommentFactory,
 )
 from projects.models import Project
 from stock_cage.models import StockCage
 from strain.models import Strain
 from system_users.models import CustomUser
-from website.models import Comment
+from website.models import MouseComment
 
 
 class Command(BaseCommand):
@@ -80,7 +81,7 @@ class Command(BaseCommand):
         existing_mice = Mouse.objects.all()
         for index in range(len(existing_mice)):
             mouse = existing_mice[index]
-            Comment.objects.create(
+            MouseCommentFactory.create(
                 comment=mouse,
                 comment_text=self.fake.text(max_nb_chars=500),
             )

@@ -40,13 +40,11 @@
 				<tr class="sticky-top">
 					<th>Select</th>
 					<th>Mouse ID</th>
-					<th>Genotyped</th>
-					<th>Date of Birth</th>
 					<th>Sex</th>
+					<th>Age (Days)</th>
+					<th>Parents</th>
 					<th>Earmark</th>
-					<th>Tree</th>
-					<th>Edit</th>
-					<th>Delete</th>
+
 				</tr>
 			</thead>
 			<tbody>
@@ -54,18 +52,18 @@
 			<tr> <!--{% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}"-->
 				<td><input type="checkbox" name="mice" value='{{ mouse.pk }}'></td>
 				<td>{{ mouse.pk }}</td>
-				<td>{{ mouse.dob }}</td>
-				<td>{{ mouse.age }}</td>
 				<td>{{ mouse.sex }}</td>
+				<td>{{ mouse.age }}</td>
+				<td>GUI</td>
 				<td>{{ mouse.earmark }}</td>
 				
-				
-				<td>edit</td>
-				<td>
+			
+				<!-- Delete mouse -->
+				<!--<td>
 					<a onclick="return confirm('Are you sure you want to delete this mouse?')" href="#">
 						del-nolink
 					</a>
-				</td>
+				</td>-->
 			</tr>
 			{% endfor %}
 			</tbody>
