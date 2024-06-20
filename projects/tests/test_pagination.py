@@ -1,8 +1,9 @@
-from django.test import TestCase
 from django.http import HttpRequest
-from projects.views import ShowProjectView
+from django.test import TestCase
+
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.model_factories import ProjectFactory, MouseFactory
+from mouse_pilot_postgresql.model_factories import MouseFactory, ProjectFactory
+from projects.views import ShowProjectView
 
 
 class PaginateProjectMiceTest(TestCase):
@@ -14,10 +15,10 @@ class PaginateProjectMiceTest(TestCase):
 
     def setUp(self):
         self.request = HttpRequest()
-        self.ordered_queryset = Mouse.objects.all().order_by('_global_id')
+        self.ordered_queryset = Mouse.objects.all().order_by("_global_id")
 
     def test_valid_page(self):
-        self.request.GET['page'] = '2'
+        self.request.GET["page"] = "2"
         result = self.view.paginate_project_mice(self.ordered_queryset, self.request)
         self.assertEqual(result.number, 2)
 
@@ -26,12 +27,12 @@ class PaginateProjectMiceTest(TestCase):
         self.assertEqual(result.number, 1)
 
     def test_first_page_when_page_is_not_integer(self):
-        self.request.GET['page'] = 'invalid'
+        self.request.GET["page"] = "invalid"
         result = self.view.paginate_project_mice(self.ordered_queryset, self.request)
         self.assertEqual(result.number, 1)
 
     def test_last_page_when_page_out_of_range(self):
-        self.request.GET['page'] = '1000'
+        self.request.GET["page"] = "1000"
         result = self.view.paginate_project_mice(self.ordered_queryset, self.request)
         self.assertEqual(result.number, result.paginator.num_pages)
 
