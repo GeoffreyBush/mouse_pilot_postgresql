@@ -170,5 +170,6 @@ class ShowProjectViewInvalidPostTest(TestCase):
 
     def test_error_message_displayed_to_user(self):
         self.assertIn(
-            "At least one mouse must be selected for a request", self.response.content.decode()
+            "At least one mouse must be selected for a request",
+            self.response.content.decode(),
         )

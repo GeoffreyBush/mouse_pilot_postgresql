@@ -18,7 +18,9 @@ class MouseSelectionForm(forms.Form):
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
-        error_messages={"required": "At least one mouse must be selected for a request"},
+        error_messages={
+            "required": "At least one mouse must be selected for a request"
+        },
     )
 
     class Meta:
@@ -29,14 +31,17 @@ class MouseSelectionForm(forms.Form):
         mice = cleaned_data.get("mice")
 
         if not mice or len(mice) == 0:
-            raise forms.ValidationError("At least one mouse must be selected for a request")
+            raise forms.ValidationError(
+                "At least one mouse must be selected for a request"
+            )
         return cleaned_data
 
     def save(self, commit=True):
         pass
 
+
 class MouseCommentForm(forms.ModelForm):
-    
+
     comment_text = forms.CharField(
         widget=forms.Textarea(attrs={"class": "form-control"}),
         max_length=400,
@@ -46,4 +51,3 @@ class MouseCommentForm(forms.ModelForm):
     class Meta:
         model = MouseComment
         fields = ["comment_text"]
-

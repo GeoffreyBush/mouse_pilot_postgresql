@@ -1,8 +1,12 @@
 from django.test import TestCase
 
 from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
-from mouse_pilot_postgresql.model_factories import MouseFactory, ProjectFactory, MouseCommentFactory
-from website.forms import MouseSelectionForm, MouseCommentForm
+from mouse_pilot_postgresql.model_factories import (
+    MouseCommentFactory,
+    MouseFactory,
+    ProjectFactory,
+)
+from website.forms import MouseCommentForm, MouseSelectionForm
 from website.models import MouseComment
 
 
@@ -33,7 +37,9 @@ class MouseSelectionFormTest(TestCase):
     def test_clean_mice_no_selection(self):
         form_data = {}
         form = MouseSelectionForm(form_data, project=self.project)
-        self.assertIn("At least one mouse must be selected for a request", form.non_field_errors())
+        self.assertIn(
+            "At least one mouse must be selected for a request", form.non_field_errors()
+        )
 
 
 class CommentModelTest(TestCase):
@@ -65,6 +71,7 @@ class CommentFormTest(TestCase):
 
     def test_valid_data(self):
         self.assertTrue(self.form.is_valid())
+
 
 """
 class DeleteMouseViewTest(TestCase):
