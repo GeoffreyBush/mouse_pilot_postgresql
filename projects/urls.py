@@ -13,4 +13,5 @@ urlpatterns = [
         ShowProjectView.as_view(),
         name="show_project",
     ),
+    path("info_panel/<str:mouse_id>/", views.info_panel, name="info_panel"),
 ]

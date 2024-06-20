@@ -76,3 +76,7 @@ class ShowProjectView(View):
                 "project_mice": project_mice,
             }
             return render(http_request, self.template_name, context)
+
+def info_panel(request, mouse_id):
+    mouse = Mouse.objects.get(pk=mouse_id)
+    return render(request, "info_panel.html", {"mouse": mouse})

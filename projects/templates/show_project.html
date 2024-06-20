@@ -64,7 +64,14 @@
 					{% for mouse in project_mice.qs %}
 					<tr> <!--{% if mouse.id in mice_ids_with_requests %} class="highlighted-request" {% endif %} id="row{{ mouse.id }}"-->
 						<td><input type="checkbox" name="mice" value='{{ mouse.pk }}'></td>
-						<td>{{ mouse.pk }}</td>
+						<td 
+						hx-get="{% url 'projects:info_panel' mouse.pk %}"
+						hx-target="#info-panel"
+						hx-trigger="click"
+						
+						>
+						{{ mouse.pk }}
+						</td>
 						<td>{{ mouse.sex }}</td>
 						<td>{{ mouse.age }}</td>
 						<td>GUI</td>
@@ -83,7 +90,7 @@
 
 
 			<!-- Mouse info panel -->
-			<div class="border ms-5 col-5">
+			<div id="info-panel" class="border ms-5 col-5">
 			</div>
 		</div>
 	</form>

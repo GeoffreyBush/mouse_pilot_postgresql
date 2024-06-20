@@ -173,3 +173,21 @@ class ShowProjectViewInvalidPostTest(TestCase):
             "At least one mouse must be selected for a request",
             self.response.content.decode(),
         )
+
+
+class InfoPanelGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.get(
+            reverse("projects:info_panel", args=[MouseFactory().pk])
+        )
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "info_panel.html")
+
+    def test_mouse_in_context(self):
+        self.assertIn("mouse", self.response.context)
