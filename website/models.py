@@ -1,16 +1,14 @@
 from django.db import models
 
 
-class Comment(models.Model):
+class MouseComment(models.Model):
 
-    # Comment ID primary key is derived from Mouse ID primary key
-    comment = models.OneToOneField(
+    comment_id = models.OneToOneField(
         "mice_repository.Mouse", on_delete=models.CASCADE, primary_key=True
     )
 
-    # Django forces you to set a max_length property. Not sure if 500 characters is too much/enough.
     comment_text = models.CharField(
-        db_column="Text", max_length=500, null=True, blank=True
+        db_column="Text", max_length=400, null=True, blank=True, default=""
     )
 
     def __str__(self):

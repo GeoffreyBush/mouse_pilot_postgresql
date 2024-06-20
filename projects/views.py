@@ -76,11 +76,3 @@ class ShowProjectView(View):
                 "project_mice": project_mice,
             }
             return render(http_request, self.template_name, context)
-
-
-def htmx_test(request):
-    return render(request, "htmx_test.html")
-
-
-def lazy_project_list(request):
-    return render(request, "lazy_project_list.html")

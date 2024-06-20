@@ -1,9 +1,0 @@
-{% extends 'base_template.html' %}
-{% load static %}
-{% block title %}Projects List{% endblock %}
-{% block content %}
-
-<h1>This is a test</h1>
-<button hx-trigger="click" hx-get="{% url 'projects:lazy_project_list' %}">Click me</button>
-
-{% endblock %}

@@ -51,7 +51,6 @@ class Command(BaseCommand):
         for _ in range(n):
             StockCage.objects.create()
 
-    # Convert this method to use a factory instead
     def create_mice(self, n):
         existing_projects = Project.objects.all()
         existing_strains = Strain.objects.all()

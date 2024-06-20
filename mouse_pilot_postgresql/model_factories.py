@@ -82,3 +82,10 @@ class MiceRequestFactory(factory.django.DjangoModelFactory):
                 self.mice.add(mouse)
         else:
             self.mice.add(MouseFactory())
+
+class MouseCommentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "website.MouseComment"
+
+    comment_id = factory.SubFactory(MouseFactory)
+    comment_text = "Test comment"
