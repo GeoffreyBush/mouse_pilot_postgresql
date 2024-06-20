@@ -8,17 +8,16 @@ from mice_repository.models import Mouse
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
+    MouseCommentFactory,
     MouseFactory,
     ProjectFactory,
     StrainFactory,
     UserFactory,
-    MouseCommentFactory,
 )
 from projects.models import Project
 from stock_cage.models import StockCage
 from strain.models import Strain
 from system_users.models import CustomUser
-from website.models import MouseComment
 
 
 class Command(BaseCommand):
