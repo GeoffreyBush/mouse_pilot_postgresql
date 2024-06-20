@@ -44,10 +44,10 @@ class ShowProjectView(View):
 
     def filter_project_mice(self, project, http_request):
         project_mice = Mouse.objects.filter(project=project.pk).order_by("_global_id")
+        filter_form = self.filter_class(http_request.GET, queryset=project_mice)
         if "search" in http_request.GET:
-            filter_form = self.filter_class(http_request.GET, queryset=project_mice)
             project_mice = filter_form.qs
-        return project_mice
+        return project_mice, filter_form
 
     def paginate_project_mice(self, project_mice, http_request):
         paginator = Paginator(project_mice, self.paginate_by)
@@ -64,21 +64,24 @@ class ShowProjectView(View):
 
     def get_context(self, http_request, project_name, form_data=None):
         project = Project.objects.get(project_name=project_name)
-        project_mice = self.filter_project_mice(project, http_request)
+        project_mice, filter_form = self.filter_project_mice(project, http_request)
         paginated_mice = self.paginate_project_mice(project_mice, http_request)
-
-        filter_form = self.filter_class(http_request.GET, queryset=project_mice)
 
         if form_data:
             select_form = self.select_class(form_data, project=project)
         else:
             select_form = self.select_class(project=project)
 
+        query_params = http_request.GET.copy()
+        if "page" in query_params:
+            del query_params["page"]
+
         context = {
             "project": project,
             "project_mice": paginated_mice,
             "select_form": select_form,
             "filter_form": filter_form,
+            "query_params": query_params,
         }
         return context
 

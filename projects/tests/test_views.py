@@ -111,6 +111,9 @@ class ShowProjectViewGetTest(TestCase):
     def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(self.response.context["select_form"], MouseSelectionForm)
 
+    def test_query_params_in_context(self):
+        self.assertIn("query_params", self.response.context)
+
     def test_show_non_existent_project(self):
         with self.assertRaises(ObjectDoesNotExist):
             test_client.get(reverse("projects:show_project", args=["AnyOtherName"]))
@@ -169,6 +172,9 @@ class ShowProjectViewInvalidPostTest(TestCase):
 
     def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(self.response.context["select_form"], MouseSelectionForm)
+
+    def test_query_params_in_context(self):
+        self.assertIn("query_params", self.response.context)
 
     # def test_error_message_displayed_to_user(self):
     #   self.assertIn(

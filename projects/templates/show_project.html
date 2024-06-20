@@ -32,7 +32,7 @@
 					<ul class="pagination">
 						{% if project_mice.has_previous %}
 							<li class="page-item">
-								<a class="page-link" href="?page={{ project_mice.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+								<a class="page-link" href="?{{ query_params.urlencode }}&page={{ project_mice.previous_page_number }}" aria-label="Previous">
 									<span aria-hidden="true">«</span>
 								</a>
 							</li>
@@ -42,13 +42,13 @@
 							{% if page_num == project_mice.number %}
 								<li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
 							{% else %}
-								<li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page_num }}</a></li>
+								<li class="page-item"><a class="page-link" href="?{{ query_params.urlencode }}&page={{ page_num }}">{{ page_num }}</a></li>
 							{% endif %}
 						{% endfor %}
 
 						{% if project_mice.has_next %}
 							<li class="page-item">
-								<a class="page-link" href="?page={{ project_mice.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+								<a class="page-link" href="?{{ query_params.urlencode }}&page={{ project_mice.next_page_number }}" aria-label="Next">
 									<span aria-hidden="true">»</span>
 								</a>
 							</li>
@@ -56,6 +56,7 @@
 					</ul>
 				</nav>
 			{% endif %}
+
 			
 			<div class="col">
 				{% for error in select_form.mice.errors %}
@@ -72,7 +73,7 @@
 		<!-- Table of mice -->
 		<div class="row">
 			<div class="col-6">
-				<table class="table table-striped table-hover table-bordered m-2">
+				<table class="table table-striped table-hover table-bordered">
 					<thead class="thead-light">
 						<tr class="sticky-top">
 							<th class="p-0">
