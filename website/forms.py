@@ -25,6 +25,7 @@ class MouseSelectionForm(forms.Form):
 
     class Meta:
         fields = ["mice"]
+        order_by = ["_global_id"]
 
     def clean(self):
         cleaned_data = super().clean()

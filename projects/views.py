@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
@@ -37,44 +38,59 @@ def add_new_project(request):
 @method_decorator(login_required, name="dispatch")
 class ShowProjectView(View):
     template_name = "show_project.html"
-    form_class = MouseSelectionForm
+    select_class = MouseSelectionForm
+    filter_class = ProjectFilter
+    paginate_by = 10
 
-    def get_project_mice(self, project, http_request):
-        project_mice = Mouse.objects.filter(project=project.pk)
+    def filter_project_mice(self, project, http_request):
+        project_mice = Mouse.objects.filter(project=project.pk).order_by("_global_id")
         if "search" in http_request.GET:
-            filter = ProjectFilter(http_request.GET, queryset=project_mice)
-            project_mice = filter
-        else:
-            project_mice = ProjectFilter(queryset=project_mice)
+            filter_form = self.filter_class(http_request.GET, queryset=project_mice)
+            project_mice = filter_form.qs
         return project_mice
 
-    def get(self, http_request, project_name):
+    def paginate_project_mice(self, project_mice, http_request):
+        paginator = Paginator(project_mice, self.paginate_by)
+        page = http_request.GET.get("page")
+
+        try:
+            paginated_mice = paginator.page(page)
+        except PageNotAnInteger:
+            paginated_mice = paginator.page(1)
+        except EmptyPage:
+            paginated_mice = paginator.page(paginator.num_pages)
+
+        return paginated_mice
+
+    def get_context(self, http_request, project_name, form_data=None):
         project = Project.objects.get(project_name=project_name)
-        project_mice = self.get_project_mice(project, http_request)
-        form = self.form_class(project=project)
+        project_mice = self.filter_project_mice(project, http_request)
+        paginated_mice = self.paginate_project_mice(project_mice, http_request)
+
+        filter_form = self.filter_class(http_request.GET, queryset=project_mice)
+        select_form = self.select_class(project=project)
+
         context = {
             "project": project,
-            "project_mice": project_mice,
-            "form": form,
+            "project_mice": paginated_mice,
+            "select_form": select_form,
+            "filter_form": filter_form,
         }
+        return context
+
+    def get(self, http_request, project_name):
+        context = self.get_context(http_request, project_name)
         return render(http_request, self.template_name, context)
 
     def post(self, http_request, project_name):
         project = Project.objects.get(project_name=project_name)
-        form = self.form_class(http_request.POST, project=project)
-        if form.is_valid():
-            selected_mice = form.cleaned_data["mice"]
-            http_request.session["selected_mice"] = [
-                mouse.pk for mouse in selected_mice
-            ]
+        select_form = self.select_class(http_request.POST, project=project)
+        if select_form.is_valid():
+            selected_mice = select_form.cleaned_data["mice"]
+            http_request.session["selected_mice"] = [mouse.pk for mouse in selected_mice]
             return redirect("mice_requests:add_request", project_name=project_name)
         else:
-            project_mice = self.get_project_mice(project, http_request)
-            context = {
-                "project": project,
-                "form": form,
-                "project_mice": project_mice,
-            }
+            context = self.get_context(http_request, project_name, form_data=http_request.POST)
             return render(http_request, self.template_name, context)
 
 

@@ -103,8 +103,6 @@ class Mouse(models.Model):
     def cull(self, culled_date):
         if self.is_culled():
             raise ValidationError("Mouse has already been culled")
-        elif not culled_date:
-            raise ValidationError("Culled date is required to cull mouse")
         else:
             self.culled_date = culled_date
             self.save()

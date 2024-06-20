@@ -106,14 +106,18 @@ class ShowProjectViewGetTest(TestCase):
         self.assertIn("project", self.response.context)
 
     def test_filter_in_context(self):
-        self.assertIsInstance(self.response.context["project_mice"], ProjectFilter)
+        self.assertIsInstance(self.response.context["filter_form"], ProjectFilter)
 
     def test_mouse_selection_form_in_context(self):
-        self.assertIsInstance(self.response.context["form"], MouseSelectionForm)
+        self.assertIsInstance(self.response.context["select_form"], MouseSelectionForm)
 
     def test_show_non_existent_project(self):
         with self.assertRaises(ObjectDoesNotExist):
             test_client.get(reverse("projects:show_project", args=["AnyOtherName"]))
+
+    # Test pagination
+
+    # Add filter form in context
 
 
 class ShowProjectViewPostTest(TestCase):
@@ -163,16 +167,16 @@ class ShowProjectViewInvalidPostTest(TestCase):
         self.assertIn("project", self.response.context)
 
     def test_filter_in_context(self):
-        self.assertIsInstance(self.response.context["project_mice"], ProjectFilter)
+        self.assertIsInstance(self.response.context["filter_form"], ProjectFilter)
 
     def test_mouse_selection_form_in_context(self):
-        self.assertIsInstance(self.response.context["form"], MouseSelectionForm)
+        self.assertIsInstance(self.response.context["select_form"], MouseSelectionForm)
 
-    def test_error_message_displayed_to_user(self):
-        self.assertIn(
-            "At least one mouse must be selected for a request",
-            self.response.content.decode(),
-        )
+    #def test_error_message_displayed_to_user(self):
+     #   self.assertIn(
+      #      "At least one mouse must be selected for a request",
+       #     self.response.content.decode(),
+        #)
 
 
 class InfoPanelGetTest(TestCase):

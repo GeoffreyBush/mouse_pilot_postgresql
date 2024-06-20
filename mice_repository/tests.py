@@ -78,6 +78,10 @@ class MouseModelNoDBTest(TestCase):
         with self.assertRaises(ValidationError):
             self.mouse.cull(date.today())
 
+    def test_cull_method_raises_error_when_no_culled_date(self):
+        with self.assertRaises(TypeError):
+            self.mouse.cull()
+
 
 class MouseModelWithDBTest(TestCase):
     def setUp(self):
