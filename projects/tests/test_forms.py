@@ -1,9 +1,12 @@
 from django.test import TestCase
 
 from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
-from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory, ProjectFactory
+from mouse_pilot_postgresql.model_factories import (
+    MouseFactory,
+    ProjectFactory,
+    StrainFactory,
+)
 from projects.forms import AddMouseToProjectForm
-from mice_repository.models import Mouse
 
 
 class NewProjectFormTest(TestCase):
@@ -26,7 +29,11 @@ class AddMouseToProjectFormTest(TestCase):
     def setUp(self):
         self.strain1, self.strain2 = StrainFactory(), StrainFactory()
         self.strains = [self.strain1.pk, self.strain2.pk]
-        self.mouse1, self.mouse2, self.mouse3 = MouseFactory(strain=self.strain1), MouseFactory(strain=self.strain2), MouseFactory(strain=self.strain2),
+        self.mouse1, self.mouse2, self.mouse3 = (
+            MouseFactory(strain=self.strain1),
+            MouseFactory(strain=self.strain2),
+            MouseFactory(strain=self.strain2),
+        )
         self.data = {
             "mice": [
                 self.mouse1.pk,

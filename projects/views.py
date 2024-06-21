@@ -1,8 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.template import loader
+from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -11,12 +10,13 @@ from projects.filters import ProjectFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
-from django.template.response import TemplateResponse
 
 
 @login_required
 def list_projects(request):
-    return TemplateResponse(request, "list_projects.html", {"myprojects": Project.objects.all()})
+    return TemplateResponse(
+        request, "list_projects.html", {"myprojects": Project.objects.all()}
+    )
 
 
 @login_required
