@@ -42,28 +42,28 @@ jobs:
         #EOF
 
     - name: Test main website app
-      run: python manage.py test website --parallel=2
+      run: python manage.py test website
                
     - name: Test breeding_cage app
-      run: python manage.py test breeding_cage --parallel=2
+      run: python manage.py test breeding_cage
 
     - name: Test mice_repository app
-      run: python manage.py test mice_repository --parallel=2
+      run: python manage.py test mice_repository
 
     - name: Test mice_requests app
-      run: python manage.py test mice_requests --parallel=2
+      run: python manage.py test mice_requests
 
     - name: Test projects app
-      run: python manage.py test projects --parallel=2
+      run: python manage.py test projects
 
     - name: Test stock_cage app
-      run: python manage.py test stock_cage --parallel=2
+      run: python manage.py test stock_cage
 
     - name: Test strain app
-      run: python manage.py test strain --parallel=2
+      run: python manage.py test strain
 
     - name: Test system_users app
-      run: python manage.py test system_users --parallel=2 
+      run: python manage.py test system_users    
 
     - name: Test wean_pups app
-      run: python manage.py test wean_pups --parallel=2
+      run: python manage.py test wean_pups

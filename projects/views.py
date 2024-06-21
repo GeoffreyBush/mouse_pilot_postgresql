@@ -44,9 +44,11 @@ class ShowProjectView(View):
 
     def filter_project_mice(self, project, http_request):
         project_mice = Mouse.objects.filter(project=project.pk).order_by("_global_id")
-        filter_form = self.filter_class(http_request.GET, queryset=project_mice)
         if "search" in http_request.GET:
+            filter_form = self.filter_class(http_request.GET, queryset=project_mice)
             project_mice = filter_form.qs
+        else:
+            filter_form = self.filter_class(queryset=project_mice)
         return project_mice, filter_form
 
     def paginate_project_mice(self, project_mice, http_request):

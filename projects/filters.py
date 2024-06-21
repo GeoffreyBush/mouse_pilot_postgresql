@@ -13,11 +13,13 @@ class ProjectFilter(django_filters.FilterSet):
         choices=SEX_CHOICES,
         widget=forms.Select(attrs={"class": "form-select w-25 ml-5"}),
         label="Sex:",
+        initial="",
     )
     earmark = django_filters.ChoiceFilter(
         choices=earmarks,
         widget=forms.Select(attrs={"class": "form-select w-25 ml-3"}),
         label="Earmark:",
+        initial="",
     )
 
     class Meta:

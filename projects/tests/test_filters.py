@@ -38,10 +38,10 @@ class ProjectMouseFilterViewTestCase(TestCase):
         )
         self.assertEqual(len(response.context["project_mice"]), 4)
 
-    def test_filter_cancelled(self):
+    def test_count_filter_clear(self):
         response = test_client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
-            {"cancel": ""},
+            {"clear": ""},
         )
         self.assertEqual(len(response.context["project_mice"]), 4)
 
@@ -66,17 +66,20 @@ class ProjectMouseFilterViewTestCase(TestCase):
         )
         self.assertEqual(len(response.context["project_mice"]), 1)
 
-    def test_cancel_after_filter(self):
+    def test_clear_after_filter(self):
         response = test_client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
             {"search": "", "earmark": "TL"},
         )
         self.assertEqual(len(response.context["project_mice"]), 2)
+        self.assertEqual(response.context["filter_form"].data["earmark"], "TL")
         response = test_client.get(
             reverse("projects:show_project", args=[self.project.project_name]),
-            {"cancel": ""},
+            {"clear": ""},
         )
         self.assertEqual(len(response.context["project_mice"]), 4)
+        print(response.context["filter_form"].data)
+        self.assertEqual(len(response.context["filter_form"].data), 0)
 
     def test_no_matching_mice(self):
         response = test_client.get(
