@@ -17,7 +17,9 @@
                 <li class="list-group-item list-group-item-warning"><b>Transfer is invalid for the following reasons:</b></li>
             {% endif %}
             {{ formset.management_form }}
+                {% if formset.non_form_errors %}
                 <li class="list-group-item list-group-item-warning">{{ formset.non_form_errors }}</li>
+                {% endif %}
                 {% for form in formset %}
                     {% for field in form %}
                         {% if field.errors %}
