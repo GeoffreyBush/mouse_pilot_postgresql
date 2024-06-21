@@ -78,7 +78,6 @@ class ProjectMouseFilterViewTestCase(TestCase):
             {"clear": ""},
         )
         self.assertEqual(len(response.context["project_mice"]), 4)
-        print(response.context["filter_form"].data)
         self.assertEqual(len(response.context["filter_form"].data), 0)
 
     def test_no_matching_mice(self):
