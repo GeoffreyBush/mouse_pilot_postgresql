@@ -106,10 +106,31 @@ class PupsToStockCageViewValidPostTest(TestCase):
         pass
 
 
-class PupsToStockCageViewInvalidPostTest(TestCase):
-    def x(self):
-        pass
 
-    # Can't transfer from the same breeding cage twice
 
-    # Error message displayed to user
+class PupsToStockCagePostAlreadyTransferredTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.strain = StrainFactory()
+        cls.mother = MouseFactory(strain=cls.strain, sex="F")
+        cls.father = MouseFactory(strain=cls.strain, sex="M")
+        cls.cage = BreedingCageFactory(male_pups=3, female_pups=5, transferred_to_stock=True)
+        cls.formset = PupsToStockCageFormSetFactory.build(
+            strain=cls.strain,
+            mother=cls.mother.pk,
+            father=cls.father.pk,
+            num_males=cls.cage.male_pups,
+            num_females=cls.cage.female_pups,
+        )
+        cls.mouse_count = Mouse.objects.count()
+        cls.response = test_client.post(
+            reverse("wean_pups:pups_to_stock_cage", args=[cls.cage.box_no]),
+            cls.formset.data,
+        )
+
+    def test_errors_on_formset(self):
+        self.assertIsNotNone(self.response.context["formset"].non_form_errors())
+
+    def test_no_mice_created(self):
+        self.assertEqual(self.mouse_count, Mouse.objects.count())

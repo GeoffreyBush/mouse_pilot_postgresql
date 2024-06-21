@@ -46,7 +46,10 @@ class PupsToStockCageView(View):
 
     def post(self, request):
         formset = self.MouseFormSet(request.POST, prefix="mouse")
-        if formset.is_valid():
+        if self.cage.transferred_to_stock:
+            formset.non_form_errors().append("Pups have already been transferred out of this breeding cage")
+            return render(request, self.template_name, {"formset": formset})
+        elif formset.is_valid():
             for form in formset:
                 mouse_instance = form.save(commit=False)
                 mouse_instance.strain = self.cage.mother.strain
