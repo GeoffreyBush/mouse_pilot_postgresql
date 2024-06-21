@@ -106,8 +106,6 @@ class PupsToStockCageViewValidPostTest(TestCase):
         pass
 
 
-
-
 class PupsToStockCagePostAlreadyTransferredTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -115,7 +113,9 @@ class PupsToStockCagePostAlreadyTransferredTest(TestCase):
         cls.strain = StrainFactory()
         cls.mother = MouseFactory(strain=cls.strain, sex="F")
         cls.father = MouseFactory(strain=cls.strain, sex="M")
-        cls.cage = BreedingCageFactory(male_pups=3, female_pups=5, transferred_to_stock=True)
+        cls.cage = BreedingCageFactory(
+            male_pups=3, female_pups=5, transferred_to_stock=True
+        )
         cls.formset = PupsToStockCageFormSetFactory.build(
             strain=cls.strain,
             mother=cls.mother.pk,
