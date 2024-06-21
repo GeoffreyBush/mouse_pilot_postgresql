@@ -103,5 +103,3 @@ class PupsToStockCageFormSetTest(TestCase):
             self.formset, [20, 21, "st1", 23, 24]
         )
         self.assertFalse(self.formset.is_valid())
-
-    # Can't transfer from the same breeding cage twice

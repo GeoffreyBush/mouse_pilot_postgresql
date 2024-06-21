@@ -25,6 +25,11 @@
                 <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
                     <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
                 </a>
+                {% if cage.transferred_to_stock %}
+                <div class="row">
+                    <p>Transferred</p>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}

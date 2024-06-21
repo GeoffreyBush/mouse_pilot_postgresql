@@ -30,7 +30,7 @@ class PupsToStockCageView(View):
             initial_data += [
                 {
                     "sex": sex,
-                    "strain": self.cage.mother.strain,
+                    "strain": self.cage.strain,
                     "mother": self.cage.mother,
                     "father": self.cage.father,
                     "dob": self.cage.date_born,
@@ -54,7 +54,7 @@ class PupsToStockCageView(View):
         elif formset.is_valid():
             for form in formset:
                 mouse_instance = form.save(commit=False)
-                mouse_instance.strain = self.cage.mother.strain
+                mouse_instance.strain = self.cage.strain
                 mouse_instance.mother = self.cage.mother
                 mouse_instance.father = self.cage.father
                 mouse_instance.dob = self.cage.date_born

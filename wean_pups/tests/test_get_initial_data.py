@@ -40,7 +40,7 @@ class GetInitialDataTest(TestCase):
 
         for item in initial_data:
             self.assertIn(item["sex"], ["M", "F"])
-            self.assertEqual(item["strain"], self.cage.mother.strain)
+            self.assertEqual(item["strain"], self.cage.strain)
             self.assertEqual(item["mother"], self.cage.mother)
             self.assertEqual(item["father"], self.cage.father)
             self.assertEqual(item["dob"], self.cage.date_born)

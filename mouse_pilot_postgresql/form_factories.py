@@ -31,6 +31,7 @@ class BreedingCageFormFactory:
             "box_no": "1",
             "mother": MouseFactory(sex="F"),
             "father": MouseFactory(sex="M"),
+            "strain": StrainFactory(),
         }
 
     @staticmethod
@@ -38,6 +39,7 @@ class BreedingCageFormFactory:
         return {
             "box_no": "1",
             "father": MouseFactory(sex="M"),
+            "strain": StrainFactory(),
         }
 
     @staticmethod
@@ -45,6 +47,7 @@ class BreedingCageFormFactory:
         return {
             "box_no": "1",
             "mother": MouseFactory(sex="F"),
+            "strain": StrainFactory(),
         }
 
 

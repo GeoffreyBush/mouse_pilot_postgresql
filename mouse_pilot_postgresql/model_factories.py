@@ -55,6 +55,7 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
     box_no = factory.Sequence(lambda n: f"box{n}")
     mother = factory.SubFactory(MouseFactory)
     father = factory.SubFactory(MouseFactory)
+    strain = factory.SubFactory(StrainFactory)
     date_born = date.today()
 
 

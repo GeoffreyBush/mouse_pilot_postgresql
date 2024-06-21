@@ -96,7 +96,7 @@ class PupsToStockCageForm(forms.ModelForm):
 
     class Meta:
         model = Mouse
-        include = ["strain", "stock_cage", "_tube"]
+        include = ["strain", "stock_cage", "tube"]
         exclude = [
             "project",
             "earmark",

@@ -17,9 +17,6 @@
             <li class="list-group-item">
                 If Tube is left blank, it will be auto-generated based on the total count of mice for that strain. For example, if there are 50 mice in Strain A, the next mouse added to Strain A will have a Tube of 51
             </li>
-            <li class="list-group-item">
-                <b>Only Strain, Sex, and Dob are absolutely required</b> 
-            </li>
             <li class="list-group-item list-group-item-warning">
                 This page is <u><b>not</b></u> for moving a mouse from breeding cages to stock cages and you would create duplicate mice by doing so. 
                 Use the "Transfer to Stock" functionality found in <a href="{% url 'breeding_cage:list_breeding_cages' %}">Breeding Cages</a> for that purpose.
@@ -30,7 +27,8 @@
         </a>
     </div>
 </div>
-<div class="container mt-5" x-data="{ collapsed: true }">
+<div class="container mt-3" x-data="{ collapsed: true }">
+    <p><b>Only Strain, Sex, and Dob are absolutely required</b></p>
     <form method="post">
         {% csrf_token %}
         <div class="mb-1">

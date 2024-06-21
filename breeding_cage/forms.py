@@ -2,6 +2,7 @@ from django import forms
 
 from breeding_cage.models import BreedingCage
 from mice_repository.models import Mouse
+from strain.models import Strain
 
 
 class BreedingCageForm(forms.ModelForm):
@@ -10,6 +11,12 @@ class BreedingCageForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "---"}),
         required=True,
         label="Box Number",
+    )
+    strain = forms.ModelChoiceField(
+        queryset=Strain.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={"class": "form-select", "placeholder": "Strain"}),
+        label="Pup Strain"
     )
     mother = forms.ModelChoiceField(
         queryset=Mouse.objects.filter(sex="F"),

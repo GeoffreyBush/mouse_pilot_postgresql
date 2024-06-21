@@ -14,6 +14,13 @@ class BreedingCage(models.Model):
         default="Unnamed",
         unique=True,
     )
+    strain = models.ForeignKey(
+        "strain.Strain",
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        default="",
+    )
     mother = models.ForeignKey(
         "mice_repository.Mouse",
         on_delete=models.PROTECT,
