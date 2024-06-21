@@ -1,8 +1,9 @@
 from django.test import TestCase
 
 from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
-from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory
+from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory, ProjectFactory
 from projects.forms import AddMouseToProjectForm
+from mice_repository.models import Mouse
 
 
 class NewProjectFormTest(TestCase):
@@ -25,11 +26,12 @@ class AddMouseToProjectFormTest(TestCase):
     def setUp(self):
         self.strain1, self.strain2 = StrainFactory(), StrainFactory()
         self.strains = [self.strain1.pk, self.strain2.pk]
+        self.mouse1, self.mouse2, self.mouse3 = MouseFactory(strain=self.strain1), MouseFactory(strain=self.strain2), MouseFactory(strain=self.strain2),
         self.data = {
             "mice": [
-                MouseFactory(strain=self.strain1).pk,
-                MouseFactory(strain=self.strain2).pk,
-                MouseFactory(strain=self.strain2).pk,
+                self.mouse1.pk,
+                self.mouse2.pk,
+                self.mouse3.pk,
             ]
         }
         self.form = AddMouseToProjectForm(strains=self.strains, data=self.data)
@@ -47,4 +49,8 @@ class AddMouseToProjectFormTest(TestCase):
         )
         self.assertFalse(self.form.is_valid())
 
-    # mouse cannot be in a project already
+    def test_only_mice_unassigned_to_projects_are_available(self):
+        self.assertEqual(self.form.fields["mice"].queryset.count(), 3)
+        self.mouse1.project = ProjectFactory()
+        self.mouse1.save()
+        self.assertEqual(self.form.fields["mice"].queryset.count(), 2)

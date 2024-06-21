@@ -11,16 +11,12 @@ from projects.filters import ProjectFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
+from django.template.response import TemplateResponse
 
 
 @login_required
 def list_projects(request):
-    myprojects = Project.objects.all()
-    template = loader.get_template("list_projects.html")
-    context = {
-        "myprojects": myprojects,
-    }
-    return HttpResponse(template.render(context, request))
+    return TemplateResponse(request, "list_projects.html", {"myprojects": Project.objects.all()})
 
 
 @login_required

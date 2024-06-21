@@ -40,12 +40,12 @@ class AddMouseToProjectForm(forms.Form):
         self.strains = kwargs.pop("strains", None)
         super().__init__(*args, **kwargs)
         if self.strains:
-            self.fields["mice"].queryset = Mouse.objects.filter(strain__in=self.strains)
+            self.fields["mice"].queryset = Mouse.objects.filter(strain__in=self.strains).filter(project=None)
         else:
             raise ValueError("Strains must be provided to initialise the form")
 
     mice = forms.ModelMultipleChoiceField(
         queryset=None,
-        widget=forms.SelectMultiple(attrs={"class": "form-select"}),
+        widget=forms.SelectMultiple(attrs={"class": "form-select", "size": "8"}),
         required=True,
     )

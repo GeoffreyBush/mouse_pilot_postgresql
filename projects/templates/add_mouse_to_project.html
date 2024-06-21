@@ -6,13 +6,13 @@
             <h5 class="modal-title">Add mice to {{ project_name }} </h5>
         </div>
         <div class="modal-body">
-            <div class="mt-2 p-1">
+            <div class="">
                 <form method="post" action="{% url 'projects:add_mouse_to_project' project_name %}" class="form">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     {% for field in form %}
-                    <div class="mt-2 text-center">
-                        <span class="p-1">{{ field }}</span>
+                    <div class="text-center">
+                        <span class="">{{ field }}</span>
                         {{ field.errors }}
                     </div>
                     {% endfor %}
