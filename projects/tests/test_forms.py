@@ -46,3 +46,5 @@ class AddMouseToProjectFormTest(TestCase):
             strains=self.strains, data={"mice": [MouseFactory().pk]}
         )
         self.assertFalse(self.form.is_valid())
+
+    # mouse cannot be in a project already

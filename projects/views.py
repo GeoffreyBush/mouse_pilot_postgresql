@@ -38,15 +38,20 @@ def add_new_project(request):
 @login_required
 def add_mouse_to_project(request, project_name):
     project = Project.objects.get(project_name=project_name)
+    strain_pks = list(project.strains.values_list("pk", flat=True))
     if request.method == "POST":
-        form = AddMouseToProjectForm(request.POST)
+        form = AddMouseToProjectForm(request.POST, strains=strain_pks)
+        print("form.errors", form.errors)
         if form.is_valid():
-            form.save()
+            mice = form.cleaned_data["mice"]
+            print("mice", mice)
+            print("*mice", *mice)
+            project.mice.add(*mice)
+            project.save()
             return redirect("projects:list_projects")
     else:
-        strain_pks = list(project.strains.values_list("pk", flat=True))
         form = AddMouseToProjectForm(strains=strain_pks)
-    return render(request, "add_mouse_to_project.html", {"form": form})
+    return render(request, "add_mouse_to_project.html", {"form": form, "project_name": project_name})
 
 
 @method_decorator(login_required, name="dispatch")

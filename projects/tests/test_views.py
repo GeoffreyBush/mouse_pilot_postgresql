@@ -215,6 +215,8 @@ class AddMouseToProjectViewGetTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
         self.assertTemplateUsed(self.response, "add_mouse_to_project.html")
         self.assertIsInstance(self.response.context["form"], AddMouseToProjectForm)
+        self.assertIn("project_name", self.response.context)
 
+    # mouse cannot be in a project already
 
 # AddMouse POST request

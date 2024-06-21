@@ -3,7 +3,7 @@
 {% block title %}Projects List{% endblock %}
 {% block content %}
 
-<div class="container-fluid py-3">
+<div class="container py-3">
 
     <!-- Functionality buttons -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -20,8 +20,8 @@
                 <th>Name</th>
                 <th>Lines</th>
                 <th>Research area</th>
-                <th>Total cages</th>
                 <th>Total mice</th>
+                <th class="col-2"></th>
             </tr>
         </thead>
         <tbody>
@@ -35,12 +35,22 @@
                     </td>
                     <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
                     <td>{{ project.research_area }}</td>
-                    <td>placeholder</td>
                     <td>{{ project.mice.count }}</td>
+                    <td class="">
+                        <button 
+                        class="btn btn-secondary btn-sm"
+                        hx-get="{% url 'projects:add_mouse_to_project' project.project_name %}"
+                        hx-target="#modals-here"
+                        hx-trigger="click"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modals-here">
+                            Add mice to project
+                        </button>
+                    </td>
                 </tr>
             {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
 </div>
 {% endblock %}
