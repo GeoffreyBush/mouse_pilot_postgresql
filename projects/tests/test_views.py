@@ -10,9 +10,10 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     UserFactory,
+    StrainFactory,
 )
 from projects.filters import ProjectFilter
-from projects.forms import NewProjectForm
+from projects.forms import NewProjectForm, AddMouseToProjectForm
 from projects.models import Project
 from projects.views import add_new_project
 from website.forms import MouseSelectionForm
@@ -183,7 +184,7 @@ class ShowProjectViewInvalidPostTest(TestCase):
     # )
 
 
-class InfoPanelGetTest(TestCase):
+class InfoPanelViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -199,3 +200,20 @@ class InfoPanelGetTest(TestCase):
 
     def test_mouse_in_context(self):
         self.assertIn("mouse", self.response.context)
+
+
+class AddMouseToProjectViewGetTest(TestCase):
+    def setUp(self):
+        self.project = ProjectFactory.create()
+        self.strain = StrainFactory.create()
+        self.project.strains.add(self.strain)
+        self.response = test_client.get(
+            reverse("projects:add_mouse_to_project", args=[self.project.project_name])
+        )
+
+    def test_correct_get_request(self):
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, "add_mouse_to_project.html")
+        self.assertIsInstance(self.response.context["form"], AddMouseToProjectForm)
+
+# AddMouse POST request

@@ -4,6 +4,8 @@ from projects.models import Project
 from strain.models import Strain
 from system_users.models import CustomUser
 
+from mice_repository.models import Mouse
+
 
 class NewProjectForm(forms.ModelForm):
 
@@ -31,3 +33,20 @@ class NewProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = "__all__"
+
+
+class AddMouseToProjectForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        self.strains = kwargs.pop("strains", None)
+        super().__init__(*args, **kwargs)
+        if self.strains:
+            self.fields["mice"].queryset = Mouse.objects.filter(strain__in=self.strains)
+        else:
+            raise ValueError("Strains must be provided to initialise the form")
+
+    mice = forms.ModelMultipleChoiceField(
+        queryset=None,
+        widget=forms.SelectMultiple(attrs={"class": "form-select"}),
+        required=True,
+    )    

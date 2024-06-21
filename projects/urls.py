@@ -14,4 +14,5 @@ urlpatterns = [
         name="show_project",
     ),
     path("info_panel/<str:mouse_id>/", views.info_panel, name="info_panel"),
+    path("add_mouse_to_project/<str:project_name>", views.add_mouse_to_project, name="add_mouse_to_project"),
 ]
