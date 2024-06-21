@@ -9,11 +9,11 @@ from mouse_pilot_postgresql.form_factories import (
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
-    UserFactory,
     StrainFactory,
+    UserFactory,
 )
 from projects.filters import ProjectFilter
-from projects.forms import NewProjectForm, AddMouseToProjectForm
+from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from projects.views import add_new_project
 from website.forms import MouseSelectionForm
@@ -215,5 +215,6 @@ class AddMouseToProjectViewGetTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
         self.assertTemplateUsed(self.response, "add_mouse_to_project.html")
         self.assertIsInstance(self.response.context["form"], AddMouseToProjectForm)
+
 
 # AddMouse POST request

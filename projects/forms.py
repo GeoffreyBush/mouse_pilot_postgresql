@@ -1,10 +1,9 @@
 from django import forms
 
+from mice_repository.models import Mouse
 from projects.models import Project
 from strain.models import Strain
 from system_users.models import CustomUser
-
-from mice_repository.models import Mouse
 
 
 class NewProjectForm(forms.ModelForm):
@@ -49,4 +48,4 @@ class AddMouseToProjectForm(forms.Form):
         queryset=None,
         widget=forms.SelectMultiple(attrs={"class": "form-select"}),
         required=True,
-    )    
+    )

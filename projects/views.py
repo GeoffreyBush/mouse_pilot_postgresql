@@ -8,7 +8,7 @@ from django.views import View
 
 from mice_repository.models import Mouse
 from projects.filters import ProjectFilter
-from projects.forms import NewProjectForm, AddMouseToProjectForm
+from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
 
@@ -34,6 +34,7 @@ def add_new_project(request):
         form = NewProjectForm()
     return render(request, "add_new_project.html", {"form": form})
 
+
 @login_required
 def add_mouse_to_project(request, project_name):
     project = Project.objects.get(project_name=project_name)
@@ -43,9 +44,10 @@ def add_mouse_to_project(request, project_name):
             form.save()
             return redirect("projects:list_projects")
     else:
-        strain_pks = list(project.strains.values_list('pk', flat=True))
+        strain_pks = list(project.strains.values_list("pk", flat=True))
         form = AddMouseToProjectForm(strains=strain_pks)
     return render(request, "add_mouse_to_project.html", {"form": form})
+
 
 @method_decorator(login_required, name="dispatch")
 class ShowProjectView(View):
@@ -117,6 +119,7 @@ class ShowProjectView(View):
                 http_request, project_name, form_data=http_request.POST
             )
             return render(http_request, self.template_name, context)
+
 
 @login_required
 def info_panel(request, mouse_id):

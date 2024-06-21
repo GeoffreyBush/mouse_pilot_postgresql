@@ -25,7 +25,13 @@ class AddMouseToProjectFormTest(TestCase):
     def setUp(self):
         self.strain1, self.strain2 = StrainFactory(), StrainFactory()
         self.strains = [self.strain1.pk, self.strain2.pk]
-        self.data = {"mice": [MouseFactory(strain=self.strain1).pk, MouseFactory(strain=self.strain2).pk, MouseFactory(strain=self.strain2).pk]}
+        self.data = {
+            "mice": [
+                MouseFactory(strain=self.strain1).pk,
+                MouseFactory(strain=self.strain2).pk,
+                MouseFactory(strain=self.strain2).pk,
+            ]
+        }
         self.form = AddMouseToProjectForm(strains=self.strains, data=self.data)
 
     def test_valid_form(self):
@@ -36,7 +42,7 @@ class AddMouseToProjectFormTest(TestCase):
             AddMouseToProjectForm(data=self.data)
 
     def test_strain_and_mice_do_not_match(self):
-        self.form = AddMouseToProjectForm(strains=self.strains, data={"mice": [MouseFactory().pk]})
+        self.form = AddMouseToProjectForm(
+            strains=self.strains, data={"mice": [MouseFactory().pk]}
+        )
         self.assertFalse(self.form.is_valid())
-
-
