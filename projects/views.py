@@ -51,7 +51,11 @@ def add_mouse_to_project(request, project_name):
             return redirect("projects:list_projects")
     else:
         form = AddMouseToProjectForm(strains=strain_pks)
-    return render(request, "add_mouse_to_project.html", {"form": form, "project_name": project_name})
+    return render(
+        request,
+        "add_mouse_to_project.html",
+        {"form": form, "project_name": project_name},
+    )
 
 
 @method_decorator(login_required, name="dispatch")

@@ -219,4 +219,5 @@ class AddMouseToProjectViewGetTest(TestCase):
 
     # mouse cannot be in a project already
 
+
 # AddMouse POST request
