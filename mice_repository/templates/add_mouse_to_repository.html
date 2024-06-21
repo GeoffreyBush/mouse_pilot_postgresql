@@ -15,10 +15,10 @@
                 For now, you can only add one mouse at a time. Future plans include functionality to add multiple existing mice at once through a spreadsheet import or batch creation.
             </li>  
             <li class="list-group-item">
-                <b>Only Strain, Sex, and Dob are absolutely required</b> 
+                If Tube is left blank, it will be auto-generated based on the total count of mice for that strain. For example, if there are 50 mice in Strain A, the next mouse added to Strain A will have a Tube of 51
             </li>
             <li class="list-group-item">
-                If Tube is left blank, it will be auto-generated based on the total count of mice for that strain. For example, if there are 50 mice in Strain A, the next mouse added to Strain A will have a Tube of 51
+                <b>Only Strain, Sex, and Dob are absolutely required</b> 
             </li>
             <li class="list-group-item list-group-item-warning">
                 This page is <u><b>not</b></u> for moving a mouse from breeding cages to stock cages and you would create duplicate mice by doing so. 
@@ -30,7 +30,7 @@
         </a>
     </div>
 </div>
-<div class="container mt-5">
+<div class="container mt-5" x-data="{ collapsed: true }">
     <form method="post">
         {% csrf_token %}
         <div class="mb-1">
@@ -66,89 +66,103 @@
                     {{ mice_form.dob }}
                 </div>
             </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.stock_cage.label_tag }}
+            <div x-show="!collapsed" x-transition id="collapse-fields">
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.stock_cage.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.stock_cage }}
+                    </div>
                 </div>
-                <div class="col-9">
-                    {{ mice_form.stock_cage }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.mother.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.mother }}
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.mother.label_tag }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.father.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.father }}
+                    </div>
                 </div>
-                <div class="col-9">
-                    {{ mice_form.father }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.project.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.project }}
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.project.label_tag }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.clipped_date.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.clipped_date }}
+                    </div>
                 </div>
-                <div class="col-9">
-                    {{ mice_form.project }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.earmark.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.earmark }}
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.clipped_date.label_tag }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.genotyper.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.genotyper }}
+                    </div>
                 </div>
-                <div class="col-9">
-                    {{ mice_form.clipped_date }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.coat.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.coat }}
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.earmark.label_tag }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.result.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.result }}
+                    </div>
                 </div>
-                <div class="col-9">
-                    {{ mice_form.earmark }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.fate.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.fate }}
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.genotyper.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ mice_form.genotyper }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.coat.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ mice_form.coat }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.result.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ mice_form.result }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.fate.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ mice_form.fate }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ mice_form.culled_date.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ mice_form.culled_date }}
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ mice_form.culled_date.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ mice_form.culled_date }}
+                    </div>
                 </div>
             </div>
         </div>
         <button class="btn btn-success mt-2" type="submit">
             Confirm Add Mouse
+        </button>
+        <button class="btn btn-secondary mt-2" type="button"
+            x-on:click="collapsed = !collapsed"
+            x-text="collapsed ? 'Show extra fields' : 'Hide extra fields'">
         </button>
     </form>
 </div>
