@@ -36,7 +36,10 @@ class BreedingCageModelTestCase(TestCase):
         cls.father = MouseFactory(sex="M", strain=cls.strain)
         cls.breeding_cage = BreedingCageFactory(
             strain=cls.strain,
-            mother=cls.mother, father=cls.father, male_pups=5, female_pups=3
+            mother=cls.mother,
+            father=cls.father,
+            male_pups=5,
+            female_pups=3,
         )
         cls.new_mouse = Mouse.objects.all().last()
 

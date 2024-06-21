@@ -16,7 +16,7 @@ class BreedingCageForm(forms.ModelForm):
         queryset=Strain.objects.all(),
         required=True,
         widget=forms.Select(attrs={"class": "form-select", "placeholder": "Strain"}),
-        label="Pup Strain"
+        label="Pup Strain",
     )
     mother = forms.ModelChoiceField(
         queryset=Mouse.objects.filter(sex="F"),
