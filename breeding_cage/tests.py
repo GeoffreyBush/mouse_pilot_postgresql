@@ -132,6 +132,7 @@ class AddBreedingCageViewGetTest(TestCase):
     def test_correct_form(self):
         self.assertIsInstance(self.response.context["form"], BreedingCageForm)
 
+
 class AddBreedingCageViewPostTest(TestCase):
 
     @classmethod
@@ -146,10 +147,13 @@ class AddBreedingCageViewPostTest(TestCase):
         self.assertEqual(self.response.status_code, 302)
 
     def test_redirect(self):
-        self.assertRedirects(self.response, reverse("breeding_cage:list_breeding_cages"))
+        self.assertRedirects(
+            self.response, reverse("breeding_cage:list_breeding_cages")
+        )
 
     def test_create_breeding_cage_post_valid(self):
         self.assertEqual(BreedingCage.objects.count(), 1)
+
 
 class AddBreedingCageViewPostInvalidTest(TestCase):
 
@@ -171,7 +175,6 @@ class AddBreedingCageViewPostInvalidTest(TestCase):
         self.assertEqual(BreedingCage.objects.count(), 0)
 
 
-
 class EditBreedingCageViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -190,6 +193,7 @@ class EditBreedingCageViewGetTest(TestCase):
     def test_correct_form(self):
         self.assertIsInstance(self.response.context["form"], BreedingCageForm)
 
+
 class EditBreedingCageViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -198,7 +202,8 @@ class EditBreedingCageViewPostTest(TestCase):
         data = BreedingCageFormFactory.valid_data()
         data["box_no"] = "new"
         cls.response = test_client.post(
-            reverse("breeding_cage:edit_breeding_cage", args=[cls.cage]), data,
+            reverse("breeding_cage:edit_breeding_cage", args=[cls.cage]),
+            data,
         )
         cls.cage.refresh_from_db()
 
@@ -206,10 +211,13 @@ class EditBreedingCageViewPostTest(TestCase):
         self.assertEqual(self.response.status_code, 302)
 
     def test_redirect(self):
-        self.assertRedirects(self.response, reverse("breeding_cage:list_breeding_cages"))
+        self.assertRedirects(
+            self.response, reverse("breeding_cage:list_breeding_cages")
+        )
 
     def test_breeding_cage_updated(self):
         self.assertEqual(self.cage.box_no, "new")
+
 
 class EditBreedingCageViewInvalidPostTest(TestCase):
     @classmethod
