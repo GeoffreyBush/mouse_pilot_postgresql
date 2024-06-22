@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
+from django.http import Http404
 
 from mouse_pilot_postgresql.form_factories import (
     MouseSelectionFormFactory,
@@ -15,7 +16,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.filters import ProjectFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
-from projects.views import add_new_project
+from projects.views import add_new_project, ShowProjectView
 from website.forms import MouseSelectionForm
 
 
@@ -115,9 +116,10 @@ class ShowProjectViewGetTest(TestCase):
     def test_query_params_in_context(self):
         self.assertIn("query_params", self.response.context)
 
-    def test_show_non_existent_project(self):
-        with self.assertRaises(ObjectDoesNotExist):
-            test_client.get(reverse("projects:show_project", args=["AnyOtherName"]))
+    def test_get_non_existent_project(self):
+        view = ShowProjectView()
+        with self.assertRaises(Http404):
+            view.get_project("nonexistent")
 
     # Add filter form in context
 
