@@ -22,6 +22,7 @@
                             <th scope="col">Father</th>
                             <th scope="col">Result</th>
                             <th scope="col">Fate</th>
+                            <th scope="col">Action</th>
                             {% comment %} A current location would be useful {% endcomment %}
                         </tr>
                     </thead>
@@ -39,6 +40,13 @@
                             <td>{{ mouse.father }}</td>
                             <td>{{ mouse.result }}</td>
                             <td>{{ mouse.fate }}</td>
+                            <td class="p-0 align-middle"> 
+                                <a 
+                                href="{% url 'mice_repository:edit_mouse_in_repository' mouse.pk %}" 
+                                class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Mouse">
+                                E
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

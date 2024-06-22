@@ -13,4 +13,9 @@ urlpatterns = [
         views.add_mouse_to_repository,
         name="add_mouse_to_repository",
     ),
+    path(
+        "edit_mouse_in_repository/<str:pk>",
+        views.edit_mouse_in_repository,
+        name="edit_mouse_in_repository",
+    ),
 ]

@@ -65,21 +65,6 @@ class AddMouseToRepositoryViewGetTest(TestCase):
         self.assertIsInstance(self.response.context["mice_form"], RepositoryMiceForm)
 
 
-"""
-class AddMouseToRepositoryViewPostTest(TestCase):
-
-    def test_post_valid_form_data(self):
-        self.assertEqual(Mouse.objects.all().count(), 0)
-        data = RepositoryMiceFormFactory.valid_data()
-        response = test_client.post(
-            reverse("mice_repository:add_mouse_to_repository"), data
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("mice_repository:mice_repository"))
-        self.assertEqual(Mouse.objects.all().count(), 1)
-"""
-
-
 class AddMouseToRepositoryViewPostTest(TestCase):
 
     @classmethod
@@ -98,3 +83,31 @@ class AddMouseToRepositoryViewPostTest(TestCase):
 
     def test_mouse_created(self):
         self.assertEqual(Mouse.objects.all().count(), 1)
+
+
+class EditMouseInRepositoryViewGetTest(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.mouse = MouseFactory()
+        cls.response = test_client.get(
+            reverse("mice_repository:edit_mouse_in_repository", args=[cls.mouse.pk])
+        )
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "edit_mouse_in_repository.html")
+
+    def test_correct_form(self):
+        self.assertIsInstance(self.response.context["form"], RepositoryMiceForm)
+
+    def test_context_contains_mouse(self):
+        self.assertIn("mouse", self.response.context)
+
+    def test_context_contains_mouse_instance(self):
+        self.assertEqual(self.mouse, self.response.context["mouse"])
+
+# edit mouse post request

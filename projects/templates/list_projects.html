@@ -36,7 +36,7 @@
                     <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
                     <td>{{ project.research_area }}</td>
                     <td>{{ project.mice.count }}</td>
-                    <td class="">
+                    <td class="align-middle text-center">
                         <button 
                         class="btn btn-secondary btn-sm"
                         hx-get="{% url 'projects:add_mouse_to_project' project.project_name %}"

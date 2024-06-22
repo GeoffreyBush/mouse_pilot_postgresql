@@ -1,0 +1,156 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Edit Mouse in Repo{% endblock %}
+{% block content %}
+<div class="container p-3">
+    <h2 class="my-3">
+        Edit a Mouse in the Global Repository
+    </h2>
+    <div class="col-10">
+        <ul class="list-group">
+            <li class="list-group-item">
+                This page is for editing a mouse that is already in the MousePilot central repository.
+            </li>
+            <li class="list-group-item">
+                This page overrides all other methods of editing mice. For example, it can override an earclip request result or project assignment
+            </li>  
+        </ul>
+        <a class="btn btn-secondary mt-4" href="{% url 'mice_repository:mice_repository' %}">
+            Back to Repository
+        </a>
+    </div>
+</div>
+<div class="container mt-5" x-data="{ collapsed: true }">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-1">
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.strain.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.strain }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.tube.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.tube }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.sex.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.sex }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.dob.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.dob }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.stock_cage.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.stock_cage }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.mother.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.mother }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.father.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.father }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.project.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.project }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.clipped_date.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.clipped_date }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.earmark.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.earmark }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.genotyper.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.genotyper }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.coat.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.coat }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.result.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.result }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.fate.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.fate }}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 d-flex align-items-center">
+                    {{ form.culled_date.label_tag }}
+                </div>
+                <div class="col-9">
+                    {{ form.culled_date }}
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success mt-2" type="submit">
+            Confirm Add Mouse
+        </button>
+        <button class="btn btn-secondary mt-2" type="button">
+            Reset data to state before editing - not implemented yet
+        </button>
+    </form>
+</div>
+{% endblock %}
