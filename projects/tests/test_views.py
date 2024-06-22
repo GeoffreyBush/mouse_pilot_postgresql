@@ -1,7 +1,6 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
-from django.http import Http404
 
 from mouse_pilot_postgresql.form_factories import (
     MouseSelectionFormFactory,
@@ -16,7 +15,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.filters import ProjectFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
-from projects.views import add_new_project, ShowProjectView
+from projects.views import ShowProjectView, add_new_project
 from website.forms import MouseSelectionForm
 
 

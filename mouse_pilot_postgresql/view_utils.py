@@ -1,4 +1,5 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 
 def paginate_queryset(queryset, http_request, paginate_by):
     paginator = Paginator(queryset, paginate_by)
@@ -13,8 +14,8 @@ def paginate_queryset(queryset, http_request, paginate_by):
 
     return paginated_items
 
+
 def get_query_params(http_request):
     query_params = http_request.GET.copy()
-    query_params.pop('page', None)
+    query_params.pop("page", None)
     return query_params
-

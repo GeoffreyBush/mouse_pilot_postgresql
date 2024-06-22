@@ -1,17 +1,15 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.shortcuts import get_object_or_404
 
 from mice_repository.models import Mouse
+from mouse_pilot_postgresql.view_utils import get_query_params, paginate_queryset
 from projects.filters import ProjectFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
-from mouse_pilot_postgresql.view_utils import paginate_queryset, get_query_params
 
 
 @login_required
@@ -44,7 +42,10 @@ def add_mouse_to_project(request, project_name):
             project.mice.add(*mice)
             project.save()
             return redirect("projects:list_projects")
-    context = {"form": AddMouseToProjectForm(strains=strain_pks), "project_name": project_name}
+    context = {
+        "form": AddMouseToProjectForm(strains=strain_pks),
+        "project_name": project_name,
+    }
     return render(request, "add_mouse_to_project.html", context)
 
 
@@ -57,7 +58,7 @@ class ShowProjectView(View):
 
     def get_project(self, project_name):
         return get_object_or_404(Project, project_name=project_name)
-    
+
     def get_select_form(self, project, form_data=None):
         if form_data:
             return self.select_class(form_data, project=project)
@@ -78,7 +79,6 @@ class ShowProjectView(View):
             "query_params": get_query_params(http_request),
         }
 
-
     def get(self, http_request, project_name):
         context = self.get_context(http_request, project_name)
         return render(http_request, self.template_name, context)
@@ -88,9 +88,13 @@ class ShowProjectView(View):
         select_form = self.select_class(http_request.POST, project=project)
         if select_form.is_valid():
             selected_mice = select_form.cleaned_data["mice"]
-            http_request.session["selected_mice"] = [mouse.pk for mouse in selected_mice]
+            http_request.session["selected_mice"] = [
+                mouse.pk for mouse in selected_mice
+            ]
             return redirect("mice_requests:add_request", project_name=project_name)
-        context = self.get_context(http_request, project_name, form_data=http_request.POST)
+        context = self.get_context(
+            http_request, project_name, form_data=http_request.POST
+        )
         return render(http_request, self.template_name, context)
 
 

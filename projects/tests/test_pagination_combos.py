@@ -1,15 +1,13 @@
-from django.http import HttpRequest
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.http import urlencode
 
-from mice_repository.models import Mouse
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
     UserFactory,
 )
-from projects.views import ShowProjectView
+
 
 class PaginateCombinedWithFilterTest(TestCase):
     @classmethod
