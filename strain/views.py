@@ -1,14 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from strain.forms import StrainForm
-
 
 
 @login_required
 def strain_management(request):
     return render(request, "strain_management.html")
+
 
 @login_required
 def add_strain(request):
