@@ -109,14 +109,15 @@ class EditMouseInRepositoryViewGetTest(TestCase):
 
 
 class EditMouseInRepositoryViewPostTest(TestCase):
-    
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.mouse = MouseFactory(coat="Black")
         data = RepositoryMiceFormFactory.valid_data(coat="White")
         cls.response = test_client.post(
-            reverse("mice_repository:edit_mouse_in_repository", args=[cls.mouse.pk]), data
+            reverse("mice_repository:edit_mouse_in_repository", args=[cls.mouse.pk]),
+            data,
         )
         cls.mouse.refresh_from_db()
 
