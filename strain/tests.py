@@ -1,8 +1,10 @@
 from django.db import IntegrityError
 from django.test import Client, TestCase
+from django.urls import reverse
 
 from mouse_pilot_postgresql.model_factories import StrainFactory, UserFactory
 from strain.models import Strain
+from strain.forms import StrainForm
 
 
 def setUpModule():
@@ -40,10 +42,56 @@ class StrainModelTest(TestCase):
 
     # Should the increment/decrement methods be a related_name instead?
 
+class StrainFormTest(TestCase):
+    def setUp(self):
+        self.strain = StrainFactory()
+
+    def test_form_is_valid(self):
+        form = StrainForm(data={"strain_name": "teststrain"})
+        self.assertTrue(form.is_valid())
+
+    def test_duplicate_strain(self):
+        form = StrainForm(data={"strain_name": self.strain.strain_name})
+        self.assertFalse(form.is_valid())
 
 class StrainManagementViewGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.get(reverse("strain:strain_management"))
 
-    def test_strain_management_view(self):
-        response = test_client.get("/strain/strain_management")
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "strain_management.html")
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "strain_management.html")
+
+class AddStrainViewGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.get(reverse("strain:add_strain"))
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, "add_strain.html")
+
+    def test_form_is_add_strain_form(self):
+        self.assertIsInstance(self.response.context["form"], StrainForm)
+
+class AddStrainViewPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.post(reverse("strain:add_strain"), data={"strain_name": "teststrain"})
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect(self):
+        self.assertEqual(self.response.url, reverse("strain:strain_management"))
+
+    def test_strain_created(self):
+        self.assertEqual(Strain.objects.count(), 1) 
