@@ -69,3 +69,7 @@ class RepositoryMiceFormTest(TestCase):
     # Mother choices are female
 
     # Father choices are male
+
+    # What happens if you try to edit a mouse's tube to:
+    # 1. A tube that exists
+    # 2. A tube that doesn't exist

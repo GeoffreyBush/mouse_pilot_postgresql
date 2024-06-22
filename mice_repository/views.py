@@ -31,6 +31,12 @@ def add_mouse_to_repository(request):
 @login_required
 def edit_mouse_in_repository(request, pk):
     mouse = Mouse.objects.get(pk=pk)
-    form = RepositoryMiceForm(instance=mouse)
+    if request.method == "POST":
+        form = RepositoryMiceForm(request.POST, instance=mouse)
+        if form.is_valid():
+            form.save()
+            return redirect("mice_repository:mice_repository")
+    else:
+        form = RepositoryMiceForm(instance=mouse)
     context = {"mouse": mouse, "form": form}
     return TemplateResponse(request, "edit_mouse_in_repository.html", context)

@@ -12,8 +12,11 @@
                 This page is for editing a mouse that is already in the MousePilot central repository.
             </li>
             <li class="list-group-item">
-                This page overrides all other methods of editing mice. For example, it can override an earclip request result or project assignment
-            </li>  
+                This page overrides all other methods of editing mice. It can override mother and father, an earclip request result, or project assignment
+            </li>
+            <li class="list-group-item list-group-item-warning">
+                There are currently no safeguards in place against edits that would affect data integrity. For example, the existing mother of a mouse could be set to male.
+            </li>
         </ul>
         <a class="btn btn-secondary mt-4" href="{% url 'mice_repository:mice_repository' %}">
             Back to Repository

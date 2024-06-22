@@ -108,4 +108,23 @@ class EditMouseInRepositoryViewGetTest(TestCase):
         self.assertEqual(self.mouse, self.response.context["mouse"])
 
 
-# edit mouse post request
+class EditMouseInRepositoryViewPostTest(TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.mouse = MouseFactory(coat="Black")
+        data = RepositoryMiceFormFactory.valid_data(coat="White")
+        cls.response = test_client.post(
+            reverse("mice_repository:edit_mouse_in_repository", args=[cls.mouse.pk]), data
+        )
+        cls.mouse.refresh_from_db()
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect_url(self):
+        self.assertRedirects(self.response, reverse("mice_repository:mice_repository"))
+
+    def test_mouse_updated(self):
+        self.assertEqual(self.mouse.coat, "White")

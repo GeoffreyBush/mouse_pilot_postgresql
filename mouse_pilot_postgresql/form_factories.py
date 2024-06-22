@@ -118,15 +118,15 @@ class RepositoryMiceFormFactory:
             "tube": tube,
             "sex": kwargs.get("sex", "M"),
             "dob": kwargs.get("dob", date.today()),
-            "clipped_date": kwargs.get("clipped_date", date.today()),
+            "strain": strain,
+            "clipped_date": kwargs.get("clipped_date", ""),
             "project": kwargs.get("project", ""),
             "earmark": kwargs.get("earmark", ""),
             "genotyper": kwargs.get("genotyper", ""),
             "culled_date": kwargs.get("culled_date", ""),
-            "strain": strain,
-            "coat": kwargs.get("coat", "Black"),
-            "result": kwargs.get("result", "Positive"),
-            "fate": kwargs.get("fate", "Culled"),
+            "coat": kwargs.get("coat", ""),
+            "result": kwargs.get("result", ""),
+            "fate": kwargs.get("fate", ""),
         }
         return data
 
