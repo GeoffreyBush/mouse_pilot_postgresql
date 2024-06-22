@@ -26,7 +26,7 @@ def tearDownModule():
     test_user.delete()
 
 
-class BreedingCageModelTestCase(TestCase):
+class BreedingCageModelTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -58,7 +58,7 @@ class BreedingCageModelTestCase(TestCase):
             self.breeding_cage2 = BreedingCageFactory(box_no="box0")
 
 
-class BreedingCageFormTestCase(TestCase):
+class BreedingCageFormTest(TestCase):
 
     def test_valid_form(self):
         self.form = BreedingCageForm(data=BreedingCageFormFactory.valid_data())
@@ -73,87 +73,161 @@ class BreedingCageFormTestCase(TestCase):
         self.assertIn("mother", self.form.errors)
 
 
-class ListBreedingCagesViewTestCase(TestCase):
+class ListBreedingCagesViewGetTest(TestCase):
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         super().setUpClass()
         cls.strain = StrainFactory()
         cls.cage = BreedingCageFactory()
+        cls.response = test_client.get(reverse("breeding_cage:list_breeding_cages"))
 
-    def test_get_authenticated(self):
-        response = test_client.get(reverse("breeding_cage:list_breeding_cages"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "list_breeding_cages.html")
-        self.assertIn("mycages", response.context)
-        self.assertIn(self.cage, response.context["mycages"])
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "list_breeding_cages.html")
+
+    def test_context_contains_mycages(self):
+        self.assertIn("mycages", self.response.context)
+
+    def test_context_contains_cage(self):
+        self.assertIn(self.cage, self.response.context["mycages"])
 
 
-class ViewBreedingCageViewTestCase(TestCase):
+class ViewBreedingCageViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.cage = BreedingCageFactory()
-
-    def test_get_authenticated(self):
-        response = test_client.get(
-            reverse("breeding_cage:view_breeding_cage", args=[self.cage.box_no])
+        cls.response = test_client.get(
+            reverse("breeding_cage:view_breeding_cage", args=[cls.cage.box_no])
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "view_breeding_cage.html")
-        self.assertIn("mycage", response.context)
-        self.assertEqual(response.context["mycage"], self.cage)
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "view_breeding_cage.html")
+
+    def test_context_contains_mycage(self):
+        self.assertIn("mycage", self.response.context)
+
+    def test_context_contains_cage(self):
+        self.assertEqual(self.response.context["mycage"], self.cage)
 
 
-class AddBreedingCageViewTestCase(TestCase):
+class AddBreedingCageViewGetTest(TestCase):
 
-    def test_get_authenticated(self):
-        response = test_client.get(reverse("breeding_cage:add_breeding_cage"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_breeding_cage.html")
-        self.assertIsInstance(response.context["form"], BreedingCageForm)
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.get(reverse("breeding_cage:add_breeding_cage"))
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "add_breeding_cage.html")
+
+    def test_correct_form(self):
+        self.assertIsInstance(self.response.context["form"], BreedingCageForm)
+
+class AddBreedingCageViewPostTest(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.post(
+            reverse("breeding_cage:add_breeding_cage"),
+            BreedingCageFormFactory.valid_data(),
+        )
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect(self):
+        self.assertRedirects(self.response, reverse("breeding_cage:list_breeding_cages"))
 
     def test_create_breeding_cage_post_valid(self):
-        data = BreedingCageFormFactory.valid_data()
-        response = test_client.post(reverse("breeding_cage:add_breeding_cage"), data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
         self.assertEqual(BreedingCage.objects.count(), 1)
 
-    def test_create_breeding_cage_post_invalid(self):
-        data = BreedingCageFormFactory.invalid_mother()
-        response = test_client.post(reverse("breeding_cage:add_breeding_cage"), data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_breeding_cage.html")
+class AddBreedingCageViewPostInvalidTest(TestCase):
 
-
-# Cannot easily use setUpClass here. Test cages need to be isolated.
-class EditBreedingCageViewTestCase(TestCase):
-    def setUp(self):
-        self.cage = BreedingCageFactory()
-
-    def test_get_authenticated(self):
-        response = test_client.get(
-            reverse("breeding_cage:edit_breeding_cage", args=[self.cage])
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.response = test_client.post(
+            reverse("breeding_cage:add_breeding_cage"),
+            BreedingCageFormFactory.invalid_mother(),
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "edit_breeding_cage.html")
-        self.assertIsInstance(response.context["form"], BreedingCageForm)
 
-    def test_edit_breeding_cage_post_valid(self):
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "add_breeding_cage.html")
+
+    def test_no_breeding_cage_created(self):
+        self.assertEqual(BreedingCage.objects.count(), 0)
+
+
+
+class EditBreedingCageViewGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cage = BreedingCageFactory()
+        cls.response = test_client.get(
+            reverse("breeding_cage:edit_breeding_cage", args=[cls.cage])
+        )
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "edit_breeding_cage.html")
+
+    def test_correct_form(self):
+        self.assertIsInstance(self.response.context["form"], BreedingCageForm)
+
+class EditBreedingCageViewPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cage = BreedingCageFactory(box_no="box0")
         data = BreedingCageFormFactory.valid_data()
         data["box_no"] = "new"
-        response = test_client.post(
-            reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
+        cls.response = test_client.post(
+            reverse("breeding_cage:edit_breeding_cage", args=[cls.cage]), data,
         )
-        self.cage.refresh_from_db()
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("breeding_cage:list_breeding_cages"))
+        cls.cage.refresh_from_db()
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect(self):
+        self.assertRedirects(self.response, reverse("breeding_cage:list_breeding_cages"))
+
+    def test_breeding_cage_updated(self):
         self.assertEqual(self.cage.box_no, "new")
 
-    def test_edit_breeding_cage_post_invalid(self):
+class EditBreedingCageViewInvalidPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cage = BreedingCageFactory(box_no="box0")
         data = BreedingCageFormFactory.invalid_mother()
-        response = test_client.post(
-            reverse("breeding_cage:edit_breeding_cage", args=[self.cage]), data
+        data["box_no"] = "new"
+        cls.response = test_client.post(
+            reverse("breeding_cage:edit_breeding_cage", args=[cls.cage]), data
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "edit_breeding_cage.html")
+        cls.cage.refresh_from_db()
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "edit_breeding_cage.html")
+
+    def test_breeding_cage_not_updated(self):
+        self.assertEqual(self.cage.box_no, "box0")
