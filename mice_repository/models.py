@@ -20,7 +20,7 @@ class Mouse(models.Model):
         ("BRBL", "BRBL"),
     ]
     strain = models.ForeignKey(
-        "strain.Strain", on_delete=models.PROTECT, blank=False, null=False
+        "strain.Strain", on_delete=models.PROTECT, blank=False, null=False, related_name="mice"
     )
     tube = models.IntegerField(db_column="Tube", blank=True, null=True)
     _global_id = models.CharField(
@@ -107,18 +107,17 @@ class Mouse(models.Model):
             self.culled_date = culled_date
             self.save()
 
-    # tube can be set manually or is set automatically using strain.mice_count. tube value then used to set _global_id
+    # tube can be set manually or is set automatically using strain.mice.count(). tube value then used to set _global_id
     def clean(self):
         super().clean()
-        self.strain.increment_mice_count()
+        new_tube = self.strain.mice.count()
         if self.tube is None:
-            self.tube = self.strain.mice_count
+            self.tube = new_tube+1
         if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self.tube}"
         try:
             self.validate_unique()
         except ValidationError as e:
-            self.strain.decrement_mice_count()
             raise ValidationError(e)
 
     def save(self, *args, **kwargs):

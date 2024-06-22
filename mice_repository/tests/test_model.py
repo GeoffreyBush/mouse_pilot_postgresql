@@ -28,8 +28,6 @@ class MouseModelNoDBTest(TestCase):
         self.mouse.clean()
         self.assertEqual(self.mouse.pk, "teststrain-1")
 
-    # More clean() tests
-
     def test_manual_tube_correct_value(self):
         self.manual_tube_mouse = MouseFactory(strain=self.strain, tube=123)
         self.assertEqual(self.manual_tube_mouse.tube, 123)
@@ -91,17 +89,17 @@ class MouseModelWithDBTest(TestCase):
             )
 
     def test_increment_strain_count_when_validate_unique_mouse_passes(self):
-        self.assertEqual(self.strain.mice_count, 1)
+        self.assertEqual(self.strain.mice.count(), 1)
         self.extra_mouse = MouseFactory(strain=self.strain, tube=5)
-        self.assertEqual(self.strain.mice_count, 2)
+        self.assertEqual(self.strain.mice.count(), 2)
 
     def test_no_increment_strain_count_when_validate_unique_mouse_fails(self):
-        self.assertEqual(self.strain.mice_count, 1)
+        self.assertEqual(self.strain.mice.count(), 1)
         with self.assertRaises(ValidationError):
             self.duplicate_mouse = MouseFactory(
                 strain=self.strain, tube=self.mouse.tube
             )
-        self.assertEqual(self.strain.mice_count, 1)
+        self.assertEqual(self.strain.mice.count(), 1)
 
     # Mother must be female
 
@@ -114,3 +112,13 @@ class MouseModelWithDBTest(TestCase):
     # dob must be in the past
 
     # If the mouse is genotyped, the genotyper must be set
+
+    # Test how related_name = mouse_mother/father works. Does it means you can see all children of a mouse?
+
+
+
+
+
+    
+
+

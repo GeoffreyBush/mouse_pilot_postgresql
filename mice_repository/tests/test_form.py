@@ -40,7 +40,7 @@ class RepositoryMiceFormTest(TestCase):
         self.form = RepositoryMiceFormFactory.build(strain=self.strain, tube=123)
         self.assertEqual(Mouse.objects.all().count(), 0)
         self.mouse = self.form.save()
-        self.assertEqual(self.strain.mice_count, 1)
+        self.assertEqual(self.strain.mice.count(), 1)
 
     def test_auto_tube_correct_tube_value(self):
         self.mouse1 = MouseFactory.create(strain=self.strain)
@@ -52,7 +52,7 @@ class RepositoryMiceFormTest(TestCase):
         self.form = RepositoryMiceFormFactory.build(strain=self.strain)
         self.assertEqual(Mouse.objects.all().count(), 0)
         self.form.save()
-        self.assertEqual(self.strain.mice_count, 1)
+        self.assertEqual(self.strain.mice.count(), 1)
 
     def test_tube_is_none_correct_tube_value(self):
         self.mouse1 = MouseFactory.create(strain=self.strain)
@@ -64,7 +64,7 @@ class RepositoryMiceFormTest(TestCase):
         self.form = RepositoryMiceFormFactory.build(strain=self.strain, tube=None)
         self.assertEqual(Mouse.objects.all().count(), 0)
         self.form.save()
-        self.assertEqual(self.strain.mice_count, 1)
+        self.assertEqual(self.strain.mice.count(), 1)
 
     # Mother choices are female
 

@@ -32,6 +32,8 @@ class BreedingCageModelTest(TestCase):
         super().setUpClass()
         cls.strain = StrainFactory()
         cls.mother = MouseFactory(sex="F", strain=cls.strain)
+        cls.strain.save()
+        cls.strain.refresh_from_db()
         cls.father = MouseFactory(sex="M", strain=cls.strain)
         cls.breeding_cage = BreedingCageFactory(
             strain=cls.strain,
