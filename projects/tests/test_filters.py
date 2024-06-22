@@ -65,7 +65,7 @@ class GetFilteredProjectMiceTest(TestCase):
     def setUpTestData(cls):
         cls.project = ProjectFactory()
         cls.mouse1 = MouseFactory(project=cls.project, sex="M", earmark="TL")
-        cls.mouse2 = MouseFactory(project=cls.project, earmark="TR")
+        cls.mouse2 = MouseFactory(project=cls.project, sex="F", earmark="TR")
 
     def setUp(self):
         self.request = HttpRequest()
