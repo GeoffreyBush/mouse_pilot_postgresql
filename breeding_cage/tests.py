@@ -27,7 +27,6 @@ def tearDownModule():
 
 
 class BreedingCageModelTest(TestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -117,7 +116,6 @@ class ViewBreedingCageViewGetTest(TestCase):
 
 
 class AddBreedingCageViewGetTest(TestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -134,7 +132,6 @@ class AddBreedingCageViewGetTest(TestCase):
 
 
 class AddBreedingCageViewPostTest(TestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -156,7 +153,6 @@ class AddBreedingCageViewPostTest(TestCase):
 
 
 class AddBreedingCageViewPostInvalidTest(TestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

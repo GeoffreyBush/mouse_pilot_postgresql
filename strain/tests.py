@@ -1,8 +1,20 @@
 from django.db import IntegrityError
-from django.test import TestCase
+from django.test import TestCase, Client
 
-from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory
+from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory, UserFactory
 from strain.models import Strain
+
+
+def setUpModule():
+    global test_user, test_client
+    test_user = UserFactory(username="testuser")
+    test_client = Client()
+    test_client.force_login(test_user)
+
+
+def tearDownModule():
+    global test_user
+    test_user.delete()
 
 
 class StrainModelTest(TestCase):
@@ -41,3 +53,13 @@ class StrainModelTest(TestCase):
     # Changing the strain of a mouse should increment the new strain's mice count
 
     # Changing the strain of a mouse should decrement the old strain's mice count
+
+    # Should the increment/decrement methods be a related_name instead?
+
+
+class StrainManagementViewGetTest(TestCase):
+
+    def test_strain_management_view(self):
+        response = test_client.get("/strain/strain_management")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "strain_management.html")
