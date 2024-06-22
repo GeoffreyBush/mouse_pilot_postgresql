@@ -203,21 +203,46 @@ class InfoPanelViewGetTest(TestCase):
 
 
 class AddMouseToProjectViewGetTest(TestCase):
-    def setUp(self):
-        self.project = ProjectFactory.create()
-        self.strain = StrainFactory.create()
-        self.project.strains.add(self.strain)
-        self.response = test_client.get(
-            reverse("projects:add_mouse_to_project", args=[self.project.project_name])
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = ProjectFactory.create()
+        cls.strain = StrainFactory.create()
+        cls.project.strains.add(cls.strain)
+        cls.response = test_client.get(
+            reverse("projects:add_mouse_to_project", args=[cls.project.project_name])
         )
 
-    def test_correct_get_request(self):
+    def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
         self.assertTemplateUsed(self.response, "add_mouse_to_project.html")
+
+    def test_form_in_context(self):
         self.assertIsInstance(self.response.context["form"], AddMouseToProjectForm)
+
+    def test_project_name_in_context(self):
         self.assertIn("project_name", self.response.context)
 
-    # mouse cannot be in a project already
+    
+class AddMouseToProjectViewPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = ProjectFactory.create()
+        cls.strain = StrainFactory.create()
+        cls.project.strains.add(cls.strain)
+        data = {"mice": [MouseFactory(strain=cls.strain, project=None).pk, MouseFactory(strain=cls.strain, project=None).pk]}
+        cls.response = test_client.post(
+            reverse("projects:add_mouse_to_project", args=[cls.project.project_name]), data
+        )
 
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
 
-# AddMouse POST request
+    def test_redirect_url(self):
+        self.assertEqual(self.response.url, reverse("projects:list_projects"))
+
+    def test_mice_added_to_project(self):
+        self.assertEqual(self.project.mice.count(), 2)
