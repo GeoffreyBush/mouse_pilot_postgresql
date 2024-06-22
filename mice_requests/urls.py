@@ -17,6 +17,4 @@ urlpatterns = [
         views.add_request,
         name="add_request",
     ),
-    # Request messaging is not implemented yet
-    path("show_message/<int:request_id>/", views.show_message, name="show_message"),
 ]

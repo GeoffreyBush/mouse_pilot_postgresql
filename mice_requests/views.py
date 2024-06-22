@@ -68,11 +68,3 @@ class ConfirmRequestView(View):
                 pass
 
         return redirect("mice_requests:show_requests")
-
-
-# This show_message view doesn't work currently - no popup renders on show_request.html
-@login_required
-def show_message(request):
-
-    context = {}
-    return render(request, "popups/request_fragment.html", context)
