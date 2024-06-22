@@ -7,18 +7,22 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='StockCage',
+            name="StockCage",
             fields=[
-                ('cage_id', models.AutoField(db_column='Cage ID', primary_key=True, serialize=False)),
+                (
+                    "cage_id",
+                    models.AutoField(
+                        db_column="Cage ID", primary_key=True, serialize=False
+                    ),
+                ),
             ],
             options={
-                'db_table': 'stockcage',
-                'managed': True,
+                "db_table": "stockcage",
+                "managed": True,
             },
         ),
     ]
