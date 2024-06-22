@@ -20,7 +20,11 @@ class Mouse(models.Model):
         ("BRBL", "BRBL"),
     ]
     strain = models.ForeignKey(
-        "strain.Strain", on_delete=models.PROTECT, blank=False, null=False, related_name="mice"
+        "strain.Strain",
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+        related_name="mice",
     )
     tube = models.IntegerField(db_column="Tube", blank=True, null=True)
     _global_id = models.CharField(
@@ -112,7 +116,7 @@ class Mouse(models.Model):
         super().clean()
         new_tube = self.strain.mice.count()
         if self.tube is None:
-            self.tube = new_tube+1
+            self.tube = new_tube + 1
         if not self._global_id:
             self._global_id = f"{self.strain.strain_name}-{self.tube}"
         try:

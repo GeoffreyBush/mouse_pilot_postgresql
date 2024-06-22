@@ -114,11 +114,3 @@ class MouseModelWithDBTest(TestCase):
     # If the mouse is genotyped, the genotyper must be set
 
     # Test how related_name = mouse_mother/father works. Does it means you can see all children of a mouse?
-
-
-
-
-
-    
-
-

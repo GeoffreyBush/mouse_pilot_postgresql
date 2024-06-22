@@ -108,10 +108,10 @@ class RepositoryMiceFormFactory:
 
         strain = kwargs.get("strain")
         if strain is not None:
-            tube = strain.mice.count()+1
+            tube = strain.mice.count() + 1
         else:
             strain = StrainFactory()
-            tube = kwargs.get("tube", strain.mice.count()+1)
+            tube = kwargs.get("tube", strain.mice.count() + 1)
 
         data = {
             "tube": tube,
