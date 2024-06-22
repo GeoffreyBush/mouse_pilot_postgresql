@@ -1,6 +1,5 @@
 from datetime import date
 
-from django.core.exceptions import ValidationError
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -9,7 +8,6 @@ from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import RepositoryMiceFormFactory
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
-    StrainFactory,
     UserFactory,
 )
 
