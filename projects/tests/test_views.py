@@ -225,7 +225,7 @@ class AddMouseToProjectViewGetTest(TestCase):
     def test_project_name_in_context(self):
         self.assertIn("project_name", self.response.context)
 
-    
+
 class AddMouseToProjectViewPostTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -233,9 +233,15 @@ class AddMouseToProjectViewPostTest(TestCase):
         cls.project = ProjectFactory.create()
         cls.strain = StrainFactory.create()
         cls.project.strains.add(cls.strain)
-        data = {"mice": [MouseFactory(strain=cls.strain, project=None).pk, MouseFactory(strain=cls.strain, project=None).pk]}
+        data = {
+            "mice": [
+                MouseFactory(strain=cls.strain, project=None).pk,
+                MouseFactory(strain=cls.strain, project=None).pk,
+            ]
+        }
         cls.response = test_client.post(
-            reverse("projects:add_mouse_to_project", args=[cls.project.project_name]), data
+            reverse("projects:add_mouse_to_project", args=[cls.project.project_name]),
+            data,
         )
 
     def test_http_code(self):
