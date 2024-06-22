@@ -6,7 +6,8 @@ from strain.forms import StrainForm
 
 @login_required
 def strain_management(request):
-    return render(request, "strain_management.html")
+    context = {"strains": StrainForm.Meta.model.objects.all()}
+    return render(request, "strain_management.html", context)
 
 
 @login_required

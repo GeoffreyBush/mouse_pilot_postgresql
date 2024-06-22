@@ -68,6 +68,9 @@ class StrainManagementViewGetTest(TestCase):
     def test_template(self):
         self.assertTemplateUsed(self.response, "strain_management.html")
 
+    def test_strains_in_context(self):
+        self.assertIsNotNone(self.response.context["strains"])
+
 
 class AddStrainViewGetTest(TestCase):
     @classmethod
