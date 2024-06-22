@@ -4,10 +4,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
-    StrainFactory,
-)
+from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory
 
 
 def setUpModule():

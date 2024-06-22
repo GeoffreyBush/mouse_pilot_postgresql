@@ -6,10 +6,7 @@ from django.urls import reverse
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import RepositoryMiceFormFactory
-from mouse_pilot_postgresql.model_factories import (
-    MouseFactory,
-    UserFactory,
-)
+from mouse_pilot_postgresql.model_factories import MouseFactory, UserFactory
 
 
 def setUpModule():
@@ -109,5 +106,6 @@ class EditMouseInRepositoryViewGetTest(TestCase):
 
     def test_context_contains_mouse_instance(self):
         self.assertEqual(self.mouse, self.response.context["mouse"])
+
 
 # edit mouse post request

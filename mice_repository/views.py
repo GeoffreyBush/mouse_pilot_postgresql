@@ -8,7 +8,6 @@ from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
 
 
-
 @login_required
 def mice_repository(request):
     mymice = Mouse.objects.all()
@@ -27,6 +26,7 @@ def add_mouse_to_repository(request):
     else:
         form = RepositoryMiceForm()
     return render(request, "add_mouse_to_repository.html", {"mice_form": form})
+
 
 @login_required
 def edit_mouse_in_repository(request, pk):
