@@ -61,7 +61,10 @@ class ShowProjectView(View):
 
     def get_context(self, http_request, project_name, form_data=None):
         project = self.get_project(project_name)
-        mice_qs = MouseFilter.get_filtered_mice(Mouse.objects.filter(project=project.pk).order_by("_global_id"), http_request)
+        mice_qs = MouseFilter.get_filtered_mice(
+            Mouse.objects.filter(project=project.pk).order_by("_global_id"),
+            http_request,
+        )
         project_mice = paginate_queryset(mice_qs, http_request, self.paginate_by)
 
         return {
