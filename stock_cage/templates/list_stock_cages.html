@@ -9,7 +9,7 @@
         <div class="col-md-12 d-flex justify-content-between " >
             <h1 class="project-header-text">Stock Cage List</h1>
             <div>
-                <a href="#}" class="btn btn-primary">Add Stock Cage</a>
+                <a href="{% url 'stock_cage:add_stock_cage' %}" class="btn btn-primary">Add Stock Cage</a>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         {% endfor %}
     </div>
-    <p>No functionality here yet, you can only see how many stock cages exist.</p>
+    <p>No functionality here yet, you can only see how many stock cages exist or add new stock cages.</p>
 
 </div>
 {% endblock %}

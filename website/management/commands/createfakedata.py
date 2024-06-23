@@ -13,9 +13,9 @@ from mouse_pilot_postgresql.model_factories import (
     ProjectFactory,
     StrainFactory,
     UserFactory,
+    StockCageFactory,
 )
 from projects.models import Project
-from stock_cage.models import StockCage
 from strain.models import Strain
 from system_users.models import CustomUser
 
@@ -49,7 +49,7 @@ class Command(BaseCommand):
 
     def create_stock_cages(self, n):
         for _ in range(n):
-            StockCage.objects.create()
+            StockCageFactory.create()
 
     def create_mice(self, n):
         existing_projects = Project.objects.all()
