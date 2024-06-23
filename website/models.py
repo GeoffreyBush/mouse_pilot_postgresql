@@ -15,10 +15,11 @@ class CageModel(models.Model):
 
     def __str__(self):
         return f"{self.box_no}"
-    
+
     class Meta:
         managed = True
         db_table = "basecage"
+
 
 class MouseComment(models.Model):
 

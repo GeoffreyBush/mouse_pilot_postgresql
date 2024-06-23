@@ -9,7 +9,6 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     StrainFactory,
     UserFactory,
-    StockCageFactory
 )
 from wean_pups.forms import PupsToStockCageForm
 from wean_pups.views import PupsToStockCageView

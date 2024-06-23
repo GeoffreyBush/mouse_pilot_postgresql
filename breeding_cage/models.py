@@ -1,11 +1,12 @@
 from django.db import models
+
 from website.models import CageModel
 
 # Need to track whether female is pregnant
 
+
 class BreedingCage(CageModel):
     """Could benefit from tracking when the breeding pair was put in the cage"""
-
 
     strain = models.ForeignKey(
         "strain.Strain",

@@ -1,5 +1,6 @@
 from website.models import CageModel
 
+
 class StockCage(CageModel):
 
     class Meta:
