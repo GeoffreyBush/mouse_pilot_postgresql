@@ -5,6 +5,7 @@ from django.db import models
 
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED
 
+
 class Mouse(models.Model):
 
     strain = models.ForeignKey(
