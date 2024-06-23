@@ -61,6 +61,8 @@ class BreedingCageFactory(factory.django.DjangoModelFactory):
 
 class StockCageFactory(factory.django.DjangoModelFactory):
 
+    box_no = factory.Sequence(lambda n: f"stock{n+1}")
+
     class Meta:
         model = "stock_cage.StockCage"
 

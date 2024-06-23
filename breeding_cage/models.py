@@ -1,19 +1,12 @@
 from django.db import models
+from website.models import CageModel
 
 # Need to track whether female is pregnant
 
-
-class BreedingCage(models.Model):
+class BreedingCage(CageModel):
     """Could benefit from tracking when the breeding pair was put in the cage"""
 
-    box_no = models.CharField(
-        db_column="Box Number",
-        max_length=10,
-        null=False,
-        blank=False,
-        default="Unnamed",
-        unique=True,
-    )
+
     strain = models.ForeignKey(
         "strain.Strain",
         on_delete=models.PROTECT,
@@ -58,9 +51,6 @@ class BreedingCage(models.Model):
     transferred_to_stock = models.BooleanField(
         db_column="Moved to Stock", default=False
     )
-
-    def __str__(self):
-        return f"{self.box_no}"
 
     class Meta:
         managed = True

@@ -174,7 +174,7 @@ class PupsToStockCageFormSetFactory:
         mother = kwargs.get("mother", MouseFactory(sex="F", strain=strain))
         father = kwargs.get("father", MouseFactory(sex="M", strain=strain))
         dob = kwargs.get("dob", date.today())
-        stock_cage = kwargs.get("stock_cage", StockCageFactory())
+        stock_cage = kwargs.get("stock_cage", StockCageFactory().pk)
 
         default_tube_counter = itertools.count(100)
         passed_tubes = kwargs.get("passed_tubes", [])

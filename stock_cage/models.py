@@ -1,13 +1,6 @@
-from django.db import models
+from website.models import CageModel
 
-
-# Create your models here.
-class StockCage(models.Model):
-
-    cage_id = models.AutoField(db_column="Cage ID", primary_key=True)
-
-    def __str__(self):
-        return f"{self.cage_id}"
+class StockCage(CageModel):
 
     class Meta:
         managed = True
