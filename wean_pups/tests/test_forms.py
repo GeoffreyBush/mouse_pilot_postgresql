@@ -22,7 +22,6 @@ class PupsToStockCageFormTest(TestCase):
         cls.form = PupsToStockCageFormFactory.build(strain=cls.strain)
 
     def test_valid_data(self):
-        print("self.form.errors", self.form.errors)
         self.assertTrue(self.form.is_valid())
 
     def test_correct_strain(self):

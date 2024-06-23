@@ -27,6 +27,22 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
 
             tube_numbers.append(tube)
 
+    # Override save method to save all forms in formset
+    def save(self, breeding_cage):
+        if not self.is_valid():
+            raise ValueError("Formset must be valid before saving")
+        
+        for form in self:
+            mouse_instance = form.save(commit=False)
+            mouse_instance.strain = breeding_cage.strain
+            mouse_instance.mother = breeding_cage.mother
+            mouse_instance.father = breeding_cage.father
+            mouse_instance.dob = breeding_cage.date_born
+            mouse_instance.save()
+        
+        breeding_cage.transferred_to_stock = True
+        breeding_cage.save()
+
 
 # Need to create validation handling for readonly attributes here, add handling to view
 class PupsToStockCageForm(forms.ModelForm):

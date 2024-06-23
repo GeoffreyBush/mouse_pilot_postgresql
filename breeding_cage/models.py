@@ -53,6 +53,22 @@ class BreedingCage(CageModel):
         db_column="Moved to Stock", default=False
     )
 
+    # Used to populate the initial PupsToStockCageFormSet in wean_pups app - no optimal place for this method
+    def get_initial_data_for_pups(self):
+        initial_data = []
+        for sex, count in [("M", self.male_pups), ("F", self.female_pups)]:
+            initial_data += [
+                {
+                    "sex": sex,
+                    "strain": self.strain,
+                    "mother": self.mother,
+                    "father": self.father,
+                    "dob": self.date_born,
+                }
+                for _ in range(count)
+            ]
+        return initial_data
+
     class Meta:
         managed = True
         db_table = "breedingcage"

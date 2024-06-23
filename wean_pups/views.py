@@ -24,23 +24,8 @@ class PupsToStockCageView(View):
             raise Http404("Breeding cage does not exist")
         return super().dispatch(request, *args, **kwargs)
 
-    def get_initial_data(self):
-        initial_data = []
-        for sex, count in [("M", self.cage.male_pups), ("F", self.cage.female_pups)]:
-            initial_data += [
-                {
-                    "sex": sex,
-                    "strain": self.cage.strain,
-                    "mother": self.cage.mother,
-                    "father": self.cage.father,
-                    "dob": self.cage.date_born,
-                }
-                for _ in range(count)
-            ]
-        return initial_data
-
     def get(self, request):
-        initial_data = self.get_initial_data()
+        initial_data = self.cage.get_initial_data_for_pups()
         formset = self.MouseFormSet(initial=initial_data, prefix="mouse")
         return render(request, self.template_name, {"formset": formset})
 
@@ -52,14 +37,7 @@ class PupsToStockCageView(View):
             )
             return render(request, self.template_name, {"formset": formset})
         elif formset.is_valid():
-            for form in formset:
-                mouse_instance = form.save(commit=False)
-                mouse_instance.strain = self.cage.strain
-                mouse_instance.mother = self.cage.mother
-                mouse_instance.father = self.cage.father
-                mouse_instance.dob = self.cage.date_born
-                mouse_instance.save()
-            self.cage.transferred_to_stock = True
+            formset.save(self.cage)
             self.cage.save()
             return redirect("breeding_cage:list_breeding_cages")
         else:

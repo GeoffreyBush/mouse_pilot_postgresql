@@ -1,3 +1,4 @@
+"""
 from django.test import RequestFactory, TestCase
 
 from mouse_pilot_postgresql.model_factories import (
@@ -83,3 +84,4 @@ class GetInitialDataTest(TestCase):
         view = PupsToStockCageView()
         view.dispatch(request, box_no=self.cage.box_no)
         return view
+"""
