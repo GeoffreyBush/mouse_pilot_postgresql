@@ -2,8 +2,8 @@ from django.http import HttpRequest
 from django.test import TestCase
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.model_factories import MouseFactory, ProjectFactory
 from mouse_pilot_postgresql.filters import MouseFilter
+from mouse_pilot_postgresql.model_factories import MouseFactory
 
 
 class MouseFilterViewTestCase(TestCase):

@@ -2,6 +2,7 @@ from django.http import Http404
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
+from mouse_pilot_postgresql.filters import MouseFilter
 from mouse_pilot_postgresql.form_factories import (
     MouseSelectionFormFactory,
     NewProjectFormFactory,
@@ -12,7 +13,6 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from mouse_pilot_postgresql.filters import MouseFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from projects.views import ShowProjectView, add_new_project

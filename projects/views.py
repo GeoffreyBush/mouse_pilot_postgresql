@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.view_utils import get_query_params, paginate_queryset
 from mouse_pilot_postgresql.filters import MouseFilter
+from mouse_pilot_postgresql.view_utils import get_query_params, paginate_queryset
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
