@@ -20,7 +20,9 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
     def clean(self):
         super().clean()
         if self.breeding_cage and self.breeding_cage.transferred_to_stock:
-            raise ValidationError("Pups have already been transferred out of this breeding cage")
+            raise ValidationError(
+                "Pups have already been transferred out of this breeding cage"
+            )
         tube_numbers = []
         for i, form in enumerate(self.forms):
             tube = self.data.get(f"mouse-{i}-tube")

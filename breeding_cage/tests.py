@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from breeding_cage.forms import BreedingCageForm
 from breeding_cage.models import BreedingCage
-from mice_repository.models import Mouse
 from mouse_pilot_postgresql.form_factories import BreedingCageFormFactory
 from mouse_pilot_postgresql.model_factories import (
     BreedingCageFactory,
@@ -65,6 +64,7 @@ class BreedingCageModelTest(TestCase):
 
     def test_initial_data_method_return_female(self):
         self.assertEqual(sum(1 for item in self.initial_data if item["sex"] == "F"), 3)
+
 
 class BreedingCageFormTest(TestCase):
 
