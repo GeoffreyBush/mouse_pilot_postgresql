@@ -1,15 +1,13 @@
-from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
 
 from mice_repository import views
 
 app_name = "mice_repository"
 
 urlpatterns = [
-    path(
-        "", views.mice_repository, name="mice_repository"
-    ),
+    path("", views.mice_repository, name="mice_repository"),
     path("mice_repository", views.mice_repository, name="mice_repository"),
     path(
         "add_mouse_to_repository",
