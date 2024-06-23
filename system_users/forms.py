@@ -13,9 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
         min_length=5,
         max_length=20,
     )
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={}), label="Email"
-    )
+    email = forms.EmailField(widget=forms.EmailInput(attrs={}), label="Email")
     password1 = forms.CharField(
         label="Password",
         min_length=8,
