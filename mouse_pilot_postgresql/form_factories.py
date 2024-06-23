@@ -148,7 +148,7 @@ class PupsToStockCageFormFactory:
             "mother": kwargs.get("mother", MouseFactory(sex="F", strain=strain)),
             "father": kwargs.get("father", MouseFactory(sex="M", strain=strain)),
             "dob": kwargs.get("dob", date.today()),
-            "stock_cage": kwargs.get("stock_cage", StockCageFactory()),
+            "cage": kwargs.get("cage", StockCageFactory()),
         }
 
 
@@ -191,7 +191,7 @@ class PupsToStockCageFormSetFactory:
                 mother=mother,
                 father=father,
                 dob=dob,
-                stock_cage=stock_cage,
+                cage=stock_cage,
                 tube=next_tube,
                 sex=sex,
             )

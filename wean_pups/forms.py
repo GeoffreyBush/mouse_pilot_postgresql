@@ -48,7 +48,7 @@ class PupsToStockCageForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
 
-    stock_cage = forms.ModelChoiceField(
+    cage = forms.ModelChoiceField(
         required=True,
         queryset=StockCage.objects.all(),
         widget=forms.Select(attrs={"class": "form-select"}),
@@ -96,7 +96,7 @@ class PupsToStockCageForm(forms.ModelForm):
 
     class Meta:
         model = Mouse
-        include = ["strain", "stock_cage", "tube"]
+        include = ["strain", "cage", "tube"]
         exclude = [
             "project",
             "earmark",

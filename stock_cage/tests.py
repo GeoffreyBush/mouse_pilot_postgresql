@@ -28,8 +28,8 @@ class StockCageModelTestCase(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.cage = StockCageFactory()
-        cls.mouse1, cls.mouse2 = MouseFactory(stock_cage=cls.cage), MouseFactory(
-            stock_cage=cls.cage
+        cls.mouse1, cls.mouse2 = MouseFactory(cage=cls.cage), MouseFactory(
+            cage=cls.cage
         )
 
     def test_stock_cage_created(self):

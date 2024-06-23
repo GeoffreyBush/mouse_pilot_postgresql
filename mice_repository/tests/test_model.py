@@ -113,6 +113,6 @@ class MouseModelWithDBTest(TestCase):
 
     # If the mouse is genotyped, the genotyper must be set
 
-    # Can only be associated with one cage at a time
+    # Can be in either a breeding cage, stock cage, or experimental cage
 
     # Test how related_name = mouse_mother/father works. Does it means you can see all children of a mouse?

@@ -3,7 +3,7 @@ from django import forms
 from mice_repository.models import Mouse
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from projects.models import Project
-from stock_cage.models import StockCage
+from website.models import CageModel
 from strain.models import Strain
 from system_users.models import CustomUser
 
@@ -30,11 +30,12 @@ class RepositoryMiceForm(forms.ModelForm):
             format="%Y-%m-%d", attrs={"type": "date", "class": "form-control"}
         ),
     )
-    stock_cage = forms.ModelChoiceField(
+    cage = forms.ModelChoiceField(
         initial=None,
-        queryset=StockCage.objects.all(),
+        queryset=CageModel.objects.all(),
         required=False,
         widget=forms.Select(attrs={"class": "form-select"}),
+        label="Current Cage",
     )
     clipped_date = forms.DateField(
         initial=None,
