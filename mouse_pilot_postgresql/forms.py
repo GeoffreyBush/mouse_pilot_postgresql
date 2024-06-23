@@ -1,5 +1,7 @@
 from django import forms
+
 from mice_repository.models import Mouse
+
 
 class MouseSelectionForm(forms.Form):
 

@@ -1,7 +1,7 @@
 from django import forms
 
-from mice_repository.models import Mouse
 from website.models import MouseComment
+
 
 class MouseCommentForm(forms.ModelForm):
 

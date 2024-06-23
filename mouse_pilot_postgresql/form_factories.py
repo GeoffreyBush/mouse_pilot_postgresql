@@ -7,6 +7,7 @@ from django.forms import formset_factory
 from breeding_cage.forms import BreedingCageForm
 from mice_repository.forms import RepositoryMiceForm
 from mice_requests.forms import RequestForm
+from mouse_pilot_postgresql.forms import MouseSelectionForm
 from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
@@ -16,7 +17,6 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet
-from mouse_pilot_postgresql.forms import MouseSelectionForm
 
 
 class BreedingCageFormFactory:
