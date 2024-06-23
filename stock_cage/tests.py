@@ -1,10 +1,14 @@
-from django.test import TestCase, Client
 from django.db.utils import IntegrityError
+from django.test import Client, TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.model_factories import MouseFactory, StockCageFactory, UserFactory
-from stock_cage.models import StockCage
+from mouse_pilot_postgresql.model_factories import (
+    MouseFactory,
+    StockCageFactory,
+    UserFactory,
+)
 from stock_cage.forms import StockCageForm
+from stock_cage.models import StockCage
 
 
 def setUpModule():
@@ -17,7 +21,6 @@ def setUpModule():
 def tearDownModule():
     global test_user
     test_user.delete()
-
 
 
 class StockCageModelTestCase(TestCase):
@@ -42,11 +45,13 @@ class StockCageModelTestCase(TestCase):
     def test_stock_mice_count(self):
         self.assertEqual(self.cage.mice.count(), 2)
 
+
 class StockCageFormTestCase(TestCase):
-    
+
     def test_form_is_valid(self):
         form = StockCageForm(data={"box_no": "Test Box"})
         self.assertTrue(form.is_valid())
+
 
 class StockCagesViewGetTest(TestCase):
     @classmethod
@@ -63,6 +68,7 @@ class StockCagesViewGetTest(TestCase):
 
     def test_cage_count(self):
         self.assertEqual(self.response.context["cages"].count(), 1)
+
 
 class AddStockCageViewGetTest(TestCase):
     @classmethod
@@ -87,7 +93,7 @@ class AddStockCageViewPostTest(TestCase):
         cls.response = test_client.post(
             reverse("stock_cage:add_stock_cage"), data={"box_no": "Test Box"}
         )
-    
+
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
 

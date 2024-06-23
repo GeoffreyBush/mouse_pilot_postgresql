@@ -11,9 +11,9 @@ from mouse_pilot_postgresql.model_factories import (
     MouseCommentFactory,
     MouseFactory,
     ProjectFactory,
+    StockCageFactory,
     StrainFactory,
     UserFactory,
-    StockCageFactory,
 )
 from projects.models import Project
 from strain.models import Strain

@@ -9,19 +9,29 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('website', '0001_initial'),
+        ("website", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='StockCage',
+            name="StockCage",
             fields=[
-                ('cagemodel_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='website.cagemodel')),
+                (
+                    "cagemodel_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="website.cagemodel",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'stockcage',
-                'managed': True,
+                "db_table": "stockcage",
+                "managed": True,
             },
-            bases=('website.cagemodel',),
+            bases=("website.cagemodel",),
         ),
     ]

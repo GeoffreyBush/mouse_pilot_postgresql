@@ -1,15 +1,15 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
-from stock_cage.models import StockCage
 from stock_cage.forms import StockCageForm
+from stock_cage.models import StockCage
 
 
 @login_required
 def list_stock_cages(request):
     cages = StockCage.objects.all()
     return render(request, "list_stock_cages.html", {"cages": cages})
+
 
 @login_required
 def add_stock_cage(request):
