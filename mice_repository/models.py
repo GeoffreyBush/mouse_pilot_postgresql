@@ -3,22 +3,10 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED
 
 class Mouse(models.Model):
 
-    EARMARK_CHOICES_PAIRED = [
-        ("", ""),
-        ("TR", "TR"),
-        ("TL", "TL"),
-        ("BR", "BR"),
-        ("BL", "BL"),
-        ("TRTL", "TRTL"),
-        ("TRBR", "TRBR"),
-        ("TRTL", "TRTL"),
-        ("TLBR", "TLBR"),
-        ("TLBL", "TLBL"),
-        ("BRBL", "BRBL"),
-    ]
     strain = models.ForeignKey(
         "strain.Strain",
         on_delete=models.PROTECT,

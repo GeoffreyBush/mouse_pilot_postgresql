@@ -1,9 +1,9 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from mice_repository.models import Mouse
 from system_users.models import CustomUser
 
+from mouse_pilot_postgresql.constants import EARMARK_CHOICES
 
 class Request(models.Model):
 
@@ -33,7 +33,7 @@ class Request(models.Model):
         if self.task_type == "Clip":
             if earmark is None:
                 raise ValidationError("Earmark is required to confirm request")
-            elif earmark not in [choice[0] for choice in Mouse.EARMARK_CHOICES_PAIRED]:
+            elif earmark not in [choice for choice in EARMARK_CHOICES]:
                 raise ValidationError("Earmark is not valid")
             elif any([mouse.is_genotyped() for mouse in self.mice.all()]):
                 raise ValidationError(
