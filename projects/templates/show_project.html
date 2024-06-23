@@ -90,17 +90,19 @@
 					{% for mouse in project_mice %}
 					<tr>
 						<td><input type="checkbox" name="mice" value='{{ mouse.pk }}'></td>
-						<td 
-						hx-get="{% url 'projects:info_panel' mouse.pk %}"
+						<td hx-get="{% url 'projects:info_panel' mouse.pk %}"
 						hx-target="#info-panel"
-						hx-trigger="click"
-						>
-						{{ mouse.pk }}
-						</td>
-						<td>{{ mouse.sex }}</td>
-						<td>{{ mouse.age }}</td>
+						hx-trigger="click">{{ mouse.pk }}</td>
+						<td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+						hx-target="#info-panel"
+						hx-trigger="click">{{ mouse.sex }}</td>
+						<td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+						hx-target="#info-panel"
+						hx-trigger="click">{{ mouse.age }}</td>
 						<td>GUI</td>
-						<td>{{ mouse.earmark }}</td>
+						<td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+						hx-target="#info-panel"
+						hx-trigger="click">{{ mouse.earmark }}</td>
 						<td>set of flags</td>
 					</tr>
 					{% endfor %}
@@ -110,9 +112,9 @@
 
 
 			<!-- Mouse info panel -->
-			<div id="info-panel" class="border ms-5 col-5 shadow-sm rounded">
+			<div id="info-panel" class="border ms-5 col-5 shadow-sm rounded" style="height:60vh;">
 				<p>Detail on demand panel for individual mouse</p>
-				<p>Clicking on a mouse in the table creates a placeholder here</p>
+				<p>Clicking on the ID, sex, age, or earmark cell of a mouse row creates a placeholder here. Detailed mouse information will be available on click</p>
 			</div>
 
 		</div>
