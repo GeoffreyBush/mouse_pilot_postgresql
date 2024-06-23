@@ -31,7 +31,7 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
     def save(self, breeding_cage):
         if not self.is_valid():
             raise ValueError("Formset must be valid before saving")
-        
+
         for form in self:
             mouse_instance = form.save(commit=False)
             mouse_instance.strain = breeding_cage.strain
@@ -39,7 +39,7 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
             mouse_instance.father = breeding_cage.father
             mouse_instance.dob = breeding_cage.date_born
             mouse_instance.save()
-        
+
         breeding_cage.transferred_to_stock = True
         breeding_cage.save()
 
