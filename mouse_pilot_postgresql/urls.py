@@ -18,5 +18,4 @@ urlpatterns = [
     path("strain/", include("strain.urls", namespace="strain")),
     path("system_users/", include("system_users.urls", namespace="system_users")),
     path("wean_pups/", include("wean_pups.urls", namespace="wean_pups")),
-    path("website/", include("website.urls", namespace="website")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
