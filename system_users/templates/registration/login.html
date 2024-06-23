@@ -2,7 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
-<div class="container mt-5 py-3 col-4 borde shadow"> 
+<div class="container mt-5 py-3 col-4 border shadow"> 
     <div class="text-center">
         <span>
             {% if form.errors %}
@@ -25,16 +25,14 @@
         </div>
         <div class="form-group">
             <div>{{ form.password.label }}</div>
-            {{ form.password }}
+             {{ form.password }}
         </div>
-        <div class="form-group pt-2">
-            <button class="btn btn-primary" type="submit">
-                Login
-            </button>
-        </div>
+        <button class="btn btn-primary mt-3" type="submit">
+            Login
+        </button>
         <div class="form-group d-flex justify-content-between">
             <a href="{% url 'system_users:signup' %}" class="text-decoration-none">Create an Account</a>    
-            <a href="{% url 'password_reset' %}" class="text-decoration-none">Lost password?</a>
+            <!--<a href="{% url 'password_reset' %}" class="text-decoration-none">Lost password?</a>-->
         </div>
     </form>
 </div>
