@@ -59,24 +59,16 @@ class ShowProjectView(View):
     def get_project(self, project_name):
         return get_object_or_404(Project, project_name=project_name)
 
-    def get_select_form(self, project, form_data=None):
-        if form_data:
-            return self.select_class(form_data, project=project)
-        return self.select_class(project=project)
-
     def get_context(self, http_request, project_name, form_data=None):
         project = self.get_project(project_name)
-        mice_qs = Mouse.objects.filter(project=project.pk).order_by("_global_id")
-        project_mice = MouseFilter.get_filtered_mice(mice_qs, http_request)
-        filter_form = MouseFilter.get_filter_form(mice_qs, http_request)
-        paginated_mice = paginate_queryset(project_mice, http_request, self.paginate_by)
-        select_form = self.get_select_form(project, form_data)
+        mice_qs = MouseFilter.get_filtered_mice(Mouse.objects.filter(project=project.pk).order_by("_global_id"), http_request)
+        project_mice = paginate_queryset(mice_qs, http_request, self.paginate_by)
 
         return {
             "project": project,
-            "project_mice": paginated_mice,
-            "select_form": select_form,
-            "filter_form": filter_form,
+            "project_mice": project_mice,
+            "select_form": self.select_class(project=project),
+            "filter_form": MouseFilter.get_filter_form(mice_qs, http_request),
             "query_params": get_query_params(http_request),
         }
 
