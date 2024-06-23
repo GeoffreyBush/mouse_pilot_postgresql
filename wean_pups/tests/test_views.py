@@ -129,6 +129,9 @@ class PupsToStockCagePostAlreadyTransferredTest(TestCase):
             cls.formset.data,
         )
 
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
     def test_errors_on_formset(self):
         self.assertIsNotNone(self.response.context["formset"].non_form_errors())
 

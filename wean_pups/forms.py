@@ -8,11 +8,19 @@ from strain.models import Strain
 
 class PupsToStockCageFormSet(forms.BaseFormSet):
 
+    def __init__(self, *args, **kwargs):
+        self.breeding_cage = kwargs.pop("breeding_cage", None)
+        super().__init__(*args, **kwargs)
+
     # Override clean method to enforce that:
-    # 1. No tube can be null
-    # 2. All tubes must be convertible to integers
-    # 3. No duplicate tube numbers are allowed
+    # 1. Breeding cage cannot have already been transferred to stock
+    # 2. No tube can be null
+    # 3. All tubes must be convertible to integers
+    # 4. No duplicate tube numbers are allowed
     def clean(self):
+        super().clean()
+        if self.breeding_cage and self.breeding_cage.transferred_to_stock:
+            raise ValidationError("Pups have already been transferred out of this breeding cage")
         tube_numbers = []
         for i, form in enumerate(self.forms):
             tube = self.data.get(f"mouse-{i}-tube")
@@ -27,7 +35,7 @@ class PupsToStockCageFormSet(forms.BaseFormSet):
 
             tube_numbers.append(tube)
 
-    # Override save method to save all forms in formset
+    # Override save method to save all forms in formset with custom data from cage
     def save(self, breeding_cage):
         if not self.is_valid():
             raise ValueError("Formset must be valid before saving")

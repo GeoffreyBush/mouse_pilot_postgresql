@@ -23,20 +23,17 @@ class PupsToStockCageView(View):
         except BreedingCage.DoesNotExist:
             raise Http404("Breeding cage does not exist")
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_formset(self, data=None):
+        return self.MouseFormSet(data, initial=self.cage.get_initial_data_for_pups(), prefix="mouse")
 
     def get(self, request):
-        initial_data = self.cage.get_initial_data_for_pups()
-        formset = self.MouseFormSet(initial=initial_data, prefix="mouse")
+        formset = self.get_formset()
         return render(request, self.template_name, {"formset": formset})
 
     def post(self, request):
-        formset = self.MouseFormSet(request.POST, prefix="mouse")
-        if self.cage.transferred_to_stock:
-            formset.non_form_errors().append(
-                "Pups have already been transferred out of this breeding cage"
-            )
-            return render(request, self.template_name, {"formset": formset})
-        elif formset.is_valid():
+        formset = self.MouseFormSet(request.POST, prefix="mouse", breeding_cage=self.cage)
+        if formset.is_valid():
             formset.save(self.cage)
             self.cage.save()
             return redirect("breeding_cage:list_breeding_cages")

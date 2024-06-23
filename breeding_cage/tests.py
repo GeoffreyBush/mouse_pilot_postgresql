@@ -33,16 +33,15 @@ class BreedingCageModelTest(TestCase):
         cls.strain = StrainFactory()
         cls.mother = MouseFactory(sex="F", strain=cls.strain)
         cls.strain.save()
-        cls.strain.refresh_from_db()
         cls.father = MouseFactory(sex="M", strain=cls.strain)
         cls.breeding_cage = BreedingCageFactory(
             strain=cls.strain,
             mother=cls.mother,
             father=cls.father,
-            male_pups=5,
+            male_pups=2,
             female_pups=3,
         )
-        cls.new_mouse = Mouse.objects.all().last()
+        cls.initial_data = cls.breeding_cage.get_initial_data_for_pups()
 
     def test_creation(self):
         self.assertIsInstance(self.breeding_cage, BreedingCage)
@@ -58,6 +57,14 @@ class BreedingCageModelTest(TestCase):
         with self.assertRaises(IntegrityError):
             self.breeding_cage2 = BreedingCageFactory(box_no="box0")
 
+    def test_get_initial_data_method(self):
+        self.assertEqual(len(self.initial_data), 5)
+
+    def test_initial_data_method_return_male(self):
+        self.assertEqual(sum(1 for item in self.initial_data if item["sex"] == "M"), 2)
+
+    def test_initial_data_method_return_female(self):
+        self.assertEqual(sum(1 for item in self.initial_data if item["sex"] == "F"), 3)
 
 class BreedingCageFormTest(TestCase):
 
