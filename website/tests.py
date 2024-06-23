@@ -6,7 +6,8 @@ from mouse_pilot_postgresql.model_factories import (
     MouseFactory,
     ProjectFactory,
 )
-from website.forms import MouseCommentForm, MouseSelectionForm
+from website.forms import MouseCommentForm
+from mouse_pilot_postgresql.forms import MouseSelectionForm
 from website.models import MouseComment
 
 

@@ -33,6 +33,7 @@ def add_request(http_request, project_name):
     )
 
 
+# Refactor this view
 @method_decorator(login_required, name="dispatch")
 class ConfirmRequestView(View):
 

@@ -41,7 +41,7 @@ jobs:
         #driver.quit()
         #EOF
 
-    - name: Test root app
+    - name: Test main app
       run: python manage.py test mouse_pilot_postgresql
                
     - name: Test breeding_cage app

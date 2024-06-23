@@ -16,7 +16,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet
-from website.forms import MouseSelectionForm
+from mouse_pilot_postgresql.forms import MouseSelectionForm
 
 
 class BreedingCageFormFactory:

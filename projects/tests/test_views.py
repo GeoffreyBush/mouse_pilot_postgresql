@@ -16,7 +16,7 @@ from mouse_pilot_postgresql.model_factories import (
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from projects.views import ShowProjectView, add_new_project
-from website.forms import MouseSelectionForm
+from mouse_pilot_postgresql.forms import MouseSelectionForm
 
 
 def setUpModule():
