@@ -6,7 +6,7 @@ from django.views import View
 
 from mice_repository.models import Mouse
 from mouse_pilot_postgresql.view_utils import get_query_params, paginate_queryset
-from projects.filters import ProjectFilter
+from mouse_pilot_postgresql.filters import MouseFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from website.forms import MouseSelectionForm
@@ -53,7 +53,7 @@ def add_mouse_to_project(request, project_name):
 class ShowProjectView(View):
     template_name = "show_project.html"
     select_class = MouseSelectionForm
-    filter_class = ProjectFilter
+    filter_class = MouseFilter
     paginate_by = 10
 
     def get_project(self, project_name):
@@ -66,8 +66,9 @@ class ShowProjectView(View):
 
     def get_context(self, http_request, project_name, form_data=None):
         project = self.get_project(project_name)
-        project_mice = ProjectFilter.get_filtered_project_mice(project, http_request)
-        filter_form = ProjectFilter.get_filter_form(project, http_request)
+        mice_qs = Mouse.objects.filter(project=project.pk).order_by("_global_id")
+        project_mice = MouseFilter.get_filtered_mice(mice_qs, http_request)
+        filter_form = MouseFilter.get_filter_form(mice_qs, http_request)
         paginated_mice = paginate_queryset(project_mice, http_request, self.paginate_by)
         select_form = self.get_select_form(project, form_data)
 

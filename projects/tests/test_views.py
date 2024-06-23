@@ -12,7 +12,7 @@ from mouse_pilot_postgresql.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from projects.filters import ProjectFilter
+from mouse_pilot_postgresql.filters import MouseFilter
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 from projects.views import ShowProjectView, add_new_project
@@ -107,7 +107,7 @@ class ShowProjectViewGetTest(TestCase):
         self.assertIn("project", self.response.context)
 
     def test_filter_in_context(self):
-        self.assertIsInstance(self.response.context["filter_form"], ProjectFilter)
+        self.assertIsInstance(self.response.context["filter_form"], MouseFilter)
 
     def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(self.response.context["select_form"], MouseSelectionForm)
@@ -170,7 +170,7 @@ class ShowProjectViewInvalidPostTest(TestCase):
         self.assertIn("project", self.response.context)
 
     def test_filter_in_context(self):
-        self.assertIsInstance(self.response.context["filter_form"], ProjectFilter)
+        self.assertIsInstance(self.response.context["filter_form"], MouseFilter)
 
     def test_mouse_selection_form_in_context(self):
         self.assertIsInstance(self.response.context["select_form"], MouseSelectionForm)

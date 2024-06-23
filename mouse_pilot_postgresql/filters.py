@@ -5,7 +5,7 @@ from mice_repository.models import Mouse
 from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 
 
-class ProjectFilter(django_filters.FilterSet):
+class MouseFilter(django_filters.FilterSet):
 
     earmarks = EARMARK_CHOICES_PAIRED[1:]
 
@@ -23,19 +23,17 @@ class ProjectFilter(django_filters.FilterSet):
     )
 
     @classmethod
-    def get_filtered_project_mice(cls, project, http_request):
-        project_mice = Mouse.objects.filter(project=project.pk).order_by("_global_id")
+    def get_filtered_mice(cls, mice_qs, http_request):
         if "search" in http_request.GET:
-            filter_form = cls(http_request.GET, queryset=project_mice)
+            filter_form = cls(http_request.GET, queryset=mice_qs)
             return filter_form.qs
-        return project_mice
+        return mice_qs
 
     @classmethod
-    def get_filter_form(cls, project, http_request):
-        project_mice = Mouse.objects.filter(project=project.pk).order_by("_global_id")
+    def get_filter_form(cls, mice_qs, http_request):
         if "search" in http_request.GET:
-            return cls(http_request.GET, queryset=project_mice)
-        return cls(queryset=project_mice)
+            return cls(http_request.GET, queryset=mice_qs)
+        return cls(queryset=mice_qs)
 
     class Meta:
         model = Mouse
