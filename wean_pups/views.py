@@ -24,13 +24,10 @@ class PupsToStockCageView(View):
             raise Http404("Breeding cage does not exist")
         return super().dispatch(request, *args, **kwargs)
 
-    def get_formset(self, data=None):
-        return self.MouseFormSet(
-            data, initial=self.cage.get_initial_data_for_pups(), prefix="mouse"
-        )
-
     def get(self, request):
-        formset = self.get_formset()
+        formset = self.MouseFormSet(
+            None, initial=self.cage.get_initial_data_for_pups(), prefix="mouse"
+        )
         return render(request, self.template_name, {"formset": formset})
 
     def post(self, request):
