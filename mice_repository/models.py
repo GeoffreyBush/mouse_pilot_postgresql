@@ -3,7 +3,7 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED
+from main.constants import EARMARK_CHOICES_PAIRED
 
 
 class Mouse(models.Model):

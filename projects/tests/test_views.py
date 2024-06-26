@@ -2,13 +2,13 @@ from django.http import Http404
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.filters import MouseFilter
-from mouse_pilot_postgresql.form_factories import (
+from main.filters import MouseFilter
+from main.form_factories import (
     MouseSelectionFormFactory,
     NewProjectFormFactory,
 )
-from mouse_pilot_postgresql.forms import MouseSelectionForm
-from mouse_pilot_postgresql.model_factories import (
+from main.forms import MouseSelectionForm
+from main.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,

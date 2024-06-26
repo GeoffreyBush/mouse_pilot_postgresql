@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from mouse_pilot_postgresql.model_factories import UserFactory
+from main.model_factories import UserFactory
 from website.selenium_tests.utils import options
 
 chromedriver_autoinstaller.install()

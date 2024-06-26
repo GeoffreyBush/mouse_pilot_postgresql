@@ -3,8 +3,8 @@ from datetime import date
 from django.test import TestCase
 
 from mice_requests.forms import ClipForm, CullForm
-from mouse_pilot_postgresql.form_factories import MiceRequestFormFactory
-from mouse_pilot_postgresql.model_factories import (
+from main.form_factories import MiceRequestFormFactory
+from main.model_factories import (
     MiceRequestFactory,
     MouseFactory,
     UserFactory,

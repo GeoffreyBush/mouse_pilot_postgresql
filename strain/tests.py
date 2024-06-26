@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.model_factories import StrainFactory, UserFactory
+from main.model_factories import StrainFactory, UserFactory
 from strain.forms import StrainForm
 from strain.models import Strain
 

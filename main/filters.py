@@ -2,7 +2,7 @@ import django_filters
 from django import forms
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
+from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 
 
 class MouseFilter(django_filters.FilterSet):

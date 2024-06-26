@@ -2,8 +2,8 @@ from django.test import TestCase
 
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import RepositoryMiceFormFactory
-from mouse_pilot_postgresql.model_factories import MouseFactory, StrainFactory
+from main.form_factories import RepositoryMiceFormFactory
+from main.model_factories import MouseFactory, StrainFactory
 
 
 class RepositoryMiceFormTest(TestCase):

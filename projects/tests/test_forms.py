@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from mouse_pilot_postgresql.form_factories import NewProjectFormFactory
-from mouse_pilot_postgresql.model_factories import (
+from main.form_factories import NewProjectFormFactory
+from main.model_factories import (
     MouseFactory,
     ProjectFactory,
     StrainFactory,

@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import PupsToStockCageFormSetFactory
-from mouse_pilot_postgresql.model_factories import (
+from main.form_factories import PupsToStockCageFormSetFactory
+from main.model_factories import (
     BreedingCageFactory,
     MouseFactory,
     StrainFactory,

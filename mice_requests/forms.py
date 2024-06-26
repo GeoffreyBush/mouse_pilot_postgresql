@@ -4,7 +4,7 @@ from django.utils.safestring import mark_safe
 
 from mice_repository.models import Mouse
 from mice_requests.models import Request
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES_PAIRED
+from main.constants import EARMARK_CHOICES_PAIRED
 
 
 # Custom widget will allow displaying graphical representation of selected mice in the future

@@ -4,7 +4,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from mice_requests.forms import ClipForm, CullForm
-from mouse_pilot_postgresql.model_factories import (
+from main.model_factories import (
     MiceRequestFactory,
     MouseFactory,
     UserFactory,

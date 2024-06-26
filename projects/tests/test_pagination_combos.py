@@ -2,7 +2,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.http import urlencode
 
-from mouse_pilot_postgresql.model_factories import (
+from main.model_factories import (
     MouseFactory,
     ProjectFactory,
     UserFactory,

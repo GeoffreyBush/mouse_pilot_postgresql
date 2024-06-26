@@ -1,8 +1,8 @@
 from django.test import TestCase
 
-from mouse_pilot_postgresql.form_factories import MouseSelectionFormFactory
-from mouse_pilot_postgresql.forms import MouseSelectionForm
-from mouse_pilot_postgresql.model_factories import (
+from main.form_factories import MouseSelectionFormFactory
+from main.forms import MouseSelectionForm
+from main.model_factories import (
     MouseCommentFactory,
     MouseFactory,
     ProjectFactory,

@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES
+from main.constants import EARMARK_CHOICES
 from system_users.models import CustomUser
 
 

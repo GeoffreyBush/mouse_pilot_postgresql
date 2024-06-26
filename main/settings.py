@@ -63,7 +63,7 @@ MIDDLEWARE = [
     "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
-ROOT_URLCONF = "mouse_pilot_postgresql.urls"
+ROOT_URLCONF = "main.urls"
 
 TEMPLATES = [
     {
@@ -81,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "mouse_pilot_postgresql.wsgi.application"
+WSGI_APPLICATION = "main.wsgi.application"
 
 
 # Database

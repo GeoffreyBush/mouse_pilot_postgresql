@@ -42,7 +42,7 @@ jobs:
         #EOF
 
     - name: Test main app
-      run: python manage.py test mouse_pilot_postgresql
+      run: python manage.py test main
                
     - name: Test breeding_cage app
       run: python manage.py test breeding_cage

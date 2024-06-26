@@ -2,11 +2,11 @@ from django import forms
 from django.test import TestCase
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.form_factories import (
+from main.form_factories import (
     PupsToStockCageFormFactory,
     PupsToStockCageFormSetFactory,
 )
-from mouse_pilot_postgresql.model_factories import (
+from main.model_factories import (
     BreedingCageFactory,
     MouseFactory,
     StrainFactory,

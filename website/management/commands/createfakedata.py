@@ -5,8 +5,8 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.constants import EARMARK_CHOICES
-from mouse_pilot_postgresql.model_factories import (
+from main.constants import EARMARK_CHOICES
+from main.model_factories import (
     BreedingCageFactory,
     MouseCommentFactory,
     MouseFactory,

@@ -2,8 +2,8 @@ from django.http import HttpRequest
 from django.test import RequestFactory, TestCase
 
 from mice_repository.models import Mouse
-from mouse_pilot_postgresql.model_factories import MouseFactory, ProjectFactory
-from mouse_pilot_postgresql.view_utils import get_query_params, paginate_queryset
+from main.model_factories import MouseFactory, ProjectFactory
+from main.view_utils import get_query_params, paginate_queryset
 
 
 class PaginateQuerysetTest(TestCase):

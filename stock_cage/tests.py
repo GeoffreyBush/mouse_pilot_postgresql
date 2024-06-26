@@ -2,7 +2,7 @@ from django.db.utils import IntegrityError
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mouse_pilot_postgresql.model_factories import (
+from main.model_factories import (
     MouseFactory,
     StockCageFactory,
     UserFactory,
