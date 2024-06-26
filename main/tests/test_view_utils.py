@@ -1,9 +1,9 @@
 from django.http import HttpRequest
 from django.test import RequestFactory, TestCase
 
-from mice_repository.models import Mouse
 from main.model_factories import MouseFactory, ProjectFactory
 from main.view_utils import get_query_params, paginate_queryset
+from mice_repository.models import Mouse
 
 
 class PaginateQuerysetTest(TestCase):

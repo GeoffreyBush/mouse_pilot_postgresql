@@ -2,11 +2,7 @@ from django.db.utils import IntegrityError
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from main.model_factories import (
-    MouseFactory,
-    StockCageFactory,
-    UserFactory,
-)
+from main.model_factories import MouseFactory, StockCageFactory, UserFactory
 from stock_cage.forms import StockCageForm
 from stock_cage.models import StockCage
 

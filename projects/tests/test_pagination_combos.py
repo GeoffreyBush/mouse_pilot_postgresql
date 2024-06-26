@@ -2,11 +2,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.http import urlencode
 
-from main.model_factories import (
-    MouseFactory,
-    ProjectFactory,
-    UserFactory,
-)
+from main.model_factories import MouseFactory, ProjectFactory, UserFactory
 
 
 class PaginateCombinedWithFilterTest(TestCase):

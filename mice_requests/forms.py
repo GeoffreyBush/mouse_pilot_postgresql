@@ -2,9 +2,9 @@ from django import forms
 from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 
+from main.constants import EARMARK_CHOICES_PAIRED
 from mice_repository.models import Mouse
 from mice_requests.models import Request
-from main.constants import EARMARK_CHOICES_PAIRED
 
 
 # Custom widget will allow displaying graphical representation of selected mice in the future

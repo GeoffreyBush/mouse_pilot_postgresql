@@ -4,10 +4,10 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from mice_repository.models import Mouse
 from main.filters import MouseFilter
 from main.forms import MouseSelectionForm
 from main.view_utils import get_query_params, paginate_queryset
+from mice_repository.models import Mouse
 from projects.forms import AddMouseToProjectForm, NewProjectForm
 from projects.models import Project
 

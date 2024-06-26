@@ -1,8 +1,8 @@
 import django_filters
 from django import forms
 
-from mice_repository.models import Mouse
 from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
+from mice_repository.models import Mouse
 
 
 class MouseFilter(django_filters.FilterSet):

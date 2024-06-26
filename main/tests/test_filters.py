@@ -1,9 +1,9 @@
 from django.http import HttpRequest
 from django.test import TestCase
 
-from mice_repository.models import Mouse
 from main.filters import MouseFilter
 from main.model_factories import MouseFactory
+from mice_repository.models import Mouse
 
 
 class MouseFilterViewTestCase(TestCase):

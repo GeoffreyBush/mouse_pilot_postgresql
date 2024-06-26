@@ -1,9 +1,9 @@
 from django.test import TestCase
 
-from mice_repository.forms import RepositoryMiceForm
-from mice_repository.models import Mouse
 from main.form_factories import RepositoryMiceFormFactory
 from main.model_factories import MouseFactory, StrainFactory
+from mice_repository.forms import RepositoryMiceForm
+from mice_repository.models import Mouse
 
 
 class RepositoryMiceFormTest(TestCase):

@@ -2,13 +2,9 @@ from datetime import date
 
 from django.test import TestCase
 
-from mice_requests.forms import ClipForm, CullForm
 from main.form_factories import MiceRequestFormFactory
-from main.model_factories import (
-    MiceRequestFactory,
-    MouseFactory,
-    UserFactory,
-)
+from main.model_factories import MiceRequestFactory, MouseFactory, UserFactory
+from mice_requests.forms import ClipForm, CullForm
 
 
 def setUpModule():

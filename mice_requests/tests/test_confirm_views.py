@@ -3,12 +3,8 @@ from datetime import date
 from django.test import Client, TestCase
 from django.urls import reverse
 
+from main.model_factories import MiceRequestFactory, MouseFactory, UserFactory
 from mice_requests.forms import ClipForm, CullForm
-from main.model_factories import (
-    MiceRequestFactory,
-    MouseFactory,
-    UserFactory,
-)
 
 
 def setUpModule():

@@ -3,10 +3,7 @@ from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
 from main.filters import MouseFilter
-from main.form_factories import (
-    MouseSelectionFormFactory,
-    NewProjectFormFactory,
-)
+from main.form_factories import MouseSelectionFormFactory, NewProjectFormFactory
 from main.forms import MouseSelectionForm
 from main.model_factories import (
     MouseFactory,

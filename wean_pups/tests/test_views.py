@@ -2,7 +2,6 @@ from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
-from mice_repository.models import Mouse
 from main.form_factories import PupsToStockCageFormSetFactory
 from main.model_factories import (
     BreedingCageFactory,
@@ -10,6 +9,7 @@ from main.model_factories import (
     StrainFactory,
     UserFactory,
 )
+from mice_repository.models import Mouse
 from wean_pups.forms import PupsToStockCageForm
 from wean_pups.views import PupsToStockCageView
 

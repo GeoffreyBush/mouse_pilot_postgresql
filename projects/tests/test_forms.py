@@ -1,11 +1,7 @@
 from django.test import TestCase
 
 from main.form_factories import NewProjectFormFactory
-from main.model_factories import (
-    MouseFactory,
-    ProjectFactory,
-    StrainFactory,
-)
+from main.model_factories import MouseFactory, ProjectFactory, StrainFactory
 from projects.forms import AddMouseToProjectForm
 
 

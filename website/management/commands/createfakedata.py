@@ -4,7 +4,6 @@ from colorama import Fore, Style
 from django.core.management.base import BaseCommand
 from faker import Faker
 
-from mice_repository.models import Mouse
 from main.constants import EARMARK_CHOICES
 from main.model_factories import (
     BreedingCageFactory,
@@ -15,6 +14,7 @@ from main.model_factories import (
     StrainFactory,
     UserFactory,
 )
+from mice_repository.models import Mouse
 from projects.models import Project
 from strain.models import Strain
 from system_users.models import CustomUser

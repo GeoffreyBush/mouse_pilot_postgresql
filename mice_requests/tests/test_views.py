@@ -1,8 +1,6 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mice_requests.forms import RequestForm
-from mice_requests.models import Request
 from main.form_factories import MiceRequestFormFactory
 from main.model_factories import (
     MiceRequestFactory,
@@ -10,6 +8,8 @@ from main.model_factories import (
     ProjectFactory,
     UserFactory,
 )
+from mice_requests.forms import RequestForm
+from mice_requests.models import Request
 
 
 def setUpModule():

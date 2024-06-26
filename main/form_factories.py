@@ -5,8 +5,6 @@ from datetime import date
 from django.forms import formset_factory
 
 from breeding_cage.forms import BreedingCageForm
-from mice_repository.forms import RepositoryMiceForm
-from mice_requests.forms import RequestForm
 from main.forms import MouseSelectionForm
 from main.model_factories import (
     MouseFactory,
@@ -14,6 +12,8 @@ from main.model_factories import (
     StockCageFactory,
     StrainFactory,
 )
+from mice_repository.forms import RepositoryMiceForm
+from mice_requests.forms import RequestForm
 from projects.forms import NewProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet

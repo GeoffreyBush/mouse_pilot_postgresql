@@ -4,12 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
+from main.model_factories import MiceRequestFactory, MouseFactory, UserFactory
 from mice_requests.models import Request
-from main.model_factories import (
-    MiceRequestFactory,
-    MouseFactory,
-    UserFactory,
-)
 from system_users.models import CustomUser
 
 

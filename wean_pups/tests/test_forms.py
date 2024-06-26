@@ -1,16 +1,12 @@
 from django import forms
 from django.test import TestCase
 
-from mice_repository.models import Mouse
 from main.form_factories import (
     PupsToStockCageFormFactory,
     PupsToStockCageFormSetFactory,
 )
-from main.model_factories import (
-    BreedingCageFactory,
-    MouseFactory,
-    StrainFactory,
-)
+from main.model_factories import BreedingCageFactory, MouseFactory, StrainFactory
+from mice_repository.models import Mouse
 from strain.models import Strain
 
 

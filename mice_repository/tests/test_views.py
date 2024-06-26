@@ -3,10 +3,10 @@ from datetime import date
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from mice_repository.forms import RepositoryMiceForm
-from mice_repository.models import Mouse
 from main.form_factories import RepositoryMiceFormFactory
 from main.model_factories import MouseFactory, UserFactory
+from mice_repository.forms import RepositoryMiceForm
+from mice_repository.models import Mouse
 
 
 def setUpModule():
