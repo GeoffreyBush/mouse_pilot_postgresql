@@ -126,19 +126,18 @@ class EditRequestViewPostTest(TestCase):
         cls.request = MiceRequestFactory(mice=[MouseFactory(), MouseFactory()])
         data = MiceRequestFormFactory.valid_data(mice=[MouseFactory()])
         cls.url = reverse("mice_requests:edit_request", args=[cls.request.pk])
-        cls.response = test_client.post(
-            cls.url, data
-        )
+        cls.response = test_client.post(cls.url, data)
         cls.request.refresh_from_db()
 
     def test_code_302(self):
         self.assertEqual(self.response.status_code, 302)
-    
+
     def test_redirects_to_show_requests(self):
         self.assertRedirects(self.response, reverse("mice_requests:show_requests"))
 
     def test_request_updated(self):
         self.assertEqual(self.request.mice.count(), 1)
+
 
 class DeleteRequestViewTest(TestCase):
     @classmethod
@@ -152,7 +151,7 @@ class DeleteRequestViewTest(TestCase):
         self.assertEqual(self.response.status_code, 302)
 
     def test_redirects_to_show_requests(self):
-        self.assertRedirects(self.response, reverse("mice_requests:show_requests"))    
+        self.assertRedirects(self.response, reverse("mice_requests:show_requests"))
 
     def test_request_deleted(self):
         self.assertFalse(Request.objects.filter(pk=self.request.pk).exists())

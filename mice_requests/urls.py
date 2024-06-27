@@ -17,6 +17,14 @@ urlpatterns = [
         views.add_request,
         name="add_request",
     ),
-    path("mice_requests:edit_request/<int:request_id>/", views.edit_request, name="edit_request"),
-    path("mice_requests:delete_request/<int:request_id>/", views.delete_request, name="delete_request")
+    path(
+        "mice_requests:edit_request/<int:request_id>/",
+        views.edit_request,
+        name="edit_request",
+    ),
+    path(
+        "mice_requests:delete_request/<int:request_id>/",
+        views.delete_request,
+        name="delete_request",
+    ),
 ]
