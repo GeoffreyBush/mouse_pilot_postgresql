@@ -14,7 +14,7 @@ from main.model_factories import (
 )
 from mice_repository.forms import RepositoryMiceForm
 from mice_requests.forms import RequestForm
-from projects.forms import NewProjectForm
+from projects.forms import ProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet
 
@@ -208,11 +208,11 @@ class PupsToStockCageFormSetFactory:
         return formset
 
 
-class NewProjectFormFactory:
+class ProjectFormFactory:
     @staticmethod
     def create(**kwargs):
-        data = NewProjectFormFactory.valid_data(**kwargs)
-        return NewProjectForm(data=data)
+        data = ProjectFormFactory.valid_data(**kwargs)
+        return ProjectForm(data=data)
 
     @staticmethod
     def valid_data(**kwargs):

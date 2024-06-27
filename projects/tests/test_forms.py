@@ -1,23 +1,23 @@
 from django.test import TestCase
 
-from main.form_factories import NewProjectFormFactory
+from main.form_factories import ProjectFormFactory
 from main.model_factories import MouseFactory, ProjectFactory, StrainFactory
 from projects.forms import AddMouseToProjectForm
 
 
-class NewProjectFormTest(TestCase):
+class ProjectFormTest(TestCase):
     def setUp(self):
-        self.form = NewProjectFormFactory.create()
+        self.form = ProjectFormFactory.create()
 
     def test_valid_form(self):
         self.assertTrue(self.form.is_valid())
 
     def test_empty_project_name(self):
-        self.form = NewProjectFormFactory.create(project_name="")
+        self.form = ProjectFormFactory.create(project_name="")
         self.assertFalse(self.form.is_valid())
 
     def test_none_project_name(self):
-        self.form = NewProjectFormFactory.create(project_name=None)
+        self.form = ProjectFormFactory.create(project_name=None)
         self.assertFalse(self.form.is_valid())
 
 

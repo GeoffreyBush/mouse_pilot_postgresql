@@ -25,7 +25,7 @@ def add_mouse_to_repository(request):
             return redirect("mice_repository:mice_repository")
     else:
         form = RepositoryMiceForm()
-    return render(request, "add_mouse_to_repository.html", {"mice_form": form})
+    return render(request, "add_mouse_to_repository.html", {"form": form})
 
 
 @login_required

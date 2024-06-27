@@ -6,7 +6,7 @@ from projects.views import ShowProjectView
 app_name = "projects"
 
 urlpatterns = [
-    path("add_new_project", views.add_new_project, name="add_new_project"),
+    path("add_project", views.add_project, name="add_project"),
     path("list_projects", views.list_projects, name="list_projects"),
     path(
         "show_project/<str:project_name>/",
@@ -19,4 +19,5 @@ urlpatterns = [
         views.add_mouse_to_project,
         name="add_mouse_to_project",
     ),
+    path("edit_project/<str:project_name>", views.edit_project, name="edit_project"),
 ]

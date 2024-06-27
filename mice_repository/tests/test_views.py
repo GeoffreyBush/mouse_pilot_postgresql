@@ -59,7 +59,7 @@ class AddMouseToRepositoryViewGetTest(TestCase):
         self.assertTemplateUsed(self.response, "add_mouse_to_repository.html")
 
     def test_correct_form(self):
-        self.assertIsInstance(self.response.context["mice_form"], RepositoryMiceForm)
+        self.assertIsInstance(self.response.context["form"], RepositoryMiceForm)
 
 
 class AddMouseToRepositoryViewPostTest(TestCase):

@@ -8,7 +8,7 @@ from main.filters import MouseFilter
 from main.forms import MouseSelectionForm
 from main.view_utils import get_query_params, paginate_queryset
 from mice_repository.models import Mouse
-from projects.forms import AddMouseToProjectForm, NewProjectForm
+from projects.forms import AddMouseToProjectForm, ProjectForm
 from projects.models import Project
 
 
@@ -20,15 +20,27 @@ def list_projects(request):
 
 
 @login_required
-def add_new_project(request):
+def add_project(request):
     if request.method == "POST":
-        form = NewProjectForm(request.POST)
+        form = ProjectForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("projects:list_projects")
     else:
-        form = NewProjectForm()
-    return render(request, "add_new_project.html", {"form": form})
+        form = ProjectForm()
+    return render(request, "add_project.html", {"form": form})
+
+@login_required
+def edit_project(request, project_name):
+    project = Project.objects.get(project_name=project_name)
+    if request.method == "POST":
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect("projects:list_projects")
+    else:
+        form = ProjectForm(instance=Project.objects.get(project_name=project_name))
+    return render(request, "edit_project.html", {"project": project, "form": form})
 
 
 @login_required

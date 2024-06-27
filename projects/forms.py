@@ -6,7 +6,7 @@ from strain.models import Strain
 from system_users.models import CustomUser
 
 
-class NewProjectForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
 
     project_name = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control"}),

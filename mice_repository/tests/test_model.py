@@ -12,7 +12,7 @@ def setUpModule():
     test_dob = date.fromisoformat("2020-01-01")
 
 
-class MouseModelNoDBTest(TestCase):
+class MouseModelUnitTest(TestCase):
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
         self.mouse = MouseFactory.build(strain=self.strain, dob=test_dob)
@@ -66,7 +66,7 @@ class MouseModelNoDBTest(TestCase):
             self.mouse.cull()
 
 
-class MouseModelWithDBTest(TestCase):
+class MouseModelIntegrationTest(TestCase):
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
         self.mouse = MouseFactory.create(strain=self.strain)

@@ -3,7 +3,7 @@ from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
 from main.filters import MouseFilter
-from main.form_factories import MouseSelectionFormFactory, NewProjectFormFactory
+from main.form_factories import MouseSelectionFormFactory, ProjectFormFactory
 from main.forms import MouseSelectionForm
 from main.model_factories import (
     MouseFactory,
@@ -11,9 +11,9 @@ from main.model_factories import (
     StrainFactory,
     UserFactory,
 )
-from projects.forms import AddMouseToProjectForm, NewProjectForm
+from projects.forms import AddMouseToProjectForm, ProjectForm
 from projects.models import Project
-from projects.views import ShowProjectView, add_new_project
+from projects.views import ShowProjectView, add_project, edit_project
 
 
 def setUpModule():
@@ -53,16 +53,16 @@ class AddNewProjectViewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.response = test_client.get(reverse("projects:add_new_project"))
+        cls.response = test_client.get(reverse("projects:add_project"))
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_template(self):
-        self.assertTemplateUsed(self.response, "add_new_project.html")
+        self.assertTemplateUsed(self.response, "add_project.html")
 
     def test_new_project_form(self):
-        self.assertIsInstance(self.response.context["form"], NewProjectForm)
+        self.assertIsInstance(self.response.context["form"], ProjectForm)
 
 
 class AddNewProjectViewPostTest(TestCase):
@@ -71,10 +71,10 @@ class AddNewProjectViewPostTest(TestCase):
         super().setUpClass()
         cls.factory = RequestFactory()
         cls.request = cls.factory.post(
-            reverse("projects:add_new_project"), NewProjectFormFactory.valid_data()
+            reverse("projects:add_project"), ProjectFormFactory.valid_data()
         )
         cls.request.user = test_user
-        cls.response = add_new_project(cls.request)
+        cls.response = add_project(cls.request)
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 302)
@@ -84,6 +84,48 @@ class AddNewProjectViewPostTest(TestCase):
 
     def test_project_created(self):
         self.assertEqual(Project.objects.all().count(), 1)
+
+
+class EditProjectViewGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = ProjectFactory()
+        cls.response = test_client.get(reverse("projects:edit_project", args=[cls.project.project_name]))
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "edit_project.html")
+
+    def test_correct_form(self):
+        self.assertIsInstance(self.response.context["form"], ProjectForm)
+
+    def test_context_contains_mouse(self):
+        self.assertIn("project", self.response.context)
+
+    def test_correct_project_in_context(self):
+        self.assertEqual(self.response.context["project"], self.project)
+
+
+class EditProjectViewPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = ProjectFactory(research_area="disease1")
+        data = ProjectFormFactory.valid_data(research_area="disease2")
+        cls.response = test_client.post(reverse("projects:edit_project", args=[cls.project.project_name]), data)
+        cls.project.refresh_from_db()
+
+    def test_http_code(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirect_url(self):
+        self.assertEqual(self.response.url, reverse("projects:list_projects"))
+
+    def test_project_updated(self):
+        self.assertEqual(self.project.research_area, "disease2")
 
 
 class ShowProjectViewGetTest(TestCase):
@@ -117,7 +159,6 @@ class ShowProjectViewGetTest(TestCase):
         with self.assertRaises(Http404):
             view.get_project("nonexistent")
 
-    # Add filter form in context
 
 
 class ShowProjectViewPostTest(TestCase):
