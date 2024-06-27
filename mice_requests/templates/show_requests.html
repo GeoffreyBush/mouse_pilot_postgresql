@@ -12,7 +12,8 @@
                         <th scope="col">Task</th>
                         <th scope="col">Mouse IDs</th> 
                         <th scope="col">Requested by</th>
-                        <th scope="col">Messaging</th>    
+                        <th scope="col">Messaging</th>
+                        <th scope="col">Action</th>    
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
@@ -24,7 +25,18 @@
                         <td>{% for mouse in request.mice.all %}<span>{{ mouse.pk}}, </span>{% endfor %}</td>
                         <td>{{ request.requested_by }}</td>
                         <td>message</td>
-
+                        <td class="p-0 align-middle">
+                            <a 
+                            href="{% url 'mice_requests:edit_request' request.pk %}" 
+                            class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Request">
+                            E
+                            </a>
+                            <a 
+                            href="{% url 'mice_requests:delete_request' request.pk %}" 
+                            class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Delete Request">
+                            X
+                            </a>
+                        </td>
                         <td class="text-center">
                             {% if not request.confirmed %}
                                 <button

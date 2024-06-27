@@ -32,6 +32,23 @@ def add_request(http_request, project_name):
         http_request, "add_request.html", {"form": form, "project_name": project_name}
     )
 
+@login_required
+def edit_request(http_request, request_id):
+    mice_request = Request.objects.get(pk=request_id)
+    if http_request.method == "POST":
+        form = RequestForm(http_request.POST, instance=mice_request)
+        if form.is_valid():
+            form.save()
+            return redirect("mice_requests:show_requests")
+    else: 
+        form = RequestForm(instance=mice_request)
+    return render(http_request, "edit_request.html", {"form": form, "request": mice_request})
+
+@login_required
+def delete_request(http_request, request_id):
+    mice_request = Request.objects.get(pk=request_id)
+    mice_request.delete()
+    return redirect("mice_requests:show_requests")
 
 # Refactor this view
 @method_decorator(login_required, name="dispatch")

@@ -99,3 +99,60 @@ class AddRequestViewPostTest(TestCase):
         self.assertQuerysetEqual(
             Request.objects.first().mice.all(), self.mice, ordered=False
         )
+
+
+class EditRequestViewGetTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.request = MiceRequestFactory()
+        cls.url = reverse("mice_requests:edit_request", args=[cls.request.pk])
+        cls.response = test_client.get(cls.url)
+
+    def test_code_200(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template_used(self):
+        self.assertTemplateUsed(self.response, "edit_request.html")
+
+    def test_request_in_context(self):
+        self.assertEqual(self.response.context["request"], self.request)
+
+
+class EditRequestViewPostTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.request = MiceRequestFactory(mice=[MouseFactory(), MouseFactory()])
+        data = MiceRequestFormFactory.valid_data(mice=[MouseFactory()])
+        cls.url = reverse("mice_requests:edit_request", args=[cls.request.pk])
+        cls.response = test_client.post(
+            cls.url, data
+        )
+        cls.request.refresh_from_db()
+
+    def test_code_302(self):
+        self.assertEqual(self.response.status_code, 302)
+    
+    def test_redirects_to_show_requests(self):
+        self.assertRedirects(self.response, reverse("mice_requests:show_requests"))
+
+    def test_request_updated(self):
+        self.assertEqual(self.request.mice.count(), 1)
+
+class DeleteRequestViewTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.request = MiceRequestFactory()
+        cls.url = reverse("mice_requests:delete_request", args=[cls.request.pk])
+        cls.response = test_client.post(cls.url)
+
+    def test_code_302(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_redirects_to_show_requests(self):
+        self.assertRedirects(self.response, reverse("mice_requests:show_requests"))    
+
+    def test_request_deleted(self):
+        self.assertFalse(Request.objects.filter(pk=self.request.pk).exists())
