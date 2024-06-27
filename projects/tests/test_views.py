@@ -13,7 +13,7 @@ from main.model_factories import (
 )
 from projects.forms import AddMouseToProjectForm, ProjectForm
 from projects.models import Project
-from projects.views import ShowProjectView, add_project, edit_project
+from projects.views import ShowProjectView, add_project
 
 
 def setUpModule():
@@ -91,7 +91,9 @@ class EditProjectViewGetTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.project = ProjectFactory()
-        cls.response = test_client.get(reverse("projects:edit_project", args=[cls.project.project_name]))
+        cls.response = test_client.get(
+            reverse("projects:edit_project", args=[cls.project.project_name])
+        )
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
@@ -115,7 +117,9 @@ class EditProjectViewPostTest(TestCase):
         super().setUpClass()
         cls.project = ProjectFactory(research_area="disease1")
         data = ProjectFormFactory.valid_data(research_area="disease2")
-        cls.response = test_client.post(reverse("projects:edit_project", args=[cls.project.project_name]), data)
+        cls.response = test_client.post(
+            reverse("projects:edit_project", args=[cls.project.project_name]), data
+        )
         cls.project.refresh_from_db()
 
     def test_http_code(self):
@@ -158,7 +162,6 @@ class ShowProjectViewGetTest(TestCase):
         view = ShowProjectView()
         with self.assertRaises(Http404):
             view.get_project("nonexistent")
-
 
 
 class ShowProjectViewPostTest(TestCase):

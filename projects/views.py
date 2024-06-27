@@ -30,6 +30,7 @@ def add_project(request):
         form = ProjectForm()
     return render(request, "add_project.html", {"form": form})
 
+
 @login_required
 def edit_project(request, project_name):
     project = Project.objects.get(project_name=project_name)
