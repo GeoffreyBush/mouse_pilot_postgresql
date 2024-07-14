@@ -1,4 +1,5 @@
 import django_filters
+from datetime import date, timedelta
 from django import forms
 
 from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
@@ -21,6 +22,24 @@ class MouseFilter(django_filters.FilterSet):
         label="Earmark:",
         initial="",
     )
+
+    min_age = django_filters.NumberFilter(
+        method="filter_min_age",
+        widget=forms.NumberInput(attrs={"class": "form-control w-25 ml-5"}),
+        label="Min Age:",
+    )
+
+    max_age = django_filters.NumberFilter(
+        method="filter_max_age",
+        widget=forms.NumberInput(attrs={"class": "form-control w-25 ml-3"}),
+        label="Max Age:",
+    )
+
+    def filter_min_age(self, queryset, name, value):
+        return queryset.filter(dob__lte=date.today() - timedelta(days=int(value)))
+
+    def filter_max_age(self, queryset, name, value):
+        return queryset.filter(dob__gte=date.today() - timedelta(days=int(value)))
 
     @classmethod
     def get_filtered_mice(cls, mice_qs, http_request):

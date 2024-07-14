@@ -1,5 +1,6 @@
 from django.http import HttpRequest
 from django.test import TestCase
+from datetime import date, timedelta
 
 from main.filters import MouseFilter
 from main.model_factories import MouseFactory
@@ -10,9 +11,10 @@ class MouseFilterViewTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
         cls.mouse1, cls.mouse2, cls.mouse3, cls.mouse4 = (
-            MouseFactory(sex="M", earmark="TL"),
-            MouseFactory(sex="F", earmark="TL"),
+            MouseFactory(sex="M", earmark="TL", dob=date.today() - timedelta(days=10)),
+            MouseFactory(sex="F", earmark="TL", dob=date.today() - timedelta(days=20)),
             MouseFactory(sex="M"),
             MouseFactory(sex="F"),
         )
@@ -31,6 +33,21 @@ class MouseFilterViewTestCase(TestCase):
     def test_earmark_filter(self):
         filter_instance = MouseFilter({"earmark": "TL"}, queryset=Mouse.objects.all())
         self.assertEqual(list(filter_instance.qs), [self.mouse1, self.mouse2])
+
+    def test_min_age_filter(self):
+        filter_instance = MouseFilter({"min_age": "5"}, queryset=Mouse.objects.all())
+        self.assertEqual(list(filter_instance.qs), [self.mouse1, self.mouse2])
+
+    def test_max_age_filter(self):
+        filter_instance = MouseFilter({"max_age": "15"}, queryset=Mouse.objects.all())
+        print(filter_instance.qs)
+        self.assertEqual(list(filter_instance.qs), [self.mouse1, self.mouse3, self.mouse4])
+
+    def test_min_and_max_age_filter_combined(self):
+        filter_instance = MouseFilter(
+            {"min_age": "5", "max_age": "15"}, queryset=Mouse.objects.all()
+        )
+        self.assertEqual(list(filter_instance.qs), [self.mouse1])
 
     def test_combined_filters(self):
         filter_instance = MouseFilter(
