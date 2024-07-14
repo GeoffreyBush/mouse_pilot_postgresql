@@ -1,5 +1,6 @@
-import django_filters
 from datetime import date, timedelta
+
+import django_filters
 from django import forms
 
 from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES

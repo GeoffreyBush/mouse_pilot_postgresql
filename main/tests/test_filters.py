@@ -1,6 +1,7 @@
+from datetime import date, timedelta
+
 from django.http import HttpRequest
 from django.test import TestCase
-from datetime import date, timedelta
 
 from main.filters import MouseFilter
 from main.model_factories import MouseFactory
@@ -41,7 +42,9 @@ class MouseFilterViewTestCase(TestCase):
     def test_max_age_filter(self):
         filter_instance = MouseFilter({"max_age": "15"}, queryset=Mouse.objects.all())
         print(filter_instance.qs)
-        self.assertEqual(list(filter_instance.qs), [self.mouse1, self.mouse3, self.mouse4])
+        self.assertEqual(
+            list(filter_instance.qs), [self.mouse1, self.mouse3, self.mouse4]
+        )
 
     def test_min_and_max_age_filter_combined(self):
         filter_instance = MouseFilter(
