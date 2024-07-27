@@ -53,7 +53,7 @@ class BreedingCage(CageModel):
         db_column="Moved to Stock", default=False
     )
 
-    # Used to populate the initial PupsToStockCageFormSet in wean_pups app
+    # Used to define immutable values for PupsToStockCageFormSet in wean_pups app
     def get_initial_data_for_pups(self):
         initial_data = []
         for sex, count in [("M", self.male_pups), ("F", self.female_pups)]:

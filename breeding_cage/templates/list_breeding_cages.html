@@ -17,21 +17,31 @@
     <!-- Show breeding cages -->
     <div class="row">
         {% for cage in mycages %}
-        <div class="col">
-            <div class="card card-body square-cage mb-4 shadow-sm">
-                <h5 class="card-title">
-                    <a class="text-decoration-none" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}">{{ cage.box_no }}</a>
-                </h5>
-                <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
-                    <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
-                </a>
-                {% if cage.transferred_to_stock %}
-                <div class="row">
-                    <p>Transferred</p>
+            {% if not cage.transferred_to_stock %}
+            <div class="col">
+                <div class="container position-relative card card-body square-cage mb-4 shadow-sm p-0">
+                    <h5 class="card-header bg-primary text-decoration-none text-white">{{ cage.box_no }}</h5>
+                    <a class="" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}">View details</a>
+                    <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
+                        <img src="{% static '/media/edit.svg' %}" alt="Edit details" style="height: 1em;">
+                    </a>
+                    <div class="position-absolute bottom-0 w-100 p-2">
+                        <div class="d-flex">
+                            {% for i in cage.male_pups|add:"0"|ljust:cage.male_pups %}
+                                <img src="{% static '/media/male_mouse.svg' %}" alt="male_mouse" style="height: 1em;"
+                                data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Male Pup">
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex">
+                            {% for i in cage.female_pups|add:"0"|ljust:cage.female_pups %}
+                                <img src="{% static '/media/female_mouse.svg' %}" alt="female_mouse" style="height: 1em;"
+                                data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Female Pup">
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-                {% endif %}
             </div>
-        </div>
+            {% endif %}
         {% endfor %}
     </div>
 

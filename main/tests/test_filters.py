@@ -41,7 +41,6 @@ class MouseFilterViewTestCase(TestCase):
 
     def test_max_age_filter(self):
         filter_instance = MouseFilter({"max_age": "15"}, queryset=Mouse.objects.all())
-        print(filter_instance.qs)
         self.assertEqual(
             list(filter_instance.qs), [self.mouse1, self.mouse3, self.mouse4]
         )
