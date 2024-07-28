@@ -20,11 +20,16 @@
             {% if not cage.transferred_to_stock %}
             <div class="col">
                 <div class="container position-relative card card-body square-cage mb-4 shadow-sm p-0">
-                    <h5 class="card-header bg-primary text-decoration-none text-white">{{ cage.box_no }}</h5>
-                    <a class="" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}">View details</a>
-                    <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
-                        <img src="{% static '/media/edit.svg' %}" alt="Edit details" style="height: 1em;">
-                    </a>
+
+                    <h5 class="card-header bg-primary  d-flex justify-content-between">
+                        <a class="text-white" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}"
+                        data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="View Cage">{{ cage.box_no }}</a>
+                        <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
+                            <img src="{% static '/media/white_edit_pen.svg' %}" alt="Edit details" style="height: 1em;"
+                            data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Cage">
+                        </a>
+                    </h5>
+
                     <div class="position-absolute bottom-0 w-100 p-2">
                         <div class="d-flex">
                             {% for i in cage.male_pups|add:"0"|ljust:cage.male_pups %}
@@ -39,6 +44,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                    
                 </div>
             </div>
             {% endif %}

@@ -17,16 +17,31 @@
     <!-- Show stock cages -->
     <div class="row">
         {% for cage in cages %}
-        <div class="col">
-            <div class="card card-body square-cage mb-4 shadow-sm">
-                <h5 class="card-title">
-                    <a href="#" class="text-decoration-none">{{ cage.cage_id }}</a>
-                </h5>
-                <a href="#" class="text-decoration-none">
-                    <img src="{% static '/media/edit.svg' %}" alt="Edit" style="height: 1em;">
-                </a>
+            <div class="col">
+                <div class="container position-relative card card-body square-cage mb-4 shadow-sm p-0">
+
+                    <h5 class="card-header bg-primary  d-flex justify-content-between">
+                        {% comment %} <a class="text-white" href="{% url 'breeding_cage:view_stock_cage' cage.box_no %}" {% endcomment %}
+                        {% comment %} data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="View Cage">{{ cage.box_no }}</a> {% endcomment %}
+                        {% comment %} <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}"> {% endcomment %}
+                            <img src="{% static '/media/white_edit_pen.svg' %}" alt="Edit details" style="height: 1em;"
+                            data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Cage">
+                        {% comment %} </a> {% endcomment %}
+                    </h5>
+
+                    <div class="position-absolute bottom-0 w-100 p-2">
+                        <div class="d-flex">
+                            <img src="{% static '/media/male_mouse.svg' %}" alt="male_mouse" style="height: 1em;"
+                            data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Male Pup">
+                        </div>
+                        <div class="d-flex">
+                            <img src="{% static '/media/female_mouse.svg' %}" alt="female_mouse" style="height: 1em;"
+                            data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Female Pup">
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
     <p>No functionality here yet, you can only see how many stock cages exist or add new stock cages.</p>
