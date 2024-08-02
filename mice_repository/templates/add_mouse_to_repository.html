@@ -158,9 +158,11 @@
         <button class="btn btn-success mt-2" type="submit">
             Confirm Add Mouse
         </button>
+
+        {% comment %} Can make these button a reusable component {% endcomment %}
         <button class="btn btn-secondary mt-2" type="button"
             x-on:click="collapsed = !collapsed"
-            x-text="collapsed ? 'Show extra fields' : 'Hide extra fields'">
+            x-text="collapsed ? 'Show Optional Fields' : 'Hide Optional Fields'">
         </button>
     </form>
 </div>
