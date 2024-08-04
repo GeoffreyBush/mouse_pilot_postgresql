@@ -66,7 +66,6 @@ def add_mouse_to_project(request, project_name):
 class ShowProjectView(View):
     template_name = "show_project.html"
     select_class = MouseSelectionForm
-    filter_class = MouseFilter
     paginate_by = 10
 
     def get_project(self, project_name):

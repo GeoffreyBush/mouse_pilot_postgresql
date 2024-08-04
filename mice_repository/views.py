@@ -4,15 +4,19 @@ from django.shortcuts import redirect, render
 from django.template import loader
 from django.template.response import TemplateResponse
 
+from main.filters import MouseFilter
 from mice_repository.forms import RepositoryMiceForm
 from mice_repository.models import Mouse
 
 
 @login_required
 def mice_repository(request):
-    mymice = Mouse.objects.all()
     template = loader.get_template("mice_repository.html")
-    context = {"mymice": mymice}
+    repository_mice_qs = MouseFilter.get_filtered_mice(
+        Mouse.objects.all().order_by("_global_id"), 
+        request,
+    )
+    context = {"repository_mice_qs": repository_mice_qs, "filter_form": MouseFilter.get_filter_form(repository_mice_qs, request)}
     return HttpResponse(template.render(context, request))
 
 

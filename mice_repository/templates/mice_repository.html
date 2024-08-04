@@ -1,11 +1,16 @@
 {% extends 'base_template.html' %}
 {% load static %}
+{% load filter_form %}
 {% block title %}Mice Repository{% endblock %}
 {% block content %}
     
     <div class="container-fluid">
         <a href="{% url 'mice_repository:add_mouse_to_repository' %}" class="btn btn-primary mb-3">Add Pre-existing Mice</a>
         <p> Filter functionality similar to what is available when viewing an individual project before will be added at the top of this page so you can return extremely specific subsets of all mice</p>
+        
+        <!-- Filter form -->
+        {% render_filter_form filter_form %}
+
         <div class="container-fluid d-flex">
             <div class="col">
                 <table class="table table-striped table-hover table-bordered">
@@ -27,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for mouse in mymice %}
+                        {% for mouse in repository_mice_qs %}
                         <tr>
                             <td>{{ mouse.pk }}</td>
                             <td>{{ mouse.tube }}</td>

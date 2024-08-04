@@ -36,11 +36,11 @@ class MiceRepositoryViewGetTest(TestCase):
     def test_template_used(self):
         self.assertTemplateUsed(self.response, "mice_repository.html")
 
-    def test_context_contains_mymice(self):
-        self.assertIn("mymice", self.response.context)
+    def test_context_contains_repository_mice(self):
+        self.assertIn("repository_mice_qs", self.response.context)
 
     def test_context_contains_mouse(self):
-        self.assertIn(self.mouse, self.response.context["mymice"])
+        self.assertIn(self.mouse, self.response.context["repository_mice_qs"])
 
 
 class AddMouseToRepositoryViewGetTest(TestCase):
