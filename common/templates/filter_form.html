@@ -1,13 +1,33 @@
-<!-- Filter form -->
-<form method="get" class="mb-3">
-    {% csrf_token %}
-    <div class="row border">
-        <div class="col-md-8 p-2">
-            {{ filter_form.form }}
-        </div>
-        <div class="d-flex align-items-center justify-content-around col-md-4">
-            <button type="submit" name="search" class="btn btn-secondary">Search</button>
-            <button type="submit" name="clear" class="btn btn-secondary">Clear</button>
-        </div>
+<div x-data="{ showForm: false }">
+    <!-- Toggle button -->
+    <button
+        class="btn btn-primary mb-3"
+        @click="showForm = !showForm"
+        x-text="showForm ? 'Hide Filter' : 'Show Filter'"
+    ></button>
+
+    <!-- Filter form -->
+    <div
+        x-show="showForm"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform scale-90"
+        x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 transform scale-100"
+        x-transition:leave-end="opacity-0 transform scale-90"
+        style="display: none;"
+    >
+        <form method="get" class="mb-3">
+            {% csrf_token %}
+            <div class="row border">
+                <div class="col-md-8 p-2">
+                    {{ filter_form.form }}
+                </div>
+                <div class="d-flex align-items-center justify-content-around col-md-4">
+                    <button type="submit" name="search" class="btn btn-secondary">Search</button>
+                    <button type="submit" name="clear" class="btn btn-secondary">Clear</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+</div>
