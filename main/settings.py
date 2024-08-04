@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "simple_history",
+    "common",
     "django_filters",
     "system_users",
     "strain",

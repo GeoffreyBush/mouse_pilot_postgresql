@@ -1,4 +1,4 @@
-{% extends 'base_template.html' %} {% load static %}
+{% extends 'base_template.html' %} {% load static %} {% load filter_form %}
 {% block title %}View Project{% endblock %} {% block content %}
 
 <div class="container-fluid py-3">
@@ -8,19 +8,7 @@
 	</div>
 
 	<!-- Filter form -->
-	<form method="get" class="mb-3">
-		{% csrf_token %}
-		<div class="row border">
-			<div class="col-md-8 p-2">
-				{{ filter_form.form }}
-			</div>
-			<div class="d-flex align-items-center justify-content-around col-md-4">
-				<button type="submit" name="search" class="btn btn-secondary">Search</button>
-				<button type="submit" name="clear" class="btn btn-secondary">Clear</button>
-			</div>
-		</div>
-	</form>
-	
+	{% render_filter_form filter_form %}
 		
 	<form method="post" action="{% url 'projects:show_project' project_name=project.project_name %}">
 		{% csrf_token %}
