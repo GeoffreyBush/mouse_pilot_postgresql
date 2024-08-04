@@ -13,10 +13,13 @@ from mice_repository.models import Mouse
 def mice_repository(request):
     template = loader.get_template("mice_repository.html")
     repository_mice_qs = MouseFilter.get_filtered_mice(
-        Mouse.objects.all().order_by("_global_id"), 
+        Mouse.objects.all().order_by("_global_id"),
         request,
     )
-    context = {"repository_mice_qs": repository_mice_qs, "filter_form": MouseFilter.get_filter_form(repository_mice_qs, request)}
+    context = {
+        "repository_mice_qs": repository_mice_qs,
+        "filter_form": MouseFilter.get_filter_form(repository_mice_qs, request),
+    }
     return HttpResponse(template.render(context, request))
 
 
