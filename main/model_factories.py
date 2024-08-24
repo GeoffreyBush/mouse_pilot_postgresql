@@ -6,7 +6,8 @@ from faker import Faker
 
 fake = Faker()
 
-# These factories are used in automated testing to create models with consistent, predictable data 
+# These factories are used in automated testing to create models with consistent, predictable data
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:

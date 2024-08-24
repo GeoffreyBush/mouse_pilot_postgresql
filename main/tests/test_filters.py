@@ -3,20 +3,33 @@ from datetime import date, timedelta
 from django.http import HttpRequest
 from django.test import TestCase
 
-from strain.models import Strain
 from main.filters import MouseFilter
 from main.model_factories import MouseFactory, StrainFactory
 from mice_repository.models import Mouse
+from strain.models import Strain
+
 
 # Test that MouseFilter returns correct type and number of mice for each field
 class MouseFilterViewTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.strain1, cls.strain2 = StrainFactory(strain_name="TestStrain1"), StrainFactory(strain_name="TestStrain2")
+        cls.strain1, cls.strain2 = StrainFactory(
+            strain_name="TestStrain1"
+        ), StrainFactory(strain_name="TestStrain2")
         cls.mouse1, cls.mouse2, cls.mouse3, cls.mouse4 = (
-            MouseFactory(sex="M", earmark="TL", dob=date.today() - timedelta(days=10), strain=cls.strain1),
-            MouseFactory(sex="F", earmark="TL", dob=date.today() - timedelta(days=20), strain=cls.strain2),
+            MouseFactory(
+                sex="M",
+                earmark="TL",
+                dob=date.today() - timedelta(days=10),
+                strain=cls.strain1,
+            ),
+            MouseFactory(
+                sex="F",
+                earmark="TL",
+                dob=date.today() - timedelta(days=20),
+                strain=cls.strain2,
+            ),
             MouseFactory(sex="M", strain=cls.strain2),
             MouseFactory(sex="F", strain=cls.strain2),
         )
@@ -33,13 +46,17 @@ class MouseFilterViewTestCase(TestCase):
         self.assertEqual(list(filter_instance.qs), [self.mouse1, self.mouse3])
 
     def test_strain_filter(self):
-        filter_instance = MouseFilter({"strain": "TestStrain1"}, queryset=Mouse.objects.all())
+        filter_instance = MouseFilter(
+            {"strain": "TestStrain1"}, queryset=Mouse.objects.all()
+        )
         self.assertEqual(list(filter_instance.qs), [self.mouse1])
 
     def test_strain_choices_mice_repository_fields(self):
         filter_instance = MouseFilter(queryset=Mouse.objects.all())
-        strain_choices = [choice[1] for choice in filter_instance.filters["strain"].field.choices][1:]
-        all_strains = list(Strain.objects.all().values_list('strain_name', flat=True))
+        strain_choices = [
+            choice[1] for choice in filter_instance.filters["strain"].field.choices
+        ][1:]
+        all_strains = list(Strain.objects.all().values_list("strain_name", flat=True))
         self.assertEqual(strain_choices, all_strains)
 
     def test_strain_choices_filter_project_fields(self):

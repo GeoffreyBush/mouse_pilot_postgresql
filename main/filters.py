@@ -3,9 +3,9 @@ from datetime import date, timedelta
 import django_filters
 from django import forms
 
-from strain.models import Strain
 from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from mice_repository.models import Mouse
+from strain.models import Strain
 
 
 class MouseFilter(django_filters.FilterSet):
