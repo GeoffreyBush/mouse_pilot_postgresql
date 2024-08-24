@@ -18,6 +18,7 @@ from projects.forms import ProjectForm
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from wean_pups.forms import PupsToStockCageForm, PupsToStockCageFormSet
 
+# These factories are used in automated testing to create forms with consistent, predictable data 
 
 class BreedingCageFormFactory:
 

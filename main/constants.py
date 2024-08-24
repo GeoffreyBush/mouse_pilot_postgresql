@@ -36,6 +36,7 @@ EARMARK_CHOICES = [
     "BRBL",
 ]
 
+# These are not real research areas, they are only for createfakedata custom command
 RESEARCH_AREAS = [
     "Carcinogenesis",
     "Obesity",
