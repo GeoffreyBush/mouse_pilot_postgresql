@@ -1,5 +1,5 @@
-Django
-django-extensions
+Django==5.0.6
+django-extensions==3.2.3
 Faker
 colorama
 django-filter
