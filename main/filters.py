@@ -6,10 +6,10 @@ from django import forms
 from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from mice_repository.models import Mouse
 
+
 class MouseFilter(django_filters.FilterSet):
 
     earmarks = EARMARK_CHOICES_PAIRED[1:]
-    
 
     sex = django_filters.ChoiceFilter(
         choices=SEX_CHOICES,
