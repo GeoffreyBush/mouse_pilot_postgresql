@@ -52,10 +52,12 @@ class MouseFilter(django_filters.FilterSet):
 
     # Override __init__() so that it accepts a project parameter
     # Used for showing only strains associated with that project on the filter form
-    def __init__(self, data=None, queryset=None, *, request=None, prefix=None, project=None):
+    def __init__(
+        self, data=None, queryset=None, *, request=None, prefix=None, project=None
+    ):
         super().__init__(data, queryset, request=request, prefix=prefix)
         if project:
-            self.filters['strain'].queryset = project.strains.all()
+            self.filters["strain"].queryset = project.strains.all()
 
     @classmethod
     def get_filtered_mice(cls, mice_qs, http_request):
