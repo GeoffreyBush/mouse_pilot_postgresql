@@ -83,7 +83,7 @@ class ShowProjectView(View):
             "project": project,
             "project_mice": project_mice,
             "select_form": self.select_class(project=project),
-            "filter_form": MouseFilter.get_filter_form(mice_qs, http_request),
+            "filter_form": MouseFilter.get_filter_form(mice_qs, http_request, project),
             "query_params": get_query_params(http_request),
         }
 

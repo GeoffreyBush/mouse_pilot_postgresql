@@ -50,6 +50,13 @@ class MouseFilter(django_filters.FilterSet):
     def filter_max_age(self, queryset, name, value):
         return queryset.filter(dob__gte=date.today() - timedelta(days=int(value)))
 
+    # Override __init__() so that it accepts a project parameter
+    # Used for showing only strains associated with that project on the filter form
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None, project=None):
+        super().__init__(data, queryset, request=request, prefix=prefix)
+        if project:
+            self.filters['strain'].queryset = project.strains.all()
+
     @classmethod
     def get_filtered_mice(cls, mice_qs, http_request):
         if "search" in http_request.GET:
@@ -58,10 +65,10 @@ class MouseFilter(django_filters.FilterSet):
         return mice_qs
 
     @classmethod
-    def get_filter_form(cls, mice_qs, http_request):
+    def get_filter_form(cls, mice_qs, http_request, project=None):
         if "search" in http_request.GET:
-            return cls(http_request.GET, queryset=mice_qs)
-        return cls(queryset=mice_qs)
+            return cls(http_request.GET, queryset=mice_qs, project=project)
+        return cls(queryset=mice_qs, project=project)
 
     class Meta:
         model = Mouse

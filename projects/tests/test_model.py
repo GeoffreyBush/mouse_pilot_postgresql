@@ -53,3 +53,5 @@ class ProjectModelTestCase(TestCase):
             ProjectFactory(project_name="testproject")
 
     # Is it possible to require a researcher to be assigned to a project?
+
+    # Should not be able to add mice from a strain that a project is not associated with
