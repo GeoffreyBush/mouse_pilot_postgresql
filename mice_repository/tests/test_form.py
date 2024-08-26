@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from main.form_factories import RepositoryMiceFormFactory
 from main.model_factories import MouseFactory, StrainFactory
-from mice_repository.forms import RepositoryMiceForm, MouseCommentForm
+from mice_repository.forms import MouseCommentForm, RepositoryMiceForm
 from mice_repository.models import Mouse
 
 
@@ -73,6 +73,7 @@ class RepositoryMiceFormTest(TestCase):
     # What happens if you try to edit a mouse's tube to:
     # 1. A tube that exists
     # 2. A tube that doesn't exist
+
 
 class CommentFormTest(TestCase):
     def setUp(self):
