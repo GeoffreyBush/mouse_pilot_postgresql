@@ -4,7 +4,7 @@ from mice_requests.forms import ReadOnlyMiceField
 from mice_requests.tests.utils import get_hidden_input_value
 
 
-class ReadOnlyMiceFieldTestCase(TestCase):
+class ReadOnlyMiceFieldTest(TestCase):
     def setUp(self):
         self.widget = ReadOnlyMiceField()
 

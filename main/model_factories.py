@@ -91,7 +91,7 @@ class MiceRequestFactory(factory.django.DjangoModelFactory):
 
 class MouseCommentFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "website.MouseComment"
+        model = "mice_repository.MouseComment"
 
     comment_id = factory.SubFactory(MouseFactory)
     comment_text = "Test comment"

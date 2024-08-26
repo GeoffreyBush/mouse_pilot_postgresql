@@ -9,7 +9,7 @@ from mice_repository.models import Mouse
 from strain.models import Strain
 
 
-class MouseFilterSexTestCase(TestCase):
+class MouseFilterSexTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -33,7 +33,7 @@ class MouseFilterSexTestCase(TestCase):
         self.assertEqual(list(filter_instance.qs), list(Mouse.objects.all()))
 
 
-class MouseFilterStrainTestCase(TestCase):
+class MouseFilterStrainTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -82,7 +82,7 @@ class MouseFilterStrainTestCase(TestCase):
         self.assertEqual(strain_choices, correct_strains)
 
 
-class MouseFilterAgeTestCase(TestCase):
+class MouseFilterAgeTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -110,7 +110,7 @@ class MouseFilterAgeTestCase(TestCase):
         self.assertEqual(list(filter_instance.qs), [self.mouse1])
 
 
-class MouseFilterEarmarkTestCase(TestCase):
+class MouseFilterEarmarkTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -130,7 +130,7 @@ class MouseFilterEarmarkTestCase(TestCase):
         self.assertEqual(list(filter_instance.qs), [])
 
 
-class MouseFilterCombinationTestCase(TestCase):
+class MouseFilterCombinationTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

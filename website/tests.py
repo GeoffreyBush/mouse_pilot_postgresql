@@ -3,8 +3,6 @@ from django.test import TestCase
 from main.form_factories import MouseSelectionFormFactory
 from main.forms import MouseSelectionForm
 from main.model_factories import MouseCommentFactory, MouseFactory, ProjectFactory
-from website.forms import MouseCommentForm
-from website.models import MouseComment
 
 
 class MouseSelectionFormTest(TestCase):
@@ -37,34 +35,3 @@ class MouseSelectionFormTest(TestCase):
         self.assertIn(
             "At least one mouse must be selected for a request", form.non_field_errors()
         )
-
-
-class CommentModelTest(TestCase):
-    def setUp(self):
-        self.mouse = MouseFactory()
-        self.comment = MouseCommentFactory.build(comment_id=self.mouse)
-
-    def test_comment_exists(self):
-        self.assertIsInstance(self.comment, MouseComment)
-
-    def test_correct_pk(self):
-        self.assertEqual(self.comment.comment_id, self.mouse)
-
-    def test_comment_deleted_with_mouse(self):
-        self.mouse.delete()
-        self.assertIsNone(MouseComment.objects.first())
-
-    def test_text_can_be_changed(self):
-        self.assertEqual(self.comment.comment_text, "Test comment")
-        self.comment.comment_text = "Another test comment"
-        self.assertEqual(self.comment.comment_text, "Another test comment")
-
-
-class CommentFormTest(TestCase):
-    def setUp(self):
-        self.mouse = MouseFactory()
-        data = {"comment_id": self.mouse, "comment_text": "Test comment"}
-        self.form = MouseCommentForm(data=data)
-
-    def test_valid_data(self):
-        self.assertTrue(self.form.is_valid())

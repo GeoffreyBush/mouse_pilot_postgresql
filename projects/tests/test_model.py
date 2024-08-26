@@ -11,7 +11,7 @@ from main.model_factories import (
 from projects.models import Project
 
 
-class ProjectModelTestCase(TestCase):
+class ProjectModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

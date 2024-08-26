@@ -7,7 +7,7 @@ from stock_cage.models import StockCage
 from strain.models import Strain
 from system_users.forms import CustomUserChangeForm, CustomUserCreationForm
 from system_users.models import CustomUser
-from website.models import MouseComment
+from mice_repository.models import MouseComment
 
 
 # Changes what attributes are displayed and which attributes you can filter by in admin page

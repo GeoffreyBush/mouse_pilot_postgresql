@@ -19,7 +19,7 @@ def tearDownModule():
     test_user.delete()
 
 
-class StockCageModelTestCase(TestCase):
+class StockCageModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -42,7 +42,7 @@ class StockCageModelTestCase(TestCase):
         self.assertEqual(self.cage.mice.count(), 2)
 
 
-class StockCageFormTestCase(TestCase):
+class StockCageFormTest(TestCase):
 
     def test_form_is_valid(self):
         form = StockCageForm(data={"box_no": "Test Box"})

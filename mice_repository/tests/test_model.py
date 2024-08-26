@@ -3,8 +3,8 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from main.model_factories import MouseFactory, StrainFactory
-from mice_repository.models import Mouse
+from main.model_factories import MouseFactory, StrainFactory, MouseCommentFactory
+from mice_repository.models import Mouse, MouseComment
 
 
 def setUpModule():
@@ -115,4 +115,24 @@ class MouseModelIntegrationTest(TestCase):
 
     # Can be in either a breeding cage, stock cage, or experimental cage
 
-    # Test how related_name = mouse_mother/father works. Does it means you can see all children of a mouse?
+    # Test how related_name = mouse_mother/father works. Does it mean you can see all children of a mouse?
+
+class MouseCommentModelTest(TestCase):
+    def setUp(self):
+        self.mouse = MouseFactory()
+        self.comment = MouseCommentFactory.build(comment_id=self.mouse)
+
+    def test_comment_exists(self):
+        self.assertIsInstance(self.comment, MouseComment)
+
+    def test_correct_pk(self):
+        self.assertEqual(self.comment.comment_id, self.mouse)
+
+    def test_comment_deleted_with_mouse(self):
+        self.mouse.delete()
+        self.assertIsNone(MouseComment.objects.first())
+
+    def test_text_can_be_changed(self):
+        self.assertEqual(self.comment.comment_text, "Test comment")
+        self.comment.comment_text = "Another test comment"
+        self.assertEqual(self.comment.comment_text, "Another test comment")
