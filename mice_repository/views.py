@@ -5,8 +5,9 @@ from django.template import loader
 from django.template.response import TemplateResponse
 
 from main.filters import MouseFilter
-from mice_repository.forms import RepositoryMiceForm
-from mice_repository.models import Mouse
+from main.model_factories import MouseCommentFactory
+from mice_repository.forms import RepositoryMiceForm, MouseCommentForm
+from mice_repository.models import Mouse, MouseComment
 
 
 @login_required
@@ -47,3 +48,19 @@ def edit_mouse_in_repository(request, pk):
         form = RepositoryMiceForm(instance=mouse)
     context = {"mouse": mouse, "form": form}
     return TemplateResponse(request, "edit_mouse_in_repository.html", context)
+
+
+@login_required
+def show_mouse_comment(request, pk):
+    comment = MouseComment.objects.filter(pk=pk)
+    if request.method == "POST":
+        form = MouseCommentForm(request.POST, instance=comment.first())
+        if form.is_valid():
+            form.save()
+            # Close comment popup using HTMX instead of Django redirect
+    else:
+        if comment.count() == 0:
+            form = MouseCommentForm()
+        else:
+            form = MouseCommentForm(instance=comment.first())
+    return render(request, "show_mouse_comment.html", {"form": form})

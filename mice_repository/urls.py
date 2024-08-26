@@ -19,6 +19,7 @@ urlpatterns = [
         views.edit_mouse_in_repository,
         name="edit_mouse_in_repository",
     ),
+    path("show_mouse_comment/<str:pk>", views.show_mouse_comment, name="show_mouse_comment"),
 ]
 
 if settings.DEBUG:
