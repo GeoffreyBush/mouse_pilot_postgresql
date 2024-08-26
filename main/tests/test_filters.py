@@ -82,7 +82,6 @@ class MouseFilterStrainTestCase(TestCase):
         self.assertEqual(strain_choices, correct_strains)
 
 
-# USE .QS to CHANGE TO QUERYSET
 class MouseFilterAgeTestCase(TestCase):
     @classmethod
     def setUpClass(cls):

@@ -14,33 +14,33 @@ class MouseFilter(django_filters.FilterSet):
 
     sex = django_filters.ChoiceFilter(
         choices=SEX_CHOICES,
-        widget=forms.Select(attrs={"class": "form-select w-25 ml-5"}),
+        widget=forms.Select(attrs={"class": "form-select col-12 mb-1"}),
         label="Sex:",
         initial="",
     )
 
     strain = django_filters.ModelChoiceFilter(
         queryset=Strain.objects.all(),
-        widget=forms.Select(attrs={"class": "form-select w-25 ml3"}),
+        widget=forms.Select(attrs={"class": "form-select col-12 mb-1"}),
         label="Strain:",
     )
 
     earmark = django_filters.ChoiceFilter(
         choices=earmarks,
-        widget=forms.Select(attrs={"class": "form-select w-25 ml-3"}),
+        widget=forms.Select(attrs={"class": "form-select col-12 mb-1"}),
         label="Earmark:",
         initial="",
     )
 
     min_age = django_filters.NumberFilter(
         method="filter_min_age",
-        widget=forms.NumberInput(attrs={"class": "form-control w-25 ml-5"}),
+        widget=forms.NumberInput(attrs={"class": "form-control col-12 mb-1"}),
         label="Min Age:",
     )
 
     max_age = django_filters.NumberFilter(
         method="filter_max_age",
-        widget=forms.NumberInput(attrs={"class": "form-control w-25 ml-3"}),
+        widget=forms.NumberInput(attrs={"class": "form-control col-12 mb-1"}),
         label="Max Age:",
     )
 

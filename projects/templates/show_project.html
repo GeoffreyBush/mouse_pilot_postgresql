@@ -13,49 +13,52 @@
 	<form method="post" action="{% url 'projects:show_project' project_name=project.project_name %}">
 		{% csrf_token %}
 		<div class="row">
-
-			<!-- Pagination -->
-			{% if project_mice.has_other_pages %}
-				<nav aria-label="Page navigation" class="col-4">
-					<ul class="pagination">
-						{% if project_mice.has_previous %}
-							<li class="page-item">
-								<a class="page-link" href="?{{ query_params.urlencode }}&page={{ project_mice.previous_page_number }}" aria-label="Previous">
-									<span aria-hidden="true">«</span>
-								</a>
-							</li>
-						{% endif %}
-
-						{% for page_num in project_mice.paginator.page_range %}
-							{% if page_num == project_mice.number %}
-								<li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
-							{% else %}
-								<li class="page-item"><a class="page-link" href="?{{ query_params.urlencode }}&page={{ page_num }}">{{ page_num }}</a></li>
+			<div class="d-flex">
+				<!-- Pagination -->
+				{% if project_mice.has_other_pages %}
+					<nav aria-label="Page navigation" class="d-inline-block">
+						<ul class="pagination">
+							{% if project_mice.has_previous %}
+								<li class="page-item">
+									<a class="page-link" href="?{{ query_params.urlencode }}&page={{ project_mice.previous_page_number }}" aria-label="Previous">
+										<span aria-hidden="true">«</span>
+									</a>
+								</li>
 							{% endif %}
-						{% endfor %}
 
-						{% if project_mice.has_next %}
-							<li class="page-item">
-								<a class="page-link" href="?{{ query_params.urlencode }}&page={{ project_mice.next_page_number }}" aria-label="Next">
-									<span aria-hidden="true">»</span>
-								</a>
-							</li>
-						{% endif %}
-					</ul>
-				</nav>
-			{% endif %}
+							{% for page_num in project_mice.paginator.page_range %}
+								{% if page_num == project_mice.number %}
+									<li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+								{% else %}
+									<li class="page-item"><a class="page-link" href="?{{ query_params.urlencode }}&page={{ page_num }}">{{ page_num }}</a></li>
+								{% endif %}
+							{% endfor %}
 
-			
-			<div class="col">
-				{% for error in select_form.mice.errors %}
-					<div class="align-self-center" role="alert"><b>{{ error }}</b></div>
-				{% endfor %}
+							{% if project_mice.has_next %}
+								<li class="page-item">
+									<a class="page-link" href="?{{ query_params.urlencode }}&page={{ project_mice.next_page_number }}" aria-label="Next">
+										<span aria-hidden="true">»</span>
+									</a>
+								</li>
+							{% endif %}
+						</ul>
+					</nav>
+				{% endif %}
+
+				<div class="col-1 mx-3">
+					<button class="btn btn-primary align-self-center" data-toggle="tooltip" data-placement="top" title="Request task on selected mice" name="add_request" type="submit">
+						Request Task
+					</button>
+				</div>
+
+				<!-- Error messages no longer appear? -->
+				<div class="col">
+					{% for error in select_form.mice.errors %}
+						<div class="align-self-center" role="alert"><b>{{ error }}</b></div>
+					{% endfor %}
+				</div>
 			</div>
-			<div class="col-1">
-				<button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Request task on selected mice" name="add_request" type="submit">
-					Request
-				</button>
-			</div>
+
 		</div>
 
 		<!-- Table of mice -->
