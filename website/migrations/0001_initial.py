@@ -7,19 +7,31 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='CageModel',
+            name="CageModel",
             fields=[
-                ('cage_id', models.AutoField(db_column='Cage ID', primary_key=True, serialize=False)),
-                ('box_no', models.CharField(db_column='Box Number', default='Unnamed', max_length=10, unique=True)),
+                (
+                    "cage_id",
+                    models.AutoField(
+                        db_column="Cage ID", primary_key=True, serialize=False
+                    ),
+                ),
+                (
+                    "box_no",
+                    models.CharField(
+                        db_column="Box Number",
+                        default="Unnamed",
+                        max_length=10,
+                        unique=True,
+                    ),
+                ),
             ],
             options={
-                'db_table': 'basecage',
-                'managed': True,
+                "db_table": "basecage",
+                "managed": True,
             },
         ),
     ]
