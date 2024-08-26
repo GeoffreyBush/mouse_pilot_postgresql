@@ -4,8 +4,8 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from main.form_factories import RepositoryMiceFormFactory
-from main.model_factories import MouseFactory, UserFactory, MouseCommentFactory
-from mice_repository.forms import RepositoryMiceForm, MouseCommentForm
+from main.model_factories import MouseCommentFactory, MouseFactory, UserFactory
+from mice_repository.forms import MouseCommentForm, RepositoryMiceForm
 from mice_repository.models import Mouse
 
 
@@ -153,6 +153,7 @@ class MouseCommentExistingGetTest(TestCase):
     def test_correct_text(self):
         pass
 
+
 class MouseCommentMakeNewGetTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -168,7 +169,6 @@ class MouseCommentMakeNewGetTest(TestCase):
     def test_template_used(self):
         self.assertTemplateUsed(self.response, "show_mouse_comment.html")
 
-    
 
 class MouseCommentPostTest(TestCase):
     @classmethod
@@ -178,8 +178,7 @@ class MouseCommentPostTest(TestCase):
         cls.comment = MouseCommentFactory(comment_id=cls.mouse)
         data = {"comment_id": cls.mouse, "comment_text": "New test comment"}
         cls.response = test_client.post(
-            reverse("mice_repository:show_mouse_comment", args=[cls.mouse.pk]),
-            data
+            reverse("mice_repository:show_mouse_comment", args=[cls.mouse.pk]), data
         )
         cls.comment.refresh_from_db()
 

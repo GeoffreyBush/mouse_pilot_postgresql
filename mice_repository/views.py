@@ -5,8 +5,7 @@ from django.template import loader
 from django.template.response import TemplateResponse
 
 from main.filters import MouseFilter
-from main.model_factories import MouseCommentFactory
-from mice_repository.forms import RepositoryMiceForm, MouseCommentForm
+from mice_repository.forms import MouseCommentForm, RepositoryMiceForm
 from mice_repository.models import Mouse, MouseComment
 
 
