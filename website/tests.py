@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from main.form_factories import MouseSelectionFormFactory
 from main.forms import MouseSelectionForm
-from main.model_factories import MouseCommentFactory, MouseFactory, ProjectFactory
+from main.model_factories import MouseFactory, ProjectFactory
 
 
 class MouseSelectionFormTest(TestCase):

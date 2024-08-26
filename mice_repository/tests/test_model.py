@@ -3,7 +3,7 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from main.model_factories import MouseFactory, StrainFactory, MouseCommentFactory
+from main.model_factories import MouseCommentFactory, MouseFactory, StrainFactory
 from mice_repository.models import Mouse, MouseComment
 
 
@@ -116,6 +116,7 @@ class MouseModelIntegrationTest(TestCase):
     # Can be in either a breeding cage, stock cage, or experimental cage
 
     # Test how related_name = mouse_mother/father works. Does it mean you can see all children of a mouse?
+
 
 class MouseCommentModelTest(TestCase):
     def setUp(self):
