@@ -5,11 +5,20 @@
 {% block content %}
     
     <div class="container-fluid">
+        <div x-data="{ showForm: true }">
         <a href="{% url 'mice_repository:add_mouse_to_repository' %}" class="btn btn-primary mb-3">Add Pre-existing Mice</a>
         
-        <!-- Filter form -->
-        {% render_filter_form filter_form %}
+        <!-- Toggle button for filter -->
+        <button
+            class="btn btn-secondary mb-3"
+            @click="showForm = !showForm"
+            x-text="showForm ? 'Hide Filter' : 'Show Filter'"
+        ></button>
 
+        {% render_filter_form filter_form %}
+        </div>
+
+        <!-- Mouse table -->
         <div class="container-fluid d-flex">
             <div class="col">
                 <table class="table table-striped table-hover table-bordered">

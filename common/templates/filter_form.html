@@ -1,55 +1,45 @@
-<div x-data="{ showForm: true }">
-    <!-- Toggle button -->
-    <button
-        class="btn btn-primary mb-3"
-        @click="showForm = !showForm"
-        x-text="showForm ? 'Hide Filter' : 'Show Filter'"
-    ></button>
-
-    <!-- Filter form -->
-    <div
-        x-show="showForm"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform scale-90"
-        x-transition:enter-end="opacity-100 transform scale-100"
-        x-transition:leave="transition ease-in duration-300"
-        x-transition:leave-start="opacity-100 transform scale-100"
-        x-transition:leave-end="opacity-0 transform scale-90"
-        style="display: none;"
-    >
-        <form method="get" class="mb-3">
-            {% csrf_token %}
-            <div class="row border">
-                <div class="p-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-1">
-                            <label for="{{ filter_form.form.sex.id_for_label }}">{{ filter_form.form.sex.label }}</label>
-                            {{ filter_form.form.sex }}
-                        </div>
-                        <div class="col-md-4 mb-1">
-                            <label for="{{ filter_form.form.strain.id_for_label }}">{{ filter_form.form.strain.label }}</label>
-                            {{ filter_form.form.strain }}
-                        </div>
-                        <div class="col-md-4 mb-1">
-                            <label for="{{ filter_form.form.earmark.id_for_label }}">{{ filter_form.form.earmark.label }}</label>
-                            {{ filter_form.form.earmark }}
-                        </div>
-                        <div class="col-md-4 mb-1">
-                            <label for="{{ filter_form.form.min_age.id_for_label }}">{{ filter_form.form.min_age.label }}</label>
-                            {{ filter_form.form.min_age }}
-                        </div>
-                        <div class="col-md-4 mb-1">
-                            <label for="{{ filter_form.form.max_age.id_for_label }}">{{ filter_form.form.max_age.label }}</label>
-                            {{ filter_form.form.max_age }}
-                        </div>
-                        <div class="col-md-4 mb-1 d-flex align-items-center justify-content-around">
-                            <button type="submit" name="search" class="btn btn-success">Search</button>
-                            <button type="submit" name="clear" class="btn btn-secondary">Clear</button>
-                        </div>
+<div
+    x-show="showForm"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 transform scale-90"
+    x-transition:enter-end="opacity-100 transform scale-100"
+    x-transition:leave="transition ease-in duration-300"
+    x-transition:leave-start="opacity-100 transform scale-100"
+    x-transition:leave-end="opacity-0 transform scale-90"
+    style="display: none;"
+>
+    <form method="get" class="mb-3">
+        {% csrf_token %}
+        <div class="row border">
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-4 mb-1">
+                        <label for="{{ filter_form.form.sex.id_for_label }}">{{ filter_form.form.sex.label }}</label>
+                        {{ filter_form.form.sex }}
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="{{ filter_form.form.strain.id_for_label }}">{{ filter_form.form.strain.label }}</label>
+                        {{ filter_form.form.strain }}
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="{{ filter_form.form.earmark.id_for_label }}">{{ filter_form.form.earmark.label }}</label>
+                        {{ filter_form.form.earmark }}
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="{{ filter_form.form.min_age.id_for_label }}">{{ filter_form.form.min_age.label }}</label>
+                        {{ filter_form.form.min_age }}
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="{{ filter_form.form.max_age.id_for_label }}">{{ filter_form.form.max_age.label }}</label>
+                        {{ filter_form.form.max_age }}
+                    </div>
+                    <div class="col-md-4 mb-1 d-flex align-items-center justify-content-around">
+                        <button type="submit" name="search" class="btn btn-success">Search</button>
+                        <button type="submit" name="clear" class="btn btn-secondary">Clear</button>
                     </div>
                 </div>
-
             </div>
-        </form>
-    </div>
+
+        </div>
+    </form>
 </div>

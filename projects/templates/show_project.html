@@ -7,9 +7,15 @@
 		<h1>{{ project.project_name }}</h1>
 	</div>
 
-	<!-- Filter form -->
+	<div x-data="{ showForm: true }">
+		<button
+			class="btn btn-secondary mb-3"
+			@click="showForm = !showForm"
+			x-text="showForm ? 'Hide Filter' : 'Show Filter'"
+		></button>
 	{% render_filter_form filter_form %}
-		
+	</div>
+	
 	<form method="post" action="{% url 'projects:show_project' project_name=project.project_name %}">
 		{% csrf_token %}
 		<div class="row">
@@ -51,7 +57,10 @@
 					</button>
 				</div>
 
-				<!-- Error messages no longer appear? -->
+
+
+				<!-- If no mice were selected via checkbox before the "Request Task" button was pressed , an error message should appear here.
+				Error messages did appear before, but don't anymore, not sure why. -->
 				<div class="col">
 					{% for error in select_form.mice.errors %}
 						<div class="align-self-center" role="alert"><b>{{ error }}</b></div>
@@ -60,6 +69,7 @@
 			</div>
 
 		</div>
+	
 
 		<!-- Table of mice -->
 		<div class="row">
@@ -110,6 +120,7 @@
 
 		</div>
 	</form>
+	
 	
 </div>
 <script src="https://d3js.org/d3.v5.min.js"></script>
