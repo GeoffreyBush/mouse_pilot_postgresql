@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from main.form_factories import MouseSelectionFormFactory
 from common.forms import MouseSelectionForm
+from main.form_factories import MouseSelectionFormFactory
 from main.model_factories import MouseFactory, ProjectFactory
 
 

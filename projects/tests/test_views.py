@@ -2,9 +2,9 @@ from django.http import Http404
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
+from common.forms import MouseSelectionForm
 from main.filters import MouseFilter
 from main.form_factories import MouseSelectionFormFactory, ProjectFormFactory
-from common.forms import MouseSelectionForm
 from main.model_factories import (
     MouseFactory,
     ProjectFactory,

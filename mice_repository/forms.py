@@ -1,11 +1,11 @@
 from django import forms
 
+from common.models import CageModel
 from main.constants import EARMARK_CHOICES_PAIRED, SEX_CHOICES
 from mice_repository.models import Mouse, MouseComment
 from projects.models import Project
 from strain.models import Strain
 from system_users.models import CustomUser
-from common.models import CageModel
 
 
 # Add validation handling for duplicate _global_id here?
