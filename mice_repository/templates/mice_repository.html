@@ -3,19 +3,19 @@
 {% load filter_form %}
 {% block title %}Mice Repository{% endblock %}
 {% block content %}
-    
+
     <div class="container-fluid">
         <div x-data="{ showForm: true }">
-        <a href="{% url 'mice_repository:add_mouse_to_repository' %}" class="btn btn-primary mb-3">Add Pre-existing Mice</a>
-        
-        <!-- Toggle button for filter -->
-        <button
-            class="btn btn-secondary mb-3"
-            @click="showForm = !showForm"
-            x-text="showForm ? 'Hide Filter' : 'Show Filter'"
-        ></button>
+            <a href="{% url 'mice_repository:add_mouse_to_repository' %}" class="btn btn-primary mb-3">Add Pre-existing Mice</a>
 
-        {% render_filter_form filter_form %}
+        <!-- Toggle button for filter -->
+            <button
+                class="btn btn-secondary mb-3"
+                @click="showForm = !showForm"
+                x-text="showForm ? 'Hide Filter' : 'Show Filter'"
+            ></button>
+
+            {% render_filter_form filter_form %}
         </div>
 
         <!-- Mouse table -->
@@ -41,26 +41,26 @@
                     </thead>
                     <tbody>
                         {% for mouse in repository_mice_qs %}
-                        <tr>
-                            <td>{{ mouse.pk }}</td>
-                            <td>{{ mouse.tube }}</td>
-                            <td>{{ mouse.earmark }}</td>
-                            <td>{{ mouse.sex }}</td>
-                            <td>{{ mouse.dob }}</td>
-                            <td>{{ mouse.coat }}</td>
-                            <td>{{ mouse.strain }}</td>
-                            <td>{{ mouse.mother }}</td>
-                            <td>{{ mouse.father }}</td>
-                            <td>{{ mouse.result }}</td>
-                            <td>{{ mouse.fate }}</td>
-                            <td class="p-0 align-middle"> 
-                                <a 
-                                href="{% url 'mice_repository:edit_mouse_in_repository' mouse.pk %}" 
-                                class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Mouse">
-                                E
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ mouse.pk }}</td>
+                                <td>{{ mouse.tube }}</td>
+                                <td>{{ mouse.earmark }}</td>
+                                <td>{{ mouse.sex }}</td>
+                                <td>{{ mouse.dob }}</td>
+                                <td>{{ mouse.coat }}</td>
+                                <td>{{ mouse.strain }}</td>
+                                <td>{{ mouse.mother }}</td>
+                                <td>{{ mouse.father }}</td>
+                                <td>{{ mouse.result }}</td>
+                                <td>{{ mouse.fate }}</td>
+                                <td class="p-0 align-middle">
+                                    <a
+                                        href="{% url 'mice_repository:edit_mouse_in_repository' mouse.pk %}"
+                                        class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Mouse">
+                                        E
+                                    </a>
+                                </td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>

@@ -3,142 +3,142 @@
 {% block title %}Create Breeding Pair{% endblock %}
 {% block content %}
 
-<div class="container p-3">
-    <h2 class="my-3">
-        Add a Breeding Cage
-    </h2>
-    <div class="col-10">
-        <ul class="list-group">
-            <li class="list-group-item">
-                This page is for adding a new breeding pair or an existing breeding cage that needs to be imported manually.
-            </li>
-            <li class="list-group-item">
-                It will make a new breeding cage labelled with the Box Number.
-            </li>
-            <li class="list-group-item">
-                Fields can be updated later as pups are born, sexed, or lost.
-            </li>
-        </ul>
-        <button class="btn btn-secondary ml-auto mt-4">
-            <a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
-                Back to Breeding Cages
-            </a>
-        </button>
-    </div>
-</div>
-
-<div class="container mt-3" x-data="{ collapsed: true }">
-    <p><b>Only Box Number, Pup Strain, Mother, and Father are absolutely required</b></p>
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-1">
-
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ form.box_no.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ form.box_no }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ form.strain.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ form.strain }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ form.mother.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ form.mother }}
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ form.father.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ form.father }}
-                </div>
-            </div>
-            <div x-show="!collapsed" x-transition id=collapse-fields>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.date_born.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.date_born }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.number_born.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.number_born }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.cull_to.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.cull_to }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.date_wean.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.date_wean }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.number_wean.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.number_wean }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.pwl.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.pwl }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.male_pups.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.male_pups }}
-                    </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-3 d-flex align-items-center">
-                        {{ form.female_pups.label_tag }}
-                    </div>
-                    <div class="col-9">
-                        {{ form.female_pups }}
-                    </div>
-                </div>
-            </div>
+    <div class="container p-3">
+        <h2 class="my-3">
+            Add a Breeding Cage
+        </h2>
+        <div class="col-10">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    This page is for adding a new breeding pair or an existing breeding cage that needs to be imported manually.
+                </li>
+                <li class="list-group-item">
+                    It will make a new breeding cage labelled with the Box Number.
+                </li>
+                <li class="list-group-item">
+                    Fields can be updated later as pups are born, sexed, or lost.
+                </li>
+            </ul>
+            <button class="btn btn-secondary ml-auto mt-4">
+                <a href="{% url 'breeding_cage:list_breeding_cages' %}" class="text-decoration-none text-white">
+                    Back to Breeding Cages
+                </a>
+            </button>
         </div>
-        <button class="btn btn-success mt-2" type="submit">
-            Confirm Breeding Cage
-        </button>
-        <button class="btn btn-secondary mt-2" type="button"
-            x-on:click="collapsed = !collapsed"
-            x-text="collapsed ? 'Show extra fields' : 'Hide extra fields'">
-        </button>
-    </form>
-</div>
+    </div>
+
+    <div class="container mt-3" x-data="{ collapsed: true }">
+        <p><b>Only Box Number, Pup Strain, Mother, and Father are absolutely required</b></p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-1">
+
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ form.box_no.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ form.box_no }}
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ form.strain.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ form.strain }}
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ form.mother.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ form.mother }}
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-3 d-flex align-items-center">
+                        {{ form.father.label_tag }}
+                    </div>
+                    <div class="col-9">
+                        {{ form.father }}
+                    </div>
+                </div>
+                <div x-show="!collapsed" x-transition id=collapse-fields>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.date_born.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.date_born }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.number_born.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.number_born }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.cull_to.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.cull_to }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.date_wean.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.date_wean }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.number_wean.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.number_wean }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.pwl.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.pwl }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.male_pups.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.male_pups }}
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ form.female_pups.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ form.female_pups }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success mt-2" type="submit">
+                Confirm Breeding Cage
+            </button>
+            <button class="btn btn-secondary mt-2" type="button"
+                    x-on:click="collapsed = !collapsed"
+                    x-text="collapsed ? 'Show extra fields' : 'Hide extra fields'">
+            </button>
+        </form>
+    </div>
 {% endblock %}

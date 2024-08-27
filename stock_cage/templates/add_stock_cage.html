@@ -3,42 +3,42 @@
 {% block title %}Add Stock Cage{% endblock %}
 {% block content %}
 
-<div class="container p-3">
-    <h2 class="my-3">
-        Add a New Stock Cage
-    </h2>
-    <div class="col-10">
-        <ul class="list-group">
-            <li class="list-group-item">
-                Placeholder text
-            </li>
-        </ul>
-        <button class="btn btn-secondary ml-auto mt-4">
-            <a href="{% url 'stock_cage:list_stock_cages' %}" class="text-decoration-none text-white">
-                Back to Stock Cages
-            </a>
-        </button>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-1">
-            {% for field in form %}
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ field.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ field }}
-                </div>
-            </div>
-            {% endfor %}
+    <div class="container p-3">
+        <h2 class="my-3">
+            Add a New Stock Cage
+        </h2>
+        <div class="col-10">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Placeholder text
+                </li>
+            </ul>
+            <button class="btn btn-secondary ml-auto mt-4">
+                <a href="{% url 'stock_cage:list_stock_cages' %}" class="text-decoration-none text-white">
+                    Back to Stock Cages
+                </a>
+            </button>
         </div>
-        <button class="btn btn-success mt-2" type="submit">
-            Confirm New Stock Cage
-        </button>
-    </form>
-</div>
+    </div>
+
+    <div class="container mt-5">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-1">
+                {% for field in form %}
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-success mt-2" type="submit">
+                Confirm New Stock Cage
+            </button>
+        </form>
+    </div>
 {% endblock %}

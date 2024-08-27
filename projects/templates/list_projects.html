@@ -3,62 +3,62 @@
 {% block title %}Projects List{% endblock %}
 {% block content %}
 
-<div class="container py-3">
+    <div class="container py-3">
 
     <!-- Functionality buttons -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Projects</h1>
-        <a href="{% url 'projects:add_project' %}">
-            <button class="btn btn-primary">New Project</button>
-        </a>
-    </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Projects</h1>
+            <a href="{% url 'projects:add_project' %}">
+                <button class="btn btn-primary">New Project</button>
+            </a>
+        </div>
 
     <!-- Table of projects -->
-    <table class="table table-striped table-hover table-bordered shadow-sm">
-        <thead class="thead-light">
-            <tr class="sticky-top">
-                <th>Name</th>
-                <th>Lines</th>
-                <th>Research area</th>
-                <th>Total mice</th>
-                <th class="col-2"></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for project in myprojects %}
-                <tr>
-                    <td>
-                        <a href="{% url 'projects:show_project' project.project_name %}" class="text-decoration-none text-dark">
-                            <h3>{{ project.project_name }}</h3>
-                            <h3 class="d-none"></h3>
-                        </a>
-                    </td>
-                    <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
-                    <td>{{ project.research_area }}</td>
-                    <td>{{ project.mice.count }}</td>
-                    <td class="align-middle text-center">
-                        <button 
-                        class="btn btn-secondary btn-sm"
-                        hx-get="{% url 'projects:add_mouse_to_project' project.project_name %}"
-                        hx-target="#modals-here"
-                        hx-trigger="click"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modals-here">
-                            Add mice to project
-                        </button>
-                    </td>
-                    <td class="p-0 align-middle">
-                        <a 
-                        href="{% url 'projects:edit_project' project.project_name %}" 
-                        class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Project">
-                        E
-                        </a>
-                    </td>
+        <table class="table table-striped table-hover table-bordered shadow-sm">
+            <thead class="thead-light">
+                <tr class="sticky-top">
+                    <th>Name</th>
+                    <th>Lines</th>
+                    <th>Research area</th>
+                    <th>Total mice</th>
+                    <th class="col-2"></th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for project in myprojects %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'projects:show_project' project.project_name %}" class="text-decoration-none text-dark">
+                                <h3>{{ project.project_name }}</h3>
+                                <h3 class="d-none"></h3>
+                            </a>
+                        </td>
+                        <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
+                        <td>{{ project.research_area }}</td>
+                        <td>{{ project.mice.count }}</td>
+                        <td class="align-middle text-center">
+                            <button
+                                class="btn btn-secondary btn-sm"
+                                hx-get="{% url 'projects:add_mouse_to_project' project.project_name %}"
+                                hx-target="#modals-here"
+                                hx-trigger="click"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modals-here">
+                                Add mice to project
+                            </button>
+                        </td>
+                        <td class="p-0 align-middle">
+                            <a
+                                href="{% url 'projects:edit_project' project.project_name %}"
+                                class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Project">
+                                E
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-</div>
+    </div>
 {% endblock %}

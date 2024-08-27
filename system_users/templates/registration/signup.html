@@ -1,30 +1,30 @@
-{% extends "base_template.html" %} 
-{% load static %} 
+{% extends "base_template.html" %}
+{% load static %}
 
 {% block title %}Create Account{% endblock %}
 
 {% block content %}
-<div class="container mt-5 py-3 col-4 border shadow"> 
-    <h5 class="mb-3">Create Account</h5>
-    <form method="post" class="needs-validation" novalidate>
-        {% csrf_token %}
-        <div class="form-group">
-            <div>{{ form.username.label }}</div>
-            {{ form.username }}
-        </div>
-        <div class="form-group">
-            <div>{{ form.email.label }}</div>
-            {{ form.email }}
-        </div>
-        <div class="form-group mt-4">
-			<div>{{ form.password1.label }}</div>
-            {{ form.password1 }}
-        </div>
-        <div class="form-group">
-			<div>{{ form.password2.label }}</div>
-            {{ form.password2 }}
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Create</button>
-    </form>
-</div>
+    <div class="container mt-5 py-3 col-4 border shadow">
+        <h5 class="mb-3">Create Account</h5>
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <div>{{ form.username.label }}</div>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <div>{{ form.email.label }}</div>
+                {{ form.email }}
+            </div>
+            <div class="form-group mt-4">
+                <div>{{ form.password1.label }}</div>
+                {{ form.password1 }}
+            </div>
+            <div class="form-group">
+                <div>{{ form.password2.label }}</div>
+                {{ form.password2 }}
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Create</button>
+        </form>
+    </div>
 {% endblock %}

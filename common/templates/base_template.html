@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/base_template.css' %}">
-    <script src="{% static 'htmx/htmx.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base_template.css' %}">
+        <script src="{% static 'htmx/htmx.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    </head>
 
-<body>
+    <body>
 
-    <div class="px-0 min-vh-100 d-flex">
+        <div class="px-0 min-vh-100 d-flex">
 
         <!-- Vertical navigation bar -->
-        <div class="nav flex-column bg-dark p-3 min-vh-100 sticky-top" style="align-self: flex-start;">
-            <a class="nav-link text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</a>
-            <div class="mt-2">
-                <div class="text-bg-dark fw-bold fs-5">General</div>
-                <a class="nav-link text-bg-dark p-2" href="#"><s>Dashboard</s></a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'mice_requests:show_requests' %}">Requests</a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'mice_repository:mice_repository' %}">Mice Repository</a>
+            <div class="nav flex-column bg-dark p-3 min-vh-100 sticky-top" style="align-self: flex-start;">
+                <a class="nav-link text-bg-dark fw-bold fs-4">M<img src="{% static 'media/mouse-pilot.png' %}" style="height: 1em;">usePilot</a>
+                <div class="mt-2">
+                    <div class="text-bg-dark fw-bold fs-5">General</div>
+                    <a class="nav-link text-bg-dark p-2" href="#"><s>Dashboard</s></a>
+                    <a class="nav-link text-bg-dark p-2" href="{% url 'mice_requests:show_requests' %}">Requests</a>
+                    <a class="nav-link text-bg-dark p-2" href="{% url 'mice_repository:mice_repository' %}">Mice Repository</a>
+                </div>
+                <div class="mt-2">
+                    <div class="text-bg-dark fw-bold fs-5">Users</div>
+                    <a class="nav-link text-bg-dark p-2" href="{% url 'projects:list_projects' %}">Projects</a>
+                    <a class="nav-link text-bg-dark p-2" href="#"><s>Experimental Cages</s></a>
+                </div>
+                <div class="mt-2">
+                    <div class="text-bg-dark fw-bold fs-5">Breeding Wing</div>
+                    <a class="nav-link text-bg-dark p-2" href="{% url 'breeding_cage:list_breeding_cages' %}">Breeding Cages</a>
+                    <a class="nav-link text-bg-dark p-2" href="{% url 'stock_cage:list_stock_cages' %}">Stock Cages</a>
+                    <a class="nav-link text-bg-dark p-2" href="{% url 'strain:strain_management' %}">Strain Management</a>
+                </div>
+                <div class="mt-2">
+                    <div class="text-bg-dark fw-bold fs-5">Utility</div>
+                    <a class="nav-link text-bg-dark p-2" href="#"><s>Edit History</s></a>
+                    <a class="nav-link text-bg-dark p-2" href="/admin/">Admin</a>
+                    <a class="nav-link text-bg-dark p-2" href="#"><s>Help</s></a>
+                </div>
             </div>
-            <div class="mt-2">
-                <div class="text-bg-dark fw-bold fs-5">Users</div>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'projects:list_projects' %}">Projects</a>
-                <a class="nav-link text-bg-dark p-2" href="#"><s>Experimental Cages</s></a>
-            </div>
-            <div class="mt-2">
-                <div class="text-bg-dark fw-bold fs-5">Breeding Wing</div>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'breeding_cage:list_breeding_cages' %}">Breeding Cages</a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'stock_cage:list_stock_cages' %}">Stock Cages</a>
-                <a class="nav-link text-bg-dark p-2" href="{% url 'strain:strain_management' %}">Strain Management</a>
-            </div>
-            <div class="mt-2">
-                <div class="text-bg-dark fw-bold fs-5">Utility</div>
-                <a class="nav-link text-bg-dark p-2" href="#"><s>Edit History</s></a>
-                <a class="nav-link text-bg-dark p-2" href="/admin/">Admin</a>
-                <a class="nav-link text-bg-dark p-2" href="#"><s>Help</s></a>
-            </div> 
-        </div>
-        
-        <div class="flex-grow-1 ">
-            
+
+            <div class="flex-grow-1 ">
+
             <!-- Site header -->
             <!--
             <header class="bg-white py-3 border-bottom">
@@ -64,28 +64,28 @@
                 </div>
             </header>
             -->
-            
-            <div class="col">
-                <div class="d-flex p-4">
+
+                <div class="col">
+                    <div class="d-flex p-4">
 
                     <!-- Main page content -->
-                    {% block content %}{% endblock %}
-                    
-                    <!-- Modal container -->
-                    <div id="modals-here"
-                        class="modal modal-blur fade"
-                        style="display: none"
-                        aria-hidden="false"
-                        tabindex="-1">
-                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                            <div class="modal-content"></div>
-                        </div>
-                    </div>
+                        {% block content %}{% endblock %}
 
+                    <!-- Modal container -->
+                        <div id="modals-here"
+                             class="modal modal-blur fade"
+                             style="display: none"
+                             aria-hidden="false"
+                             tabindex="-1">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content"></div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
-            
         </div>
-    </div>
-</body>
+    </body>
 </html>

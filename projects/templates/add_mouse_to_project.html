@@ -11,10 +11,10 @@
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     {% for field in form %}
-                    <div class="text-center">
-                        <span class="">{{ field }}</span>
-                        {{ field.errors }}
-                    </div>
+                        <div class="text-center">
+                            <span class="">{{ field }}</span>
+                            {{ field.errors }}
+                        </div>
                     {% endfor %}
                     <div class="d-flex justify-content-around mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -2,48 +2,48 @@
 {% load static %}
 {% block title %}Edit Mouse in Repo{% endblock %}
 {% block content %}
-<div class="container p-3">
-    <h2 class="my-3">
-        Edit a Mouse in the Global Repository
-    </h2>
-    <div class="col-10">
-        <ul class="list-group">
-            <li class="list-group-item">
-                This page is for editing a mouse that is already in the MousePilot central repository.
-            </li>
-            <li class="list-group-item">
-                This page overrides all other methods of editing mice.
-            </li>
-            <li class="list-group-item list-group-item-warning">
-                <b>There are currently no safeguards to prevent edits that would affect data integrity.</b> For example, the existing mother of a mouse could be set to male or the result of an earclip could be overwritten.
-            </li>
-        </ul>
-        <a class="btn btn-secondary mt-4" href="{% url 'mice_repository:mice_repository' %}">
-            Back to Repository
-        </a>
-    </div>
-</div>
-<div class="container mt-5" x-data="{ collapsed: true }">
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-1">
-            {% for field in form %}
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ field.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ field }}
-                </div>
-            </div>
-            {% endfor %}
+    <div class="container p-3">
+        <h2 class="my-3">
+            Edit a Mouse in the Global Repository
+        </h2>
+        <div class="col-10">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    This page is for editing a mouse that is already in the MousePilot central repository.
+                </li>
+                <li class="list-group-item">
+                    This page overrides all other methods of editing mice.
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    <b>There are currently no safeguards to prevent edits that would affect data integrity.</b> For example, the existing mother of a mouse could be set to male or the result of an earclip could be overwritten.
+                </li>
+            </ul>
+            <a class="btn btn-secondary mt-4" href="{% url 'mice_repository:mice_repository' %}">
+                Back to Repository
+            </a>
         </div>
-        <button class="btn btn-success mt-2" type="submit">
-            Confirm Add Mouse
-        </button>
-        <button class="btn btn-secondary mt-2" type="button">
-            Reset data to state on page load - not implemented yet
-        </button>
-    </form>
-</div>
+    </div>
+    <div class="container mt-5" x-data="{ collapsed: true }">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-1">
+                {% for field in form %}
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-success mt-2" type="submit">
+                Confirm Add Mouse
+            </button>
+            <button class="btn btn-secondary mt-2" type="button">
+                Reset data to state on page load - not implemented yet
+            </button>
+        </form>
+    </div>
 {% endblock %}

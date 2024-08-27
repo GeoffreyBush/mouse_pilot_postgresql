@@ -1,40 +1,40 @@
-{% extends "base_template.html" %} {% load static %} 
+{% extends "base_template.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
 
-<div class="container mt-5 py-3 col-4 border shadow"> 
-    <div class="text-center">
-        <span>
-            {% if form.errors %}
-            <p class="text-muted"> Your username and password didn't match. Please try again.</p>
-            {% endif %} 
-            {% if next %}
-                {% if user.is_authenticated %}
-                    <p class="text-muted">Your account doesn't have access to this page. To proceed, please login with an account that has access</p>
-                {% else %}
-                    <p class="text-muted">Please login to see this page</p>
+    <div class="container mt-5 py-3 col-4 border shadow">
+        <div class="text-center">
+            <span>
+                {% if form.errors %}
+                    <p class="text-muted"> Your username and password didn't match. Please try again.</p>
                 {% endif %}
-            {% endif %}
-        </span>
-    </div>
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <div>{{ form.username.label }}</div>
-            {{ form.username }}
+                {% if next %}
+                    {% if user.is_authenticated %}
+                        <p class="text-muted">Your account doesn't have access to this page. To proceed, please login with an account that has access</p>
+                    {% else %}
+                        <p class="text-muted">Please login to see this page</p>
+                    {% endif %}
+                {% endif %}
+            </span>
         </div>
-        <div class="form-group">
-            <div>{{ form.password.label }}</div>
-             {{ form.password }}
-        </div>
-        <button class="btn btn-primary mt-3" type="submit">
-            Login
-        </button>
-        <div class="form-group d-flex justify-content-between">
-            <a href="{% url 'system_users:signup' %}" class="text-decoration-none">Create an Account</a>    
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <div>{{ form.username.label }}</div>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <div>{{ form.password.label }}</div>
+                {{ form.password }}
+            </div>
+            <button class="btn btn-primary mt-3" type="submit">
+                Login
+            </button>
+            <div class="form-group d-flex justify-content-between">
+                <a href="{% url 'system_users:signup' %}" class="text-decoration-none">Create an Account</a>
             <!--<a href="{% url 'password_reset' %}" class="text-decoration-none">Lost password?</a>-->
-        </div>
-    </form>
-</div>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}

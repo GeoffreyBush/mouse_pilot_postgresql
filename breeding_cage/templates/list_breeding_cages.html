@@ -1,55 +1,55 @@
 {% extends 'base_template.html' %}
 {% load static %}
-{% block title %}Breeding Cages{% endblock %} 
+{% block title %}Breeding Cages{% endblock %}
 {% block content %}
-<div class="container-fluid">
+    <div class="container-fluid">
 
     <!-- Header and buttons -->
-    <div class="row">
-        <div class="col-md-12 d-flex justify-content-between " >
-            <h1 class="project-header-text">Breeding Cage List</h1>
-            <div>
-                <a href="{% url 'breeding_cage:add_breeding_cage' %}" class="btn btn-primary">Add Breeding Cage</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Show breeding cages -->
-    <div class="row">
-        {% for cage in mycages %}
-            {% if not cage.transferred_to_stock %}
-            <div class="col">
-                <div class="container position-relative card card-body square-cage mb-4 shadow-sm p-0">
-
-                    <h5 class="card-header bg-primary  d-flex justify-content-between">
-                        <a class="text-white" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}"
-                        data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="View Cage">{{ cage.box_no }}</a>
-                        <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
-                            <img src="{% static '/media/white_edit_pen.svg' %}" alt="Edit details" style="height: 1em;"
-                            data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Cage">
-                        </a>
-                    </h5>
-
-                    <div class="position-absolute bottom-0 w-100 p-2">
-                        <div class="d-flex">
-                            {% for i in cage.male_pups|add:"0"|ljust:cage.male_pups %}
-                                <img src="{% static '/media/male_mouse.svg' %}" alt="male_mouse" style="height: 1em;"
-                                data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Male Pup">
-                            {% endfor %}
-                        </div>
-                        <div class="d-flex">
-                            {% for i in cage.female_pups|add:"0"|ljust:cage.female_pups %}
-                                <img src="{% static '/media/female_mouse.svg' %}" alt="female_mouse" style="height: 1em;"
-                                data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Female Pup">
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-between " >
+                <h1 class="project-header-text">Breeding Cage List</h1>
+                <div>
+                    <a href="{% url 'breeding_cage:add_breeding_cage' %}" class="btn btn-primary">Add Breeding Cage</a>
                 </div>
             </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+        </div>
 
-</div>
+    <!-- Show breeding cages -->
+        <div class="row">
+            {% for cage in mycages %}
+                {% if not cage.transferred_to_stock %}
+                    <div class="col">
+                        <div class="container position-relative card card-body square-cage mb-4 shadow-sm p-0">
+
+                            <h5 class="card-header bg-primary  d-flex justify-content-between">
+                                <a class="text-white" href="{% url 'breeding_cage:view_breeding_cage' cage.box_no %}"
+                                   data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="View Cage">{{ cage.box_no }}</a>
+                                <a class="text-decoration-none" href="{% url 'breeding_cage:edit_breeding_cage' cage.box_no %}">
+                                    <img src="{% static '/media/white_edit_pen.svg' %}" alt="Edit details" style="height: 1em;"
+                                         data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Edit Cage">
+                                </a>
+                            </h5>
+
+                            <div class="position-absolute bottom-0 w-100 p-2">
+                                <div class="d-flex">
+                                    {% for i in cage.male_pups|add:"0"|ljust:cage.male_pups %}
+                                        <img src="{% static '/media/male_mouse.svg' %}" alt="male_mouse" style="height: 1em;"
+                                             data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Male Pup">
+                                    {% endfor %}
+                                </div>
+                                <div class="d-flex">
+                                    {% for i in cage.female_pups|add:"0"|ljust:cage.female_pups %}
+                                        <img src="{% static '/media/female_mouse.svg' %}" alt="female_mouse" style="height: 1em;"
+                                             data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Female Pup">
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
 {% endblock %}

@@ -17,14 +17,15 @@ jobs:
           pip install ruff
           pip install isort
           pip install black
-          npm install -g prettier 
+          pip install djhtml
 
       - name: Run Linters
         run: |
           isort .
           black .
           ruff check --fix
-          npx prettier --write 'website/**/*.{css,scss}'          
+          shopt -s globstar
+          djhtml **/*.html
 
       - name: Commit changes to GitHub
         uses: stefanzweifel/git-auto-commit-action@v4

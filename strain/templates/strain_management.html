@@ -3,22 +3,22 @@
 {% block title %}Strain Management{% endblock %}
 {% block content %}
 
-<div class="container">
-<p>Currently only lists all strains and allows creation of new ones</p>
+    <div class="container">
+        <p>Currently only lists all strains and allows creation of new ones</p>
 
-    {% for strain in strains %}
-        <div class="card my-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ strain.strain_name }}</h5>
-                <p class="card-text">Total mice: {{ strain.mice.count }}</p>
-                <p class="card-text">{{ strain.description }}</p>
+        {% for strain in strains %}
+            <div class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ strain.strain_name }}</h5>
+                    <p class="card-text">Total mice: {{ strain.mice.count }}</p>
+                    <p class="card-text">{{ strain.description }}</p>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
 
-    <a href="{% url 'strain:add_strain' %}">
-        <button class="btn btn-primary">Add Strain</button>
-    </a>
-</div>
+        <a href="{% url 'strain:add_strain' %}">
+            <button class="btn btn-primary">Add Strain</button>
+        </a>
+    </div>
 
 {% endblock %}

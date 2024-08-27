@@ -3,25 +3,25 @@
 {% block title %}Add New Strain{% endblock %}
 {% block content %}
 
-<div class="container mt-5">
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-1">
-            {% for field in form %}
-            <div class="row mb-1">
-                <div class="col-3 d-flex align-items-center">
-                    {{ field.label_tag }}
-                </div>
-                <div class="col-9">
-                    {{ field }}
-                </div>
+    <div class="container mt-5">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-1">
+                {% for field in form %}
+                    <div class="row mb-1">
+                        <div class="col-3 d-flex align-items-center">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="col-9">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-        <button class="btn btn-success mt-2" type="submit">
-            Confirm New Strain
-        </button>
-    </form>
-</div>
+            <button class="btn btn-success mt-2" type="submit">
+                Confirm New Strain
+            </button>
+        </form>
+    </div>
 
 {% endblock %}

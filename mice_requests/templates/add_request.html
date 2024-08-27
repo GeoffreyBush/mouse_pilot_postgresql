@@ -1,27 +1,27 @@
 {% extends 'base_template.html' %}
 {% block title %}Add Request{% endblock %}
 {% block content %}
-<div class="container">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="mb-3">
-            {{ form.task_type.label_tag }}
-            {{ form.task_type }}
-            {{ form.task_type.errors }}
-        </div>
-        <div class="mb-3">
-            {{ form.mice }}
-            <ul class="list-group">
-                {% if form.mice.errors %}
-                    <li class="list-group-item list-group-item-warning"><b>Request is invalid for the following reasons:</b></li>
-                {% endif %}
-                {% for error in form.mice.errors %}
-                    <li class="list-group-item list-group-item-warning">{{ error }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Task</button>
-    </form>
-</div>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+                {{ form.task_type.label_tag }}
+                {{ form.task_type }}
+                {{ form.task_type.errors }}
+            </div>
+            <div class="mb-3">
+                {{ form.mice }}
+                <ul class="list-group">
+                    {% if form.mice.errors %}
+                        <li class="list-group-item list-group-item-warning"><b>Request is invalid for the following reasons:</b></li>
+                    {% endif %}
+                    {% for error in form.mice.errors %}
+                        <li class="list-group-item list-group-item-warning">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+    </div>
 {% endblock %}

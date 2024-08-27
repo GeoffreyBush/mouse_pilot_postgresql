@@ -2,70 +2,70 @@
 {% load static %}
 {% block title %}Add Mouse to Repo{% endblock %}
 {% block content %}
-<div class="container-fluid">
+    <div class="container-fluid">
 
 
 <!-- Could extract dob, strain, mother, father from formset and place as a text box saying "all mice will have these attributes" -->
-<p>In current version of MousePilot, breeding cages that are transferred to stock will no longer be viewable as a breeding cage. 
-    Archiving and histories of breeding cages are a longer term functionality that is not implemented yet.</p> 
+        <p>In current version of MousePilot, breeding cages that are transferred to stock will no longer be viewable as a breeding cage.
+            Archiving and histories of breeding cages are a longer term functionality that is not implemented yet.</p>
 
 
-    <form method="post">
-        {% csrf_token %}
+        <form method="post">
+            {% csrf_token %}
 
         <!-- Error messages -->
-        <div class="d-inline-block m-3">
-            <ul class="list-group">
-            {% if form.mice.errors or formset.errors %}
-                <li class="list-group-item list-group-item-warning"><b>Transfer is invalid for the following reasons:</b></li>
-            {% endif %}
-            {{ formset.management_form }}
-                {% if formset.non_form_errors %}
-                <li class="list-group-item list-group-item-warning">{{ formset.non_form_errors }}</li>
-                {% endif %}
-                {% for form in formset %}
-                    {% for field in form %}
-                        {% if field.errors %}
-                            <li class="list-group-item list-group-item-warning">{{ field.errors }}</li>
-                        {% endif %}
-                    {% endfor %}    
-                {% endfor %}
-            </ul>
-        </div>    
+            <div class="d-inline-block m-3">
+                <ul class="list-group">
+                    {% if form.mice.errors or formset.errors %}
+                        <li class="list-group-item list-group-item-warning"><b>Transfer is invalid for the following reasons:</b></li>
+                    {% endif %}
+                    {{ formset.management_form }}
+                    {% if formset.non_form_errors %}
+                        <li class="list-group-item list-group-item-warning">{{ formset.non_form_errors }}</li>
+                    {% endif %}
+                    {% for form in formset %}
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <li class="list-group-item list-group-item-warning">{{ field.errors }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
 
         <!-- Pup transfer form -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Tube</th>
-                    <th>Sex</th>
-                    <th>Stock Cage</th>
-                    <th>DoB</th>
-                    <th>Coat</th>
-                    <th>Strain</th>
-                    <th>Mother</th>
-                    <th>Father</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for form in formset %}
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>{{ form.tube }}</td>
-                        <td>{{ form.sex }}</td>
-                        <td>{{ form.cage }}</td>
-                        <td>{{ form.dob }}</td>
-                        <td>{{ form.coat }}</td>
-                        <td>{{ form.strain }}</td>
-                        <td>{{ form.mother }}</td>
-                        <td>{{ form.father }}</td>
+                        <th>Tube</th>
+                        <th>Sex</th>
+                        <th>Stock Cage</th>
+                        <th>DoB</th>
+                        <th>Coat</th>
+                        <th>Strain</th>
+                        <th>Mother</th>
+                        <th>Father</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
-    </form>
-</div>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                        <tr>
+                            <td>{{ form.tube }}</td>
+                            <td>{{ form.sex }}</td>
+                            <td>{{ form.cage }}</td>
+                            <td>{{ form.dob }}</td>
+                            <td>{{ form.coat }}</td>
+                            <td>{{ form.strain }}</td>
+                            <td>{{ form.mother }}</td>
+                            <td>{{ form.father }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 {% endblock %}
 
