@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from main.model_factories import UserFactory
-from website.selenium_tests.utils import options
+from main.selenium_tests.utils import options
 
 chromedriver_autoinstaller.install()
 

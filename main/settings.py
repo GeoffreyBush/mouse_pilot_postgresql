@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "django_filters",
     "system_users",
     "strain",
-    "website",
     "breeding_cage",
     "mice_repository",
     "projects",
@@ -138,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "website/static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "common/static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media_root")
 

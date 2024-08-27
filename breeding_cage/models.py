@@ -1,6 +1,6 @@
 from django.db import models
 
-from website.models import CageModel
+from common.models import CageModel
 
 # Need to track whether female is pregnant
 

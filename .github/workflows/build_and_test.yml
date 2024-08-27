@@ -48,6 +48,9 @@ jobs:
     - name: Test breeding_cage app
       run: python manage.py test breeding_cage
 
+    - name: Test common app
+      run: python manage.py test common
+
     - name: Test mice_repository app
       run: python manage.py test mice_repository
 
@@ -68,6 +71,3 @@ jobs:
 
     - name: Test wean_pups app
       run: python manage.py test wean_pups
-
-    - name: Test website app
-      run: python manage.py test website

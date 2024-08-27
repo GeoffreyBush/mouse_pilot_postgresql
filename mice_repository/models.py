@@ -29,7 +29,7 @@ class Mouse(models.Model):
     dob = models.DateField(db_column="Date of Birth", null=False, blank=False)
 
     cage = models.ForeignKey(
-        "website.CageModel",
+        "common.CageModel",
         on_delete=models.PROTECT,
         null=True,
         blank=True,

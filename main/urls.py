@@ -5,7 +5,8 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="website/", permanent=True)),
+    # Create a test for this blank url
+    path("", RedirectView.as_view(url="mice_repository/", permanent=True)),
     path("accounts/", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
     path("breeding_cage/", include("breeding_cage.urls", namespace="breeding_cage")),

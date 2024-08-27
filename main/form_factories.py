@@ -5,7 +5,7 @@ from datetime import date
 from django.forms import formset_factory
 
 from breeding_cage.forms import BreedingCageForm
-from main.forms import MouseSelectionForm
+from common.forms import MouseSelectionForm
 from main.model_factories import (
     MouseFactory,
     ProjectFactory,

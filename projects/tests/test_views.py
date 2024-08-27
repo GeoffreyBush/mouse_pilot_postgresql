@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from main.filters import MouseFilter
 from main.form_factories import MouseSelectionFormFactory, ProjectFormFactory
-from main.forms import MouseSelectionForm
+from common.forms import MouseSelectionForm
 from main.model_factories import (
     MouseFactory,
     ProjectFactory,

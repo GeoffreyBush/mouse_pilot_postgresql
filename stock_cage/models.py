@@ -1,4 +1,4 @@
-from website.models import CageModel
+from common.models import CageModel
 
 
 class StockCage(CageModel):
