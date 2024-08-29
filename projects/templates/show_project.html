@@ -105,6 +105,13 @@
                                         hx-target="#info-panel"
                                         hx-trigger="click">{{ mouse.earmark }}</td>
                                     <td id="clickable-div" hx-get="{% url 'mice_repository:show_mouse_comment' pk=mouse.pk %}" hx-target="#info-panel" hx-swap="innerHTML">comment</td>
+                                    
+                                    <td hx-get="{% url 'family_tree:family_tree' mouse.pk %}"
+                                        hx-target="#info-panel"
+                                        hx-sqap="innerHTML"
+                                        hx-trigger="click">tree
+                                    </td>
+
                                 </tr>
                             {% endfor %}
                         </tbody>
