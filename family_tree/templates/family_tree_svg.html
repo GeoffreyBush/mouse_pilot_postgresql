@@ -1,170 +1,170 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
+    <head>
+        <style>
 
         /* Review use of CSS here */
-        #family-tree-container {
-            width: 100%;
-            height: 500px;
-            position: relative;
-            overflow: auto;
-        }
-        #family-tree-svg {
-            width: 100%;
-            height: 100%;
-        }
-        .node image {
-            width: 30px;
-            height: 30px;
-        }
-        .label {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        }
-        #mini-map {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 150px;
-            height: 150px;
-            border: 1px solid #ccc;
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-        #mini-map-svg {
-            width: 100%;
-            height: 100%;
-        }
-        #view-box {
-            fill: rgba(0, 0, 255, 0.2);
-            stroke: blue;
-            stroke-width: 1px;
-        }
-    </style>
-</head>
-<body>
-    <div id="family-tree-container">
-        <svg id="family-tree-svg">
-            <g id="zoom-layer"></g>
-        </svg>
-        <div id="mini-map">
-            <svg id="mini-map-svg">
-                <g id="mini-map-content"></g>
-                <rect id="view-box"></rect>
-            </svg>
-        </div>
-    </div>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script>
-        (function() {
-            const treeData = JSON.parse('{{ tree_data|escapejs }}');
-            
-            const svg = d3.select("#family-tree-svg");
-            const g = svg.select("#zoom-layer");
-            const miniMap = d3.select("#mini-map-svg");
-            const miniMapContent = miniMap.select("#mini-map-content");
-            const viewBox = miniMap.select("#view-box");
-
-            function updateSvgSize() {
-                const container = document.getElementById('family-tree-container');
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                svg.attr("width", width).attr("height", height);
-                return { width, height };
+            #family-tree-container {
+                width: 100%;
+                height: 500px;
+                position: relative;
+                overflow: auto;
             }
+            #family-tree-svg {
+                width: 100%;
+                height: 100%;
+            }
+            .node image {
+                width: 30px;
+                height: 30px;
+            }
+            .label {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+            }
+            #mini-map {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                width: 150px;
+                height: 150px;
+                border: 1px solid #ccc;
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+            #mini-map-svg {
+                width: 100%;
+                height: 100%;
+            }
+            #view-box {
+                fill: rgba(0, 0, 255, 0.2);
+                stroke: blue;
+                stroke-width: 1px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="family-tree-container">
+            <svg id="family-tree-svg">
+                <g id="zoom-layer"></g>
+            </svg>
+            <div id="mini-map">
+                <svg id="mini-map-svg">
+                    <g id="mini-map-content"></g>
+                    <rect id="view-box"></rect>
+                </svg>
+            </div>
+        </div>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script>
+            (function() {
+                const treeData = JSON.parse('{{ tree_data|escapejs }}');
 
-            let { width, height } = updateSvgSize();
+                const svg = d3.select("#family-tree-svg");
+                const g = svg.select("#zoom-layer");
+                const miniMap = d3.select("#mini-map-svg");
+                const miniMapContent = miniMap.select("#mini-map-content");
+                const viewBox = miniMap.select("#view-box");
 
-            window.addEventListener('resize', () => {
-                ({ width, height } = updateSvgSize());
-                update(treeData);
-                updateMiniMap();
-            });
+                function updateSvgSize() {
+                    const container = document.getElementById('family-tree-container');
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    svg.attr("width", width).attr("height", height);
+                    return { width, height };
+                }
 
-            const zoom = d3.zoom()
-                .scaleExtent([0.1, 3])
-                .on("zoom", function() {
-                    g.attr("transform", d3.event.transform);
+                let { width, height } = updateSvgSize();
+
+                window.addEventListener('resize', () => {
+                    ({ width, height } = updateSvgSize());
+                    update(treeData);
                     updateMiniMap();
                 });
 
-            svg.call(zoom);
+                const zoom = d3.zoom()
+                    .scaleExtent([0.1, 3])
+                    .on("zoom", function() {
+                        g.attr("transform", d3.event.transform);
+                        updateMiniMap();
+                    });
 
-            function centerTree(rootNode) {
-                const descendants = rootNode.descendants();
-                let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+                svg.call(zoom);
 
-                descendants.forEach(d => {
-                    minX = Math.min(minX, d.x);
-                    maxX = Math.max(maxX, d.x);
-                    minY = Math.min(minY, d.y);
-                    maxY = Math.max(maxY, d.y);
-                });
+                function centerTree(rootNode) {
+                    const descendants = rootNode.descendants();
+                    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 
-                const dx = width / 2 - (minX + maxX) / 2;
-                const dy = height / 2 - (minY + maxY) / 2;
+                    descendants.forEach(d => {
+                        minX = Math.min(minX, d.x);
+                        maxX = Math.max(maxX, d.x);
+                        minY = Math.min(minY, d.y);
+                        maxY = Math.max(maxY, d.y);
+                    });
 
-                g.attr("transform", `translate(${dy},${dx})`);
-                svg.call(zoom.transform, d3.zoomIdentity.translate(dy, dx));
-            }
+                    const dx = width / 2 - (minX + maxX) / 2;
+                    const dy = height / 2 - (minY + maxY) / 2;
 
-            function update(treeData) {
-                const treeLayout = d3.tree().size([width, height - 100]);
-                const rootNode = d3.hierarchy(treeData);
-                treeLayout(rootNode);
+                    g.attr("transform", `translate(${dy},${dx})`);
+                    svg.call(zoom.transform, d3.zoomIdentity.translate(dy, dx));
+                }
 
-                const link = g.selectAll(".link")
-                    .data(rootNode.links())
-                    .join("path")
-                    .attr("class", "link")
-                    .attr("d", d3.linkHorizontal()
-                        .x(d => d.y)
-                        .y(d => d.x))
-                    .style("fill", "none")
-                    .style("stroke", "#ccc")
-                    .style("stroke-width", 1.5);
+                function update(treeData) {
+                    const treeLayout = d3.tree().size([width, height - 100]);
+                    const rootNode = d3.hierarchy(treeData);
+                    treeLayout(rootNode);
 
-                const node = g.selectAll(".node")
-                    .data(rootNode.descendants())
-                    .join("g")
-                    .attr("class", "node")
-                    .attr("transform", d => `translate(${d.y},${d.x})`);
+                    const link = g.selectAll(".link")
+                        .data(rootNode.links())
+                        .join("path")
+                        .attr("class", "link")
+                        .attr("d", d3.linkHorizontal()
+                                .x(d => d.y)
+                                .y(d => d.x))
+                        .style("fill", "none")
+                        .style("stroke", "#ccc")
+                        .style("stroke-width", 1.5);
 
-                node.selectAll("image")
-                    .data(d => [d])
-                    .join("image")
-                    .attr("xlink:href", "{{ mouse_image_url }}")
-                    .attr("x", -15)
-                    .attr("y", -15);
+                    const node = g.selectAll(".node")
+                        .data(rootNode.descendants())
+                        .join("g")
+                        .attr("class", "node")
+                        .attr("transform", d => `translate(${d.y},${d.x})`);
 
-                node.selectAll(".label")
-                    .data(d => [d])
-                    .join("text")
-                    .attr("class", "label")
-                    .attr("dy", ".35em")
-                    .attr("x", 20)
-                    .attr("text-anchor", "start")
-                    .text(d => d.data.name);
+                    node.selectAll("image")
+                        .data(d => [d])
+                        .join("image")
+                        .attr("xlink:href", "{{ mouse_image_url }}")
+                        .attr("x", -15)
+                        .attr("y", -15);
 
-                centerTree(rootNode);
-                updateMiniMap();
-            }
+                    node.selectAll(".label")
+                        .data(d => [d])
+                        .join("text")
+                        .attr("class", "label")
+                        .attr("dy", ".35em")
+                        .attr("x", 20)
+                        .attr("text-anchor", "start")
+                        .text(d => d.data.name);
 
-            function updateMiniMap() {
-                const transform = d3.zoomTransform(svg.node());
-                const miniMapScale = 0.1;
+                    centerTree(rootNode);
+                    updateMiniMap();
+                }
 
-                miniMapContent.attr("transform", `scale(${miniMapScale})`);
-                
-                viewBox
-                    .attr("x", -transform.x * miniMapScale)
-                    .attr("y", -transform.y * miniMapScale)
-                    .attr("width", width * miniMapScale / transform.k)
-                    .attr("height", height * miniMapScale / transform.k);
-            }
+                function updateMiniMap() {
+                    const transform = d3.zoomTransform(svg.node());
+                    const miniMapScale = 0.1;
 
-            update(treeData);
-        })();
-    </script>
-</body>
+                    miniMapContent.attr("transform", `scale(${miniMapScale})`);
+
+                    viewBox
+                        .attr("x", -transform.x * miniMapScale)
+                        .attr("y", -transform.y * miniMapScale)
+                        .attr("width", width * miniMapScale / transform.k)
+                        .attr("height", height * miniMapScale / transform.k);
+                }
+
+                update(treeData);
+            })();
+        </script>
+    </body>
 </html>

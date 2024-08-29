@@ -1,8 +1,9 @@
-from django.urls import reverse
-from main.model_factories import UserFactory, MouseFactory
 from django.core.exceptions import ObjectDoesNotExist
-from django.test import TestCase, Client
-from family_tree.views import family_tree
+from django.test import Client, TestCase
+from django.urls import reverse
+
+from main.model_factories import MouseFactory, UserFactory
+
 
 def setUpModule():
     global test_user, test_client
@@ -10,9 +11,11 @@ def setUpModule():
     test_client = Client()
     test_client.force_login(test_user)
 
+
 def tearDownModule():
     global test_user
     test_user.delete()
+
 
 # switch "create" to "build" for mouse
 class FamilyTreeTest(TestCase):
@@ -26,16 +29,18 @@ class FamilyTreeTest(TestCase):
             mother=cls.mouse1,
             father=cls.mouse2,
         )
-        cls.response = test_client.get(reverse("family_tree:family_tree", args=[cls.mouse3.pk]))
+        cls.response = test_client.get(
+            reverse("family_tree:family_tree", args=[cls.mouse3.pk])
+        )
 
     def test_http_code(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_svg_in_content(self):
-        self.assertEqual(self.response['Content-Type'], 'image/svg+xml')
+        self.assertEqual(self.response["Content-Type"], "image/svg+xml")
 
     def test_svg_html_tags_in_content(self):
-        self.assertIn('</svg>', self.response.content.decode())
+        self.assertIn("</svg>", self.response.content.decode())
 
     def test_tree_nodes(self):
         pass
@@ -46,9 +51,6 @@ class FamilyTreeTest(TestCase):
     def test_non_existent_mouse_throws_exception(self):
         with self.assertRaises(ObjectDoesNotExist):
             self.client.get(reverse("family_tree:family_tree", args=[10]))
-
-
-    
 
     """
     # Family tree returns correct response data
