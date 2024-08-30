@@ -1,117 +1,117 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        #family-tree-svg {
-            width: 100%;
-            height: 100%;
-            border: 1px solid #ccc;
-        }
-        .node image {
-            width: 30px;
-            height: 30px;
-        }
-        .label {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        }
-    </style>
-</head>
-<body>
-    <svg id="family-tree-svg">
-        <g id="zoom-layer"></g>
-    </svg>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script>
-        (function() {
-            const treeData = JSON.parse('{{ tree_data|escapejs }}');
-            
-            const svg = d3.select("#family-tree-svg");
-            const g = svg.select("#zoom-layer");
-
-            function updateSvgSize() {
-                const width = svg.node().parentNode.clientWidth;
-                const height = svg.node().parentNode.clientHeight;
-                svg.attr("width", width).attr("height", height);
-                return { width, height };
+    <head>
+        <style>
+            #family-tree-svg {
+                width: 100%;
+                height: 100%;
+                border: 1px solid #ccc;
             }
+            .node image {
+                width: 30px;
+                height: 30px;
+            }
+            .label {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <svg id="family-tree-svg">
+            <g id="zoom-layer"></g>
+        </svg>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script>
+            (function() {
+                const treeData = JSON.parse('{{ tree_data|escapejs }}');
 
-            let { width, height } = updateSvgSize();
+                const svg = d3.select("#family-tree-svg");
+                const g = svg.select("#zoom-layer");
 
-            window.addEventListener('resize', () => {
-                ({ width, height } = updateSvgSize());
+                function updateSvgSize() {
+                    const width = svg.node().parentNode.clientWidth;
+                    const height = svg.node().parentNode.clientHeight;
+                    svg.attr("width", width).attr("height", height);
+                    return { width, height };
+                }
+
+                let { width, height } = updateSvgSize();
+
+                window.addEventListener('resize', () => {
+                    ({ width, height } = updateSvgSize());
+                    update(treeData);
+                });
+
+                const zoom = d3.zoom()
+                    .scaleExtent([0.5, 2])
+                    .on("zoom", function() {
+                        g.attr("transform", d3.event.transform);
+                    });
+
+                svg.call(zoom);
+
+                function centerTree(rootNode) {
+                    const descendants = rootNode.descendants();
+                    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+
+                    descendants.forEach(d => {
+                        minX = Math.min(minX, d.x);
+                        maxX = Math.max(maxX, d.x);
+                        minY = Math.min(minY, d.y);
+                        maxY = Math.max(maxY, d.y);
+                    });
+
+                    const dx = width / 2 - (minX + maxX) / 2;
+                    const dy = height / 2 - (minY + maxY) / 2;
+
+                    g.attr("transform", `translate(${dy},${dx})`);
+                    svg.call(zoom.transform, d3.zoomIdentity.translate(dy, dx));
+                }
+
+                function update(treeData) {
+                    const treeLayout = d3.tree().size([height - 100, width / 10]);
+                    const rootNode = d3.hierarchy(treeData);
+                    treeLayout(rootNode);
+
+                    const link = g.selectAll(".link")
+                        .data(rootNode.links())
+                        .join("path")
+                        .attr("class", "link")
+                        .attr("d", d3.linkHorizontal()
+                                .x(d => d.y)
+                                .y(d => d.x))
+                        .style("fill", "none")
+                        .style("stroke", "#ccc")
+                        .style("stroke-width", 1.5);
+
+                    const node = g.selectAll(".node")
+                        .data(rootNode.descendants())
+                        .join("g")
+                        .attr("class", "node")
+                        .attr("transform", d => `translate(${d.y},${d.x})`);
+
+                    node.selectAll("image")
+                        .data(d => [d])
+                        .join("image")
+                        .attr("xlink:href", "{{ mouse_image_url }}")
+                        .attr("x", -15)
+                        .attr("y", -15);
+
+                    node.selectAll(".label")
+                        .data(d => [d])
+                        .join("text")
+                        .attr("class", "label")
+                        .attr("dy", ".35em")
+                        .attr("x", 20)
+                        .attr("text-anchor", "start")
+                        .text(d => d.data.name);
+
+                    centerTree(rootNode);
+                }
+
                 update(treeData);
-            });
-
-            const zoom = d3.zoom()
-                .scaleExtent([0.5, 2])
-                .on("zoom", function() {
-                    g.attr("transform", d3.event.transform);
-                });
-
-            svg.call(zoom);
-
-            function centerTree(rootNode) {
-                const descendants = rootNode.descendants();
-                let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-
-                descendants.forEach(d => {
-                    minX = Math.min(minX, d.x);
-                    maxX = Math.max(maxX, d.x);
-                    minY = Math.min(minY, d.y);
-                    maxY = Math.max(maxY, d.y);
-                });
-
-                const dx = width / 2 - (minX + maxX) / 2;
-                const dy = height / 2 - (minY + maxY) / 2;
-
-                g.attr("transform", `translate(${dy},${dx})`);
-                svg.call(zoom.transform, d3.zoomIdentity.translate(dy, dx));
-            }
-
-            function update(treeData) {
-                const treeLayout = d3.tree().size([height - 100, width / 10]);  
-                const rootNode = d3.hierarchy(treeData);
-                treeLayout(rootNode);
-
-                const link = g.selectAll(".link")
-                    .data(rootNode.links())
-                    .join("path")
-                    .attr("class", "link")
-                    .attr("d", d3.linkHorizontal()
-                        .x(d => d.y)
-                        .y(d => d.x))
-                    .style("fill", "none")
-                    .style("stroke", "#ccc")
-                    .style("stroke-width", 1.5);
-
-                const node = g.selectAll(".node")
-                    .data(rootNode.descendants())
-                    .join("g")
-                    .attr("class", "node")
-                    .attr("transform", d => `translate(${d.y},${d.x})`);
-
-                node.selectAll("image")
-                    .data(d => [d])
-                    .join("image")
-                    .attr("xlink:href", "{{ mouse_image_url }}")
-                    .attr("x", -15)
-                    .attr("y", -15);
-
-                node.selectAll(".label")
-                    .data(d => [d])
-                    .join("text")
-                    .attr("class", "label")
-                    .attr("dy", ".35em")
-                    .attr("x", 20)
-                    .attr("text-anchor", "start")
-                    .text(d => d.data.name);
-
-                centerTree(rootNode);
-            }
-
-            update(treeData);
-        })();
-    </script>
-</body>
+            })();
+        </script>
+    </body>
 </html>
