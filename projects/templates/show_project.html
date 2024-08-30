@@ -88,7 +88,7 @@
                                 <th>Activity</th>
                             </tr>
                         </thead>
-                            {% with total_rows=15 %}
+                        {% with total_rows=15 %}
                             <tbody>
                                 {% for mouse in project_mice %}
                                     <tr>
@@ -127,7 +127,7 @@
                                     </tr>
                                 {% endfor %}
                             </tbody>
-                            {% endwith %}
+                        {% endwith %}
                     </table>
                 </div>
 
@@ -137,12 +137,12 @@
                     <p>Detail on demand panel for individual mouse</p>
                     <p>Clicking on the ID, sex, age, or earmark cell of a mouse row creates a placeholder here. Detailed mouse information will be available on click</p>
                     <p>Note - add a request tracker for individual mice here<p>
-                </div>
+                    </div>
+
+                    </div>
+                </form>
+
 
             </div>
-        </form>
-
-
-    </div>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+            <script src="https://d3js.org/d3.v5.min.js"></script>
 {% endblock %}
