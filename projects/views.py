@@ -66,7 +66,7 @@ def add_mouse_to_project(request, project_name):
 class ShowProjectView(View):
     template_name = "show_project.html"
     select_class = MouseSelectionForm
-    paginate_by = 10
+    paginate_by = 15
 
     def get_project(self, project_name):
         return get_object_or_404(Project, project_name=project_name)

@@ -21,6 +21,7 @@
                     <th>Lines</th>
                     <th>Research area</th>
                     <th>Total mice</th>
+                    <th>Owner</th>
                     <th class="col-2"></th>
                     <th></th>
                 </tr>
@@ -34,9 +35,10 @@
                                 <h3 class="d-none"></h3>
                             </a>
                         </td>
-                        <td>{% for strain in project.strains.all %}<span>{{strain}}, </span>{% endfor %}</td>
+                        <td>{% for strain in project.strains.all %}<span>{{strain}} </span>{% endfor %}</td>
                         <td>{{ project.research_area }}</td>
                         <td>{{ project.mice.count }}</td>
+                        <td>{% for researcher in project.researchers.all %}<span>{{researcher}} </span>{% endfor %}</td>
                         <td class="align-middle text-center">
                             <button
                                 class="btn btn-secondary btn-sm"

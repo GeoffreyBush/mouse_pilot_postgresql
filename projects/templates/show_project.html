@@ -1,4 +1,4 @@
-{% extends 'base_template.html' %} {% load static %} {% load filter_form %}
+{% extends 'base_template.html' %} {% load static %} {% load filter_form %} {% load custom_filters %}
 {% block title %}View Project{% endblock %} {% block content %}
 
     <div class="container-fluid py-3">
@@ -6,7 +6,8 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>{{ project.project_name }}</h1>
         </div>
-
+        <!-- Hide filter form if button clicked -->
+        <!-- Ideally, make filter form hidden by default and only show on page reload if any filter fields have values in them -->
         <div x-data="{ showForm: true }">
             <button
                 class="btn btn-secondary mb-3"
@@ -87,42 +88,55 @@
                                 <th>Activity</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for mouse in project_mice %}
-                                <tr>
-                                    <td><input type="checkbox" name="mice" value='{{ mouse.pk }}'></td>
-                                    <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
-                                        hx-target="#info-panel"
-                                        hx-trigger="click">{{ mouse.pk }}</td>
-                                    <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
-                                        hx-target="#info-panel"
-                                        hx-trigger="click">{{ mouse.sex }}</td>
-                                    <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
-                                        hx-target="#info-panel"
-                                        hx-trigger="click">{{ mouse.age }}</td>
-                                    <td>GUI</td>
-                                    <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
-                                        hx-target="#info-panel"
-                                        hx-trigger="click">{{ mouse.earmark }}</td>
-                                    <td id="clickable-div" hx-get="{% url 'mice_repository:show_mouse_comment' pk=mouse.pk %}" hx-target="#info-panel" hx-swap="innerHTML">comment</td>
-
-                                    <td hx-get="{% url 'mice_popup:family_tree' mouse.pk %}"
-                                        hx-target="#info-panel"
-                                        hx-sqap="innerHTML"
-                                        hx-trigger="click">tree
-                                    </td>
-
-                                </tr>
-                            {% endfor %}
-                        </tbody>
+                            {% with total_rows=15 %}
+                            <tbody>
+                                {% for mouse in project_mice %}
+                                    <tr>
+                                        <td><input type="checkbox" name="mice" value='{{ mouse.pk }}'></td>
+                                        <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+                                            hx-target="#info-panel"
+                                            hx-trigger="click">{{ mouse.pk }}</td>
+                                        <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+                                            hx-target="#info-panel"
+                                            hx-trigger="click">{{ mouse.sex }}</td>
+                                        <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+                                            hx-target="#info-panel"
+                                            hx-trigger="click">{{ mouse.age }}</td>
+                                        <td>GUI</td>
+                                        <td hx-get="{% url 'projects:info_panel' mouse.pk %}"
+                                            hx-target="#info-panel"
+                                            hx-trigger="click">{{ mouse.earmark }}</td>
+                                        <td>{% if mouse.pk %}{% endif %}</td>
+                                        <td hx-get="{% url 'mice_popup:family_tree' mouse.pk %}"
+                                            hx-target="#info-panel"
+                                            hx-swap="innerHTML"
+                                            hx-trigger="click">tree
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                {% for _ in project_mice|length|range:total_rows %}
+                                    <tr>
+                                        <td><input type="checkbox" disabled></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            {% endwith %}
                     </table>
                 </div>
 
 
 			<!-- Mouse info panel -->
-                <div id="info-panel" class="border ms-5 col-5 shadow-sm rounded" style="height:60vh;">
+                <div id="info-panel" class="border ms-5 col-5 shadow-sm rounded" style="min-height:100%;">
                     <p>Detail on demand panel for individual mouse</p>
                     <p>Clicking on the ID, sex, age, or earmark cell of a mouse row creates a placeholder here. Detailed mouse information will be available on click</p>
+                    <p>Note - add a request tracker for individual mice here<p>
                 </div>
 
             </div>
