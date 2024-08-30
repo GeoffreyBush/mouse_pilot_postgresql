@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "strain",
     "breeding_cage",
     "mice_repository",
-    "family_tree",
+    "mice_popup",
     "projects",
     "stock_cage",
     "mice_requests",

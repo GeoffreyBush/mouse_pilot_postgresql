@@ -10,7 +10,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
     path("breeding_cage/", include("breeding_cage.urls", namespace="breeding_cage")),
-    path("family_tree/", include("family_tree.urls", namespace="family_tree")),
+    path("mice_popup/", include("mice_popup.urls", namespace="mice_popup")),
     path(
         "mice_repository/", include("mice_repository.urls", namespace="mice_repository")
     ),

@@ -30,7 +30,7 @@ class FamilyTreeTest(TestCase):
             father=cls.mouse2,
         )
         cls.response = test_client.get(
-            reverse("family_tree:family_tree", args=[cls.mouse3.pk])
+            reverse("mice_popup:family_tree", args=[cls.mouse3.pk])
         )
 
     def test_http_code(self):
@@ -50,7 +50,7 @@ class FamilyTreeTest(TestCase):
 
     def test_non_existent_mouse_throws_exception(self):
         with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse("family_tree:family_tree", args=[10]))
+            self.client.get(reverse("mice_popup:family_tree", args=[10]))
 
     """
     # Family tree returns correct response data

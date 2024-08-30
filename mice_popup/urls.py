@@ -1,8 +1,8 @@
 from django.urls import path
 
-from family_tree import views
+from mice_popup import views
 
-app_name = "family_tree"
+app_name = "mice_popup"
 
 urlpatterns = [
     path("family_tree/<str:mouse_pk>/", views.family_tree, name="family_tree"),
