@@ -35,13 +35,13 @@ class MouseFilter(django_filters.FilterSet):
     min_age = django_filters.NumberFilter(
         method="filter_min_age",
         widget=forms.NumberInput(attrs={"class": "form-control col-12 mb-1"}),
-        label="Min Age:",
+        label="Min Age (days):",
     )
 
     max_age = django_filters.NumberFilter(
         method="filter_max_age",
         widget=forms.NumberInput(attrs={"class": "form-control col-12 mb-1"}),
-        label="Max Age:",
+        label="Max Age (days):",
     )
 
     def filter_min_age(self, queryset, name, value):
