@@ -1,11 +1,18 @@
-/*#############################
-### Vertical navigation bar ###
-########################### #*/
+/*###########################
+### Overall site settings ###
+###########################*/
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
 }
+
+:root {
+    --bs-body-bg: #f5f5dc;
+}
+
+/*#############################
+### Vertical navigation bar ###
+#############################*/
 
 .bg-primary {
     background-color: #007bff !important;
