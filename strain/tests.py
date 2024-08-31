@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from main.model_factories import StrainFactory, UserFactory, MouseFactory
+from main.model_factories import MouseFactory, StrainFactory, UserFactory
 from strain.forms import StrainForm
 from strain.models import Strain
 
@@ -43,22 +43,22 @@ class StrainModelTest(TestCase):
 
     # Should the increment/decrement methods be a related_name instead?
 
+
 class StrainModelAgeRangeTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.strain = StrainFactory(strain_name="TestStrain")
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=40)), 
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80)), 
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80)), 
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)), 
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)), 
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=40)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)),
         MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
         MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
         MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
         MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
-        
 
     def test_lt_two_month_count(self):
         self.assertEqual(self.strain.lt_two_month_count, 1)
@@ -73,6 +73,7 @@ class StrainModelAgeRangeTest(TestCase):
         self.assertEqual(self.strain.one_to_two_year_count, 4)
 
     # Culled mice shouldn't be included in count
+
 
 class StrainFormTest(TestCase):
     def setUp(self):

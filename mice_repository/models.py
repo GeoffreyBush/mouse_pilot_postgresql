@@ -2,14 +2,15 @@ from datetime import date
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Manager
 
 from main.constants import EARMARK_CHOICES_PAIRED
-from django.db.models import Manager
 
 
 class NonCulledManager(Manager):
     def get_queryset(self):
         return super().get_queryset().filter(culled_date__isnull=True)
+
 
 class Mouse(models.Model):
 
@@ -101,7 +102,7 @@ class Mouse(models.Model):
     @property
     def age_days(self):
         return (date.today() - self.dob).days
-    
+
     @property
     def age_months(self):
         return (date.today() - self.dob).days / 30
