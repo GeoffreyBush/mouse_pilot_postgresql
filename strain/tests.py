@@ -1,8 +1,10 @@
+from datetime import date, timedelta
+
 from django.db import IntegrityError
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from main.model_factories import StrainFactory, UserFactory
+from main.model_factories import StrainFactory, UserFactory, MouseFactory
 from strain.forms import StrainForm
 from strain.models import Strain
 
@@ -21,7 +23,6 @@ def tearDownModule():
 
 class StrainModelTest(TestCase):
 
-    @classmethod
     def setUp(self):
         self.strain = StrainFactory(strain_name="teststrain")
 
@@ -42,6 +43,36 @@ class StrainModelTest(TestCase):
 
     # Should the increment/decrement methods be a related_name instead?
 
+class StrainModelAgeRangeTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.strain = StrainFactory(strain_name="TestStrain")
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=40)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220)), 
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400)),
+        
+
+    def test_lt_two_month_count(self):
+        self.assertEqual(self.strain.lt_two_month_count, 1)
+
+    def test_two_to_six_month_count(self):
+        self.assertEqual(self.strain.two_to_six_month_count, 2)
+
+    def test_six_to_twelve_month_count(self):
+        self.assertEqual(self.strain.six_to_twelve_month_count, 3)
+
+    def test_one_year_to_two_year_count(self):
+        self.assertEqual(self.strain.one_to_two_year_count, 4)
+
+    # Culled mice shouldn't be included in count
 
 class StrainFormTest(TestCase):
     def setUp(self):

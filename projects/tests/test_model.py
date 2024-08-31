@@ -34,10 +34,13 @@ class ProjectModelTest(TestCase):
     def test_many_to_many_researchers(self):
         self.assertEqual(self.project.researchers.count(), 2)
 
-    def test_project_mice_count(self):
+    # Need to alter this test for live mice
+    def test_project_live_mice_count(self):
         self.assertEqual(self.project.mice.count(), 0)
         MouseFactory(project=self.project)
         self.assertEqual(self.project.mice.count(), 1)
+
+    # Need to test for culled and live mice - possibly in mice_repository instead of here
 
     def test_project_name_doesnt_exist(self):
         with self.assertRaises(IntegrityError):

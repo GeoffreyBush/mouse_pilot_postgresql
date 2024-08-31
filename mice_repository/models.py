@@ -4,9 +4,18 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from main.constants import EARMARK_CHOICES_PAIRED
+from django.db.models import Manager
 
+
+class NonCulledManager(Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(culled_date__isnull=True)
 
 class Mouse(models.Model):
+
+    # Different managers to distinguish between mice that are alive and all mice
+    objects = Manager()
+    non_culled = NonCulledManager()
 
     strain = models.ForeignKey(
         "strain.Strain",
@@ -90,8 +99,12 @@ class Mouse(models.Model):
     )
 
     @property
-    def age(self):
+    def age_days(self):
         return (date.today() - self.dob).days
+    
+    @property
+    def age_months(self):
+        return (date.today() - self.dob).days / 30
 
     def cull(self, culled_date):
         if self.is_culled():
@@ -120,13 +133,14 @@ class Mouse(models.Model):
         return True if self.earmark != "" else False
 
     def is_culled(self):
-        return True if self.culled_date is not None else False
+        return self.culled_date is not None
 
     def __str__(self):
         return f"{self._global_id}"
 
     class Meta:
         managed = True
+        base_manager_name = "objects"
         db_table = "mice"
 
 

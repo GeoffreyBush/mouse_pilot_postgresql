@@ -36,9 +36,13 @@ class MouseModelUnitTest(TestCase):
         self.manual_tube_mouse = MouseFactory(strain=self.strain, tube=123)
         self.assertEqual(self.manual_tube_mouse.pk, "teststrain-123")
 
-    def test_correct_age(self):
-        correct_age = (date.today() - self.mouse.dob).days
-        self.assertEqual(self.mouse.age, correct_age)
+    def test_correct_age_days(self):
+        correct_days = (date.today() - self.mouse.dob).days
+        self.assertEqual(self.mouse.age_days, correct_days)
+
+    def test_correct_age_months(self):
+        correct_months = (date.today() - self.mouse.dob).days / 30
+        self.assertEqual(self.mouse.age_months, correct_months)
 
     def test_adding_earmark_auto_genotypes_mouse(self):
         self.assertFalse(self.mouse.is_genotyped())
