@@ -87,6 +87,7 @@ class MouseModelManagerMortalityTest(TestCase):
     def test_culled_manager(self):
         self.assertEqual(Mouse.objects.culled().count(), 1)
 
+
 class MouseModelManagerAgeRangeTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -103,7 +104,7 @@ class MouseModelManagerAgeRangeTest(TestCase):
         MouseFactory(dob=date.today() - timedelta(days=400))
         MouseFactory(dob=date.today() - timedelta(days=800))
         MouseFactory(dob=date.today() - timedelta(days=1000), culled_date=date.today())
-    
+
     def test_weaned_lt_2_months_old(self):
         self.assertEqual(Mouse.objects.weaned_lt_2_months_old().count(), 1)
 
@@ -118,10 +119,10 @@ class MouseModelManagerAgeRangeTest(TestCase):
 
     def test_over_24_months_old_and_alive(self):
         self.assertEqual(Mouse.objects.over_24_months_old().count(), 1)
-    
 
 
 # Mice should stop ageing when they are culled. Currently DOB will keep incrementing each day.
+
 
 class MouseModelIntegrationTest(TestCase):
     def setUp(self):

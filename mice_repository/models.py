@@ -36,7 +36,7 @@ class CustomManager(models.Manager):
         min_date = date.today() - timedelta(days=729)
         max_date = date.today() - timedelta(days=365)
         return self.alive().filter(dob__range=(min_date, max_date))
-    
+
     def over_24_months_old(self):
         return self.alive().filter(dob__lt=date.today() - timedelta(days=730))
 
