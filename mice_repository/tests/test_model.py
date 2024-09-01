@@ -91,32 +91,37 @@ class MouseModelManagerAgeRangeTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.strain = StrainFactory(strain_name="TestStrain")
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=40))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
-        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
+        MouseFactory(dob=date.today() - timedelta(days=40))
+        MouseFactory(dob=date.today() - timedelta(days=80))
+        MouseFactory(dob=date.today() - timedelta(days=80))
+        MouseFactory(dob=date.today() - timedelta(days=220))
+        MouseFactory(dob=date.today() - timedelta(days=220))
+        MouseFactory(dob=date.today() - timedelta(days=220))
+        MouseFactory(dob=date.today() - timedelta(days=400))
+        MouseFactory(dob=date.today() - timedelta(days=400))
+        MouseFactory(dob=date.today() - timedelta(days=400))
+        MouseFactory(dob=date.today() - timedelta(days=400))
+        MouseFactory(dob=date.today() - timedelta(days=800))
+        MouseFactory(dob=date.today() - timedelta(days=1000), culled_date=date.today())
     
-    def test_lt_two_month_count(self):
-        self.assertEqual(self.strain.weaned_lt_2_months_old, 1)
+    def test_weaned_lt_2_months_old(self):
+        self.assertEqual(Mouse.objects.weaned_lt_2_months_old().count(), 1)
 
-    def test_two_to_six_month_count(self):
-        self.assertEqual(self.strain.between_2_6_month_old, 2)
+    def test_between_2_6_months_old(self):
+        self.assertEqual(Mouse.objects.between_2_6_months_old().count(), 2)
 
-    def test_six_to_twelve_month_count(self):
-        self.assertEqual(self.strain.six_to_twelve_month_count, 3)
+    def test_between_6_12_months_old(self):
+        self.assertEqual(Mouse.objects.between_6_12_months_old().count(), 3)
 
-    def test_one_year_to_two_year_count(self):
-        self.assertEqual(self.strain.one_to_two_year_count, 4)
+    def test_between_12_24_months_old(self):
+        self.assertEqual(Mouse.objects.between_12_24_months_old().count(), 4)
+
+    def test_over_24_months_old_and_alive(self):
+        self.assertEqual(Mouse.objects.over_24_months_old().count(), 1)
     
-    def test_culled_count(self):
-        self.assertEqual
+
+
+# Mice should stop ageing when they are culled. Currently DOB will keep incrementing each day.
 
 class MouseModelIntegrationTest(TestCase):
     def setUp(self):

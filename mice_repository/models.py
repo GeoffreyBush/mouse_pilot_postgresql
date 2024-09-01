@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -17,17 +17,28 @@ class CustomManager(models.Manager):
     def culled(self):
         return self.filter(culled_date__isnull=False)
 
+    # Can't pass an argument to these age range methods because they need to be used in strain_management templates.
+    # More flexible implementation might be custom templatetags in common app
     def weaned_lt_2_months_old(self):
-        return self.filter()
+        return self.alive().filter(dob__gt=date.today() - timedelta(days=59))
 
     def between_2_6_months_old(self):
-        pass
+        min_date = date.today() - timedelta(days=179)
+        max_date = date.today() - timedelta(days=60)
+        return self.alive().filter(dob__range=(min_date, max_date))
 
     def between_6_12_months_old(self):
-        pass
+        min_date = date.today() - timedelta(days=364)
+        max_date = date.today() - timedelta(days=180)
+        return self.alive().filter(dob__range=(min_date, max_date))
 
     def between_12_24_months_old(self):
-        pass
+        min_date = date.today() - timedelta(days=729)
+        max_date = date.today() - timedelta(days=365)
+        return self.alive().filter(dob__range=(min_date, max_date))
+    
+    def over_24_months_old(self):
+        return self.alive().filter(dob__lt=date.today() - timedelta(days=730))
 
 
 class Mouse(models.Model):

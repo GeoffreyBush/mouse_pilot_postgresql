@@ -60,6 +60,7 @@ class StrainModelRelatedNameTest(TestCase):
         MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
         MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
     
+    """
     def test_lt_two_month_count(self):
         self.assertEqual(self.strain.lt_two_month_count, 1)
 
@@ -74,7 +75,8 @@ class StrainModelRelatedNameTest(TestCase):
     
     def test_culled_count(self):
         self.assertEqual
-
+    """
+    
     # Culled mice shouldn't be included in count
 
     # Also want to identify pups currently in breeding cages of each strain
