@@ -37,7 +37,7 @@
                         </td>
                         <td>{% for strain in project.strains.all %}<span>{{strain}} </span>{% endfor %}</td>
                         <td>{{ project.research_area }}</td>
-                        <td>{{ project.mice.count }}</td>
+                        <td>{{ project.mice.alive.count }}</td>
                         <td>{% for researcher in project.researchers.all %}<span>{{researcher}} </span>{% endfor %}</td>
                         <td class="align-middle text-center">
                             <button

@@ -1,3 +1,4 @@
+from datetime import date
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -34,14 +35,6 @@ class ProjectModelTest(TestCase):
     def test_many_to_many_researchers(self):
         self.assertEqual(self.project.researchers.count(), 2)
 
-    # Need to alter this test for live mice
-    def test_project_live_mice_count(self):
-        self.assertEqual(self.project.mice.count(), 0)
-        MouseFactory(project=self.project)
-        self.assertEqual(self.project.mice.count(), 1)
-
-    # Need to test for culled and live mice - possibly in mice_repository instead of here
-
     def test_project_name_doesnt_exist(self):
         with self.assertRaises(IntegrityError):
             ProjectFactory(project_name=None)
@@ -58,3 +51,25 @@ class ProjectModelTest(TestCase):
     # Is it possible to require a researcher to be assigned to a project?
 
     # Should not be able to add mice from a strain that a project is not associated with
+
+class ProjectModelMiceRelatedNameTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.project = ProjectFactory(project_name="testproject")
+        cls.project.strains.add(StrainFactory(), StrainFactory())
+        cls.project.researchers.add(UserFactory(), UserFactory())
+        MouseFactory(project=cls.project)
+        MouseFactory(project=cls.project)
+        MouseFactory(project=cls.project, culled_date=date.today())
+
+    def test_project_live_mice_count(self):
+        self.assertEqual(self.project.mice.alive().count(), 2)
+        
+    def test_project_culled_mice_count(self):
+        self.assertEqual(self.project.mice.culled().count(), 1)
+        
+    def test_project_live_and_culled_mice_count(self):
+        self.assertEqual(self.project.mice.count(), 3)
+        
+

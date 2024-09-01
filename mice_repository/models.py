@@ -2,21 +2,25 @@ from datetime import date
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Manager
 
 from main.constants import EARMARK_CHOICES_PAIRED
 
 
-class NonCulledManager(Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(culled_date__isnull=True)
+class MortalityManager(models.Manager):
 
+    def get_queryset(self):
+        return super().get_queryset()
+
+    def alive(self):
+        return self.filter(culled_date__isnull=True)
+
+    def culled(self):
+        return self.filter(culled_date__isnull=False)
 
 class Mouse(models.Model):
 
-    # Different managers to distinguish between mice that are alive and all mice
-    objects = Manager()
-    non_culled = NonCulledManager()
+    # When you call Mouse.objects, it will redirect to MortalityManager instead of default Manager
+    objects = MortalityManager()
 
     strain = models.ForeignKey(
         "strain.Strain",
@@ -131,7 +135,7 @@ class Mouse(models.Model):
         super().save(*args, **kwargs)
 
     def is_genotyped(self):
-        return True if self.earmark != "" else False
+        return self.earmark != ""
 
     def is_culled(self):
         return self.culled_date is not None
