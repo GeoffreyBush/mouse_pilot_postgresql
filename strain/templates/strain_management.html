@@ -4,21 +4,51 @@
 {% block content %}
 
     <div class="container">
-        <p>Currently only lists all strains and allows creation of new ones</p>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <div>Space here for additional information & stats on each strain. Example stats are a count of mice age ranges</div>
+                <a href="{% url 'strain:add_strain' %}">
+                    <button class="btn btn-primary">Add Strain</button>
+                </a>
+            </div>
+        </div>
 
         {% for strain in strains %}
             <div class="card my-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ strain.strain_name }}</h5>
-                    <p class="card-text">Total mice: {{ strain.mice.count }}</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped table-hover table-bordered mb-0 shadow-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Pups</th>
+                                        <th>< 2 months(not pups)</th>
+                                        <th>2-6 months</th>
+                                        <th>6-12 months</th>
+                                        <th>12-24 months</th>
+                                        <th>24 months+</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>placeholder</td>
+                                        <td>{{ strain.mice.weaned_lt_2_months_old.count }}</td>
+                                        <td>{{ strain.mice.between_2_6_months_old.count }}</td>
+                                        <td>{{ strain.mice.between_6_12_months_old.count }}</td>
+                                        <td>{{ strain.mice.between_12_24_months_old.count }}</td>
+                                        <td>{{ strain.mice.over_24_months_old.count }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <p class="card-text">{{ strain.description }}</p>
                 </div>
             </div>
         {% endfor %}
 
-        <a href="{% url 'strain:add_strain' %}">
-            <button class="btn btn-primary">Add Strain</button>
-        </a>
+
     </div>
 
 {% endblock %}
