@@ -19,6 +19,9 @@ class Strain(models.Model):
     @property
     def one_to_two_year_count(self):
         return self.mice.filter()
+    
+    @property
+    def 
 
     def __str__(self):
         return f"{self.strain_name}"
