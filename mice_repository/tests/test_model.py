@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
@@ -70,7 +70,7 @@ class MouseModelUnitTest(TestCase):
             self.mouse.cull()
 
 
-class MouseModelMortalityManagerTest(TestCase):
+class MouseModelManagerMortalityTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -87,6 +87,36 @@ class MouseModelMortalityManagerTest(TestCase):
     def test_culled_manager(self):
         self.assertEqual(Mouse.objects.culled().count(), 1)
 
+class MouseModelManagerAgeRangeTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.strain = StrainFactory(strain_name="TestStrain")
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=40))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=80))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=220))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
+        MouseFactory(strain=cls.strain, dob=date.today() - timedelta(days=400))
+    
+    def test_lt_two_month_count(self):
+        self.assertEqual(self.strain.weaned_lt_2_months_old, 1)
+
+    def test_two_to_six_month_count(self):
+        self.assertEqual(self.strain.between_2_6_month_old, 2)
+
+    def test_six_to_twelve_month_count(self):
+        self.assertEqual(self.strain.six_to_twelve_month_count, 3)
+
+    def test_one_year_to_two_year_count(self):
+        self.assertEqual(self.strain.one_to_two_year_count, 4)
+    
+    def test_culled_count(self):
+        self.assertEqual
 
 class MouseModelIntegrationTest(TestCase):
     def setUp(self):

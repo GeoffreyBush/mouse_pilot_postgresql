@@ -6,7 +6,7 @@ from django.db import models
 from main.constants import EARMARK_CHOICES_PAIRED
 
 
-class MortalityManager(models.Manager):
+class CustomManager(models.Manager):
 
     def get_queryset(self):
         return super().get_queryset()
@@ -17,11 +17,23 @@ class MortalityManager(models.Manager):
     def culled(self):
         return self.filter(culled_date__isnull=False)
 
+    def weaned_lt_2_months_old(self):
+        return self.filter()
+
+    def between_2_6_months_old(self):
+        pass
+
+    def between_6_12_months_old(self):
+        pass
+
+    def between_12_24_months_old(self):
+        pass
+
 
 class Mouse(models.Model):
 
     # When you call Mouse.objects, it will redirect to MortalityManager instead of default Manager
-    objects = MortalityManager()
+    objects = CustomManager()
 
     strain = models.ForeignKey(
         "strain.Strain",
