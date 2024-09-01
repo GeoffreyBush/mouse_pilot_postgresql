@@ -10,36 +10,31 @@
 >
     <form method="get" class="mb-3">
         {% csrf_token %}
-        <div class="row border">
-            <div class="p-2">
-                <div class="row">
-                    <div class="col-md-4 mb-1">
-                        <label for="{{ filter_form.form.sex.id_for_label }}">{{ filter_form.form.sex.label }}</label>
-                        {{ filter_form.form.sex }}
-                    </div>
-                    <div class="col-md-4 mb-1">
-                        <label for="{{ filter_form.form.strain.id_for_label }}">{{ filter_form.form.strain.label }}</label>
-                        {{ filter_form.form.strain }}
-                    </div>
-                    <div class="col-md-4 mb-1">
-                        <label for="{{ filter_form.form.earmark.id_for_label }}">{{ filter_form.form.earmark.label }}</label>
-                        {{ filter_form.form.earmark }}
-                    </div>
-                    <div class="col-md-4 mb-1">
-                        <label for="{{ filter_form.form.min_age.id_for_label }}">{{ filter_form.form.min_age.label }}</label>
-                        {{ filter_form.form.min_age }}
-                    </div>
-                    <div class="col-md-4 mb-1">
-                        <label for="{{ filter_form.form.max_age.id_for_label }}">{{ filter_form.form.max_age.label }}</label>
-                        {{ filter_form.form.max_age }}
-                    </div>
-                    <div class="col-md-4 mb-1 d-flex align-items-center justify-content-around">
-                        <button type="submit" name="search" class="btn btn-success">Search</button>
-                        <button type="submit" name="clear" class="btn btn-secondary">Clear</button>
-                    </div>
-                </div>
+        <div class="row border rounded p-3 shadow-sm">
+            <div class="col-md-4 mb-1">
+                <label for="{{ filter_form.form.sex.id_for_label }}">{{ filter_form.form.sex.label }}</label>
+                {{ filter_form.form.sex }}
             </div>
-
+            <div class="col-md-4 mb-1">
+                <label for="{{ filter_form.form.strain.id_for_label }}">{{ filter_form.form.strain.label }}</label>
+                {{ filter_form.form.strain }}
+            </div>
+            <div class="col-md-4 mb-1">
+                <label for="{{ filter_form.form.earmark.id_for_label }}">{{ filter_form.form.earmark.label }}</label>
+                {{ filter_form.form.earmark }}
+            </div>
+            <div class="col-md-4 mb-1">
+                <label for="{{ filter_form.form.min_age.id_for_label }}">{{ filter_form.form.min_age.label }}</label>
+                {{ filter_form.form.min_age }}
+            </div>
+            <div class="col-md-4 mb-1">
+                <label for="{{ filter_form.form.max_age.id_for_label }}">{{ filter_form.form.max_age.label }}</label>
+                {{ filter_form.form.max_age }}
+            </div>
+            <div class="col-md-4 mb-1 d-flex align-items-center justify-content-around">
+                <button type="submit" name="search" class="btn btn-success">Search</button>
+                <button type="submit" name="clear" class="btn btn-secondary">Clear</button>
+            </div>
         </div>
     </form>
 </div>
