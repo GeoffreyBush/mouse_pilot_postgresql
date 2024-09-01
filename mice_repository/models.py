@@ -17,6 +17,7 @@ class MortalityManager(models.Manager):
     def culled(self):
         return self.filter(culled_date__isnull=False)
 
+
 class Mouse(models.Model):
 
     # When you call Mouse.objects, it will redirect to MortalityManager instead of default Manager

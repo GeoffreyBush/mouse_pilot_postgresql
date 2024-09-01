@@ -1,4 +1,5 @@
 from datetime import date
+
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -52,6 +53,7 @@ class ProjectModelTest(TestCase):
 
     # Should not be able to add mice from a strain that a project is not associated with
 
+
 class ProjectModelMiceRelatedNameTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -65,11 +67,9 @@ class ProjectModelMiceRelatedNameTest(TestCase):
 
     def test_project_live_mice_count(self):
         self.assertEqual(self.project.mice.alive().count(), 2)
-        
+
     def test_project_culled_mice_count(self):
         self.assertEqual(self.project.mice.culled().count(), 1)
-        
+
     def test_project_live_and_culled_mice_count(self):
         self.assertEqual(self.project.mice.count(), 3)
-        
-

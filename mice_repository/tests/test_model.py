@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from main.model_factories import MouseCommentFactory, MouseFactory, StrainFactory
-from mice_repository.models import Mouse, MouseComment, MortalityManager
+from mice_repository.models import Mouse, MouseComment
+
 
 def setUpModule():
     global test_dob
@@ -68,6 +69,7 @@ class MouseModelUnitTest(TestCase):
         with self.assertRaises(TypeError):
             self.mouse.cull()
 
+
 class MouseModelMortalityManagerTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -84,6 +86,7 @@ class MouseModelMortalityManagerTest(TestCase):
 
     def test_culled_manager(self):
         self.assertEqual(Mouse.objects.culled().count(), 1)
+
 
 class MouseModelIntegrationTest(TestCase):
     def setUp(self):
