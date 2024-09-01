@@ -29,11 +29,13 @@
                 const svg = d3.select("#family-tree-svg");
                 const g = svg.select("#zoom-layer");
 
-                function updateSvgSize() {
-                    const width = svg.node().parentNode.clientWidth;
-                    const height = svg.node().parentNode.clientHeight;
-                    svg.attr("width", width).attr("height", height);
-                    return { width, height };
+               function updateSvgSize() {
+                    const parentDiv = svg.node().parentNode;
+                    const navTabsHeight = document.getElementById('popup-nav-bar').clientHeight;
+                    const availableHeight = parentDiv.clientHeight - navTabsHeight;
+                    const width = parentDiv.clientWidth;
+                    svg.attr("width", width).attr("height", availableHeight);
+                    return { width, height: availableHeight };
                 }
 
                 let { width, height } = updateSvgSize();

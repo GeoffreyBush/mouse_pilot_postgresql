@@ -76,7 +76,7 @@
             </div>
 
 
-		<!-- Table of mice -->
+		    <!-- Table of mice -->
             <div class="row">
                 <div class="col-6">
                     <table class="table table-striped table-hover table-bordered mb-0 shadow-sm">
@@ -136,17 +136,46 @@
                 </div>
 
 
-			<!-- Mouse info panel -->
-                <div id="info-panel" class="border ms-5 col-5 shadow-sm rounded" style="min-height:100%;">
-                    <p>Detail on demand panel for individual mouse</p>
-                    <p>Clicking on the ID, sex, age, or earmark cell of a mouse row creates a placeholder here. Detailed mouse information will be available on click</p>
-                    <p>Note - add a request tracker for individual mice here<p>
+
+
+                
+                <div class="border ms-5 col-5 shadow-sm rounded" style="min-height:100%;">
+
+                    <!-- Mouse info panel tabs -->
+                    <div class="row">
+                        <ul id="popup-nav-bar" class="nav nav-pills d-flex">
+                            <li class="nav-item flex-grow-1">
+                                <a class="nav-link active " aria-current="page" href="#">Active</a>
+                            </li>
+                            <li class="nav-item dropdown flex-grow-1">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+                                <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item flex-grow-1">
+                                <a class="nav-link" href="#">Link</a>
+                            </li>
+                            <li class="nav-item flex-grow-1">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            </li>
+                        </ul>
                     </div>
 
+                    <!-- Mouse info panel content -->
+                    <div id="info-panel" style="min-height: 100%;">
+                        <p>Detail on demand panel for individual mouse</p>
+                        <p>Clicking on the ID, sex, age, or earmark cell of a mouse row creates a placeholder here. Detailed mouse information will be available on click</p>
+                        <p>Note - add a request tracker for individual mice here<p>
                     </div>
-                </form>
-
+                </div>
 
             </div>
-            <script src="https://d3js.org/d3.v5.min.js"></script>
+        </form>
+    </div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 {% endblock %}
