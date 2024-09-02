@@ -51,6 +51,9 @@ jobs:
     - name: Test common app
       run: python manage.py test common
 
+    - name: Test mice_popup app
+      run: python manage.py test mice_popup
+
     - name: Test mice_repository app
       run: python manage.py test mice_repository
 
