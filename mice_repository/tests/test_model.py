@@ -179,7 +179,7 @@ class MouseModelIntegrationTest(TestCase):
 class MouseCommentModelTest(TestCase):
     def setUp(self):
         self.mouse = MouseFactory()
-        self.comment = MouseCommentFactory.build(comment_id=self.mouse)
+        self.comment = MouseCommentFactory.create(comment_id=self.mouse)
 
     def test_comment_exists(self):
         self.assertIsInstance(self.comment, MouseComment)
@@ -195,3 +195,10 @@ class MouseCommentModelTest(TestCase):
         self.assertEqual(self.comment.comment_text, "Test comment")
         self.comment.comment_text = "Another test comment"
         self.assertEqual(self.comment.comment_text, "Another test comment")
+
+    def test_empty_comments_are_deleted(self):
+        self.assertEqual(MouseComment.objects.count(), 1)
+        self.comment.comment_text = ""
+        with self.assertRaises(ValidationError):
+            self.comment.save()
+        self.assertEqual(MouseComment.objects.count(), 0)

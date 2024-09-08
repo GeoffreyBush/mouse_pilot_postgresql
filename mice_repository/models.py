@@ -183,6 +183,21 @@ class MouseComment(models.Model):
         db_column="Text", max_length=400, null=True, blank=True, default=""
     )
 
+    def clean(self):
+        super().clean()
+        print()
+        print("outside loop")
+        print(self.comment_text)
+        print()
+        if not self.comment_text:
+            print("working")
+            self.delete()
+            raise ValidationError("Comment text is empty, instance deleted")
+        
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.comment_id}"
 
