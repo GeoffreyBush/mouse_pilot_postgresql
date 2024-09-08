@@ -56,7 +56,7 @@ def show_mouse_comment(request, pk):
         form = MouseCommentForm(request.POST, instance=comment.first())
         if form.is_valid():
             form.save()
-            # Close comment popup using HTMX instead of Django redirect
+            # Close comment popup using HTMX on popup window or info panel instead of url redirect
     else:
         if comment.count() == 0:
             form = MouseCommentForm()

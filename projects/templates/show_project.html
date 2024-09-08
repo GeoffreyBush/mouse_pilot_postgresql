@@ -145,23 +145,17 @@
                     <div class="row">
                         <ul id="popup-nav-bar" class="nav nav-pills d-flex">
                             <li class="nav-item flex-grow-1">
-                                <a class="nav-link active " aria-current="page" href="#">Active</a>
+                                <div class="nav-link" hx-get="{% url 'projects:list_projects' %}" hx-target="#info-panel" hx-swap="innerHTML">Info</div>
                             </li>
                             <li class="nav-item dropdown flex-grow-1">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+                                <div class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">Trees</div>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                    <li class="dropdown-item" hx-get="{% url 'projects:list_projects' %}" hx-target="#info-panel" hx-swap="innerHTML">Ancestors</li>
+                                    <li class="dropdown-item" href="#">Descendants</li>
                                 </ul>
                             </li>
                             <li class="nav-item flex-grow-1">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
-                            <li class="nav-item flex-grow-1">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                <div class="nav-link" hx-get="{% url 'projects:list_projects' %}" hx-target="#info-panel" hx-swap="innerHTML">Comment</div>
                             </li>
                         </ul>
                     </div>
