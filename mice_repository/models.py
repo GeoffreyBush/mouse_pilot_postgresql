@@ -185,12 +185,7 @@ class MouseComment(models.Model):
 
     def clean(self):
         super().clean()
-        print()
-        print("outside loop")
-        print(self.comment_text)
-        print()
         if not self.comment_text:
-            print("working")
             self.delete()
             raise ValidationError("Comment text is empty, instance deleted")
 
