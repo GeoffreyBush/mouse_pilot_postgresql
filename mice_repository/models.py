@@ -193,7 +193,7 @@ class MouseComment(models.Model):
             print("working")
             self.delete()
             raise ValidationError("Comment text is empty, instance deleted")
-        
+
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
