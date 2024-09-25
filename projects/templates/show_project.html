@@ -1,6 +1,6 @@
 {% extends 'base_template.html' %} {% load static %} {% load filter_form %} {% load custom_filters %}
 {% block title %}View Project{% endblock %} {% block content %}
-
+<!-- BREAK UP THIS TEMPLATE INTO COMPONENTS - IT'S TOO BIG -->
     <div class="container-fluid py-3">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -142,6 +142,7 @@
                 <div class="border ms-5 col-5 shadow-sm rounded" style="min-height:100%;">
 
                     <!-- Mouse info panel tabs -->
+                    <!-- IMPORTANT - MOVE THIS TO ITS OWN TEMPLATE. CALL THAT TEMPLATE WITH "info_panel" VIEW. THAT WILL SOLVE MOUSE.PK PERSISTENCE ISSUE-->
                     <div class="row">
                         <ul id="popup-nav-bar" class="nav nav-pills d-flex">
                             <li class="nav-item flex-grow-1">
